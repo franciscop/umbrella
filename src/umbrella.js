@@ -1,6 +1,8 @@
-/* Umbrella js
+/* Umbrella JS
  * -----------
  * Covers your needs
+ *
+ * NOTE: this is only the "core", see "umbrella.js" at the root
  *
  * Small, lightweight jQuery alternative
  * By Francisco Presencia Fandos
