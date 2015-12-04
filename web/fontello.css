@@ -1,19 +1,16 @@
-
-/* Font */
 @font-face {
   font-family: 'fontello';
-  src: url('font/fontello.eot?34694727');
-  src: url('font/fontello.eot?34694727#iefix') format('embedded-opentype'),
-       url('font/fontello.woff?34694727') format('woff'),
-       url('font/fontello.ttf?34694727') format('truetype'),
-       url('font/fontello.svg?34694727#fontello') format('svg');
+  src: url('font/fontello.eot?96345100');
+  src: url('font/fontello.eot?96345100#iefix') format('embedded-opentype'),
+       url('font/fontello.woff?96345100') format('woff'),
+       url('font/fontello.ttf?96345100') format('truetype'),
+       url('font/fontello.svg?96345100#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
-  }
+}
  
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
-  font-family: fontello;
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -23,26 +20,33 @@
   width: 1em;
   margin-right: .2em;
   text-align: center;
+  /* opacity: .8; */
  
-  /* For safety - reset parent styles, that can break glyph codes */
+  /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
  
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
-  }
  
-.icon-picture:before { content: '\e800'; }
-.icon-help-circled:before { content: '\e801'; }
-.icon-puzzle:before { content: '\e802'; }
-.icon-mobile:before { content: '\e803'; }
-.icon-link:before { content: '\e804'; }
-.icon-video:before { content: '\e805'; }
-.icon-file-code:before { content: '\e806'; }
-.icon-leaf:before { content: '\e807'; }
-.icon-globe:before { content: '\e808'; }
-.icon-paper-plane:before { content: '\e809'; }
-.icon-g:before { content: '\e80a'; }
-.icon-cog:before { content: '\e80b'; }
-  
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-info:before { content: '\e800'; } /* '' */
+.icon-g:before { content: '\e801'; } /* '' */
+.icon-download:before { content: '\e802'; } /* '' */
+.icon-download-cloud:before { content: '\e803'; } /* '' */
+.icon-doc:before { content: '\e804'; } /* '' */
+.icon-doc-text:before { content: '\e805'; } /* '' */
