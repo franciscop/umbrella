@@ -32,3 +32,41 @@
   font-size: 1.3em;
   margin: 0 0 5px;
 }
+
+@media (max-width:60em) {
+  nav .menu {
+    min-height: 0;
+    transform: translateY(-50%);
+    top: 50%;
+    position: relative;
+    width: auto;
+    margin-right: .3em;
+  }
+  
+  nav .menu > * {
+    display: inline-block;
+    margin: .3em .3em;
+  }
+  
+  nav .menu > a {
+    padding: .3em .6em;
+  }
+  
+  [class*=" icon-"]::before {
+    margin: .2em;
+  }
+}
+
+@media (max-width: 38em) {
+  nav .menu {
+    margin-right: 0;
+  }
+  
+  nav .menu > * {
+    margin: .3em .4em .3em 0;
+  }
+  
+  nav .menu .text {
+    display: none;
+  }
+}
