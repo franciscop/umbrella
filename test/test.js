@@ -44,6 +44,11 @@ describe("u(selector, context)", function() {
 // Testing the main file
 describe(".addClass(name1, name2, ...)", function() {
   
+  beforeEach(function(){
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+  
   afterEach(function(){
     base.removeClass('bla');
     base.removeClass('blu');
@@ -63,38 +68,29 @@ describe(".addClass(name1, name2, ...)", function() {
   });
 
   it("adds a class", function() {
-    expect(base.hasClass('bla')).to.equal(false);
     base.addClass('bla');
     expect(base.hasClass('bla')).to.equal(true);
   });
 
   it("adds several classes as arguments", function() {
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
     base.addClass('bla', 'blu');
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
   });
 
   it("adds several classes with an array", function() {
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
     base.addClass(['bla', 'blu']);
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
   });
 
   it("adds several classes separated by space", function() {
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
     base.addClass('bla blu');
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
   });
 
   it("adds several classes separated by comma", function() {
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
     base.addClass('bla,blu');
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
