@@ -60,14 +60,21 @@
 
 @media (max-width: 38em) {
   nav .menu {
-    margin-right: .3em;
+    margin: 0;
+    padding-right: .3em;
   }
   
   nav .menu > * {
-    margin: .1em;
+    margin: .3em .1em;
   }
   
   nav .menu .text {
     display: none;
+  }
+}
+
+@media (max-width: 21em) {
+  body {
+    font-size: .9em;
   }
 }
