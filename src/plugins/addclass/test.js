@@ -4,7 +4,7 @@ describe(".addClass(name)", function() {
     expect(typeof base.addClass).to.equal('function');
   });
 
-  it("adds a class", function() {
+  it("can be called empty", function() {
     base.addClass();
   });
 
@@ -15,6 +15,14 @@ describe(".addClass(name)", function() {
 
   it("adds several classes as arguments", function() {
     base.addClass('bla', 'blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+    base.removeClass('bla');
+    base.removeClass('blu');
+  });
+
+  it("adds several classes with an array", function() {
+    base.addClass(['bla', 'blu']);
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
     base.removeClass('bla');
