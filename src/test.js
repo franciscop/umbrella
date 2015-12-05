@@ -1,7 +1,7 @@
 var expect = chai.expect;
 
 // Testing the main file
-describe("Constructor", function() {
+describe("u(selector, context)", function() {
   it("should be defined", function() {
     expect(u).to.be.not.null;
   });

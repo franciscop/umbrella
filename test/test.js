@@ -1,7 +1,7 @@
 var expect = chai.expect;
 
 // Testing the main file
-describe("Constructor", function() {
+describe("u(selector, context)", function() {
   it("should be defined", function() {
     expect(u).to.be.not.null;
   });
@@ -42,13 +42,33 @@ describe("Constructor", function() {
   });
 });
 // Testing the main file
-describe(".addClass()", function() {
+describe(".addClass(name)", function() {
   it("should be defined", function() {
-    expect(typeof u('#demo').addClass).to.equal('function');
+    expect(typeof base.addClass).to.equal('function');
   });
 
   it("adds a class", function() {
-    expect(u("#demo").addClass('bla').hasClass('bla')).to.equal(true);
-    u("#demo").removeClass('bla');
+    base.addClass();
+  });
+
+  it("adds a class", function() {
+    expect(base.addClass('bla').hasClass('bla')).to.equal(true);
+    base.removeClass('bla');
+  });
+
+  it("adds several classes as arguments", function() {
+    base.addClass('bla', 'blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+    base.removeClass('bla');
+    base.removeClass('blu');
+  });
+
+  it("adds several classes separated by space", function() {
+    base.addClass('bla blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+    base.removeClass('bla');
+    base.removeClass('blu');
   });
 });

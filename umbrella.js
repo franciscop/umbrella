@@ -137,18 +137,23 @@ u.options = {};
  * @param String name the class name we want to add
  * @return this Umbrella object
  */
-u.prototype.addClass = function(name){
+u.prototype.addClass = function(){
+  
+  var name = Array.prototype.slice.call(arguments).join(" ");
   
   // Loop through all the nodes
-  this.each(function(){
+  this.each(function(el){
     
-    // Allow for several class names like "a b c"
-    this.classList.add(name.split(" "));
-    
-    });
+    // Allow for several class names like "a b c" and several parameters
+    if (name) {
+      name.split(" ").forEach(function(name){
+        el.classList.add(name);
+      });
+    }
+  });
   
   return this;
-  };
+};
 
 /**
  * .adjacent(position, text)
@@ -359,7 +364,7 @@ u.prototype.closest = function(selector) {
  * Loops through every node from the current call
  * it accepts a callback that will be executed on each node
  * The context for 'this' within the callback is the html node
- * The callback accepts a single parameter, which is the index number
+ * The callback has two parameters, the node and the index
  */
 u.prototype.each = function(callback) {
   
@@ -369,7 +374,7 @@ u.prototype.each = function(callback) {
     // Perform the callback for this node
     // By doing callback.call we allow "this" to be the context for
     // the callback (see http://stackoverflow.com/q/4065353 precisely)
-    var ret = callback.call(this.nodes[i], i);
+    var ret = callback.call(this.nodes[i], this.nodes[i], i);
     
     // Something is returned to change the node
     if (ret)
