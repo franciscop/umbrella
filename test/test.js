@@ -55,6 +55,11 @@ describe(".addClass(name1, name2, ...)", function() {
 
   it("can be called empty", function() {
     base.addClass();
+    base.addClass("");
+    base.addClass([]);
+    base.addClass({});
+    base.addClass("","");
+    base.addClass(" ");
   });
 
   it("adds a class", function() {
