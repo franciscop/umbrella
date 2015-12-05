@@ -1,6 +1,8 @@
-/* Umbrella js
+/* Umbrella JS
  * -----------
  * Covers your needs
+ *
+ * NOTE: this is only the "core", see "umbrella.js" at the root
  *
  * Small, lightweight jQuery alternative
  * By Francisco Presencia Fandos
@@ -10,10 +12,10 @@
  * Order of include is irrelevant http://stackoverflow.com/q/7609276
  *
  * Umbrella JS selector is faster than jQuery:
- * classes: http://jsperf.com/umbrella-vs-jquery-class
- * tags: http://jsperf.com/umbrella-vs-jquery-tag
- * ids: http://jsperf.com/umbrella-vs-jquery-id
- * complex: http://jsperf.com/umbrella-vs-jquery-complex
+ * classes: http://jsperf.com/umbrella-vs-jquery-class/2
+ * tags: http://jsperf.com/umbrella-vs-jquery-tag/2
+ * ids: http://jsperf.com/umbrella-vs-jquery-id/2
+ * complex: http://jsperf.com/umbrella-vs-jquery-complex/2
  */
 
 
@@ -127,324 +129,101 @@ u.prototype.nodes = [];
 
 // Options
 u.options = {};
-
-
-
-
-
-
-
-
-
-
-/**
- * Find all the nodes children of the current ones matched by a selector
- * @return htmlnode the first html node in the matched nodes
- */
-u.prototype.find = function(selector) {
-
-  selector = selector || "*";
-
-  // This object should return a copy, not the original
-  var children = u();
-
-  children.selector = this.selector + ' ' + selector;
-
-  this.each(function(){
-    var list = this.querySelectorAll(selector);
-    children.nodes = children.nodes.concat(Array.prototype.slice.call(list, 0));
-    });
-
-  return children;
-  };
-
-
-
-
-
-/**
- * .closest()
- *
- * Find a parent node that matches the passed selector
- * @return this Umbrella object
- */
-u.prototype.closest = function(selector) {
-
-  var newNodes = [];
-
-  // Loop through all the nodes
-  this.each(function() {
-
-    var current = this;
-
-    while (current) {
-
-      // Native function
-      if (typeof current.matches === "function" &&
-          current.matches(selector)) {
-        newNodes.unshift(current);
-        }
-
-      else {
-        if (typeof current.msMatchesSelector === "function" &&
-            current.msMatchesSelector(selector)) {
-          newNodes.unshift(current);
-          }
-
-        if (typeof current.webkitMatchesSelector === "function" &&
-            current.webkitMatchesSelector(selector)) {
-          newNodes.unshift(current);
-          }
-        }
-
-
-      current = current.parentNode;
-      }
-    // Assign the new nodes to the array
-    newNodes.concat(this.children);
-    });
-
-  var parents = u();
-  parents.nodes = newNodes;
-  return parents;
-};
-
-
-
-
-
-/**
- * Get the first of the nodes
- * @return htmlnode the first html node in the matched nodes
- */
-u.prototype.first = function() {
-
-  if (this.nodes.length > 0) {
-    return this.nodes[0];
-    }
-  };
-
-
-
-
-
-/**
- * .removeClass(name)
- *
- * Removes a class from all of the matched nodes
- * @param String name the class name we want to remove
- * @return this Umbrella object
- */
-u.prototype.removeClass = function(name) {
-
-  // Loop through all the nodes
-  this.each(function() {
-
-    // Remove the class from the node
-    this.classList.remove.apply(this.classList, name.split(" "));
-    });
-
-  return this;
-  };
-
-
-
-
-
-/**
- * .remove()
- *
- * Delete the matched nodes from the html tree
- */
-u.prototype.remove = function() {
-
-  // Loop through all the nodes
-  this.each(function() {
-
-    // Perform the removal
-    this.parentNode.removeChild(this);
-    });
-  };
-
-
-
-
-
-/**
- * .html(text)
- *
- * Set or retrieve the html from the matched node(s)
- * @param text optional some text to set as html
- * @return this|html Umbrella object
- */
-u.prototype.html = function(text) {
-
-  // If we're attempting to set some text
-  if (text !== undefined) {
-
-    // Loop through all the nodes
-    this.each(function() {
-
-      // Set the inner html to the node
-      this.innerHTML = text;
-      });
-    return this;
-    }
-
-  else {
-    return this.first() ? this.first().innerHTML : "";
-    }
-  };
-
-
-
-
-
-/**
- * .value(text)
- *
- * Set or retrieve the value from the matched node(s)
- * @param text optional some text to set as html
- * @return this|html Umbrella object
- */
-u.prototype.value = function(text) {
-
-  // If we're attempting to set some text
-  if (text !== undefined) {
-
-    // Loop through all the nodes
-    this.each(function() {
-
-      // Set the inner html to the node
-      this.value = text;
-      });
-    return this;
-    }
-
-  else {
-    return this.first().value;
-    }
-  };
-
-
-
-
-
-/**
- * u.setOptions(where, options);
- *
- * Define some options for the plugins of Umbrella JS
- * @param String where the name of the plugin
- * @param Object options the object's options
- * Example:
- *
- *   u.setOptions('track', { url: "/trackb/" });
- *
- * Note: do NOT attempt to access u.options straight away
- */
-u.setOptions = function(where, options){
-
-  // Default options for each plugin is empty object
-  u.options[where] = u.options[where] || {};
-
-  // Loop through the outside functions
-  for(var key in options) {
-
-    // Set each of them
-    u.options[where][key] = options[key];
-    }
-  };
-
-
-
-
-
-/**
- * .hasClass(name)
- *
- * Find out whether the matched elements have a class or not
- * @param String name the class name we want to find
- * @return boolean wether the nodes have the class or not
- */
-u.prototype.hasClass = function(name) {
-
-  // Default value
-  var doesItContain = false;
-
-  // Loop through all of the matched elements
-  this.each(function(){
-
-    // Check for multiple classes
-    name.split(" ").forEach(function(value){
-
-      // This check is needed to avoid setting it to false
-      if (this.classList.contains(value))
-
-        // Store the value
-        doesItContain = true;
-      }, this);
-    });
-
-  return doesItContain;
-  };
-
-
-
-
-
 /**
  * .addClass(name)
- *
+ * 
  * Add a class to the matched nodes
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @param String name the class name we want to add
  * @return this Umbrella object
  */
 u.prototype.addClass = function(name){
-
+  
   // Loop through all the nodes
   this.each(function(){
-
+    
     // Allow for several class names like "a b c"
-    this.classList.add.apply(this.classList, name.split(" "));
-
+    this.classList.add(name.split(" "));
+    
     });
+  
+  return this;
+  };
 
+/**
+ * .adjacent(position, text)
+ * 
+ * Add text in the specified position. It is used by other functions
+ */
+u.prototype.adjacent = function(position, text) {
+  
+  // Loop through all the nodes
+  this.each(function(node) {
+    
+    // http://stackoverflow.com/a/23589438
+    // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
+    this.insertAdjacentHTML(position, text);
+    });
+  
+  return this;
+  };
+
+/**
+ * .after(html)
+ * 
+ * Add child after all of the current nodes
+ * @param String html to be inserted
+ * @return this Umbrella object
+ */
+u.prototype.after = function(text) {
+  
+  this.adjacent('afterend', text);
+  
+  return this;
+  };
+
+/**
+ * .ajax(success, error, before)
+ * 
+ * Create a POST request for whenever the matched form submits
+ * @param function success called function when the post is okay
+ * @param function error called function when the post was NOT okay
+ * @param function before called function before sending the request
+ */
+u.prototype.ajax = function(success, error, before) {
+  
+  // Loop through all the nodes
+  this.on("submit", function(e) {
+    
+    // Stop the browser from sending the request
+    e.preventDefault();
+    
+    // Post the actual data
+    ajax(
+      u(this).attr("action"),
+      u(this).serialize(),
+      success,
+      error,
+      before);
+    });
+  
   return this;
   };
 
 
-
-
-
 /**
- * .each()
- * Loops through every node from the current call
- * it accepts a callback that will be executed on each node
- * The context for 'this' within the callback is the html node
- * The callback accepts a single parameter, which is the index number
+ * .append(html)
+ * 
+ * Add child the last thing inside each node
+ * @param String html to be inserted
+ * @return this Umbrella object
  */
-u.prototype.each = function(callback) {
-
-  // Loop through all the nodes
-  for (var i = 0; i < this.nodes.length; i++) {
-
-    // Perform the callback for this node
-    // By doing callback.call we allow "this" to be the context for
-    // the callback (see http://stackoverflow.com/q/4065353 precisely)
-    var ret = callback.call(this.nodes[i], i);
-
-    // Something is returned to change the node
-    if (ret)
-
-      // Assign the new node the returned value
-      this.nodes[i] = ret;
-    }
+u.prototype.append = function(html) {
+  
+  this.adjacent('beforeend', html);
+  
+  return this;
   };
-
-
-
-
 
 /**
  * .attr(name, value)
@@ -457,279 +236,244 @@ u.prototype.each = function(callback) {
 // ATTR
 // Return the fist node attribute
 u.prototype.attr = function(name, value) {
-
-  if (value !== undefined) {
+  
+  if (value) {
     this.first().setAttribute(name, value);
     return this;
     }
-
+  
   return this.first().getAttribute(name) || "";
   };
 
-
-
-
-
-/**
- * .serialize()
- *
- * Convert al html form elements into a string
- * The <input> and <button> without type will be parsed as default
- * NOTE: select-multiple for <select> is disabled on purpose
- * Source: http://stackoverflow.com/q/11661187
- * @return String the string to be sent through a Post or Get
- */
-u.prototype.serialize = function() {
-
-  // Store the class in a variable for manipulation
-  var form = this.first();
-
-  // Encode the values https://gist.github.com/brettz9/7147458
-  function en(str) {
-   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-    }
-
-  // Variable to store the work
-  var query = "";
-
-  for (var i = 0; i < form.elements.length; i++) {
-
-    // Store ELEMENT
-    var el = form.elements[i];
-
-    // Make sure the element has name
-    if (el.name === "") {
-      continue;
-      }
-
-
-    switch (el.type) {
-      // Don't add files
-      case 'file':
-        break;
-
-      // Don't add checkbox or radio if they are not checked
-      case 'checkbox':
-      case 'radio':
-        if (!el.checked)
-          break;
-
-      // All other cases
-      default:
-        query += "&" + en(el.name) + "=" + en(el.value);
-      }
-    }
-
-  // Join the query and return it
-  return query;
-  };
-
-
-
-
-
-/**
- * .prepend(html)
- *
- * Add child the first thing inside each node
- * @param String html to be inserted
- * @return this Umbrella object
- */
-u.prototype.prepend = function(html) {
-
-  this.adjacent('afterbegin', html);
-
-  return this;
-  };
-
-
-
-
-
-/**
- * u.status = function(activate, deactivate, has, name){
- *
- * Define a status that can be used in the code. Example:
- * u.status('activate', 'deactivate', 'isActive', 'active')
- *
- * Then you can do this along your code:
- * if(u(".article").isActive())
- *   u(".article").deactivate();
- */
-u.status = function(activate, deactivate, has, name){
-  name = name || activate;
-
-  if (activate) {
-    u.prototype[activate] = function() {
-      this.addClass(name);
-      return this;
-      };
-    }
-
-  if (deactivate) {
-    u.prototype[deactivate] = function() {
-      this.removeClass(name);
-      return this;
-      };
-    }
-
-  if (has) {
-    u.prototype[has] = function() {
-      return this.hasClass(name);
-      };
-    }
-  };
-
-
-
-
-
-/**
- * .after(html)
- *
- * Add child after all of the current nodes
- * @param String html to be inserted
- * @return this Umbrella object
- */
-u.prototype.after = function(text) {
-
-  this.adjacent('afterend', text);
-
-  return this;
-  };
-
-
-
-
-
 /**
  * .before(html)
- *
+ * 
  * Add child before all of the current nodes
  * @param String html to be inserted
  * @return this Umbrella object
  */
 u.prototype.before = function(html) {
-
+  
   this.adjacent('beforebegin', html);
-
+  
   return this;
   };
-
-
-
-
-
-/**
- * .ajax(success, error, before)
- *
- * Create a POST request for whenever the matched form submits
- * @param function success called function when the post is okay
- * @param function error called function when the post was NOT okay
- * @param function before called function before sending the request
- */
-u.prototype.ajax = function(success, error, before) {
-
-  // Loop through all the nodes
-  this.on("submit", function(e) {
-
-    // Stop the browser from sending the request
-    e.preventDefault();
-    
-    if (before)
-      before.call(this);
-    
-    // Post the actual data
-    ajax(
-      u(this).attr("action"),
-      u(this).serialize(),
-      success,
-      error,
-      this);
-    });
-
-  return this;
-  };
-
-
-
-
-
 
 /**
  * .children()
- *
+ * 
  * Travel the matched elements one node down
  * @return this Umbrella object
  */
 u.prototype.children = function(selector) {
-
+  
   var newNodes = [];
-
+  
   // Loop through all the nodes
   this.each(function() {
-
+    
     // Assign the new nodes to the array
     newNodes.concat(this.children);
     });
-
+  
   this.nodes = newNodes;
-
+  
   return this;
-};
-
-
-
-
-
-/**
- * .adjacent(position, text)
- *
- * Add text in the specified position. It is used by other functions
- */
-u.prototype.adjacent = function(position, text) {
-
-  // Loop through all the nodes
-  this.each(function(node) {
-
-    // http://stackoverflow.com/a/23589438
-    // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-    this.insertAdjacentHTML(position, text);
-    });
-
-  return this;
-  };
-
-
-
-
+  }
 
 /**
  * .click(callback)
- *
+ * 
  * Alternative name for .on('click', callback)
  * @param function callback function called when the event triggers
  * @return this Umbrella object
  */
 u.prototype.click = function(callback) {
-
+  
   // Loop through all the nodes
-  this.on('click', function(e){
-    e.preventDefault();
-    callback.call(e.target, e)
-  });
-
+  this.on('click', callback);
+  
   return this;
   };
 
 
+/**
+ * .closest()
+ * 
+ * Find a node that matches the passed selector
+ * @return this Umbrella object
+ */
+u.prototype.closest = function(selector) {
+  
+  var newNodes = [];
+  
+  // Loop through all the nodes
+  this.each(function() {
+    
+    var current = this;
+    
+    while (current) {
+      
+      // Native function
+      if (typeof current.matches === "function" &&
+          current.matches(selector)) {
+        newNodes.unshift(current);
+        }
+      
+      else {
+        if (typeof current.msMatchesSelector === "function" &&
+            current.msMatchesSelector(selector)) {
+          newNodes.unshift(current);
+          }
+          
+        if (typeof current.mozMatchesSelector === "function" &&
+            current.mozMatchesSelector(selector)) {
+          newNodes.unshift(current);
+          }
+        
+        if (typeof current.webkitMatchesSelector === "function" &&
+            current.webkitMatchesSelector(selector)) {
+          newNodes.unshift(current);
+          }
+        
+        if (typeof current.oMatchesSelector === "function" &&
+            current.oMatchesSelector(selector)) {
+          newNodes.unshift(current);
+          }
+        }
 
+      
+      current = current.parentNode;
+      }
+    // Assign the new nodes to the array
+    newNodes.concat(this.children);
+    });
+  
+  this.nodes = newNodes;
+  
+  return this;
+  }
 
+/**
+ * .each()
+ * Loops through every node from the current call
+ * it accepts a callback that will be executed on each node
+ * The context for 'this' within the callback is the html node
+ * The callback accepts a single parameter, which is the index number
+ */
+u.prototype.each = function(callback) {
+  
+  // Loop through all the nodes
+  for (var i = 0; i < this.nodes.length; i++) {
+    
+    // Perform the callback for this node
+    // By doing callback.call we allow "this" to be the context for
+    // the callback (see http://stackoverflow.com/q/4065353 precisely)
+    var ret = callback.call(this.nodes[i], i);
+    
+    // Something is returned to change the node
+    if (ret)
+      
+      // Assign the new node the returned value
+      this.nodes[i] = ret;
+    }
+  };
 
+/**
+ * Find all the nodes children of the current ones matched by a selector
+ * @return htmlnode the first html node in the matched nodes
+ */
+u.prototype.find = function(selector) {
+  
+  selector = selector || "*";
+  
+  var newNodes = [];
+  
+  this.each(function(){
+    var list = this.querySelectorAll(selector);
+    newNodes = newNodes.concat(Array.prototype.slice.call(list, 0));
+    });
+  
+  this.nodes = newNodes;
+  return this;
+  };
+
+/**
+ * Get the first of the nodes
+ * @return htmlnode the first html node in the matched nodes
+ */
+u.prototype.first = function() {
+  
+  if (this.nodes.length > 0) {
+    return this.nodes[0];
+    }
+  };
+
+/**
+ * ajax(url, data, success, error, before);
+ * 
+ * Perform a POST request to the given url
+ * @param String url the place to send the request
+ * @param String data the ready to send string of data
+ * @param function success optional callback if everything goes right
+ * @param function error optional callback if anything goes south
+ * @param function before optional previous callback
+ */
+function ajax(url, data, success, error, before) {
+  
+  // Make them truly optional
+  var nf = function(){};
+  success = success || nf;
+  error = error || nf;
+  before = before || nf;
+  
+  // Load the callback before anything happens
+  before();
+  
+  // Add the umbrella parameter
+  data = data + "&umbrella=true";
+  
+  // Create and send the actual request
+  var request = new XMLHttpRequest();
+  
+  // Create a request of type POST to the URL and ASYNC
+  request.open('POST', url, true);
+  
+  request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+  
+  request.send(data);
+  
+  // When the request is sent
+  request.onload = function() {
+    
+    var status = this.status;
+    
+    // Error
+    if (status < 200 || status >= 400) {
+      error(status);
+      
+      return false;
+      }
+    
+    var rawresponse = this.response;
+    
+    // Check if valid json
+    if (!isJson(rawresponse)) {
+      console.log("Response isn't json");
+      success(rawresponse);
+      return false;
+      }
+    
+    // The response is right
+    success(JSON.parse(rawresponse));
+    };
+  
+  return request;
+  }
 
 /**
  * isJson(json)
- *
+ * 
  * Check wether the passed string is valid json or not
  * @param String json the string to check
  * @return boolean true if the string is json
@@ -739,7 +483,7 @@ function isJson(jsonString){
     var o = JSON.parse(jsonString);
     // Handle non-exception-throwing cases:
     // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-    // but... JSON.parse(null) returns 'null', and typeof null === "object",
+    // but... JSON.parse(null) returns 'null', and typeof null === "object", 
     // so we must check for that, too.
     if (o && typeof o === "object" && o !== null) {
         return o;
@@ -750,153 +494,277 @@ function isJson(jsonString){
   return false;
   }
 
-
-
+/**
+ * node(selector)
+ * 
+ * Return the first matched HTML NODE; only for the brave
+ * @param String selector same as in u(selector)
+ * @return htmlNode the first matched node
+ */
+function node(selector) {
+  
+  // Get the first from Umbrella JS
+  return u(selector).first();
+  }
 
 
 /**
+ * .hasClass(name)
+ * 
+ * Find out whether the matched elements have a class or not
+ * @param String name the class name we want to find
+ * @return boolean wether the nodes have the class or not
+ */
+u.prototype.hasClass = function(name) {
+  
+  // Default value
+  var doesItContain = false;
+  
+  // Loop through all of the matched elements
+  this.each(function(){
+    
+    // Check for multiple classes
+    name.split(" ").forEach(function(value){
+      
+      // This check is needed to avoid setting it to false
+      if (this.classList.contains(value))
+        
+        // Store the value
+        doesItContain = true;
+      }, this);
+    });
+  
+  return doesItContain;
+  };
+
+/**
+ * .html(text)
+ * 
+ * Set or retrieve the html from the matched node(s)
+ * @param text optional some text to set as html
+ * @return this|html Umbrella object
+ */
+u.prototype.html = function(text) {
+  
+  // If we're attempting to set some text
+  if (text !== undefined) {
+    
+    // Loop through all the nodes
+    this.each(function() {
+      
+      // Set the inner html to the node
+      this.innerHTML = text;
+      });
+    return this;
+    }
+  
+  else {
+    return this.first().innerHTML;
+    }
+  };
+
+/**
  * .on(event, callback)
- *
+ * 
  * Attach the callback to the event listener for each node
  * @param String event(s) the type of event ('click', 'submit', etc)
  * @param function callback function called when the event triggers
  * @return this Umbrella object
  */
 u.prototype.on = function(events, callback) {
-
+  
   // Separate the events
   var evts = events.split(' ');
-
+  
   // Loop through each event
   for (var i=0; i < evts.length; i++) {
-
+  
     // Loop through all the nodes
     this.each(function() {
-
+      
       // Add each event listener to each node
       this.addEventListener(evts[i], callback);
       });
     }
-
+  
   return this;
   };
 
-
-
-
-
 /**
  * .parent()
- *
+ * 
  * Travel the matched elements one node up
  * @return this Umbrella object
  */
 u.prototype.parent = function() {
-
+  
   // Loop through all the nodes
   this.each(function(i) {
-
+    
     // Select each node's parent
     return this.parentNode;
     });
-
+  
   return this;
   }
 
-
-
-
-
 /**
- * node(selector)
- *
- * Return the first matched HTML NODE; only for the brave
- * @param String selector same as in u(selector)
- * @return htmlNode the first matched node
- */
-function node(selector) {
-
-  // Get the first from Umbrella JS
-  return u(selector).first();
-  }
-
-
-
-
-
-
-/**
- * ajax(url, data, success, error, before);
- *
- * Perform a POST request to the given url
- * @param String url the place to send the request
- * @param String data the ready to send string of data
- * @param function success optional callback if everything goes right
- * @param function error optional callback if anything goes south
- * @param function before optional previous callback
- */
-function ajax(url, data, success, error, context) {
-
-  // Make them truly optional
-  var nf = function(){};
-  success = success || nf;
-  error = error || nf;
-  context = context || this;
-
-  // Add the umbrella parameter
-  data = data + "&umbrella=true";
-
-  // Create and send the actual request
-  var request = new XMLHttpRequest();
-
-  // Create a request of type POST to the URL and ASYNC
-  request.open('POST', url, true);
-
-  request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
-
-  request.send(data);
-
-  // When the request is sent
-  request.onload = function() {
-
-    var status = this.status;
-
-    // Error
-    if (status < 200 || status >= 400) {
-      error.call(context, status);
-
-      return false;
-      }
-
-    var rawresponse = this.response;
-
-    // Check if valid json
-    if (!isJson(rawresponse)) {
-      success.call(context, rawresponse);
-      return false;
-      }
-
-    // The response is right
-    success.call(context, JSON.parse(rawresponse));
-    };
-
-  return request;
-  }
-
-
-
-
-
-/**
- * .append(html)
- *
- * Add child the last thing inside each node
+ * .prepend(html)
+ * 
+ * Add child the first thing inside each node
  * @param String html to be inserted
  * @return this Umbrella object
  */
-u.prototype.append = function(html) {
-
-  this.adjacent('beforeend', html);
-
+u.prototype.prepend = function(html) {
+  
+  this.adjacent('afterbegin', html);
+  
   return this;
+  };
+
+/**
+ * .remove()
+ * 
+ * Delete the matched nodes from the html tree
+ */
+u.prototype.remove = function() {
+  
+  // Loop through all the nodes
+  this.each(function() {
+    
+    // Perform the removal
+    this.parentNode.removeChild(this);
+    });
+  };
+
+/**
+ * .removeClass(name)
+ *
+ * Removes a class from all of the matched nodes
+ * @param String name the class name we want to remove
+ * @return this Umbrella object
+ */
+u.prototype.removeClass = function(name) {
+  
+  // Loop through all the nodes
+  this.each(function() {
+    
+    // Remove the class from the node
+    this.classList.remove(name.split(" "));
+    });
+  
+  return this;
+  };
+
+/**
+ * .serialize()
+ * 
+ * Convert al html form elements into a string
+ * The <input> and <button> without type will be parsed as default
+ * NOTE: select-multiple for <select> is disabled on purpose
+ * Source: http://stackoverflow.com/q/11661187
+ * @return String the string to be sent through a Post or Get
+ */
+u.prototype.serialize = function() {
+  
+  // Store the class in a variable for manipulation
+  var form = this.first();
+  
+  // Variables to store the work
+  var i, query = "";
+  
+  // Encode the values https://gist.github.com/brettz9/7147458
+  function en(str) {
+   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+    }
+  
+  for (i = form.elements.length - 1; i >= 0; i = i - 1) {
+    
+    // Store ELEMENT
+    var el = form.elements[i];
+    
+    // Make sure the element has name
+    if (el.name === "") {
+      continue;
+      }
+    
+    
+    switch (el.type) {
+      // Don't add files
+      case 'file':
+        break;
+      
+      // Don't add checkbox or radio if they are not checked
+      case 'checkbox':
+      case 'radio':
+        if (!el.checked)
+          break;
+      
+      // All other cases
+      default:
+        query += "&" + en(el.name) + "=" + en(el.value);
+      }
+    }
+  
+  // Join the query and return it
+  return query;
+  };
+
+/**
+ * u.setOptions(where, options);
+ *
+ * Define some options for the plugins of Umbrella JS
+ * @param String where the name of the plugin
+ * @param Object options the object's options
+ * Example:
+ * 
+ *   u.setOptions('track', { url: "/trackb/" });
+ *
+ * Note: do NOT attempt to access u.options straight away
+ */
+u.setOptions = function(where, options){
+  
+  // Default options for each plugin is empty object
+  u.options[where] = u.options[where] || {};
+  
+  // Loop through the outside functions
+  for(var key in options) {
+    
+    // Set each of them
+    u.options[where][key] = options[key];
+    }
+  };
+
+/**
+ * u.status = function(activate, deactivate, has, name){
+ *
+ * Define a status that can be used in the code. Example:
+ * u.status('activate', 'deactivate', 'isActive', 'active')
+ * 
+ * Then you can do this along your code:
+ * if(u(".article").isActive())
+ *   u(".article").deactivate();
+ */
+u.status = function(activate, deactivate, has, name){
+  name = name || activate;
+  
+  if (activate) {
+    u.prototype[activate] = function() {
+      this.addClass(name);
+      return this;
+      };
+    }
+  
+  if (deactivate) {
+    u.prototype[deactivate] = function() {
+      this.removeClass(name);
+      return this;
+      };
+    }
+  
+  if (has) {
+    u.prototype[has] = function() {
+      return this.hasClass(name);
+      };
+    }
   };
