@@ -20,6 +20,7 @@
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  margin: 0 30px;
 }
 
 .hero h1 {
