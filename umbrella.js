@@ -130,29 +130,26 @@ u.prototype.nodes = [];
 // Options
 u.options = {};
 /**
- * .addClass(name)
+ * .addClass(name1, name2, ...)
  * 
  * Add a class to the matched nodes
  * Possible polyfill: https://github.com/eligrey/classList.js
- * @param String name the class name we want to add
  * @return this Umbrella object
  */
 u.prototype.addClass = function(){
   
-  var name = Array.prototype.slice.call(arguments).join(" ");
+  // Normalize the arguments to a string of comma separated elements
+  var args = Array.prototype.slice.call(arguments);
   
   // Loop through all the nodes
-  this.each(function(el){
+  return this.each(function(el){
     
     // Allow for several class names like "a b c" and several parameters
-    if (name) {
-      name.split(" ").forEach(function(name){
-        el.classList.add(name);
-      });
-    }
+    // toString() is to flatten the array: http://stackoverflow.com/q/22920305
+    args.toString().replace(/\s/, ',').split(",").forEach(function(name){
+      if (name) el.classList.add(name);
+    });
   });
-  
-  return this;
 };
 
 /**
@@ -381,8 +378,10 @@ u.prototype.each = function(callback) {
       
       // Assign the new node the returned value
       this.nodes[i] = ret;
-    }
-  };
+  }
+  
+  return this;
+};
 
 /**
  * Find all the nodes children of the current ones matched by a selector

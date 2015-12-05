@@ -20,5 +20,7 @@ u.prototype.each = function(callback) {
       
       // Assign the new node the returned value
       this.nodes[i] = ret;
-    }
-  };
+  }
+  
+  return this;
+};

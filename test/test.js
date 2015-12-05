@@ -42,7 +42,13 @@ describe("u(selector, context)", function() {
   });
 });
 // Testing the main file
-describe(".addClass(name)", function() {
+describe(".addClass(name1, name2, ...)", function() {
+  
+  afterEach(function(){
+    base.removeClass('bla');
+    base.removeClass('blu');
+  });
+  
   it("should be defined", function() {
     expect(typeof base.addClass).to.equal('function');
   });
@@ -52,31 +58,40 @@ describe(".addClass(name)", function() {
   });
 
   it("adds a class", function() {
-    expect(base.addClass('bla').hasClass('bla')).to.equal(true);
-    base.removeClass('bla');
+    expect(base.hasClass('bla')).to.equal(false);
+    base.addClass('bla');
+    expect(base.hasClass('bla')).to.equal(true);
   });
 
   it("adds several classes as arguments", function() {
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
     base.addClass('bla', 'blu');
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
-    base.removeClass('bla');
-    base.removeClass('blu');
   });
 
   it("adds several classes with an array", function() {
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
     base.addClass(['bla', 'blu']);
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
-    base.removeClass('bla');
-    base.removeClass('blu');
   });
 
   it("adds several classes separated by space", function() {
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
     base.addClass('bla blu');
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
-    base.removeClass('bla');
-    base.removeClass('blu');
+  });
+
+  it("adds several classes separated by comma", function() {
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
+    base.addClass('bla,blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
   });
 });
