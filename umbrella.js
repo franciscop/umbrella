@@ -147,7 +147,7 @@ u.prototype.addClass = function(){
     // Allow for several class names like "a b c" and several parameters
     // toString() is to flatten the array: http://stackoverflow.com/q/22920305
     // It could be easier, but we still have to support IE10+ caniuse.com/#search=classList
-    args.toString().replace(/\s/, ',').split(",").forEach(function(name){
+    args.toString().split(/[\s,]/).forEach(function(name){
       if (name) el.classList.add(name);
     });
   });
