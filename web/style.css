@@ -59,11 +59,11 @@
 
 @media (max-width: 38em) {
   nav .menu {
-    margin-right: 0;
+    margin-right: .3em;
   }
   
   nav .menu > * {
-    margin: .3em .4em .3em 0;
+    margin: .1em;
   }
   
   nav .menu .text {
