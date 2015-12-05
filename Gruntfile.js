@@ -25,13 +25,20 @@ module.exports = function (grunt) {
   grunt.registerTask("parse", "Join and concatenate", function(){
     
     // get the current concat config
-    var concat = { dir: { src: [ 'src/umbrella.js' ], dest: 'umbrella.js' } };
+    var concat = {
+      main: { src: [ 'src/umbrella.js' ], dest: 'umbrella.js' },
+      test: { src: [ 'src/test.js' ], dest: 'test/test.js' }
+    };
     
     fs.readdirSync(__dirname + "/src/plugins").forEach(function(name, i){
       var file = 'src/plugins/' + name + '/' + name + '.js';
-      if (!fs.existsSync(file)) throw new Error("File '" + file + "' doesn't exist");
+      var test = 'src/plugins/' + name + '/test.js';
       
-      concat.dir.src.push(file);
+      if (!fs.existsSync(file)) throw new Error("File '" + file + "' doesn't exist");
+      //if (!fs.existsSync(test)) throw new Error("Plugin '" + file + "' doesn't have any test");
+      
+      concat.main.src.push(file);
+      concat.test.src.push(test);
     });
     
     // save the new concat configuration
