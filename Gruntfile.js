@@ -14,6 +14,7 @@ module.exports = function (grunt) {
         files: [
           'src/*.js',
           'src/plugins/*.js',
+          'src/plugins/*/*.js',
         ],
         tasks: ['default'],
         options: { spawn: false, },

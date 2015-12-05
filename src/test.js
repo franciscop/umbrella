@@ -28,5 +28,16 @@ describe("Constructor", function() {
 
   it("can select with css", function() {
     expect(u('[id="demo"]').nodes.length).to.equal(1);
+    expect(u('.demo ul').nodes.length).to.equal(1);
+  });
+  
+  it("can select an object", function() {
+    var object = u('.demo li').nodes[0];
+    expect(u(object).nodes.length).to.equal(1);
+  });
+  
+  it("can use a context", function() {
+    var context = u('.demo li').nodes[0];
+    expect(u('a', context).nodes.length).to.equal(1);
   });
 });
