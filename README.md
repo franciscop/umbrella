@@ -2,7 +2,7 @@
 
 > This is working, but there's basically no documentation. You are welcome to expand it
 
-Covers your javascript needs for those rainy days. A 5kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/) => then what do you need?
+Covers your javascript needs for those rainy days. A <2kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/), then what do you need?
 
 Only for those not scared of vanilla javascript but that hate to repeat things like `document.querySelector()` again and again.
 
