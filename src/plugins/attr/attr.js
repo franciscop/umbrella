@@ -10,10 +10,23 @@
 // Return the fist node attribute
 u.prototype.attr = function(name, value) {
   
-  if (value) {
-    this.first().setAttribute(name, value);
-    return this;
-    }
+  if (value !== undefined){
+    var nm = name;
+    name = {};
+    name[nm] = value;
+  }
   
-  return this.first().getAttribute(name) || "";
-  };
+  if (typeof name === 'object') {
+    return this.each(function(node){
+      for(var key in name) {
+        if (name[key] !== null){
+          node.setAttribute(key, name[key]);
+        } else {
+          node.removeAttribute(key);
+        }
+      }
+    });
+  }
+  
+  return this.first().getAttribute(name);
+};

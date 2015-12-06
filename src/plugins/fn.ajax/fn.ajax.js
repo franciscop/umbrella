@@ -1,13 +1,13 @@
 /**
- * ajax(url, data, success, error, before);
- * 
- * Perform a POST request to the given url
- * @param String url the place to send the request
- * @param String data the ready to send string of data
- * @param function success optional callback if everything goes right
- * @param function error optional callback if anything goes south
- * @param function before optional previous callback
- */
+* ajax(url, data, success, error, before);
+* 
+* Perform a POST request to the given url
+* @param String url the place to send the request
+* @param String data the ready to send string of data
+* @param function success optional callback if everything goes right
+* @param function error optional callback if anything goes south
+* @param function before optional previous callback
+*/
 function ajax(url, data, success, error, before) {
   
   // Make them truly optional
@@ -42,7 +42,7 @@ function ajax(url, data, success, error, before) {
       error(status);
       
       return false;
-      }
+    }
     
     var rawresponse = this.response;
     
@@ -51,11 +51,11 @@ function ajax(url, data, success, error, before) {
       console.log("Response isn't json");
       success(rawresponse);
       return false;
-      }
+    }
     
     // The response is right
     success(JSON.parse(rawresponse));
-    };
+  };
   
   return request;
-  }
+}

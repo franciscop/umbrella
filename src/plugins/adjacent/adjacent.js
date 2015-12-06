@@ -6,12 +6,10 @@
 u.prototype.adjacent = function(position, text) {
   
   // Loop through all the nodes
-  this.each(function(node) {
+  return this.each(function(node) {
     
     // http://stackoverflow.com/a/23589438
     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-    this.insertAdjacentHTML(position, text);
+    node.insertAdjacentHTML(position, text);
     });
-  
-  return this;
   };

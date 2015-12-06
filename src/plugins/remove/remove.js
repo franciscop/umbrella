@@ -6,9 +6,9 @@
 u.prototype.remove = function() {
   
   // Loop through all the nodes
-  this.each(function() {
+  this.each(function(node) {
     
     // Perform the removal
-    this.parentNode.removeChild(this);
+    node.parentNode.removeChild(node);
     });
   };

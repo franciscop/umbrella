@@ -7,7 +7,5 @@
  */
 u.prototype.after = function(text) {
   
-  this.adjacent('afterend', text);
-  
-  return this;
-  };
+  return this.adjacent('afterend', text);
+};

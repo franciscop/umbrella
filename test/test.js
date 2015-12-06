@@ -62,7 +62,6 @@ describe(".addClass(name1, name2, ...)", function() {
     base.addClass();
     base.addClass("");
     base.addClass([]);
-    base.addClass({});
     base.addClass("","");
     base.addClass(" ");
   });
@@ -94,5 +93,116 @@ describe(".addClass(name1, name2, ...)", function() {
     base.addClass('bla,blu');
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
+  });
+});
+// Testing the main file
+describe(".after(html)", function() {
+  
+  beforeEach(function(){
+    expect(u('.bla').nodes.length).to.equal(0);
+  });
+  
+  afterEach(function(){
+    u('.bla').remove();
+  });
+  
+  it("should be a function", function() {
+    expect(typeof base.after).to.equal('function');
+  });
+  
+  it("can add content in the right place", function() {
+    base.after('<a class="bla">Link</a>');
+    expect(u('.bla').nodes.length).to.equal(1);
+    expect(base.parent().find('.base, .bla').nodes.length).to.equal(2);
+    expect(base.parent().find('.base ~ .bla').nodes.length).to.equal(1);
+  });
+});
+// Testing the main file
+describe(".append(html)", function() {
+  
+  beforeEach(function(){
+    expect(u('.bla').nodes.length).to.equal(0);
+  });
+  
+  afterEach(function(){
+    u('.bla').remove();
+  });
+  
+  it("should be a function", function() {
+    expect(typeof base.append).to.equal('function');
+  });
+  
+  it("can add content in the right place", function() {
+    expect(u('.base > .bla').nodes.length).to.equal(0);
+    base.append('<a class="bla">Link</a>');
+    expect(u('.base > .bla').nodes.length).to.equal(1);
+  });
+});
+// Testing the main file
+describe(".attr(name, value)", function() {
+  
+  beforeEach(function(){
+    expect(u('.bla').nodes.length).to.equal(0);
+  });
+  
+  afterEach(function(){
+    u('.bla').remove();
+  });
+  
+  it("should be a function", function() {
+    expect(typeof base.after).to.equal('function');
+  });
+  
+  it("can add an attribute with two params", function() {
+    base.attr('title', 'Hello');
+    expect(base.attr('title')).to.equal('Hello');
+    base.first().removeAttribute('title');
+    expect(!base.attr('title')).to.equal(true);
+  });
+  
+  it("can add an attribute with an object", function() {
+    base.attr({title: 'Hello'});
+    expect(base.attr('title')).to.equal('Hello');
+  });
+  
+  it("can read the first element attribute", function() {
+    base.first().setAttribute('title', 'Hello');
+    expect(base.attr('title')).to.equal('Hello');
+  });
+  
+  it("can nullify (remove) an attribute with two params", function() {
+    base.first().setAttribute('title', 'Hello');
+    expect(base.attr('title')).to.equal('Hello');
+    base.attr('title', null);
+    expect(!base.attr('title')).to.equal(true);
+  });
+  
+  it("can nullify (remove) an attribute with an object", function() {
+    base.first().setAttribute('title', 'Hello');
+    expect(base.attr('title')).to.equal('Hello');
+    base.attr({'title': null});
+    expect(!base.attr('title')).to.equal(true);
+  });
+});
+// Testing the main file
+describe(".before(html)", function() {
+  
+  beforeEach(function(){
+    expect(u('.bla').nodes.length).to.equal(0);
+  });
+  
+  afterEach(function(){
+    u('.bla').remove();
+  });
+  
+  it("should be a function", function() {
+    expect(typeof base.after).to.equal('function');
+  });
+  
+  it("can add content in the right place", function() {
+    base.before('<a class="bla">Link</a>');
+    expect(u('.bla').nodes.length).to.equal(1);
+    expect(base.parent().find('.base, .bla').nodes.length).to.equal(2);
+    expect(base.parent().find('.bla ~ .base').nodes.length).to.equal(1);
   });
 });

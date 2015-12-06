@@ -7,7 +7,5 @@
  */
 u.prototype.append = function(html) {
   
-  this.adjacent('beforeend', html);
-  
-  return this;
-  };
+  return this.adjacent('beforeend', html);
+};

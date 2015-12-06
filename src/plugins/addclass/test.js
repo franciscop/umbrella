@@ -19,7 +19,6 @@ describe(".addClass(name1, name2, ...)", function() {
     base.addClass();
     base.addClass("");
     base.addClass([]);
-    base.addClass({});
     base.addClass("","");
     base.addClass(" ");
   });

@@ -40,17 +40,23 @@ var u = function(parameter, context) {
 
     // Store the nodes
     this.nodes = this.findNodes(parameter, context);
-    }
+  }
 
   // If we're referring a specific node as in click(){ u(this) }
   else if (typeof parameter == "object" && parameter.nodeName) {
 
     // Store the node as an array
     this.nodes = [parameter];
-    }
+  }
+
+  // If we pass an array assume we want to make it the new nodes
+  else if (Array.isArray(parameter)) {
+    this.nodes = parameter.slice();
+  }
+
 
   return this;
-  };
+};
 
 
 // Select the adecuate part from the context
@@ -65,23 +71,23 @@ u.prototype.findNodes = function(parameter, context) {
   if (parameter.match(/^\.[a-zA-Z0-9_]+$/)) {
 
     return this.classNodes(parameter.substring(1));
-    }
+  }
 
   // If we're matching a tag
   else if (parameter.match(/^[a-zA-Z]+$/)) {
 
     return this.tagNodes(parameter);
-    }
+  }
 
   // If we match an id
   else if (parameter.match(/^\#[a-zA-Z0-9_]+$/)) {
 
     return this.idNodes(parameter.substring(1));
-    }
+  }
 
   // A full css selector
   return this.cssNodes(parameter);
-  };
+};
 
 
 // This change made the code faster than jQuery ^_^
@@ -91,14 +97,14 @@ u.prototype.tagNodes = function(tagName) {
 
   return Array.prototype.slice.call(
     document.getElementsByTagName(tagName), 0);
-  };
+};
 
 
 // The id nodes
 u.prototype.idNodes = function(id) {
 
   return [document.getElementById(id)];
-  };
+};
 
 
 // The class nodes
@@ -106,7 +112,7 @@ u.prototype.classNodes = function(className) {
 
   return Array.prototype.slice.call(
     document.getElementsByClassName(className), 0);
-  };
+};
 
 
 u.prototype.cssNodes = function(parameter, context) {
@@ -117,7 +123,7 @@ u.prototype.cssNodes = function(parameter, context) {
   // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
   return Array.prototype.slice.call(
     context.querySelectorAll(parameter), 0);
-  };
+};
 
 // This also made the code faster
 // Read "Initializing instance variables" in https://developers.google.com/speed/articles/optimizing-javascript
@@ -161,14 +167,12 @@ u.prototype.addClass = function(){
 u.prototype.adjacent = function(position, text) {
   
   // Loop through all the nodes
-  this.each(function(node) {
+  return this.each(function(node) {
     
     // http://stackoverflow.com/a/23589438
     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-    this.insertAdjacentHTML(position, text);
+    node.insertAdjacentHTML(position, text);
     });
-  
-  return this;
   };
 
 /**
@@ -180,10 +184,8 @@ u.prototype.adjacent = function(position, text) {
  */
 u.prototype.after = function(text) {
   
-  this.adjacent('afterend', text);
-  
-  return this;
-  };
+  return this.adjacent('afterend', text);
+};
 
 /**
  * .ajax(success, error, before)
@@ -223,10 +225,8 @@ u.prototype.ajax = function(success, error, before) {
  */
 u.prototype.append = function(html) {
   
-  this.adjacent('beforeend', html);
-  
-  return this;
-  };
+  return this.adjacent('beforeend', html);
+};
 
 /**
  * .attr(name, value)
@@ -240,13 +240,26 @@ u.prototype.append = function(html) {
 // Return the fist node attribute
 u.prototype.attr = function(name, value) {
   
-  if (value) {
-    this.first().setAttribute(name, value);
-    return this;
-    }
+  if (value !== undefined){
+    var nm = name;
+    name = {};
+    name[nm] = value;
+  }
   
-  return this.first().getAttribute(name) || "";
-  };
+  if (typeof name === 'object') {
+    return this.each(function(node){
+      for(var key in name) {
+        if (name[key] !== null){
+          node.setAttribute(key, name[key]);
+        } else {
+          node.removeAttribute(key);
+        }
+      }
+    });
+  }
+  
+  return this.first().getAttribute(name);
+};
 
 /**
  * .before(html)
@@ -415,15 +428,15 @@ u.prototype.first = function() {
   };
 
 /**
- * ajax(url, data, success, error, before);
- * 
- * Perform a POST request to the given url
- * @param String url the place to send the request
- * @param String data the ready to send string of data
- * @param function success optional callback if everything goes right
- * @param function error optional callback if anything goes south
- * @param function before optional previous callback
- */
+* ajax(url, data, success, error, before);
+* 
+* Perform a POST request to the given url
+* @param String url the place to send the request
+* @param String data the ready to send string of data
+* @param function success optional callback if everything goes right
+* @param function error optional callback if anything goes south
+* @param function before optional previous callback
+*/
 function ajax(url, data, success, error, before) {
   
   // Make them truly optional
@@ -458,7 +471,7 @@ function ajax(url, data, success, error, before) {
       error(status);
       
       return false;
-      }
+    }
     
     var rawresponse = this.response;
     
@@ -467,14 +480,14 @@ function ajax(url, data, success, error, before) {
       console.log("Response isn't json");
       success(rawresponse);
       return false;
-      }
+    }
     
     // The response is right
     success(JSON.parse(rawresponse));
-    };
+  };
   
   return request;
-  }
+}
 
 /**
  * isJson(json)
@@ -603,15 +616,13 @@ u.prototype.on = function(events, callback) {
  */
 u.prototype.parent = function() {
   
-  // Loop through all the nodes
-  this.each(function(i) {
+  // Clone it
+  return u(this.nodes).each(function(el) {
     
     // Select each node's parent
-    return this.parentNode;
-    });
-  
-  return this;
-  }
+    return el.parentNode;
+  });
+};
 
 /**
  * .prepend(html)
@@ -635,10 +646,10 @@ u.prototype.prepend = function(html) {
 u.prototype.remove = function() {
   
   // Loop through all the nodes
-  this.each(function() {
+  this.each(function(node) {
     
     // Perform the removal
-    this.parentNode.removeChild(this);
+    node.parentNode.removeChild(node);
     });
   };
 

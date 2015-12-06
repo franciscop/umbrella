@@ -6,12 +6,10 @@
  */
 u.prototype.parent = function() {
   
-  // Loop through all the nodes
-  this.each(function(i) {
+  // Clone it
+  return u(this.nodes).each(function(el) {
     
     // Select each node's parent
-    return this.parentNode;
-    });
-  
-  return this;
-  }
+    return el.parentNode;
+  });
+};
