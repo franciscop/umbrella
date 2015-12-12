@@ -412,8 +412,7 @@ u.prototype.find = function(selector) {
     newNodes = newNodes.concat(Array.prototype.slice.call(list, 0));
   });
   
-  this.nodes = newNodes;
-  return this;
+  return u(newNodes);
 };
 
 /**
