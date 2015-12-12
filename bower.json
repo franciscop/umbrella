@@ -1,0 +1,27 @@
+{
+  "name": "umbrella",
+  "version": "1.0.0",
+  "homepage": "http://umbrellajs.com/",
+  "authors": [
+    "Francisco Presencia <developerfrancisco@hotmail.com>"
+  ],
+  "description": "Lightweight and intuitive javascript library",
+  "main": "umbrella.min.js",
+  "keywords": [
+    "umbrella",
+    "js",
+    "selector",
+    "ajax",
+    "small",
+    "tiny",
+    "jquery",
+    "alternative"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "package.json"
+  ]
+}

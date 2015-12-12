@@ -1,27 +1,31 @@
 {
   "name": "umbrella",
   "version": "1.0.0",
+  "homepage": "http://umbrellajs.com/",
+  "authors": [ "Francisco Presencia <developerfrancisco@hotmail.com>" ],
   "description": "Lightweight and intuitive javascript library",
   "main": "umbrella.min.js",
+  "keywords": [
+    "umbrella",
+    "js",
+    "selector",
+    "ajax",
+    "small",
+    "tiny",
+    "jquery",
+    "alternative"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/umbrellajs/umbrella/issues"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "firefox test/index.html"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/umbrellajs/umbrella.git"
   },
-  "keywords": [
-    "jquery",
-    "umbrella",
-    "selector",
-    "ajax"
-  ],
-  "author": "Francisco Presencia Fandos",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/umbrellajs/umbrella/issues"
-  },
-  "homepage": "https://github.com/umbrellajs/umbrella#readme",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.5.1",
