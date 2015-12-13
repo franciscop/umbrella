@@ -11,5 +11,5 @@ u.prototype.click = function(callback) {
   this.on('click', callback);
   
   return this;
-  };
+};
 

@@ -7,11 +7,15 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     
-    uglify: { build: { src: 'umbrella.js', dest: 'umbrella.min.js' } },
+    uglify: {
+      options: { banner: '/* Umbrella JS ' + require('./package').version + ' umbrellajs.com */\n'},
+      build: { src: 'umbrella.js', dest: 'umbrella.min.js' }
+    },
 
     watch: {
       scripts: {
         files: [
+          'Gruntfile.js',
           'src/*.js',
           'src/plugins/*.js',
           'src/plugins/*/*.js',

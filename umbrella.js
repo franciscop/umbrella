@@ -2,8 +2,6 @@
  * -----------
  * Covers your needs
  *
- * NOTE: this is only the "core", see "umbrella.js" at the root
- *
  * Small, lightweight jQuery alternative
  * By Francisco Presencia Fandos
  * Inspired by http://youmightnotneedjquery.com/
@@ -51,7 +49,7 @@ var u = function(parameter, context) {
 
   // If we pass an array assume we want to make it the new nodes
   else if (Array.isArray(parameter)) {
-    this.nodes = parameter.slice();
+    this.nodes = this.slice(parameter);
   }
 
 
@@ -95,8 +93,7 @@ u.prototype.findNodes = function(parameter, context) {
 // The tag nodes
 u.prototype.tagNodes = function(tagName) {
 
-  return Array.prototype.slice.call(
-    document.getElementsByTagName(tagName), 0);
+  return this.slice(document.getElementsByTagName(tagName));
 };
 
 
@@ -110,8 +107,7 @@ u.prototype.idNodes = function(id) {
 // The class nodes
 u.prototype.classNodes = function(className) {
 
-  return Array.prototype.slice.call(
-    document.getElementsByClassName(className), 0);
+  return this.slice(document.getElementsByClassName(className));
 };
 
 
@@ -121,9 +117,22 @@ u.prototype.cssNodes = function(parameter, context) {
 
   // Store all the nodes as an array
   // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-  return Array.prototype.slice.call(
-    context.querySelectorAll(parameter), 0);
+  return this.slice(context.querySelectorAll(parameter));
 };
+
+// Force it to be an array AND also it clones them
+u.prototype.slice = function(pseudo){
+  return Array.prototype.slice.call(pseudo, 0);
+};
+
+// Make the nodes unique
+u.prototype.unique = function(){
+  
+  return u(this.nodes.reduce(function(clean, node){
+    return (node && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
+  }, []));
+};
+
 
 // This also made the code faster
 // Read "Initializing instance variables" in https://developers.google.com/speed/articles/optimizing-javascript
@@ -283,19 +292,24 @@ u.prototype.before = function(html) {
  */
 u.prototype.children = function(selector) {
   
-  var newNodes = [];
+  var self = this;
   
-  // Loop through all the nodes
-  this.each(function() {
+  // Get all of the nodes together
+  var newNodes = this.nodes.reduce(function(newNodes, node) {
     
     // Assign the new nodes to the array
-    newNodes.concat(this.children);
-    });
+    return newNodes.concat(self.slice(node.children));
+    
+  // Filter out those that doesn't match the selector
+  }, []).filter(function(child){
+    
+    // Return 1 if we don't want to filter or if the filter is correct
+    return !selector || u(child).is(selector);
+  });
   
-  this.nodes = newNodes;
-  
-  return this;
-  }
+  return u(newNodes);
+};
+
 
 /**
  * .click(callback)
@@ -310,7 +324,7 @@ u.prototype.click = function(callback) {
   this.on('click', callback);
   
   return this;
-  };
+};
 
 
 /**
@@ -321,54 +335,22 @@ u.prototype.click = function(callback) {
  */
 u.prototype.closest = function(selector) {
   
-  var newNodes = [];
-  
   // Loop through all the nodes
-  this.each(function() {
+  return u(this.nodes.reduce(function(newNodes, node) {
     
-    var current = this;
-    
-    while (current) {
+    // Keep going up and up on the tree
+    while (node) {
       
-      // Native function
-      if (typeof current.matches === "function" &&
-          current.matches(selector)) {
-        newNodes.unshift(current);
-        }
-      
-      else {
-        if (typeof current.msMatchesSelector === "function" &&
-            current.msMatchesSelector(selector)) {
-          newNodes.unshift(current);
-          }
-          
-        if (typeof current.mozMatchesSelector === "function" &&
-            current.mozMatchesSelector(selector)) {
-          newNodes.unshift(current);
-          }
-        
-        if (typeof current.webkitMatchesSelector === "function" &&
-            current.webkitMatchesSelector(selector)) {
-          newNodes.unshift(current);
-          }
-        
-        if (typeof current.oMatchesSelector === "function" &&
-            current.oMatchesSelector(selector)) {
-          newNodes.unshift(current);
-          }
-        }
-
-      
-      current = current.parentNode;
+      if (u(node).is(selector)) {
+        return newNodes.concat(node);
       }
-    // Assign the new nodes to the array
-    newNodes.concat(this.children);
-    });
-  
-  this.nodes = newNodes;
-  
-  return this;
-  }
+      
+      node = node.parentNode;
+    }
+    
+    return newNodes;
+  }, [])).unique();
+};
 
 /**
  * .each()
@@ -380,21 +362,13 @@ u.prototype.closest = function(selector) {
 u.prototype.each = function(callback) {
   
   // Loop through all the nodes
-  for (var i = 0; i < this.nodes.length; i++) {
+  return u(this.nodes.forEach(function(node, i){
     
     // Perform the callback for this node
     // By doing callback.call we allow "this" to be the context for
     // the callback (see http://stackoverflow.com/q/4065353 precisely)
-    var ret = callback.call(this.nodes[i], this.nodes[i], i);
-    
-    // Something is returned to change the node
-    if (ret)
-      
-      // Assign the new node the returned value
-      this.nodes[i] = ret;
-  }
-  
-  return this;
+    callback.call(node, node, i);
+  }));
 };
 
 /**
@@ -404,15 +378,10 @@ u.prototype.find = function(selector) {
   
   selector = selector || "*";
   
-  var newNodes = [];
-  
-  this.each(function(){
-    // newNodes.push(u(selector, this).nodes);
-    var list = this.querySelectorAll(selector);
-    newNodes = newNodes.concat(Array.prototype.slice.call(list, 0));
-  });
-  
-  return u(newNodes);
+  return u(this.nodes.reduce(function(newNodes, node){
+    
+    return newNodes.concat(u(selector, node).nodes);
+  }, []));
 };
 
 /**
@@ -580,6 +549,15 @@ u.prototype.html = function(text) {
     }
   };
 
+// .is(selector)
+//
+u.prototype.is = function(selector){
+  return this.nodes.filter(function(node){
+    if (node.matches) return node.matches(selector);
+    if (node.msMatchesSelector) return node.msMatchesSelector(selector);
+    if (node.webkitMatchesSelector) return node.webkitMatchesSelector(selector);
+  }).length > 0;
+};
 /**
  * .on(event, callback)
  * 
@@ -616,11 +594,11 @@ u.prototype.on = function(events, callback) {
 u.prototype.parent = function() {
   
   // Clone it
-  return u(this.nodes).each(function(el) {
+  return u(this.nodes.map(function(el) {
     
     // Select each node's parent
     return el.parentNode;
-  });
+  }));
 };
 
 /**

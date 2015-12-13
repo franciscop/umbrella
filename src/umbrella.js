@@ -2,8 +2,6 @@
  * -----------
  * Covers your needs
  *
- * NOTE: this is only the "core", see "umbrella.js" at the root
- *
  * Small, lightweight jQuery alternative
  * By Francisco Presencia Fandos
  * Inspired by http://youmightnotneedjquery.com/
@@ -51,7 +49,7 @@ var u = function(parameter, context) {
 
   // If we pass an array assume we want to make it the new nodes
   else if (Array.isArray(parameter)) {
-    this.nodes = parameter.slice();
+    this.nodes = this.slice(parameter);
   }
 
 
@@ -95,8 +93,7 @@ u.prototype.findNodes = function(parameter, context) {
 // The tag nodes
 u.prototype.tagNodes = function(tagName) {
 
-  return Array.prototype.slice.call(
-    document.getElementsByTagName(tagName), 0);
+  return this.slice(document.getElementsByTagName(tagName));
 };
 
 
@@ -110,8 +107,7 @@ u.prototype.idNodes = function(id) {
 // The class nodes
 u.prototype.classNodes = function(className) {
 
-  return Array.prototype.slice.call(
-    document.getElementsByClassName(className), 0);
+  return this.slice(document.getElementsByClassName(className));
 };
 
 
@@ -121,9 +117,22 @@ u.prototype.cssNodes = function(parameter, context) {
 
   // Store all the nodes as an array
   // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-  return Array.prototype.slice.call(
-    context.querySelectorAll(parameter), 0);
+  return this.slice(context.querySelectorAll(parameter));
 };
+
+// Force it to be an array AND also it clones them
+u.prototype.slice = function(pseudo){
+  return Array.prototype.slice.call(pseudo, 0);
+};
+
+// Make the nodes unique
+u.prototype.unique = function(){
+  
+  return u(this.nodes.reduce(function(clean, node){
+    return (node && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
+  }, []));
+};
+
 
 // This also made the code faster
 // Read "Initializing instance variables" in https://developers.google.com/speed/articles/optimizing-javascript
