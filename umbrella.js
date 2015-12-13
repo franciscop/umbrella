@@ -729,7 +729,7 @@ u.setOptions = function(where, options){
   };
 
 /**
- * u.status = function(activate, deactivate, has, name){
+ * u.status(activate, deactivate, has, name)
  *
  * Define a status that can be used in the code. Example:
  * u.status('activate', 'deactivate', 'isActive', 'active')
@@ -737,6 +737,7 @@ u.setOptions = function(where, options){
  * Then you can do this along your code:
  * if(u(".article").isActive())
  *   u(".article").deactivate();
+ * if (u(".article").is('.active'))
  */
 u.status = function(activate, deactivate, has, name){
   name = name || activate;
