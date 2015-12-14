@@ -501,27 +501,32 @@ function node(selector) {
  * @param String name the class name we want to find
  * @return boolean wether the nodes have the class or not
  */
-u.prototype.hasClass = function(name) {
+u.prototype.hasClass = function() {
   
   // Default value
   var doesItContain = false;
+  var names = Array.prototype.slice.call(arguments).toString().split(/[\s,]+/);
   
   // Loop through all of the matched elements
   this.each(function(){
     
+    var elemHasClass = true;
+    
     // Check for multiple classes
-    name.split(" ").forEach(function(value){
+    names.forEach(function(value){
       
       // This check is needed to avoid setting it to false
-      if (this.classList.contains(value))
+      if (!this.classList.contains(value))
         
         // Store the value
-        doesItContain = true;
-      }, this);
-    });
+        elemHasClass = false;
+    }, this);
+    
+    if (elemHasClass) doesItContain = true;
+  });
   
   return doesItContain;
-  };
+};
 
 /**
  * .html(text)
@@ -532,22 +537,18 @@ u.prototype.hasClass = function(name) {
  */
 u.prototype.html = function(text) {
   
-  // If we're attempting to set some text
-  if (text !== undefined) {
-    
-    // Loop through all the nodes
-    this.each(function() {
-      
-      // Set the inner html to the node
-      this.innerHTML = text;
-      });
-    return this;
-    }
+  // Get the text from the first node
+  if (text === undefined) return this.first().innerHTML || "";
   
-  else {
-    return this.first().innerHTML;
-    }
-  };
+  
+  // If we're attempting to set some text  
+  // Loop through all the nodes
+  return this.each(function() {
+    
+    // Set the inner html to the node
+    this.innerHTML = text;
+  });
+};
 
 // .is(selector)
 //
@@ -725,40 +726,5 @@ u.setOptions = function(where, options){
     
     // Set each of them
     u.options[where][key] = options[key];
-    }
-  };
-
-/**
- * u.status(activate, deactivate, has, name)
- *
- * Define a status that can be used in the code. Example:
- * u.status('activate', 'deactivate', 'isActive', 'active')
- * 
- * Then you can do this along your code:
- * if(u(".article").isActive())
- *   u(".article").deactivate();
- * if (u(".article").is('.active'))
- */
-u.status = function(activate, deactivate, has, name){
-  name = name || activate;
-  
-  if (activate) {
-    u.prototype[activate] = function() {
-      this.addClass(name);
-      return this;
-      };
-    }
-  
-  if (deactivate) {
-    u.prototype[deactivate] = function() {
-      this.removeClass(name);
-      return this;
-      };
-    }
-  
-  if (has) {
-    u.prototype[has] = function() {
-      return this.hasClass(name);
-      };
     }
   };

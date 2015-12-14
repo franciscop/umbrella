@@ -261,3 +261,62 @@ describe(".find(selector)", function() {
     expect(base.find('ul').nodes.length).to.equal(1);
   });
 });
+// Testing the main file
+describe(".first()", function() {
+  
+  it("should be a function", function() {
+    expect(typeof base.first).to.equal('function');
+  });
+  
+  it("can the first element is an HTML element", function() {
+    expect(base.find("li").first().nodeType).to.equal(1);
+  });
+  
+  it("can get the first li and it's a LI", function() {
+    expect(base.find("li").first().nodeName).to.equal('LI');
+  });
+});
+// Testing the main file
+describe(".hasClass(name)", function() {
+  
+  it("should be a function", function() {
+    expect(typeof base.hasClass).to.equal('function');
+  });
+  
+  it("can check a single class", function() {
+    expect(base.find('#world').hasClass('hello')).to.equal(true);
+  });
+  
+  it("works as AND", function() {
+    expect(base.find('#world').hasClass('hello nonexisting')).to.equal(false);
+  });
+  
+  it("can check multiple classes with space", function() {
+    expect(base.find('#world').hasClass('hello world')).to.equal(true);
+  });
+  
+  it("can check multiple classes with comma", function() {
+    expect(base.find('#world').hasClass('hello,world')).to.equal(true);
+  });
+  
+  it("can check multiple classes as arguments", function() {
+    expect(base.find('#world').hasClass('hello', 'world')).to.equal(true);
+  });
+});
+// Testing the main file
+describe(".html(content)", function() {
+  
+  it("should be a function", function() {
+    expect(typeof base.hasClass).to.equal('function');
+  });
+  
+  it("can get the html content", function() {
+    expect(base.find('#world').html()).to.equal('Hello world');
+  });
+  
+  it("can set the html content", function() {
+    expect(base.find('#world').html()).not.to.equal('hello');
+    base.find('#world').html('hello');
+    expect(base.find('#world').html()).to.equal('hello');
+  });
+});

@@ -7,19 +7,15 @@
  */
 u.prototype.html = function(text) {
   
-  // If we're attempting to set some text
-  if (text !== undefined) {
-    
-    // Loop through all the nodes
-    this.each(function() {
-      
-      // Set the inner html to the node
-      this.innerHTML = text;
-      });
-    return this;
-    }
+  // Get the text from the first node
+  if (text === undefined) return this.first().innerHTML || "";
   
-  else {
-    return this.first().innerHTML;
-    }
-  };
+  
+  // If we're attempting to set some text  
+  // Loop through all the nodes
+  return this.each(function() {
+    
+    // Set the inner html to the node
+    this.innerHTML = text;
+  });
+};
