@@ -18,6 +18,13 @@ Lightweight and intuitive javascript library. A simple example:
 </script>
 ```
 
+If you want it to be confusingly similar to jquery (they are not 100% compatible, just similar) you could just do it:
+
+```js
+var $ = u;
+```
+
+
 It plays well with other libraries, including jquery. For example, with [pagex.js]:
 
 ```js
