@@ -17,8 +17,8 @@ u.prototype.serialize = function() {
   
   // Encode the values https://gist.github.com/brettz9/7147458
   function en(str) {
-   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-    }
+    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+  }
   
   for (i = form.elements.length - 1; i >= 0; i = i - 1) {
     
@@ -28,7 +28,7 @@ u.prototype.serialize = function() {
     // Make sure the element has name
     if (el.name === "") {
       continue;
-      }
+    }
     
     
     switch (el.type) {
@@ -45,9 +45,9 @@ u.prototype.serialize = function() {
       // All other cases
       default:
         query += "&" + en(el.name) + "=" + en(el.value);
-      }
     }
+  }
   
   // Join the query and return it
   return query;
-  };
+};
