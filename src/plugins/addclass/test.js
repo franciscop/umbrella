@@ -51,4 +51,9 @@ describe(".addClass(name1, name2, ...)", function() {
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
   });
+
+  it("adds several classes separated by comma", function() {
+    len = base.addClass('bla,blu').nodes.length;
+    expect(len).to.equal(1);
+  });
 });

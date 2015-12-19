@@ -10,7 +10,7 @@ u.prototype.addClass = function(){
   // Normalize the arguments to a string of comma separated elements
   // Allow for several class names like "a b c" and several parameters
   // toString() is to flatten the array: http://stackoverflow.com/q/22920305
-  var args = Array.prototype.slice.call(arguments).toString().split(/[\s,]+/);
+  var args = this.slice(arguments).toString().split(/[\s,]+/);
   
   // Loop through all the nodes
   return this.each(function(el){
