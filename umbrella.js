@@ -268,7 +268,7 @@ u.prototype.attr = function(name, value) {
     });
   }
   
-  return this.first().getAttribute(name);
+  return this.nodes.length ? this.first().getAttribute(name) : "";
 };
 
 /**

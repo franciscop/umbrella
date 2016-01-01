@@ -202,6 +202,10 @@ describe(".attr(name, value)", function() {
     expect(base.attr('title')).to.equal('Hello');
   });
   
+  it("can be called with no nodes", function() {
+    expect(u('dfsdf').attr('title')).to.equal('');
+  });
+  
   it("can nullify (remove) an attribute with two params", function() {
     base.first().setAttribute('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
