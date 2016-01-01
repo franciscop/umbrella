@@ -8,7 +8,7 @@
  * Compat: http://caniuse.com/#feat=queryselector
  * Order of include is irrelevant http://stackoverflow.com/q/7609276
  *
- * Umbrella JS selector is faster than jQuery:
+ * Umbrella JS selector is faster than jQuery (in firefox):
  * classes: http://jsperf.com/umbrella-vs-jquery-class/2
  * tags: http://jsperf.com/umbrella-vs-jquery-tag/2
  * ids: http://jsperf.com/umbrella-vs-jquery-id/2
