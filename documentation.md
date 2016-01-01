@@ -87,7 +87,7 @@ u("form").addClass("toValidate", "ajaxify");
 
 
 
-## Related
+### Related
 
 [.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
 
