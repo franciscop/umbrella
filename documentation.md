@@ -50,11 +50,11 @@ page(/^login/, function(){
 **Add html class(es) to each of the matched elements.**
 
 ```js
-.addClass(name);
-.addClass(name, another);
-.addClass([name, another]);
-.addClass('name,another');
+.addClass('name');
 .addClass('name another');
+.addClass('name,another');
+.addClass('name', 'another');
+.addClass(['name', 'another']);
 ```
 
 ### Parameters
@@ -97,7 +97,7 @@ u("form").addClass("toValidate", "ajaxify");
 
 **Add some html as a sibling after each of the matched elements.**
 
-```js
+``js
 .after(html);
 ```
 

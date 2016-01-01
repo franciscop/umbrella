@@ -3,11 +3,11 @@
 **Add html class(es) to each of the matched elements.**
 
 ```js
-.addClass(name);
-.addClass(name, another);
-.addClass([name, another]);
-.addClass('name,another');
+.addClass('name');
 .addClass('name another');
+.addClass('name,another');
+.addClass('name', 'another');
+.addClass(['name', 'another']);
 ```
 
 ### Parameters
