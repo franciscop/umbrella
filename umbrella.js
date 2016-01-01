@@ -122,6 +122,13 @@ u.prototype.slice = function(pseudo){
   return pseudo ? Array.prototype.slice.call(pseudo, 0) : [];
 };
 
+// Normalize the arguments to a string of comma separated elements
+// Allow for several class names like "a b c" and several parameters
+// toString() is to flatten the array: http://stackoverflow.com/q/22920305
+u.prototype.args = function(args){
+  return this.slice(args).toString().split(/[\s,]+/);
+};
+
 // Make the nodes unique
 u.prototype.unique = function(){
   
@@ -149,10 +156,8 @@ u.options = {};
  */
 u.prototype.addClass = function(){
   
-  // Normalize the arguments to a string of comma separated elements
-  // Allow for several class names like "a b c" and several parameters
-  // toString() is to flatten the array: http://stackoverflow.com/q/22920305
-  var args = this.slice(arguments).toString().split(/[\s,]+/);
+  // Normalize the arguments to a simple array
+  var args = this.args(arguments);
   
   // Loop through all the nodes
   return this.each(function(el){
@@ -214,12 +219,12 @@ u.prototype.ajax = function(success, error, before) {
       u(this).serialize(),
       success,
       error,
-      before);
-    });
+      before
+    );
+  });
   
   return this;
-  };
-
+};
 
 /**
  * .append(html)
@@ -503,7 +508,7 @@ u.prototype.hasClass = function() {
   
   // Default value
   var doesItContain = false;
-  var names = Array.prototype.slice.call(arguments).toString().split(/[\s,]+/);
+  var names = this.args(arguments);
   
   // Loop through all of the matched elements
   this.each(function(){

@@ -122,6 +122,13 @@ u.prototype.slice = function(pseudo){
   return pseudo ? Array.prototype.slice.call(pseudo, 0) : [];
 };
 
+// Normalize the arguments to a string of comma separated elements
+// Allow for several class names like "a b c" and several parameters
+// toString() is to flatten the array: http://stackoverflow.com/q/22920305
+u.prototype.args = function(args){
+  return this.slice(args).toString().split(/[\s,]+/);
+};
+
 // Make the nodes unique
 u.prototype.unique = function(){
   

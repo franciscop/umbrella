@@ -24,7 +24,7 @@
 Add a separator `<hr>` after each of the main titles h1:
 
 ```js
-u("h1").addClass("<hr>");
+u("h1").after("<hr>");
 ```
 
 

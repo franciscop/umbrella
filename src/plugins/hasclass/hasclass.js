@@ -9,7 +9,7 @@ u.prototype.hasClass = function() {
   
   // Default value
   var doesItContain = false;
-  var names = Array.prototype.slice.call(arguments).toString().split(/[\s,]+/);
+  var names = this.args(arguments);
   
   // Loop through all of the matched elements
   this.each(function(){

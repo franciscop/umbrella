@@ -20,9 +20,9 @@ u.prototype.ajax = function(success, error, before) {
       u(this).serialize(),
       success,
       error,
-      before);
-    });
+      before
+    );
+  });
   
   return this;
-  };
-
+};
