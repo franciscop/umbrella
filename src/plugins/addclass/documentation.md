@@ -1,4 +1,4 @@
-# .addClass(name)
+## .addClass(name1, name2, ...)
 
 > **Add html class(es) to each of the matched elements.**
 
@@ -6,7 +6,7 @@
 
 ## Parameters
 
-`name`: a string that represents the class(es) to be added. If more than one class has to be added, separate them by an space. Examples: `"classA"`, `"classA classB"`.
+`nameN`: a string that represents the class(es) to be added. If more than one class has to be added, separate them by an space. Examples: `"classA"`, `"classA classB"`.
 
 
 

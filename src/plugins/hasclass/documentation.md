@@ -1,16 +1,22 @@
-## .hasClass(name)
+## .hasClass(name1, name2, ...)
 
 **Find if any of the matched elements contains the class passed:**
 
-    u("a").hasClass("button")
+```js
+u("a").hasClass("button")
+```
 
 You can also check **multiple classes** with the **AND condition**:
 
-    u("a").hasClass("button primary")
+```js
+u("a").hasClass("button primary")
+```
 
 This would be similar to:
 
-    u("a").hasClass("button") && u("a").hasClass("primary")
+```js
+u("a").hasClass("button") && u("a").hasClass("primary");
+```
 
 
 ### Parameters
