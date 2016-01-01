@@ -58,30 +58,22 @@ var u = function(parameter, context) {
 u.prototype.findNodes = function(parameter, context) {
 
   // querySelector is the only one that accepts documentFragment
-  if (context){
-    return this.cssNodes(parameter, context);
-  }
-
-  // If we're matching a class
-  if (parameter.match(/^\.[a-zA-Z0-9_]+$/)) {
-
-    return this.classNodes(parameter.substring(1));
-  }
-
-  // If we're matching a tag
-  if (parameter.match(/^[a-zA-Z]+$/)) {
-
-    return this.tagNodes(parameter);
-  }
-
-  // If we match an id
-  if (parameter.match(/^\#[a-zA-Z0-9_]+$/)) {
-
-    return this.idNodes(parameter.substring(1));
-  }
-
-  // A full css selector
-  return this.cssNodes(parameter);
+  return context ? this.cssNodes(parameter, context)
+    
+    // If we're matching a class
+    : /^\.[\w\-]+$/.test(parameter) ? this.classNodes(parameter.substring(1))
+    
+    // If we're matching a tag
+    // Note: this is not tremendously acurated, since it includes _ which might
+    // not be valid, but that's acceptable. If you do u('bla_bla') then it should
+    // not be umbrella's responsability to clean up
+    : /^\w+$/.test(parameter) ? this.tagNodes(parameter)
+    
+      // If we match an id
+    : /^\#\w+$/.test(parameter) ? this.idNodes(parameter.substring(1))
+    
+    // A full css selector
+    : this.cssNodes(parameter);
 };
 
 
@@ -295,20 +287,9 @@ u.prototype.children = function(selector) {
   
   var self = this;
   
-  // Get all of the nodes together
-  var newNodes = this.nodes.reduce(function(newNodes, node) {
-    
-    // Assign the new nodes to the array
-    return newNodes.concat(self.slice(node.children));
-    
-  // Filter out those that doesn't match the selector
-  }, []).filter(function(child){
-    
-    // Return 1 if we don't want to filter or if the filter is correct
-    return !selector || u(child).is(selector);
-  });
-  
-  return u(newNodes);
+  return this.join(function(node){
+    return self.slice(node.children);
+  }).filter(selector);
 };
 
 
@@ -336,21 +317,17 @@ u.prototype.click = function(callback) {
  */
 u.prototype.closest = function(selector) {
   
-  // Loop through all the nodes
-  return u(this.nodes.reduce(function(newNodes, node) {
+  return this.join(function(node) {
     
     // Keep going up and up on the tree
-    while (node) {
-      
+    // First element is also checked
+    do {
       if (u(node).is(selector)) {
-        return newNodes.concat(node);
+        return node;
       }
-      
-      node = node.parentNode;
-    }
+    } while (node = node.parentNode)
     
-    return newNodes;
-  }, [])).unique();
+  }).unique();
 };
 
 /**
@@ -374,17 +351,33 @@ u.prototype.each = function(callback) {
   return this;
 };
 
+// .filter(selector)
+// Delete all of the nodes that don't pass the selector
+u.prototype.filter = function(selector){
+  
+  // Just a native filtering function for ultra-speed
+  return u(this.nodes.filter(function(node){
+    
+    // Accept a function to filter the nodes
+    if (typeof selector === 'function') {
+      return selector(node);
+    }
+    
+    // Make it compatible with some other browsers
+    node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
+    
+    // Check if it's the same element (or any element if no selector was passed)
+    return node.matches(selector || "*");
+  }));
+};
 /**
  * Find all the nodes children of the current ones matched by a selector
  */
 u.prototype.find = function(selector) {
   
-  selector = selector || "*";
-  
-  return u(this.nodes.reduce(function(newNodes, node){
-    
-    return newNodes.concat(u(selector, node).nodes);
-  }, []));
+  return this.join(function(node){
+    return u(selector || "*", node).nodes;
+  });
 };
 
 /**
@@ -554,14 +547,23 @@ u.prototype.html = function(text) {
 };
 
 // .is(selector)
-//
+// Check whether any of the nodes is of the type of the selector passed
 u.prototype.is = function(selector){
-  return this.nodes.filter(function(node){
-    if (node.matches) return node.matches(selector);
-    if (node.msMatchesSelector) return node.msMatchesSelector(selector);
-    if (node.webkitMatchesSelector) return node.webkitMatchesSelector(selector);
-  }).length > 0;
+  
+  // Just an idea for the future
+  return this.filter(selector).nodes.length > 0;
 };
+/**
+ * Merge all of the returned nodes
+ */
+u.prototype.join = function(callback) {
+  
+  return u(this.nodes.reduce(function(newNodes, node, i){
+    
+    return newNodes.concat(callback(node, i));
+  }, []));
+};
+
 /**
  * .on(event, callback)
  * 
@@ -597,12 +599,9 @@ u.prototype.on = function(events, callback) {
  */
 u.prototype.parent = function() {
   
-  // Clone it
-  return u(this.nodes.map(function(el) {
-    
-    // Select each node's parent
-    return el.parentNode;
-  }));
+  return this.join(function(node){
+    return node.parentNode;
+  });
 };
 
 /**

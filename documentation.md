@@ -268,6 +268,7 @@ u("h1").after("<hr>");
 
 [.prepend(html)](#prepend)
 
+
 ## .hasClass()
 
 **Find if any of the matched elements contains the class passed:**

@@ -11,6 +11,7 @@ describe(".closest(selector)", function() {
   });
   
   it("can select the children of ul", function() {
+    console.log(base.find('li').closest('ul'));
     expect(base.find('li').closest('ul').nodes.length).to.equal(1);
   });
 });

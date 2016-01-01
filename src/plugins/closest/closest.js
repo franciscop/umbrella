@@ -6,19 +6,15 @@
  */
 u.prototype.closest = function(selector) {
   
-  // Loop through all the nodes
-  return u(this.nodes.reduce(function(newNodes, node) {
+  return this.join(function(node) {
     
     // Keep going up and up on the tree
-    while (node) {
-      
+    // First element is also checked
+    do {
       if (u(node).is(selector)) {
-        return newNodes.concat(node);
+        return node;
       }
-      
-      node = node.parentNode;
-    }
+    } while (node = node.parentNode)
     
-    return newNodes;
-  }, [])).unique();
+  }).unique();
 };

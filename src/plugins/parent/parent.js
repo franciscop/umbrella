@@ -6,10 +6,7 @@
  */
 u.prototype.parent = function() {
   
-  // Clone it
-  return u(this.nodes.map(function(el) {
-    
-    // Select each node's parent
-    return el.parentNode;
-  }));
+  return this.join(function(node){
+    return node.parentNode;
+  });
 };

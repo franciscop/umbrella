@@ -3,10 +3,7 @@
  */
 u.prototype.find = function(selector) {
   
-  selector = selector || "*";
-  
-  return u(this.nodes.reduce(function(newNodes, node){
-    
-    return newNodes.concat(u(selector, node).nodes);
-  }, []));
+  return this.join(function(node){
+    return u(selector || "*", node).nodes;
+  });
 };

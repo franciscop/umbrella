@@ -279,6 +279,7 @@ describe(".closest(selector)", function() {
   });
   
   it("can select the children of ul", function() {
+    console.log(base.find('li').closest('ul'));
     expect(base.find('li').closest('ul').nodes.length).to.equal(1);
   });
 });
@@ -354,5 +355,30 @@ describe(".html(content)", function() {
     expect(base.find('#world').html()).not.to.equal('hello');
     base.find('#world').html('hello');
     expect(base.find('#world').html()).to.equal('hello');
+  });
+});
+// Testing the main file
+describe(".is(selector)", function() {
+  
+  it("should be defined", function() {
+    expect(typeof base.is).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    base.is();
+    base.is("");
+  });
+
+  it("accepts a selector", function() {
+    expect(base.is('.base')).to.equal(true);
+    expect(base.is('div')).to.equal(true);
+  });
+
+  it("accepts a function", function() {
+    expect(base.is(function(){ return true; })).to.equal(true);
+    expect(base.is(function(){ return false; })).to.equal(false);
+    base.is(function(node){
+      expect(u(node).is('.base')).to.equal(true);
+    });
   });
 });

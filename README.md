@@ -1,10 +1,8 @@
 # Umbrella JS
 
-> This is working, but there's basically no documentation. You are welcome to expand it
-
 Covers your javascript needs for those rainy days. A <2kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/), then what do you need?
 
-Only for those not scared of vanilla javascript but that hate to repeat things like `document.querySelector()` again and again.
+Only for those not scared of vanilla javascript but that hate to repeat things like `document.querySelectorAll()` again and again.
 
 
 
@@ -14,7 +12,7 @@ Just download `umbrella.min.js`, include it in your html witih `<script src="umb
 
 ```js
 u(".menu a:first-child").addClass('active');
-// or (more vanilla):
+// or (more vanilla but slightly error-prone):
 u(".menu a:first-child").first().classList.add('active');
 ```
 

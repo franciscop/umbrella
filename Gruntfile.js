@@ -45,7 +45,6 @@ module.exports = function (grunt) {
       var doc = 'src/plugins/' + name + '/documentation.md';
       
       if (!fs.existsSync(file)) throw new Error("File '" + file + "' doesn't exist");
-      //if (!fs.existsSync(test)) throw new Error("Plugin '" + file + "' doesn't have any test");
       
       concat.main.src.push(file);
       concat.test.src.push(test);

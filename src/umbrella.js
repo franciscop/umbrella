@@ -58,30 +58,22 @@ var u = function(parameter, context) {
 u.prototype.findNodes = function(parameter, context) {
 
   // querySelector is the only one that accepts documentFragment
-  if (context){
-    return this.cssNodes(parameter, context);
-  }
-
-  // If we're matching a class
-  if (parameter.match(/^\.[a-zA-Z0-9_]+$/)) {
-
-    return this.classNodes(parameter.substring(1));
-  }
-
-  // If we're matching a tag
-  if (parameter.match(/^[a-zA-Z]+$/)) {
-
-    return this.tagNodes(parameter);
-  }
-
-  // If we match an id
-  if (parameter.match(/^\#[a-zA-Z0-9_]+$/)) {
-
-    return this.idNodes(parameter.substring(1));
-  }
-
-  // A full css selector
-  return this.cssNodes(parameter);
+  return context ? this.cssNodes(parameter, context)
+    
+    // If we're matching a class
+    : /^\.[\w\-]+$/.test(parameter) ? this.classNodes(parameter.substring(1))
+    
+    // If we're matching a tag
+    // Note: this is not tremendously acurated, since it includes _ which might
+    // not be valid, but that's acceptable. If you do u('bla_bla') then it should
+    // not be umbrella's responsability to clean up
+    : /^\w+$/.test(parameter) ? this.tagNodes(parameter)
+    
+      // If we match an id
+    : /^\#\w+$/.test(parameter) ? this.idNodes(parameter.substring(1))
+    
+    // A full css selector
+    : this.cssNodes(parameter);
 };
 
 
