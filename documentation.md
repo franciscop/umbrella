@@ -45,41 +45,92 @@ page(/^login/, function(){
 ```
 
 
-## .addClass(name1, name2, ...)
+## .addClass()
 
-> **Add html class(es) to each of the matched elements.**
+**Add html class(es) to each of the matched elements.**
+
+```js
+.addClass(name);
+.addClass(name, another);
+.addClass([name, another]);
+.addClass('name,another');
+.addClass('name another');
+```
+
+### Parameters
+
+`name`, `another`: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).
 
 
 
-## Parameters
-
-`nameN`: a string that represents the class(es) to be added. If more than one class has to be added, separate them by an space. Examples: `"classA"`, `"classA classB"`.
-
-
-
-## Return
+### Return
 
 `u`: returns the same instance of Umbrella JS
 
 
 
-## Examples
+### Examples
 
 Add the class `main` to all the `<h2>` from the page:
 
-    u("h2").addClass("main");
+```js
+u("h2").addClass("main");
+```
 
 Add the class `toValidate` and `ajaxify` to all the `<form>` present in the page:
 
-    u("form").addClass("toValidate ajaxify");
+```js
+u("form").addClass("toValidate ajaxify");
+// or
+u("form").addClass("toValidate", "ajaxify");
+```
 
 
 
 ## Related
 
-[.removeClass(name)](/docs/removeclass) deletes class(es) from the matched elements.
+[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
 
 [.hasClass(name)](/docs/hasclass) finds if the matched elements contain the class(es)
+
+## .after()
+
+**Add some html as a sibling after each of the matched elements.**
+
+```js
+.after(html);
+```
+
+
+### Parameters
+
+`html`: a string containing the html that is going to be inserted.
+
+
+
+### Return
+
+`u`: returns the same instance of Umbrella JS
+
+
+
+### Examples
+
+Add a separator `<hr>` after each of the main titles h1:
+
+```js
+u("h1").addClass("<hr>");
+```
+
+
+
+## Related
+
+[.before(html)](#before)
+
+[.append(html)](#append)
+
+[.prepend(html)](#prepend)
 
 ## .hasClass(name1, name2, ...)
 
