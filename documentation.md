@@ -91,7 +91,7 @@ u("form").addClass("toValidate", "ajaxify");
 
 [.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
 
-[.hasClass(name)](/docs/hasclass) finds if the matched elements contain the class(es)
+[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
 
 ## .after()
 
@@ -124,7 +124,7 @@ u("h1").addClass("<hr>");
 
 
 
-## Related
+### Related
 
 [.before(html)](#before)
 
@@ -132,9 +132,13 @@ u("h1").addClass("<hr>");
 
 [.prepend(html)](#prepend)
 
-## .hasClass(name1, name2, ...)
+## .hasClass()
 
 **Find if any of the matched elements contains the class passed:**
+
+```js
+.hasClass(name1, name2)
+```
 
 ```js
 u("a").hasClass("button")

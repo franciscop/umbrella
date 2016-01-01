@@ -1,6 +1,10 @@
-## .hasClass(name1, name2, ...)
+## .hasClass()
 
 **Find if any of the matched elements contains the class passed:**
+
+```js
+.hasClass(name1, name2)
+```
 
 ```js
 u("a").hasClass("button")
