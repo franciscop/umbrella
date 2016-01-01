@@ -97,7 +97,7 @@ u("form").addClass("toValidate", "ajaxify");
 
 **Add some html as a sibling after each of the matched elements.**
 
-``js
+```js
 .after(html);
 ```
 
