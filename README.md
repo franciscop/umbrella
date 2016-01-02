@@ -17,7 +17,7 @@ u(".menu a:first-child").first().classList.add('active');
 ```
 
 
-## [Documentation (link)](blob/master/documentation.md)
+## [Documentation (link)](documentation.md)
 
 
 
