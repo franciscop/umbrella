@@ -17,6 +17,10 @@ u(".menu a:first-child").first().classList.add('active');
 ```
 
 
+## [Documentation (link)](blob/master/documentation.md)
+
+
+
 ## Browser support IE10+
 
 You can have a light library that works on the mobile browsers or a heavy one that works on old Internet Explorer versions, but you cannot have both. This is aimed for modern, responsive websites.
