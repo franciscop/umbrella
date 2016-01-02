@@ -30,6 +30,7 @@ module.exports = function (grunt) {
   });
 
   // Dynamically add plugins to the concat
+  // Order of include is irrelevant http://stackoverflow.com/q/7609276
   grunt.registerTask("parse", "Join and concatenate", function(){
     
     // get the current concat config

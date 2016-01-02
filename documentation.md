@@ -25,7 +25,7 @@ var $ = u;
 ```
 
 
-It plays well with other libraries, including jquery. For example, with [pagex.js]:
+It plays well with other libraries, including jquery. For example, with [pagex.js](github.com/franciscop/pagex):
 
 ```js
 // When we are on the page "/login"
@@ -39,27 +39,27 @@ page(/^login/, function(){
     alert("There was an error: " + res.error);
   }
   
-  // Find the form and submit it by ajax
+  // Find the form and handle it through ajax when it's submitted
   u("form.login").ajax(success, error);
 });
 ```
-
 
 ## .addClass()
 
 **Add html class(es) to each of the matched elements.**
 
 ```js
-.addClass('name');
-.addClass('name another');
-.addClass('name,another');
-.addClass('name', 'another');
-.addClass(['name', 'another']);
+.addClass('name1');
+.addClass('name1 name2 nameN');
+.addClass('name1,name2,nameN');
+.addClass('name1', 'name2', 'nameN');
+.addClass(['name1', 'name2', 'nameN']);
+.addClass(['name1', 'name2'], ['name3'], ['nameN']);
 ```
 
 ### Parameters
 
-`name`, `another`: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).
+`name1`, `name2`, `nameN`: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).
 
 
 

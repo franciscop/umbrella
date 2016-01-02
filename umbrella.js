@@ -1,20 +1,10 @@
-/* Umbrella JS
- * -----------
- * Covers your needs
- *
- * Small, lightweight jQuery alternative
- * By Francisco Presencia Fandos
- * Inspired by http://youmightnotneedjquery.com/
- * Compat: http://caniuse.com/#feat=queryselector
- * Order of include is irrelevant http://stackoverflow.com/q/7609276
- *
- * Umbrella JS selector is faster than jQuery (in firefox):
- * classes: http://jsperf.com/umbrella-vs-jquery-class/2
- * tags: http://jsperf.com/umbrella-vs-jquery-tag/2
- * ids: http://jsperf.com/umbrella-vs-jquery-id/2
- * complex: http://jsperf.com/umbrella-vs-jquery-complex/2
- */
+// Umbrella JS
+// -----------
+// Covers your basic javascript needs
 
+// Small, lightweight jQuery alternative
+// @author Francisco Presencia Fandos http://francisco.io/
+// @inspiration http://youmightnotneedjquery.com/
 
 // INIT
 // It should make sure that there's at least one element in nodes
@@ -33,7 +23,7 @@ var u = function(parameter, context) {
   if (typeof parameter == "string") {
 
     // Store the nodes
-    parameter = this.findNodes(parameter, context);
+    parameter = this.select(parameter, context);
   }
 
   // If we're referring a specific node as in click(){ u(this) }
@@ -54,62 +44,13 @@ var u = function(parameter, context) {
 };
 
 
-// Select the adecuate part from the context
-u.prototype.findNodes = function(parameter, context) {
-
-  // querySelector is the only one that accepts documentFragment
-  return context ? this.cssNodes(parameter, context)
-    
-    // If we're matching a class
-    : /^\.[\w\-]+$/.test(parameter) ? this.classNodes(parameter.substring(1))
-    
-    // If we're matching a tag
-    // Note: this is not tremendously acurated, since it includes _ which might
-    // not be valid, but that's acceptable. If you do u('bla_bla') then it should
-    // not be umbrella's responsability to clean up
-    : /^\w+$/.test(parameter) ? this.tagNodes(parameter)
-    
-      // If we match an id
-    : /^\#\w+$/.test(parameter) ? this.idNodes(parameter.substring(1))
-    
-    // A full css selector
-    : this.cssNodes(parameter);
-};
 
 
-// This change made the code faster than jQuery ^_^
-// Read "Defining class methods" in https://developers.google.com/speed/articles/optimizing-javascript
-// The tag nodes
-u.prototype.tagNodes = function(tagName) {
 
-  return document.getElementsByTagName(tagName);
-};
-
-
-// The id nodes
-u.prototype.idNodes = function(id) {
-
-  return document.getElementById(id);
-};
-
-
-// The class nodes
-u.prototype.classNodes = function(className) {
-
-  return document.getElementsByClassName(className);
-};
-
-
-u.prototype.cssNodes = function(parameter, context) {
-
-  context = context || document;
-
-  // Store all the nodes as an array
-  // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-  return context.querySelectorAll(parameter);
-};
 
 // Force it to be an array AND also it clones them
+// Store all the nodes as an array
+// http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
 u.prototype.slice = function(pseudo){
   return pseudo ? Array.prototype.slice.call(pseudo, 0) : [];
 };
@@ -652,6 +593,48 @@ u.prototype.removeClass = function(name) {
   return this;
   };
 
+
+
+// Select the adecuate part from the context
+u.prototype.select = function(parameter, context) {
+  
+  // querySelector is the only one that accepts documentFragment
+  return context ? this.select.byCss(parameter, context)
+    
+    // If we're matching a class
+    : /^\.[\w\-]+$/.test(parameter) ? this.select.byClass(parameter.substring(1))
+    
+    // If we're matching a tag
+    // Note: this is not tremendously acurated, since it includes _ which might
+    // not be valid, but that's acceptable. If you do u('bla_bla') then it should
+    // not be umbrella's responsability to clean up
+    : /^\w+$/.test(parameter) ? this.select.byTag(parameter)
+    
+      // If we match an id
+    : /^\#\w+$/.test(parameter) ? this.select.byId(parameter.substring(1))
+    
+    // A full css selector
+    : this.select.byCss(parameter);
+};
+
+
+// Changing the code to specific selectors made it faster than jQuery ^_^
+// Read "Defining class methods" in https://developers.google.com/speed/articles/optimizing-javascript
+
+// The tag nodes
+u.prototype.select.byTag = document.getElementsByTagName.bind(document);
+
+// Find some html nodes using an Id
+u.prototype.select.byId = document.getElementById.bind(document);
+
+// Find some html nodes using a Class
+u.prototype.select.byClass = document.getElementsByClassName.bind(document);
+
+// Select some elements using a css Selector
+u.prototype.select.byCss = function(parameter, context) {
+
+  return (context || document).querySelectorAll(parameter);
+};
 /**
  * .serialize()
  * 

@@ -3,16 +3,17 @@
 **Add html class(es) to each of the matched elements.**
 
 ```js
-.addClass('name');
-.addClass('name another');
-.addClass('name,another');
-.addClass('name', 'another');
-.addClass(['name', 'another']);
+.addClass('name1');
+.addClass('name1 name2 nameN');
+.addClass('name1,name2,nameN');
+.addClass('name1', 'name2', 'nameN');
+.addClass(['name1', 'name2', 'nameN']);
+.addClass(['name1', 'name2'], ['name3'], ['nameN']);
 ```
 
 ### Parameters
 
-`name`, `another`: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).
+`name1`, `name2`, `nameN`: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).
 
 
 

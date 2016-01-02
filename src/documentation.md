@@ -25,7 +25,7 @@ var $ = u;
 ```
 
 
-It plays well with other libraries, including jquery. For example, with [pagex.js]:
+It plays well with other libraries, including jquery. For example, with [pagex.js](github.com/franciscop/pagex):
 
 ```js
 // When we are on the page "/login"
@@ -39,8 +39,7 @@ page(/^login/, function(){
     alert("There was an error: " + res.error);
   }
   
-  // Find the form and submit it by ajax
+  // Find the form and handle it through ajax when it's submitted
   u("form.login").ajax(success, error);
 });
 ```
-
