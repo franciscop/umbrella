@@ -1,7 +1,12 @@
-// These are the different parts of the select
-// u.select(selector);
-// u.select.byId(id);
-// u.select.byClass(name);
-// u.select.byTag(id);
-// u.select.byCss(css);
-// 
+// Testing the main file
+describe(".select(selector)", function() {
+  
+  it("should be a function", function() {
+    expect(typeof base.select).to.equal('function');
+  });
+  
+  it("can select some things", function() {
+    expect(base.find('li').closest('ul').nodes.length).to.equal(1);
+  });
+});
+

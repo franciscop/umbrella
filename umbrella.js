@@ -80,6 +80,7 @@ u.prototype.nodes = [];
 
 // Options
 u.options = {};
+
 /**
  * .addClass(name1, name2, ...)
  * 
@@ -497,12 +498,12 @@ u.prototype.is = function(selector){
 /**
  * Merge all of the returned nodes
  */
-u.prototype.join = function(callback) {
+u.prototype.join = function(selector) {
   
   return u(this.nodes.reduce(function(newNodes, node, i){
     
-    return newNodes.concat(callback(node, i));
-  }, []));
+    return newNodes.concat(selector(node, i));
+  }, [])).unique();
 };
 
 /**

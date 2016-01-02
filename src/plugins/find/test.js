@@ -12,4 +12,8 @@ describe(".find(selector)", function() {
   it("can select the list ul", function() {
     expect(base.find('ul').nodes.length).to.equal(1);
   });
+  
+  it("doesn't select duplicates", function(){
+    expect(u("*").find('.brand a').nodes.length).to.equal(1);
+  });
 });

@@ -279,7 +279,6 @@ describe(".closest(selector)", function() {
   });
   
   it("can select the children of ul", function() {
-    console.log(base.find('li').closest('ul'));
     expect(base.find('li').closest('ul').nodes.length).to.equal(1);
   });
 });
@@ -296,6 +295,10 @@ describe(".find(selector)", function() {
   
   it("can select the list ul", function() {
     expect(base.find('ul').nodes.length).to.equal(1);
+  });
+  
+  it("doesn't select duplicates", function(){
+    expect(u("*").find('.brand a').nodes.length).to.equal(1);
   });
 });
 // Testing the main file
@@ -382,10 +385,15 @@ describe(".is(selector)", function() {
     });
   });
 });
-// These are the different parts of the select
-// u.select(selector);
-// u.select.byId(id);
-// u.select.byClass(name);
-// u.select.byTag(id);
-// u.select.byCss(css);
-// 
+// Testing the main file
+describe(".select(selector)", function() {
+  
+  it("should be a function", function() {
+    expect(typeof base.select).to.equal('function');
+  });
+  
+  it("can select some things", function() {
+    expect(base.find('li').closest('ul').nodes.length).to.equal(1);
+  });
+});
+
