@@ -27,6 +27,7 @@ var u = function(parameter, context) {
   }
 
   // If we're referring a specific node as in click(){ u(this) }
+  // or the select() returned only one node
   if (parameter && parameter.nodeName) {
 
     // Store the node as an array
