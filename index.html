@@ -9,16 +9,24 @@
     <link href="web/picnic.css" rel="stylesheet">
     <link href="web/style.css" rel="stylesheet">
     <style>
-      html {
+      header {
         background: #adf url("web/cloud.svg") repeat top left;
         background-size: 480px 320px;
         animation: cloud 10s linear infinite;
       }
       
-      body {
+      .wrap {
+        width: 100%;
+        height: 100%;
         background: url("web/drop.svg") repeat top left;
         background-size: 60px 60px;
         animation: rain .5s linear infinite;
+      }
+      
+      h2 {
+        margin: 0px;
+        padding: 0;
+        line-height: 1;
       }
       
       @keyframes rain {
@@ -54,11 +62,35 @@
     
     
     <header class="hero">
-      <div class="content">
-        <h1>Umbrella JS</h1>
-        <p class="slogan">Lightweight and intuitive javascript library</p>
-        <a href="umbrella.min.js" class="button icon-download" download="umbrella.min.js">Download</a>
+      <div class="wrap">
+        <div class="content">
+          <h1>Umbrella JS</h1>
+          <p class="slogan">Lightweight and intuitive javascript library</p>
+          <a href="umbrella.min.js" class="button icon-download" download="umbrella.min.js">Download</a>
+        </div>
+        <div class="keepgoing">▼</div>
       </div>
     </header>
+    
+    <section class="row">
+      <div>
+        <h2>Tiny</h2>
+        <p><strong>2kb</strong> when minimized and gzipped means it will load in a snap on mobile platforms.</p>
+      </div>
+      <div>
+        <h2>Performant</h2>
+        <p><strong>2kb</strong> when minimized and gzipped code means it will load in a snap on mobile platforms.
+      </div>
+    </section>
+    
+    <section class="row">
+      <div>
+        <h2>Modern Library</h2>
+        <p>Under the libraIt's made with modern techniques so you can 
+      </div>
+      <pre>
+Hello world
+      </pre>
+    </section>
   </body>
 </html>

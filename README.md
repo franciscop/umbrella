@@ -8,12 +8,11 @@ You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a li
 
 ## Getting started
 
-Just download `umbrella.min.js`, include it in your html witih `<script src="umbrella.min.js"></script>` and you're good to go. After that, start using it:
+Just download `umbrella.min.js`, include it in your html with `<script src="umbrella.min.js"></script>` and you're good to go. After that, start using it:
 
 ```js
-u(".menu a:first-child").addClass('active');
-// or (more vanilla but slightly error-prone):
-u(".menu a:first-child").first().classList.add('active');
+u('.menu a:first-child').addClass('active');
+u('form').ajax(function(){ alert('Thanks!'); });
 ```
 
 
@@ -22,15 +21,8 @@ u(".menu a:first-child").first().classList.add('active');
 
 ## Performance
 
-
 Umbrella JS selector is faster than jQuery in some situations (Firefox) and similar in others (Chrome). This is possible by leveraging native methods where possible, but if you find any way to make it faster I'll welcome it greatly.
 
-Old tests (no CDN yet and hot-linking has been disabled): 
-  
-- classes: http://jsperf.com/umbrella-vs-jquery-class/2
-- tags: http://jsperf.com/umbrella-vs-jquery-tag/2
-- ids: http://jsperf.com/umbrella-vs-jquery-id/2
-- complex: http://jsperf.com/umbrella-vs-jquery-complex/2
 
 ## Compatibility
 
@@ -46,11 +38,6 @@ This is where there might be more compatibility issues:
 - [jQuery](https://jquery.com/)
 
 - [Zepto](http://zeptojs.com/) 
-
-
-## Contributing
-
-You are encouraged to contribute to Umbrella JS. To write a new plugin, just copy one of the existing ones (specially recommend "addclass") and modify the files.
 
 
 ## Author and License

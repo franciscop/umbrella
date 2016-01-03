@@ -34,6 +34,36 @@
   margin: 0 0 5px;
 }
 
+.hero .keepgoing {
+  color: #fff;
+  font-size: 2em;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  transition: all 0.5s ease 0s;
+  opacity: .7;
+  animation: bounce 1s ease infinite;
+}
+
+
+
+section.row {
+  background: #fff;
+  text-align: left;
+  width: 100%;
+  max-width: 960px;
+  margin: 80px auto;
+}
+
+
+
+@keyframes bounce {
+  from { bottom: 20px; }
+  70% { bottom: 10px; }
+  to { bottom: 20px; }
+}
+
 @media (max-width:60em) {
   nav .menu {
     min-height: 0;
