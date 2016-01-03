@@ -411,27 +411,12 @@ function isJson(jsonString){
     // but... JSON.parse(null) returns 'null', and typeof null === "object", 
     // so we must check for that, too.
     if (o && typeof o === "object" && o !== null) {
-        return o;
-      }
+      return o;
     }
-  catch (e) {}
+  } catch (e) {}
 
   return false;
-  }
-
-/**
- * node(selector)
- * 
- * Return the first matched HTML NODE; only for the brave
- * @param String selector same as in u(selector)
- * @return htmlNode the first matched node
- */
-function node(selector) {
-  
-  // Get the first from Umbrella JS
-  return u(selector).first();
-  }
-
+}
 
 /**
  * .hasClass(name)

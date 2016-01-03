@@ -15,12 +15,25 @@
         animation: cloud 10s linear infinite;
       }
       
+      nav.transparent {
+        background: transparent;
+        box-shadow: none;
+      }
+      
       .wrap {
         width: 100%;
         height: 100%;
         background: url("web/drop.svg") repeat top left;
         background-size: 60px 60px;
         animation: rain .5s linear infinite;
+      }
+      
+      .bower {
+        width: 300px;
+        color: #000;
+        text-align: center;
+        border-radius: 0px;
+        margin: 1.3em auto 0.3em;
       }
       
       h2 {
@@ -41,7 +54,7 @@
     </style>
   </head>
   <body>
-    <nav>
+    <nav class="transparent">
       <div class="brand">
         <img src="web/umbrella.svg" class="logo">
         <a href="/">Umbrella JS</a>
@@ -65,8 +78,14 @@
       <div class="wrap">
         <div class="content">
           <h1>Umbrella JS</h1>
-          <p class="slogan">Lightweight and intuitive javascript library</p>
-          <a href="umbrella.min.js" class="button icon-download" download="umbrella.min.js">Download</a>
+          <p class="slogan">Tiny and intuitive javascript library</p>
+          <pre class="bower">bower install umbrella</pre>
+          <p class="links">
+            <a href="http://www.jsdelivr.com/#!picnicss" target="_blank" class="cdn">CDN</a>
+            <span> | </span>
+            <a href="umbrella.min.js" target="_blank" class="github">Download</a>
+            <span> | </span>
+            <a href="https://github.com/umbrellajs/umbrella" target="_blank" class="github">Github</a></p>
         </div>
         <div class="keepgoing">▼</div>
       </div>
@@ -74,23 +93,71 @@
     
     <section class="row">
       <div>
-        <h2>Tiny</h2>
-        <p><strong>2kb</strong> when minimized and gzipped means it will load in a snap on mobile platforms.</p>
+        <h2>Intuitive</h2>
+        <p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at easy developing with Umbrella.</p>
+        <p>However there are also some improvements to make your code concise. Check everything in the documentation:</p>
+        <a href="https://github.com/umbrellajs/umbrella/blob/master/documentation.md" class="button icon-doc" target="_blank">Documentation</a>
       </div>
       <div>
-        <h2>Performant</h2>
-        <p><strong>2kb</strong> when minimized and gzipped code means it will load in a snap on mobile platforms.
+        <pre>
+// Simple events like jquery
+u("button").click(function(){
+  alert("Hello world");
+});
+
+// Send form through ajax when submitted
+u('form.login').ajax(function(res){
+  window.href = '/user/' + res.id;
+});</pre>
       </div>
     </section>
     
     <section class="row">
       <div>
-        <h2>Modern Library</h2>
-        <p>Under the libraIt's made with modern techniques so you can 
+        <h2>Tiny and Performant</h2>
+        <p><strong>2kb</strong> when minimized and gzipped means it will load in a snap on mobile platforms.</p>
+        <p>The speed is similar to jquery and there are many tests, including performance ones. Check them out:</p>
+        <a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source</a>
+        <a href="/test" class="button icon-ok">Tests</a>
       </div>
-      <pre>
-Hello world
-      </pre>
+      <div>
+        <pre>
+it("can select by class", function() {
+  expect(u('.demo').nodes.length).to.equal(1);
+});
+
+it("can select by tag", function() {
+  expect(u('body').nodes.length).to.equal(1);
+});</pre>
+      </div>
     </section>
+    
+    
+    <section class="row">
+      <div>
+        <h2>MIT License</h2>
+        <p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>
+        <a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source</a>
+        <a href="/test" class="button icon-ok">Tests</a>
+      </div>
+      <div>
+        <h2>MIT License</h2>
+        <p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>
+        <a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source</a>
+        <a href="/test" class="button icon-ok">Tests</a>
+      </div>
+    </section>
+    
+    
+    <script src="umbrella.js"></script>
+    <script>
+      window.onscroll = function(e){
+        if (e.pageY === 0) {
+          u('nav').addClass('transparent');
+        } else {
+          u('nav').removeClass('transparent');
+        }
+      };
+    </script>
   </body>
 </html>

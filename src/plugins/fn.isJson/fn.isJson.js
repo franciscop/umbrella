@@ -13,10 +13,9 @@ function isJson(jsonString){
     // but... JSON.parse(null) returns 'null', and typeof null === "object", 
     // so we must check for that, too.
     if (o && typeof o === "object" && o !== null) {
-        return o;
-      }
+      return o;
     }
-  catch (e) {}
+  } catch (e) {}
 
   return false;
-  }
+}
