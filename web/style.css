@@ -1,4 +1,6 @@
-
+body {
+  font-size: .95em;
+}
 
 .brand a, .brand a:hover, .brand a:active {
   color: #333;
@@ -34,19 +36,9 @@
 }
 
 .hero .links a {
-  color: #111;
-  transition: all 0.3s ease 0s;
-  box-shadow: 0px 2px rgba(255, 255, 255, 0.5);
+  text-shadow: none;
 }
 
-.hero .links a:hover {
-  text-shadow: 0.05em 0.05em 0.2em rgba(255, 255, 255, 1);
-}
-
-.hero .links a:active {
-  background: none;
-  border-radius: 0;
-}
 
 .hero .slogan {
   font-size: 1.3em;
@@ -70,11 +62,59 @@
 section.row {
   background: #fff;
   text-align: left;
-  width: 100%;
+  width: 90%;
   max-width: 960px;
   margin: 80px auto;
 }
 
+
+
+header {
+  background: #adf url("../web/cloud.svg") repeat top left;
+  background-size: 480px 320px;
+  animation: cloud 10s linear infinite;
+}
+
+nav.transparent {
+  background: transparent;
+  box-shadow: none;
+}
+
+.wrap {
+  width: 100%;
+  height: 100%;
+  background: url("../web/drop.svg") repeat top left;
+  background-size: 60px 60px;
+  animation: rain .5s linear infinite;
+}
+
+.install {
+  width: 250px;
+  color: #000;
+  text-align: center;
+  border-radius: 0px;
+  margin: 1.3em auto 0.3em;
+}
+
+h2 {
+  margin: 0px;
+  padding: 0;
+  line-height: 1;
+}
+
+pre {
+  margin: 0;
+}
+
+@keyframes rain {
+  from { background-position: 0 0; }
+  to { background-position: -60px 60px; }
+}
+
+@keyframes cloud {
+  from { background-position: 0 0; }
+  to { background-position: -480px 0; }
+}
 
 
 @keyframes bounce {

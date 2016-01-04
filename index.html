@@ -8,50 +8,6 @@
     <link href="web/fontello.css" rel="stylesheet">
     <link href="web/picnic.css" rel="stylesheet">
     <link href="web/style.css" rel="stylesheet">
-    <style>
-      header {
-        background: #adf url("web/cloud.svg") repeat top left;
-        background-size: 480px 320px;
-        animation: cloud 10s linear infinite;
-      }
-      
-      nav.transparent {
-        background: transparent;
-        box-shadow: none;
-      }
-      
-      .wrap {
-        width: 100%;
-        height: 100%;
-        background: url("web/drop.svg") repeat top left;
-        background-size: 60px 60px;
-        animation: rain .5s linear infinite;
-      }
-      
-      .bower {
-        width: 300px;
-        color: #000;
-        text-align: center;
-        border-radius: 0px;
-        margin: 1.3em auto 0.3em;
-      }
-      
-      h2 {
-        margin: 0px;
-        padding: 0;
-        line-height: 1;
-      }
-      
-      @keyframes rain {
-        from { background-position: 0 0; }
-        to { background-position: -60px 60px; }
-      }
-      
-      @keyframes cloud {
-        from { background-position: 0 0; }
-        to { background-position: -480px 0; }
-      }
-    </style>
   </head>
   <body>
     <nav>
@@ -79,13 +35,9 @@
         <div class="content">
           <h1>Umbrella JS</h1>
           <p class="slogan">Tiny and intuitive javascript library</p>
-          <pre class="bower">bower install umbrella</pre>
-          <p class="links">
-            <a href="http://www.jsdelivr.com/projects/umbrella" target="_blank">CDN</a>
-            <span> | </span>
-            <a href="umbrella.min.js" target="_blank" download="umbrella.min.js">Download</a>
-            <span> | </span>
-            <a href="https://github.com/umbrellajs/umbrella" target="_blan">Github</a></p>
+          <pre class="install">bower install umbrella</pre>
+          <a href="http://www.jsdelivr.com/projects/umbrella" class="button icon-link" target="_blank">CDN</a>
+          <a href="umbrella.min.js" class="button icon-download" target="_blank" download="umbrella.min.js">Download</a>
         </div>
         <div class="keepgoing">▼</div>
       </div>
@@ -94,8 +46,8 @@
     <section class="row">
       <div>
         <h2>Intuitive</h2>
-        <p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at easy developing with Umbrella.</p>
-        <p>However there are also some improvements to make your code concise. Check everything in the documentation:</p>
+        <p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at ease developing with Umbrella.</p>
+        <p>However there are also some improvements to make your code intuitive. Check everything in the documentation:</p>
         <a href="https://github.com/umbrellajs/umbrella/blob/master/documentation.md" class="button icon-doc" target="_blank">Documentation</a>
       </div>
       <div>
@@ -114,10 +66,28 @@ u('form.login').ajax(function(res){
     
     <section class="row">
       <div>
-        <h2>Tiny and Performant</h2>
-        <p><strong>2kb</strong> when minimized and gzipped means it will load in a snap on mobile platforms.</p>
+        <h2>Tiny and Clear</h2>
+        <p><strong>2kb</strong> when minimized and gzipped means it will load in a snap even on mobile. The core is reusable so new features are also tiny.</p>
+        <p>Just check those two features or the source code itself, which is highly commented and documented:</p>
+        <a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source on Github</a>
+      </div>
+      <div>
+        <pre>
+// Add child after all of the current nodes
+u.prototype.after = function(text) {
+  return this.adjacent('afterend', text);
+};
+// Check if any of the nodes matches the selector
+u.prototype.is = function(selector){
+  return this.filter(selector).nodes.length > 0;
+};</pre>
+      </div>
+    </section>
+    
+    <section class="row">
+      <div>
+        <h2>Tested and Performant</h2>
         <p>The speed is similar to jquery and there are many tests, including performance ones. Check them out:</p>
-        <a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source</a>
         <a href="/test" class="button icon-ok">Tests</a>
       </div>
       <div>
@@ -137,7 +107,7 @@ it("can select by tag", function() {
       <div>
         <h2>MIT License</h2>
         <p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>
-        <a href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE" class="button icon-doc">Source</a>
+        <a href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE" class="button icon-info">MIT License</a>
       </div>
       <div>
         <h2>Thanks</h2>
