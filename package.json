@@ -1,6 +1,6 @@
 {
   "name": "umbrella",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "homepage": "http://umbrellajs.com/",
   "authors": [ "Francisco Presencia <developerfrancisco@hotmail.com>" ],
   "description": "Lightweight and intuitive javascript library",
