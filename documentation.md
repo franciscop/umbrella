@@ -25,7 +25,7 @@ var $ = u;
 ```
 
 
-It plays well with other libraries, including jquery. For example, with [pagex.js](github.com/franciscop/pagex):
+It plays well with other libraries, including jquery. For example, with [pagex.js](http://github.com/franciscop/pagex):
 
 ```js
 // When we are on the page "/login"
