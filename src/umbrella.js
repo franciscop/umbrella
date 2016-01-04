@@ -56,11 +56,13 @@ u.prototype.slice = function(pseudo){
   return pseudo ? Array.prototype.slice.call(pseudo, 0) : [];
 };
 
-// Normalize the arguments to a string of comma separated elements
-// Allow for several class names like "a b c" and several parameters
+// Normalize the arguments to an array
+// Allow for several class names like "a b, c" and several parameters
 // toString() is to flatten the array: http://stackoverflow.com/q/22920305
 u.prototype.args = function(args){
-  return this.slice(args).toString().split(/[\s,]+/);
+  
+  return ((typeof args === 'string') ? args : this.slice(args))
+    .toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique
@@ -71,6 +73,20 @@ u.prototype.unique = function(){
   }, []));
 };
 
+// Parametize an object
+u.prototype.param = function(obj){
+  
+  // Encode the values https://gist.github.com/brettz9/7147458
+  function en(str) {
+    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+  }
+  
+  var query = '';
+  for(var key in obj) {
+    query += '&' + en(key) + '=' + en(obj[key]);
+  }
+  return query.slice(1);
+}
 
 // This also made the code faster
 // Read "Initializing instance variables" in https://developers.google.com/speed/articles/optimizing-javascript

@@ -1,6 +1,6 @@
 ## .hasClass()
 
-**Find if any of the matched elements contains the class passed:**
+Find if any of the matched elements contains the class passed:
 
 ```js
 .hasClass(name1, name2)

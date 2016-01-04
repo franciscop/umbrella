@@ -1,6 +1,6 @@
 ## .attr()
 
-**Handle attributes for the matched elements**
+Handle attributes for the matched elements
 
 ```js
 // GET
@@ -8,7 +8,7 @@
 
 // SET
 .attr('name', 'value');
-.attr({ name: 'value', name2: 'value2' });
+.attr({ name1: 'value', name2: 'value2' });
 ```
 
 
@@ -25,24 +25,29 @@
 
 ### Return
 
+*GET*
+`string`: the value of the attribute
+
+*SET*
 `u`: returns the same instance of Umbrella JS
 
 
 
 ### Examples
 
-Add a separator `<hr>` after each of the main titles h1:
+Get the alt of an image:
 
 ```js
-u("h1").after("<hr>");
+u('img.hero').attr('alt');
 ```
 
+Set the src of all of the images:
+
+```js
+u('img').attr({ src: 'demo.jpg' });
+```
 
 
 ### Related
 
-[.before(html)](#before)
-
-[.append(html)](#append)
-
-[.prepend(html)](#prepend)
+[.html(html)](#html)

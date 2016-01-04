@@ -18,32 +18,32 @@ describe("u(selector, context)", function() {
     expect(u('.demo').nodes.length).to.equal(1);
   });
   
-  it("select by class 100.000/second", function() {
-    
-    var init = new Date().getTime();
-    for (var i = 0; i < 10000; i++) {
-      u('.demo');
-    }
-    var uTime = new Date().getTime() - init;
-    
-    expect(uTime).to.be.below(100, uTime + ' ms');
-  });
-  
-  it("select by class is comparable to jquery (50% margin)", function() {
-    
-    var init = new Date().getTime();
-    for (var i = 0; i < 10000; i++) {
-      u('.demo');
-    }
-    var uTime = new Date().getTime() - init;
-    init = new Date().getTime();
-    for (var j = 0; j < 10000; j++) {
-      $('.demo');
-    }
-    var $Time = new Date().getTime() - init;
-    
-    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-  });
+  // it("select by class 100.000/second", function() {
+  //   
+  //   var init = new Date().getTime();
+  //   for (var i = 0; i < 10000; i++) {
+  //     u('.demo');
+  //   }
+  //   var uTime = new Date().getTime() - init;
+  //   
+  //   expect(uTime).to.be.below(100, uTime + ' ms');
+  // });
+  // 
+  // it("select by class is comparable to jquery (50% margin)", function() {
+  //   
+  //   var init = new Date().getTime();
+  //   for (var i = 0; i < 10000; i++) {
+  //     u('.demo');
+  //   }
+  //   var uTime = new Date().getTime() - init;
+  //   init = new Date().getTime();
+  //   for (var j = 0; j < 10000; j++) {
+  //     $('.demo');
+  //   }
+  //   var $Time = new Date().getTime() - init;
+  //   
+  //   expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+  // });
   
   it("can select by tag", function() {
     expect(u('body').nodes.length).to.equal(1);
@@ -77,8 +77,7 @@ describe(".addClass(name1, name2, ...)", function() {
   });
   
   afterEach(function(){
-    base.removeClass('bla');
-    base.removeClass('blu');
+    base.removeClass('bla blu');
   });
   
   it("should be defined", function() {
@@ -149,6 +148,17 @@ describe(".after(html)", function() {
     expect(base.parent().find('.base ~ .bla').nodes.length).to.equal(1);
   });
 });
+
+u('form.login').ajax(function(e){
+  console.log("Success");
+}, function(e){
+  console.log("Error");
+}, function(e){
+  console.log("Before");
+});
+
+u('form.login').trigger('submit');
+
 // Testing the main file
 describe(".append(html)", function() {
   
@@ -314,6 +324,65 @@ describe(".first()", function() {
   
   it("can get the first li and it's a LI", function() {
     expect(base.find("li").first().nodeName).to.equal('LI');
+  });
+});
+// Testing the main file
+describe(".addClass(name1, name2, ...)", function() {
+  
+  beforeEach(function(){
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+  
+  afterEach(function(){
+    base.removeClass('bla');
+    base.removeClass('blu');
+  });
+  
+  it("should be defined", function() {
+    expect(typeof base.addClass).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    base.addClass();
+    base.addClass("");
+    base.addClass([]);
+    base.addClass("","");
+    base.addClass(" ");
+  });
+
+  it("adds a class", function() {
+    base.addClass('bla');
+    expect(base.hasClass('bla')).to.equal(true);
+  });
+
+  it("adds several classes as arguments", function() {
+    base.addClass('bla', 'blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("adds several classes with an array", function() {
+    base.addClass(['bla', 'blu']);
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("adds several classes separated by space", function() {
+    base.addClass('bla blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("adds several classes separated by comma", function() {
+    base.addClass('bla,blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("adds several classes separated by comma", function() {
+    len = base.addClass('bla,blu').nodes.length;
+    expect(len).to.equal(1);
   });
 });
 // Testing the main file

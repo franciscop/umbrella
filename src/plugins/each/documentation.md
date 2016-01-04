@@ -1,0 +1,38 @@
+## .each()
+
+Loop through all of the nodes and execute a callback for each
+
+```js
+.each(callback);
+```
+
+
+### Parameters
+
+`callback`: the function that will be called. It accepts two parameters, the node and the index, and the context for `this` is Umbrella's instance so other methods like `this.args()` and `this.slice()` are available.
+
+```js
+.each(function(node, i){
+  // work
+});
+```
+
+
+
+### Return
+
+`u`: returns an instance of Umbrella JS with the same nodes
+
+
+
+### Examples
+
+Loop through all of the links and add them a `target="_blank"`:
+
+```js
+u('a').each(function(node, i){
+  if (!/^\//.test(node.attr('href'))){
+    u(node).attr({ target: '_blank' });
+  }
+});
+```

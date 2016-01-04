@@ -4,7 +4,5 @@
  */
 u.prototype.first = function() {
   
-  if (this.nodes.length > 0) {
-    return this.nodes[0];
-    }
-  };
+  return this.nodes[0] || false;
+};

@@ -46,7 +46,7 @@ page(/^login/, function(){
 
 ## .addClass()
 
-**Add html class(es) to each of the matched elements.**
+Add html class(es) to all of the matched elements.
 
 ```js
 .addClass('name1');
@@ -80,8 +80,6 @@ u("h2").addClass("main");
 Add the class `toValidate` and `ajaxify` to all the `<form>` present in the page:
 
 ```js
-u("form").addClass("toValidate ajaxify");
-// or
 u("form").addClass("toValidate", "ajaxify");
 ```
 
@@ -95,7 +93,7 @@ u("form").addClass("toValidate", "ajaxify");
 
 ## .after()
 
-**Add some html as a sibling after each of the matched elements.**
+Add some html as a sibling after each of the matched elements.
 
 ```js
 .after(html);
@@ -134,7 +132,9 @@ u("h1").after("<hr>");
 
 ## .ajax()
 
-**Make a regular form to be submitted by ajax with the same method and values**
+Make all of the matched forms to be submitted by ajax with the same method and values when the user submits the form.
+
+> Note: this method does NOT submit the form, it just handles it when it's submitted (from the user or with .trigger())
 
 ```js
 .ajax(success, error, before);
@@ -152,7 +152,7 @@ var success = function(body){};
 `error` [optional]: A function that is called if the request has an error. The first parameter is an error.
 
 ```js
-var error = function(code){};
+var error = function(httpCode){};
 ```
 
 `before` [optional]: A function to be called before the request is sent. Useful to manipulate some data in real-time.
@@ -170,7 +170,7 @@ var before = function(code){};
 
 ### Examples
 
-Submit your email through ajax
+Handle the newsletter through ajax
 
 ```js
 u('.newsletter').ajax(function(){
@@ -180,9 +180,16 @@ u('.newsletter').ajax(function(){
 });
 ```
 
+Actually send a form through ajax:
+
+```js
+u('form.edit').ajax(function(){ console.log('Saved!'); });
+u('form.edit').trigger('submit');
+```
+
 ## .append()
 
-**Add some html as a child at the end of each of the matched elements.**
+Add some html as a child at the end of each of the matched elements.
 
 ```js
 .append(html);
@@ -203,7 +210,7 @@ u('.newsletter').ajax(function(){
 
 ### Examples
 
-Add a footer `<hr>` to each of the articles
+Add a footer to each of the articles
 
 ```js
 u("article").after("<footer>Hello world</footer>");
@@ -221,7 +228,7 @@ u("article").after("<footer>Hello world</footer>");
 
 ## .attr()
 
-**Handle attributes for the matched elements**
+Handle attributes for the matched elements
 
 ```js
 // GET
@@ -229,7 +236,7 @@ u("article").after("<footer>Hello world</footer>");
 
 // SET
 .attr('name', 'value');
-.attr({ name: 'value', name2: 'value2' });
+.attr({ name1: 'value', name2: 'value2' });
 ```
 
 
@@ -246,32 +253,289 @@ u("article").after("<footer>Hello world</footer>");
 
 ### Return
 
+*GET*
+`string`: the value of the attribute
+
+*SET*
 `u`: returns the same instance of Umbrella JS
 
 
 
 ### Examples
 
-Add a separator `<hr>` after each of the main titles h1:
+Get the alt of an image:
 
 ```js
-u("h1").after("<hr>");
+u('img.hero').attr('alt');
+```
+
+Set the src of all of the images:
+
+```js
+u('img').attr({ src: 'demo.jpg' });
+```
+
+
+### Related
+
+[.html(html)](#html)
+
+## .before()
+
+Add some html before of each of the matched elements.
+
+```js
+.before(html);
+```
+
+
+### Parameters
+
+`html`: a string containing the html that is going to be inserted.
+
+
+
+### Return
+
+`u`: returns the same instance of Umbrella JS
+
+
+
+### Examples
+
+Add a header to each of the articles
+
+```js
+u("article").after("<header>Hello world</header>");
 ```
 
 
 
 ### Related
 
-[.before(html)](#before)
+- [.after(html)](#after)
 
-[.append(html)](#append)
+- [.append(html)](#append)
 
-[.prepend(html)](#prepend)
+- [.prepend(html)](#prepend)
+## .children()
 
+Get the direct children of all of the nodes with an optional filter
+
+```js
+.children(filter);
+```
+
+
+### Parameters
+
+`filter`: a string containing a selector that nodes must pass or a function that return a boolean. See [.filter()](#filter) for a better explanation
+
+
+
+### Return
+
+`u`: returns an instance of Umbrella JS with the new children as nodes
+
+
+
+### Examples
+
+Get the first `<li>` of every `<ul>`
+
+```js
+u("ul").children('li:first-child');
+```
+
+
+
+### Related
+
+- [.parent(filter)](#parent) get all of the direct parents
+
+- [.find(filter)](#find) get all of the descendants of the matched nodes
+
+- [.closest(filter)](#closest) get the first ascendant that matches the selector
+## .closest()
+
+Find the first matched node for each node
+
+```js
+.closest(filter);
+```
+
+
+### Parameters
+
+`filter`: a string containing a selector that nodes must pass or a function that return a boolean. See [.filter()](#filter) for a better explanation
+
+
+
+### Return
+
+`u`: returns an instance of Umbrella JS with the new ancestors as nodes
+
+
+
+### Examples
+
+Get the ul of every li
+
+```js
+u("li").closest('ul');
+```
+
+
+
+### Related
+
+- [.find(filter)](#find) get all of the descendants of the matched nodes
+
+- [.parent(filter)](#parent) get all of the direct parents
+
+- [.children(filter)](#children) get the direct children of all of the nodes with an optional filter
+
+## .each()
+
+Loop through all of the nodes and execute a callback for each
+
+```js
+.each(callback);
+```
+
+
+### Parameters
+
+`callback`: the function that will be called. It accepts two parameters, the node and the index, and the context for `this` is Umbrella's instance so other methods like `this.args()` and `this.slice()` are available.
+
+```js
+.each(function(node, i){
+  // work
+});
+```
+
+
+
+### Return
+
+`u`: returns an instance of Umbrella JS with the same nodes
+
+
+
+### Examples
+
+Loop through all of the links and add them a `target="_blank"`:
+
+```js
+u('a').each(function(node, i){
+  if (!/^\//.test(node.attr('href'))){
+    u(node).attr({ target: '_blank' });
+  }
+});
+```
+## .filter()
+
+Remove unwanted nodes
+
+```js
+.filter(filter)
+```
+
+
+### Parameters
+
+`filter`: it can be two things:
+  - css selector that each of the nodes must match to stay
+  - function that returns a boolean with true to keep the element. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available:
+  
+```js
+.filter(function(node, index){
+  // your code
+});
+```
+
+
+### Examples
+
+Get only the active links
+
+```js
+var links = u('a').filter('.active');
+```
+
+Get all of the paragraphs with a link:
+
+```js
+var paragraphs = u('p').filter(function(node){
+  return u(node).find('a').nodes.length > 0;
+});
+```
+
+Filter the inputs to those with an answer above 5 and show an error:
+
+```js
+u('input').filter(function(node, i){
+  if (parseInt(u(node).html()) > 5) {
+    return true;
+  }
+}).addClass('error');
+```
+
+
+### Related
+
+- [.is(filter)](#is) check whether one or more of the nodes is of one type
+
+## .find()
+
+Get all of the descendants of the nodes with an optional filter
+
+```js
+.find(filter);
+```
+
+
+### Parameters
+
+`filter`: a string containing a selector that nodes must pass or a function that return a boolean. See [.filter()](#filter) for a better explanation
+
+
+
+### Return
+
+`u`: returns an instance of Umbrella JS with the new children as nodes
+
+
+
+### Examples
+
+Get all of the links within a paragraph
+
+```js
+u("p").find('a');
+```
+
+Get the required fields within a submitting form:
+
+```js
+u('form').on('submit', function(e){
+  var required = u(this).find('[required]');
+});
+```
+
+
+
+### Related
+
+- [.closest(filter)](#closest) get the first ascendant that matches the selector
+
+- [.parent(filter)](#parent) get all of the direct parents
+
+- [.children(filter)](#find) get the direct child of the matched nodes
 
 ## .hasClass()
 
-**Find if any of the matched elements contains the class passed:**
+Find if any of the matched elements contains the class passed:
 
 ```js
 .hasClass(name1, name2)
@@ -332,3 +596,137 @@ Toggle the color of a button depending on the status
       });
     </script>
 ```
+## .html()
+
+Retrieve or set the html of the elements:
+
+
+```js
+// GET
+.html();
+
+// SET
+.html(html);
+```
+
+
+### Parameters
+
+*GET*
+should pass no parameter so it retrieves the html.
+
+*SET*
+`html`: the new value that you want to set
+
+
+
+### Return
+
+*GET*
+`string`: the html of the first node
+
+*SET*
+`u`: returns the same instance of Umbrella JS
+
+
+
+### Examples
+
+Get the main title:
+
+```js
+var title = u('h1').html();
+```
+
+Set the main title:
+
+```js
+u('h1').html('Hello world');
+```
+
+
+### Related
+
+[.attr(html)](#attr)
+
+## .removeClass
+
+Remove html class(es) to all of the matched elements.
+
+```js
+.removeClass('name1');
+.removeClass('name1 name2 nameN');
+.removeClass('name1,name2,nameN');
+.removeClass('name1', 'name2', 'nameN');
+.removeClass(['name1', 'name2', 'nameN']);
+.removeClass(['name1', 'name2'], ['name3'], ['nameN']);
+```
+
+
+### Parameters
+
+`name1`, `name2`, `nameN`: the class name (or variable containing it) to be removed to all of the matched elements. It accepts many different types of parameters (see above).
+
+
+
+### Return
+
+`u`: returns the same instance of Umbrella JS
+
+
+
+### Examples
+
+Remove the class `main` to all the `<h2>` from the page:
+
+```js
+u("h2").removeClass("main");
+```
+
+Remove the class `toValidate` and `ajaxify` to all the `<form>` present in the page:
+
+```js
+u("form").removeClass("toValidate", "ajaxify");
+```
+
+### Related
+
+[.addClass(name)](#addclass) adds class(es) from the matched elements.
+
+[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+
+## .trigger
+
+```js
+.trigger('submit')
+.trigger(new Event('submit', {}));
+```
+
+Calls an event on all of the matched nodes
+
+### Parameters
+
+The only parameter that it accepts is either an event name such as `click`, `submit`, `change`, etc or an event itself.
+
+### Return
+
+Umbrella instance
+
+### Examples
+
+An auto-save feature that submits the form through ajax every 10 seconds
+
+```js
+// Make the form to submit through ajax
+u('form.edit').ajax();
+
+// Submit it every 10s
+setInterval(function(){
+  u('form.edit').trigger('submit');
+}, 10000);
+```
+
+
+### Related
+
+[.on()](#on) add an event listener to thematched nodes

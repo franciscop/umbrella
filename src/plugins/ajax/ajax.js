@@ -9,20 +9,12 @@
 u.prototype.ajax = function(success, error, before) {
   
   // Loop through all the nodes
-  this.on("submit", function(e) {
+  return this.on("submit", function(e) {
     
     // Stop the browser from sending the request
     e.preventDefault();
     
     // Post the actual data
-    ajax(
-      u(this).attr("action"),
-      u(this).serialize(),
-      success,
-      error,
-      before
-    );
+    ajax(u(this).attr("action"), u(this).serialize(), success, error, before);
   });
-  
-  return this;
 };

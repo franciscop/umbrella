@@ -56,11 +56,13 @@ u.prototype.slice = function(pseudo){
   return pseudo ? Array.prototype.slice.call(pseudo, 0) : [];
 };
 
-// Normalize the arguments to a string of comma separated elements
-// Allow for several class names like "a b c" and several parameters
+// Normalize the arguments to an array
+// Allow for several class names like "a b, c" and several parameters
 // toString() is to flatten the array: http://stackoverflow.com/q/22920305
 u.prototype.args = function(args){
-  return this.slice(args).toString().split(/[\s,]+/);
+  
+  return ((typeof args === 'string') ? args : this.slice(args))
+    .toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique
@@ -71,6 +73,20 @@ u.prototype.unique = function(){
   }, []));
 };
 
+// Parametize an object
+u.prototype.param = function(obj){
+  
+  // Encode the values https://gist.github.com/brettz9/7147458
+  function en(str) {
+    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+  }
+  
+  var query = '';
+  for(var key in obj) {
+    query += '&' + en(key) + '=' + en(obj[key]);
+  }
+  return query.slice(1);
+}
 
 // This also made the code faster
 // Read "Initializing instance variables" in https://developers.google.com/speed/articles/optimizing-javascript
@@ -89,17 +105,17 @@ u.options = {};
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
-u.prototype.addClass = function(){
+u.prototype.addClass = function(args){
   
   // Normalize the arguments to a simple array
-  var args = this.args(arguments);
+  args = this.args(arguments);
   
   // Loop through all the nodes
   return this.each(function(el){
     
     // Loop and add each of the classes
     args.forEach(function(name){
-      if (name) el.classList.add(name);
+      el.classList.add(name);
     });
   });
 };
@@ -117,8 +133,8 @@ u.prototype.adjacent = function(position, text) {
     // http://stackoverflow.com/a/23589438
     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
     node.insertAdjacentHTML(position, text);
-    });
-  };
+  });
+};
 
 /**
  * .after(html)
@@ -143,22 +159,14 @@ u.prototype.after = function(text) {
 u.prototype.ajax = function(success, error, before) {
   
   // Loop through all the nodes
-  this.on("submit", function(e) {
+  return this.on("submit", function(e) {
     
     // Stop the browser from sending the request
     e.preventDefault();
     
     // Post the actual data
-    ajax(
-      u(this).attr("action"),
-      u(this).serialize(),
-      success,
-      error,
-      before
-    );
+    ajax(u(this).attr("action"), u(this).serialize(), success, error, before);
   });
-  
-  return this;
 };
 
 /**
@@ -215,10 +223,8 @@ u.prototype.attr = function(name, value) {
  */
 u.prototype.before = function(html) {
   
-  this.adjacent('beforebegin', html);
-  
-  return this;
-  };
+  return this.adjacent('beforebegin', html);
+};
 
 /**
  * .children()
@@ -233,22 +239,6 @@ u.prototype.children = function(selector) {
   return this.join(function(node){
     return self.slice(node.children);
   }).filter(selector);
-};
-
-
-/**
- * .click(callback)
- * 
- * Alternative name for .on('click', callback)
- * @param function callback function called when the event triggers
- * @return this Umbrella object
- */
-u.prototype.click = function(callback) {
-  
-  // Loop through all the nodes
-  this.on('click', callback);
-  
-  return this;
 };
 
 
@@ -270,7 +260,7 @@ u.prototype.closest = function(selector) {
       }
     } while (node = node.parentNode)
     
-  }).unique();
+  });
 };
 
 /**
@@ -288,8 +278,8 @@ u.prototype.each = function(callback) {
     // Perform the callback for this node
     // By doing callback.call we allow "this" to be the context for
     // the callback (see http://stackoverflow.com/q/4065353 precisely)
-    callback.call(node, node, i);
-  });
+    callback.call(this, node, i);
+  }, this);
   
   return this;
 };
@@ -329,10 +319,8 @@ u.prototype.find = function(selector) {
  */
 u.prototype.first = function() {
   
-  if (this.nodes.length > 0) {
-    return this.nodes[0];
-    }
-  };
+  return this.nodes[0] || false;
+};
 
 /**
 * ajax(url, data, success, error, before);
@@ -346,6 +334,8 @@ u.prototype.first = function() {
 */
 function ajax(url, data, success, error, before) {
   
+  if (typeof data != 'string') u().param(data);
+  
   // Make them truly optional
   var nf = function(){};
   success = success || nf;
@@ -355,9 +345,6 @@ function ajax(url, data, success, error, before) {
   // Load the callback before anything happens
   before();
   
-  // Add the umbrella parameter
-  data = data + "&umbrella=true";
-  
   // Create and send the actual request
   var request = new XMLHttpRequest();
   
@@ -366,51 +353,36 @@ function ajax(url, data, success, error, before) {
   
   request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
   
-  request.send(data);
-  
   // When the request is sent
   request.onload = function() {
     
-    var status = this.status;
-    
     // Error
-    if (status < 200 || status >= 400) {
-      error(status);
-      
-      return false;
+    if (this.status < 200 || this.status >= 400) {
+      return error(this.status);
     }
     
-    var rawresponse = this.response;
-    
-    // Check if valid json
-    if (!isJson(rawresponse)) {
-      console.log("Response isn't json");
-      success(rawresponse);
-      return false;
-    }
-    
-    // The response is right
-    success(JSON.parse(rawresponse));
+    return success(parseJson(this.response) || this.response);
   };
+  
+  request.send(data);
   
   return request;
 }
 
 /**
- * isJson(json)
+ * parseJson(json)
  * 
- * Check wether the passed string is valid json or not
+ * Parse JSON without throwing an error
  * @param String json the string to check
- * @return boolean true if the string is json
+ * @return object from the json or false
  */
-function isJson(jsonString){
+function parseJson(jsonString){
   try {
     var o = JSON.parse(jsonString);
     // Handle non-exception-throwing cases:
-    // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-    // but... JSON.parse(null) returns 'null', and typeof null === "object", 
+    // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking
     // so we must check for that, too.
-    if (o && typeof o === "object" && o !== null) {
+    if (o && typeof o === "object") {
       return o;
     }
   } catch (e) {}
@@ -425,31 +397,20 @@ function isJson(jsonString){
  * @param String name the class name we want to find
  * @return boolean wether the nodes have the class or not
  */
-u.prototype.hasClass = function() {
+u.prototype.hasClass = function(names) {
   
-  // Default value
-  var doesItContain = false;
-  var names = this.args(arguments);
+  names = this.args(arguments);
   
-  // Loop through all of the matched elements
-  this.each(function(){
+  // Attempt to find a node that passes the conditions
+  return this.nodes.some(function(node){
     
-    var elemHasClass = true;
-    
-    // Check for multiple classes
-    names.forEach(function(value){
+    // Check if the current node has all of the classes
+    return names.every(function(name){
       
-      // This check is needed to avoid setting it to false
-      if (!this.classList.contains(value))
-        
-        // Store the value
-        elemHasClass = false;
-    }, this);
-    
-    if (elemHasClass) doesItContain = true;
+      //  Check whether
+      return node.classList.contains(name)
+    });
   });
-  
-  return doesItContain;
 };
 
 /**
@@ -461,16 +422,17 @@ u.prototype.hasClass = function() {
  */
 u.prototype.html = function(text) {
   
-  // Get the text from the first node
-  if (text === undefined) return this.first().innerHTML || "";
+  // Needs to check undefined as it might be ""
+  if (text === undefined)
+    return this.first().innerHTML || "";
   
   
   // If we're attempting to set some text  
   // Loop through all the nodes
-  return this.each(function() {
+  return this.each(function(node) {
     
     // Set the inner html to the node
-    this.innerHTML = text;
+    node.innerHTML = text;
   });
 };
 
@@ -502,22 +464,12 @@ u.prototype.join = function(callback) {
  */
 u.prototype.on = function(events, callback) {
   
-  // Separate the events
-  var evts = events.split(' ');
-  
-  // Loop through each event
-  for (var i=0; i < evts.length; i++) {
-  
-    // Loop through all the nodes
-    this.each(function() {
-      
-      // Add each event listener to each node
-      this.addEventListener(evts[i], callback);
-      });
-    }
-  
-  return this;
-  };
+  return this.each(function(node){
+    this.args(events).forEach(function(event){
+      node.addEventListener(event, callback);
+    });
+  });
+};
 
 /**
  * .parent()
@@ -525,11 +477,11 @@ u.prototype.on = function(events, callback) {
  * Travel the matched elements one node up
  * @return this Umbrella object
  */
-u.prototype.parent = function() {
+u.prototype.parent = function(selector) {
   
   return this.join(function(node){
     return node.parentNode;
-  });
+  }).filter(selector);
 };
 
 /**
@@ -541,10 +493,8 @@ u.prototype.parent = function() {
  */
 u.prototype.prepend = function(html) {
   
-  this.adjacent('afterbegin', html);
-  
-  return this;
-  };
+  return this.adjacent('afterbegin', html);
+};
 
 /**
  * .remove()
@@ -554,12 +504,12 @@ u.prototype.prepend = function(html) {
 u.prototype.remove = function() {
   
   // Loop through all the nodes
-  this.each(function(node) {
+  return this.each(function(node) {
     
     // Perform the removal
     node.parentNode.removeChild(node);
-    });
-  };
+  });
+};
 
 /**
  * .removeClass(name)
@@ -568,17 +518,20 @@ u.prototype.remove = function() {
  * @param String name the class name we want to remove
  * @return this Umbrella object
  */
-u.prototype.removeClass = function(name) {
+u.prototype.removeClass = function(args) {
+  
+  // Normalize the arguments to a simple array
+  args = this.args(arguments);
   
   // Loop through all the nodes
-  this.each(function() {
+  return this.each(function(el){
     
-    // Remove the class from the node
-    this.classList.remove(name.split(" "));
+    // Loop and add each of the classes
+    args.forEach(function(name){
+      el.classList.remove(name);
     });
-  
-  return this;
-  };
+  });
+};
 
 
 
@@ -618,7 +571,7 @@ u.prototype.select.byCss = function(parameter, context) {
 /**
  * .serialize()
  * 
- * Convert al html form elements into a string
+ * Convert al html form elements into an object
  * The <input> and <button> without type will be parsed as default
  * NOTE: select-multiple for <select> is disabled on purpose
  * Source: http://stackoverflow.com/q/11661187
@@ -626,70 +579,44 @@ u.prototype.select.byCss = function(parameter, context) {
  */
 u.prototype.serialize = function() {
   
+  var obj = {};
+  
   // Store the class in a variable for manipulation
-  var form = this.first();
-  
-  // Variables to store the work
-  var i, query = "";
-  
-  // Encode the values https://gist.github.com/brettz9/7147458
-  function en(str) {
-    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-  }
-  
-  for (i = 0; i < form.elements.length; i++) {
+  u(this.first().elements).each(function(el) {
     
-    // Store ELEMENT
-    var el = form.elements[i];
+    // We only want to match elements with names, but not files
+    if (el.name && el.type !== 'file'
     
-    // Make sure the element has name
-    if (el.name === "") {
-      continue;
-    }
-    
-    
-    switch (el.type) {
-      // Don't add files
-      case 'file':
-        break;
+    // Ignore the checkboxes that are not checked
+    && (!/(checkbox|radio)/.test(el.type) || el.checked)) {
       
-      // Don't add checkbox or radio if they are not checked
-      case 'checkbox':
-      case 'radio':
-        if (!el.checked)
-          break;
-      
-      // All other cases
-      default:
-        query += "&" + en(el.name) + "=" + en(el.value);
+      // Add the element to the object
+      obj[el.name] = el.value;
     }
-  }
+  });
   
-  // Join the query and return it
-  return query;
+  return this.param(obj);
 };
 
 /**
- * u.setOptions(where, options);
- *
- * Define some options for the plugins of Umbrella JS
- * @param String where the name of the plugin
- * @param Object options the object's options
- * Example:
- * 
- *   u.setOptions('track', { url: "/trackb/" });
- *
- * Note: do NOT attempt to access u.options straight away
+ * .trigger(name)
+ * ----------
+ * Call an event manually on all the nodes
+ * @param event: the event or event name to call
+ * @return u: an instance of umbrella
  */
-u.setOptions = function(where, options){
+u.prototype.trigger = function(event) {
   
-  // Default options for each plugin is empty object
-  u.options[where] = u.options[where] || {};
+  // Allow the event to bubble up and to be cancelable (default)
+  var opts = { bubbles: true, cancelable: true };
   
-  // Loop through the outside functions
-  for(var key in options) {
+  // Accept different types of event names or an event itself
+  event = (typeof event == 'string') ? new Event(event, opts) : event;
+  
+  // Loop all of the nodes
+  return this.each(function(node){
     
-    // Set each of them
-    u.options[where][key] = options[key];
-    }
-  };
+    // Actually trigger the event
+    node.dispatchEvent(event);
+  });
+};

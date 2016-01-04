@@ -7,7 +7,8 @@ describe(".addClass(name1, name2, ...)", function() {
   });
   
   afterEach(function(){
-    base.removeClass('bla blu');
+    base.removeClass('bla');
+    base.removeClass('blu');
   });
   
   it("should be defined", function() {

@@ -1,6 +1,6 @@
 ## .append()
 
-**Add some html as a child at the end of each of the matched elements.**
+Add some html as a child at the end of each of the matched elements.
 
 ```js
 .append(html);
@@ -21,7 +21,7 @@
 
 ### Examples
 
-Add a footer `<hr>` to each of the articles
+Add a footer to each of the articles
 
 ```js
 u("article").after("<footer>Hello world</footer>");

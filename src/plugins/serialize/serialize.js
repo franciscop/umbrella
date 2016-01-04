@@ -1,7 +1,7 @@
 /**
  * .serialize()
  * 
- * Convert al html form elements into a string
+ * Convert al html form elements into an object
  * The <input> and <button> without type will be parsed as default
  * NOTE: select-multiple for <select> is disabled on purpose
  * Source: http://stackoverflow.com/q/11661187
@@ -9,45 +9,21 @@
  */
 u.prototype.serialize = function() {
   
+  var obj = {};
+  
   // Store the class in a variable for manipulation
-  var form = this.first();
-  
-  // Variables to store the work
-  var i, query = "";
-  
-  // Encode the values https://gist.github.com/brettz9/7147458
-  function en(str) {
-    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-  }
-  
-  for (i = 0; i < form.elements.length; i++) {
+  u(this.first().elements).each(function(el) {
     
-    // Store ELEMENT
-    var el = form.elements[i];
+    // We only want to match elements with names, but not files
+    if (el.name && el.type !== 'file'
     
-    // Make sure the element has name
-    if (el.name === "") {
-      continue;
-    }
-    
-    
-    switch (el.type) {
-      // Don't add files
-      case 'file':
-        break;
+    // Ignore the checkboxes that are not checked
+    && (!/(checkbox|radio)/.test(el.type) || el.checked)) {
       
-      // Don't add checkbox or radio if they are not checked
-      case 'checkbox':
-      case 'radio':
-        if (!el.checked)
-          break;
-      
-      // All other cases
-      default:
-        query += "&" + en(el.name) + "=" + en(el.value);
+      // Add the element to the object
+      obj[el.name] = el.value;
     }
-  }
+  });
   
-  // Join the query and return it
-  return query;
+  return this.param(obj);
 };

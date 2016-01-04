@@ -54,7 +54,7 @@
     </style>
   </head>
   <body>
-    <nav class="transparent">
+    <nav>
       <div class="brand">
         <img src="web/umbrella.svg" class="logo">
         <a href="/">Umbrella JS</a>
@@ -147,17 +147,5 @@ it("can select by tag", function() {
         <a href="/test" class="button icon-ok">Tests</a>
       </div>
     </section>
-    
-    
-    <script src="umbrella.js"></script>
-    <script>
-      window.onscroll = function(e){
-        if (e.pageY === 0) {
-          u('nav').addClass('transparent');
-        } else {
-          u('nav').removeClass('transparent');
-        }
-      };
-    </script>
   </body>
 </html>

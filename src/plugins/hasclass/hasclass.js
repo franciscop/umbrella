@@ -5,29 +5,18 @@
  * @param String name the class name we want to find
  * @return boolean wether the nodes have the class or not
  */
-u.prototype.hasClass = function() {
+u.prototype.hasClass = function(names) {
   
-  // Default value
-  var doesItContain = false;
-  var names = this.args(arguments);
+  names = this.args(arguments);
   
-  // Loop through all of the matched elements
-  this.each(function(){
+  // Attempt to find a node that passes the conditions
+  return this.nodes.some(function(node){
     
-    var elemHasClass = true;
-    
-    // Check for multiple classes
-    names.forEach(function(value){
+    // Check if the current node has all of the classes
+    return names.every(function(name){
       
-      // This check is needed to avoid setting it to false
-      if (!this.classList.contains(value))
-        
-        // Store the value
-        elemHasClass = false;
-    }, this);
-    
-    if (elemHasClass) doesItContain = true;
+      //  Check whether
+      return node.classList.contains(name)
+    });
   });
-  
-  return doesItContain;
 };

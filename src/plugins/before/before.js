@@ -7,7 +7,5 @@
  */
 u.prototype.before = function(html) {
   
-  this.adjacent('beforebegin', html);
-  
-  return this;
-  };
+  return this.adjacent('beforebegin', html);
+};

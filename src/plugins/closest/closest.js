@@ -16,5 +16,5 @@ u.prototype.closest = function(selector) {
       }
     } while (node = node.parentNode)
     
-  }).unique();
+  });
 };

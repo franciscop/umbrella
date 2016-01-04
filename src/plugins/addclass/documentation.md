@@ -1,6 +1,6 @@
 ## .addClass()
 
-**Add html class(es) to each of the matched elements.**
+Add html class(es) to all of the matched elements.
 
 ```js
 .addClass('name1');
@@ -34,8 +34,6 @@ u("h2").addClass("main");
 Add the class `toValidate` and `ajaxify` to all the `<form>` present in the page:
 
 ```js
-u("form").addClass("toValidate ajaxify");
-// or
 u("form").addClass("toValidate", "ajaxify");
 ```
 

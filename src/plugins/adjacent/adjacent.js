@@ -11,5 +11,5 @@ u.prototype.adjacent = function(position, text) {
     // http://stackoverflow.com/a/23589438
     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
     node.insertAdjacentHTML(position, text);
-    });
-  };
+  });
+};

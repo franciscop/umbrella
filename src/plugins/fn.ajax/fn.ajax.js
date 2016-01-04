@@ -10,6 +10,8 @@
 */
 function ajax(url, data, success, error, before) {
   
+  if (typeof data != 'string') u().param(data);
+  
   // Make them truly optional
   var nf = function(){};
   success = success || nf;
@@ -19,9 +21,6 @@ function ajax(url, data, success, error, before) {
   // Load the callback before anything happens
   before();
   
-  // Add the umbrella parameter
-  data = data + "&umbrella=true";
-  
   // Create and send the actual request
   var request = new XMLHttpRequest();
   
@@ -30,32 +29,18 @@ function ajax(url, data, success, error, before) {
   
   request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
   
-  request.send(data);
-  
   // When the request is sent
   request.onload = function() {
     
-    var status = this.status;
-    
     // Error
-    if (status < 200 || status >= 400) {
-      error(status);
-      
-      return false;
+    if (this.status < 200 || this.status >= 400) {
+      return error(this.status);
     }
     
-    var rawresponse = this.response;
-    
-    // Check if valid json
-    if (!isJson(rawresponse)) {
-      console.log("Response isn't json");
-      success(rawresponse);
-      return false;
-    }
-    
-    // The response is right
-    success(JSON.parse(rawresponse));
+    return success(parseJson(this.response) || this.response);
   };
+  
+  request.send(data);
   
   return request;
 }

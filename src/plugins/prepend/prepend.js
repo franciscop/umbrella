@@ -7,7 +7,5 @@
  */
 u.prototype.prepend = function(html) {
   
-  this.adjacent('afterbegin', html);
-  
-  return this;
-  };
+  return this.adjacent('afterbegin', html);
+};

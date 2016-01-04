@@ -1,6 +1,6 @@
 ## .after()
 
-**Add some html as a sibling after each of the matched elements.**
+Add some html as a sibling after each of the matched elements.
 
 ```js
 .after(html);

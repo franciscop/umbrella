@@ -54,6 +54,11 @@
     </div>
   </nav>
   
+  <div id="mocha">
+    A test suite for Umbrella JS based on Mocha and Chai
+  </div>
+  <div id="messages"></div>
+  <div id="fixtures"></div>
   
   <div id="demo" class="demo">
     <div id="base" class="base">
@@ -62,6 +67,13 @@
         <li><a>Hello world</a></li>
         <li><a>Hello world</a></li>
       </ul>
+      <form class="login" method="POST" action="/test">
+        <input name="name" value="John">
+        <input name="email" required>
+        <input>
+        <input name="other" type="checkbox">
+        <input type="submit" value="Send!">
+      </form>
       <p>
         Lorem <em>ipsum</em>
       </p>
@@ -69,11 +81,6 @@
   </div>
   
   
-  <div id="mocha">
-    A test suite for Umbrella JS based on Mocha and Chai
-  </div>
-  <div id="messages"></div>
-  <div id="fixtures"></div>
   <script src="vendor/mocha.js"></script>
   <script src="vendor/chai.js"></script>
   <script src="../umbrella.js"></script>

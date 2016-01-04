@@ -1,6 +1,8 @@
 ## .ajax()
 
-**Make a regular form to be submitted by ajax with the same method and values**
+Make all of the matched forms to be submitted by ajax with the same method and values when the user submits the form.
+
+> Note: this method does NOT submit the form, it just handles it when it's submitted (from the user or with .trigger())
 
 ```js
 .ajax(success, error, before);
@@ -18,7 +20,7 @@ var success = function(body){};
 `error` [optional]: A function that is called if the request has an error. The first parameter is an error.
 
 ```js
-var error = function(code){};
+var error = function(httpCode){};
 ```
 
 `before` [optional]: A function to be called before the request is sent. Useful to manipulate some data in real-time.
@@ -36,7 +38,7 @@ var before = function(code){};
 
 ### Examples
 
-Submit your email through ajax
+Handle the newsletter through ajax
 
 ```js
 u('.newsletter').ajax(function(){
@@ -44,4 +46,11 @@ u('.newsletter').ajax(function(){
 }, function(err){
   alert("Ooops, there was an error: " + err);
 });
+```
+
+Actually send a form through ajax:
+
+```js
+u('form.edit').ajax(function(){ console.log('Saved!'); });
+u('form.edit').trigger('submit');
 ```
