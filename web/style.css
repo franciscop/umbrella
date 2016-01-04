@@ -43,6 +43,11 @@
   text-shadow: 0.05em 0.05em 0.2em rgba(255, 255, 255, 1);
 }
 
+.hero .links a:active {
+  background: none;
+  border-radius: 0;
+}
+
 .hero .slogan {
   font-size: 1.3em;
   margin: 0 0 5px;
