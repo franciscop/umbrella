@@ -15,6 +15,7 @@ module.exports = function (grunt) {
     watch: {
       scripts: {
         files: [
+          'package.js', // To bump versions
           'Gruntfile.js',
           'src/*.js',
           'src/*.md',
