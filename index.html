@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><title>Umbrella JS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="javascript, js, library, umbrella, html, html5, light"><meta name="description" content=" Lightweight and intuitive javascript library"><meta property="og:image" content="http://www.umbrellajs.com/web/umbrella.svg"><link href="web/fontello.css" rel="stylesheet"><link href="web/picnic.css" rel="stylesheet"><link href="web/style.css" rel="stylesheet"><link rel="icon" href="web/umbrella.svg" type="image/svg+xml"></head><body><nav><div class="brand"><img src="web/umbrella.svg" class="logo"><a href="/">Umbrella JS</a></div><div class="menu"><a href="tests" class="pseudo button icon-ok"><span class="text">Tests</span></a><a href="https://github.com/umbrellajs/umbrella" class="pseudo button icon-g"><span class="text">Github</span></a><a href="documentation" class="button icon-doc"><span class="text">Documentation</span></a></div></nav><header class="hero"><div class="wrap"><div class="content"><h1>Umbrella JS</h1><p class="slogan">Tiny and intuitive javascript library</p><pre class="install">bower install umbrella</pre><a href="http://www.jsdelivr.com/projects/umbrella" target="_blank" class="button icon-link">CDN</a> <a href="umbrella.min.js" target="_blank" download="umbrella.min.js" class="button icon-download">Download</a> <a href="https://jsfiddle.net/franciscop/mwpcqddj/" target="_blank" class="button icon-jsfiddle">Try it</a></div><div class="keepgoing">▼</div></div></header><section class="row"><div><h2 id="intuitive">Intuitive</h2>
 <p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you&#39;ll feel at ease developing with Umbrella.
 However there are also some improvements to make your code intuitive. Check everything in the documentation:</p>
-<a href="https://github.com/umbrellajs/umbrella/blob/master/documentation.md" target="_blank" class="button icon-doc">Documentation</a></div><div><pre>// Simple events like jquery
+<a href="documentation" target="_blank" class="button icon-doc">Documentation</a></div><div><pre>// Simple events like jquery
 u("button").on('click', function(){
   alert("Hello world");
 });
@@ -24,7 +24,7 @@ u.prototype.is = function(selector){
 };
 </pre></div></section><section class="row"><div><h2 id="tested-and-performant">Tested and Performant</h2>
 <p>The speed is similar to jquery and there are many tests, including performance ones. Check them out:</p>
-<a href="/test" class="button icon-ok">Tests</a></div><div><pre>it("can select by class", function() {
+<a href="tests" class="button icon-ok">Tests</a></div><div><pre>it("can select by class", function() {
   expect(u('.demo').nodes.length).to.equal(1);
 });
 
