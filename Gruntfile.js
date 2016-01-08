@@ -27,6 +27,24 @@ module.exports = function (grunt) {
         options: { spawn: false, },
       }
     }
+    
+    markdown: {
+      all: {
+        files: [
+          {
+            expand: true,
+            src: 'documentation.md',
+            dest: './',
+            ext: '.html'
+          }
+        ],
+        options: {
+          postCompile: function(src, context) {
+            
+          }
+        }
+      }
+    }
   });
 
   // Dynamically add plugins to the concat

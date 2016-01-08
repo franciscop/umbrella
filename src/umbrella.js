@@ -25,7 +25,7 @@ var u = function(parameter, context) {
     // Store the nodes
     parameter = this.select(parameter, context);
   }
-
+  
   // If we're referring a specific node as in click(){ u(this) }
   // or the select() returned only one node
   if (parameter && parameter.nodeName) {
@@ -33,7 +33,7 @@ var u = function(parameter, context) {
     // Store the node as an array
     parameter = [parameter];
   }
-
+  
   // Make anything an array
   if (!Array.isArray(parameter)) {
     parameter = this.slice(parameter);
@@ -52,8 +52,8 @@ var u = function(parameter, context) {
 // Force it to be an array AND also it clones them
 // Store all the nodes as an array
 // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-u.prototype.slice = function(pseudo){
-  return pseudo ? Array.prototype.slice.call(pseudo, 0) : [];
+u.prototype.slice = function(pseudo, temp) {
+  return pseudo ? [].slice.call(pseudo, 0) : [];
 };
 
 // Normalize the arguments to an array
@@ -61,8 +61,8 @@ u.prototype.slice = function(pseudo){
 // toString() is to flatten the array: http://stackoverflow.com/q/22920305
 u.prototype.args = function(args){
   
-  return ((typeof args === 'string') ? args : this.slice(args))
-    .toString().split(/[\s,]+/).filter(function(e){ return e.length; });
+  return ((typeof args === 'string') ? args : this.slice(args).toString())
+    .split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique

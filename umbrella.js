@@ -25,7 +25,7 @@ var u = function(parameter, context) {
     // Store the nodes
     parameter = this.select(parameter, context);
   }
-
+  
   // If we're referring a specific node as in click(){ u(this) }
   // or the select() returned only one node
   if (parameter && parameter.nodeName) {
@@ -33,7 +33,7 @@ var u = function(parameter, context) {
     // Store the node as an array
     parameter = [parameter];
   }
-
+  
   // Make anything an array
   if (!Array.isArray(parameter)) {
     parameter = this.slice(parameter);
@@ -52,8 +52,8 @@ var u = function(parameter, context) {
 // Force it to be an array AND also it clones them
 // Store all the nodes as an array
 // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-u.prototype.slice = function(pseudo){
-  return pseudo ? Array.prototype.slice.call(pseudo, 0) : [];
+u.prototype.slice = function(pseudo, temp) {
+  return pseudo ? [].slice.call(pseudo, 0) : [];
 };
 
 // Normalize the arguments to an array
@@ -61,8 +61,8 @@ u.prototype.slice = function(pseudo){
 // toString() is to flatten the array: http://stackoverflow.com/q/22920305
 u.prototype.args = function(args){
   
-  return ((typeof args === 'string') ? args : this.slice(args))
-    .toString().split(/[\s,]+/).filter(function(e){ return e.length; });
+  return ((typeof args === 'string') ? args : this.slice(args).toString())
+    .split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique
@@ -152,11 +152,10 @@ u.prototype.after = function(text) {
  * .ajax(success, error, before)
  * 
  * Create a POST request for whenever the matched form submits
- * @param function success called function when the post is okay
- * @param function error called function when the post was NOT okay
+ * @param function success called when response is received
  * @param function before called function before sending the request
  */
-u.prototype.ajax = function(success, error, before) {
+u.prototype.ajax = function(done, before) {
   
   // Loop through all the nodes
   return this.on("submit", function(e) {
@@ -165,7 +164,7 @@ u.prototype.ajax = function(success, error, before) {
     e.preventDefault();
     
     // Post the actual data
-    ajax(u(this).attr("action"), u(this).serialize(), success, error, before);
+    ajax(u(this).attr("method"), u(this).attr("action"), u(this).serialize(), done, before);
   });
 };
 
@@ -326,49 +325,56 @@ u.prototype.first = function() {
 * ajax(url, data, success, error, before);
 * 
 * Perform a POST request to the given url
+* @param String method the method to send the data, defaults to GET
 * @param String url the place to send the request
 * @param String data the ready to send string of data
 * @param function success optional callback if everything goes right
 * @param function error optional callback if anything goes south
 * @param function before optional previous callback
 */
-function ajax(url, data, success, error, before) {
+function ajax(method, url, data, done, before) {
   
-  if (typeof data != 'string') u().param(data);
-  
-  // Make them truly optional
-  var nf = function(){};
-  success = success || nf;
-  error = error || nf;
-  before = before || nf;
-  
-  // Load the callback before anything happens
-  before();
+  // To avoid repeating it
+  done = done || Function;
   
   // Create and send the actual request
-  var request = new XMLHttpRequest();
+  var request = new XMLHttpRequest;
+  
+  // An error is just an error
+  // This uses a little hack of passing an array to u() so it handles it as
+  // an array of nodes, hence we can use 'on'. However a single element wouldn't
+  // work since it a) doesn't have nodeName and b) it will be sliced, failing
+  u([request]).on('error timeout abort', function(){
+    done(new Error, null, request);
+  }).on('load', function() {
+    
+    return done(
+      
+      // Also an error if it doesn't start by 2 or 3...
+      // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
+      !/^(2|3)/.test(request.status) ? new Error(request.status) : null,
+      
+      // Attempt to parse the body into JSON
+      parseJson(request.response) || request.response,
+      
+      // The original request
+      request
+    );
+  });
   
   // Create a request of type POST to the URL and ASYNC
-  request.open('POST', url, true);
+  request.open(method || 'GET', url);
   
-  request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+  request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
   
-  // When the request is sent
-  request.onload = function() {
-    
-    // Error
-    if (this.status < 200 || this.status >= 400) {
-      return error(this.status);
-    }
-    
-    return success(parseJson(this.response) || this.response);
-  };
+  // Load the callback before sending the data
+  (before || Function)(request);
   
-  request.send(data);
+  request.send(typeof data == 'string' ? data : u().param(data));
   
   return request;
 }
-
 /**
  * parseJson(json)
  * 

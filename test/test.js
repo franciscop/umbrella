@@ -148,16 +148,21 @@ describe(".after(html)", function() {
     expect(base.parent().find('.base ~ .bla').nodes.length).to.equal(1);
   });
 });
-
-u('form.login').ajax(function(e){
-  console.log("Success");
-}, function(e){
-  console.log("Error");
-}, function(e){
-  console.log("Before");
+// Testing the main file
+describe(".addClass(name1, name2, ...)", function() {
+  
+  it("should be defined", function() {
+    expect(typeof base.ajax).to.equal('function');
+  });
+  
+  it("calls before", function(done) {
+    u('form.login').ajax(console.log, function(xhr){
+      expect(!!xhr).to.equal(true);
+      done();
+    });
+    u('form.login').trigger('submit');
+  });
 });
-
-u('form.login').trigger('submit');
 
 // Testing the main file
 describe(".append(html)", function() {
