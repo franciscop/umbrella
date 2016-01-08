@@ -42,6 +42,7 @@
 }
 
 .hero .keepgoing {
+  display: block;
   color: #fff;
   font-size: 2em;
   position: absolute;
@@ -51,6 +52,12 @@
   transition: all 0.5s ease 0s;
   opacity: .7;
   animation: bounce 1s ease infinite;
+}
+
+.hero .keepgoing:active,
+.hero .keepgoing:focus {
+  box-shadow: none;
+  background: none;
 }
 
 
@@ -79,7 +86,11 @@ section.row {
   text-align: left;
   width: 90%;
   max-width: 960px;
-  margin: 80px auto;
+  margin: 0 auto 80px;
+}
+
+.hero + section.row {
+  padding-top: 80px;
 }
 
 section.row aside {
@@ -143,8 +154,9 @@ aside a.button {
   display: block;
 }
 
-pre {
+.index pre {
   margin: 0;
+  font-size: .9em;
 }
 
 @keyframes rain {

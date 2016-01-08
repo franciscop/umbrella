@@ -1,85 +1,83 @@
 extends layout
 
 block content
-
-  header.hero
-    div.wrap
-      div.content
-        h1 Umbrella JS
-        p.slogan Tiny and intuitive javascript library
-        pre.install bower install umbrella
-        a.button.icon-link(href="http://www.jsdelivr.com/projects/umbrella" target="_blank") CDN
-        = ' '
-        a.button.icon-download(href="umbrella.min.js" target="_blank" download="umbrella.min.js") Download
-        = ' '
-        a.button.icon-jsfiddle(href="https://jsfiddle.net/franciscop/mwpcqddj/" target="_blank") Try it
-      
-      div.keepgoing ▼
-  
-  
-  section.row
-    div
-      :markdown
-        ## Intuitive
-        It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at ease developing with Umbrella.
-        However there are also some improvements to make your code intuitive. Check everything in the documentation:
-      a.button.icon-doc(href="documentation" target="_blank") Documentation
-    div
-      pre.
-        // Simple events like jquery
-        u("button").on('click', function(){
-          alert("Hello world");
-        });
-
-        // Send form through ajax when submitted
-        u('form.login').ajax(function(res){
-          window.href = '/user/' + res.id;
-        });
-  
-  
-  section.row
-    div
-      :markdown
-        ## Tiny and Clear
-        **2kb** when minimized and gzipped means it will load in a snap even on mobile. The core is reusable so new features are also tiny.
-        Just check those two features or the source code itself, which is highly commented and documented:
-      a.button.icon-g(href="https://github.com/umbrellajs/umbrella") Source on Github
-    div
-      pre.
-        // Add child after all of the current nodes
-        u.prototype.after = function(text) {
-          return this.adjacent('afterend', text);
-        };
-        // Check if any of the nodes matches the selector
-        u.prototype.is = function(selector){
-          return this.filter(selector).nodes.length > 0;
-        };
-  
-  section.row
-    div
-      :markdown
-        ## Tested and Performant
-        The speed is similar to jquery and there are many tests, including performance ones. Check them out:
-      a.button.icon-ok(href="tests") Tests
-    div
-      pre.
-        it("can select by class", function() {
-          expect(u('.demo').nodes.length).to.equal(1);
-        });
-
-        it("can select by tag", function() {
-          expect(u('body').nodes.length).to.equal(1);
-        });
+  main.index
+    header.hero
+      div.wrap
+        div.content
+          h1 Umbrella JS
+          p.slogan Tiny and intuitive javascript library
+          pre.install bower install umbrella
+          a.button.icon-link(href="http://www.jsdelivr.com/projects/umbrella" target="_blank") CDN
+          = ' '
+          a.button.icon-download(href="umbrella.min.js" target="_blank" download="umbrella.min.js") Download
+          = ' '
+          a.button.icon-jsfiddle(href="https://jsfiddle.net/franciscop/mwpcqddj/" target="_blank") Try it
         
-  
-  
-  section.row
-    div
-      :markdown
-        ## MIT License
-        If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.
-      a.button.icon-info(href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE") MIT License
-    div
-      h2 Thanks
-  
+        a.keepgoing(href="#go") ▼
+    
+    
+    section.row#go
+      div
+        :markdown
+          ## Intuitive
+          It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at ease developing with Umbrella.
+          However there are also some improvements to make your code intuitive. Check everything in the documentation:
+        a.button.icon-doc(href="documentation" target="_blank") Documentation
+      div
+        pre.
+          // Simple events like jquery
+          u("button").on('click', function(){
+            alert("Hello world");
+          });
+
+          // Send form through ajax when submitted
+          u('form.login').ajax(function(res){
+            window.href = '/user/' + res.id;
+          });
+    
+    section.row
+      div
+        :markdown
+          ## Tiny and Clear
+          **2kb** when minimized and gzipped means it will load in a snap even on mobile. The core is reusable so new features are also tiny.
+          You can see two features of Umbrella JS' source code on the right, or check it on github:
+        a.button.icon-g(href="https://github.com/umbrellajs/umbrella") Source on Github
+      div
+        pre.
+          // Add child after all of the current nodes
+          u.prototype.after = function(text) {
+            return this.adjacent('afterend', text);
+          };
+          // Check if any node matches the selector
+          u.prototype.is = function(selector){
+            return this.filter(selector).nodes.length > 0;
+          };
+    
+    section.row
+      div
+        :markdown
+          ## Tested and Performant
+          The speed is similar to jquery and there are many tests, including performance ones. Check them out:
+        a.button.icon-ok(href="tests") Tests
+      div
+        pre.
+          it("can select by class", function() {
+            expect(u('.demo').nodes.length).to.equal(1);
+          });
+
+          it("can select the children of ul", function() {
+            var ul = base.find('li').closest('ul');
+            expect(ul.nodes.length).to.equal(1);
+          });
+    
+    section.row
+      div
+        :markdown
+          ## MIT License
+          If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.
+        a.button.icon-info(href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE") MIT License
+      div
+        h2 Thanks
+    
   script(src="umbrella.min.js")

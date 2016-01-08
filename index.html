@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>Umbrella JS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="javascript, js, library, umbrella, html, html5, light"><meta name="description" content=" Lightweight and intuitive javascript library"><meta property="og:image" content="http://www.umbrellajs.com/web/umbrella.svg"><link href="web/fontello.css" rel="stylesheet"><link href="web/picnic.css" rel="stylesheet"><link href="web/style.css" rel="stylesheet"><link rel="icon" href="web/umbrella.svg" type="image/svg+xml"></head><body><nav><div class="brand"><img src="web/umbrella.svg" class="logo"><a href="/">Umbrella JS</a></div><div class="menu"><a href="tests" class="pseudo button icon-ok"><span class="text">Tests</span></a><a href="https://github.com/umbrellajs/umbrella" class="pseudo button icon-g"><span class="text">Github</span></a><a href="documentation" class="button icon-doc"><span class="text">Documentation</span></a></div></nav><header class="hero"><div class="wrap"><div class="content"><h1>Umbrella JS</h1><p class="slogan">Tiny and intuitive javascript library</p><pre class="install">bower install umbrella</pre><a href="http://www.jsdelivr.com/projects/umbrella" target="_blank" class="button icon-link">CDN</a> <a href="umbrella.min.js" target="_blank" download="umbrella.min.js" class="button icon-download">Download</a> <a href="https://jsfiddle.net/franciscop/mwpcqddj/" target="_blank" class="button icon-jsfiddle">Try it</a></div><div class="keepgoing">▼</div></div></header><section class="row"><div><h2 id="intuitive">Intuitive</h2>
+<!DOCTYPE html><html><head><title>Umbrella JS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="javascript, js, library, umbrella, html, html5, light"><meta name="description" content=" Lightweight and intuitive javascript library"><meta property="og:image" content="http://www.umbrellajs.com/web/umbrella.svg"><link href="web/fontello.css" rel="stylesheet"><link href="web/picnic.css" rel="stylesheet"><link href="web/style.css" rel="stylesheet"><link rel="icon" href="web/umbrella.svg" type="image/svg+xml"></head><body><nav><div class="brand"><img src="web/umbrella.svg" class="logo"><a href="/">Umbrella JS</a></div><div class="menu"><a href="tests" class="pseudo button icon-ok"><span class="text">Tests</span></a><a href="https://github.com/umbrellajs/umbrella" class="pseudo button icon-g"><span class="text">Github</span></a><a href="documentation" class="button icon-doc"><span class="text">Documentation</span></a></div></nav><main class="index"><header class="hero"><div class="wrap"><div class="content"><h1>Umbrella JS</h1><p class="slogan">Tiny and intuitive javascript library</p><pre class="install">bower install umbrella</pre><a href="http://www.jsdelivr.com/projects/umbrella" target="_blank" class="button icon-link">CDN</a> <a href="umbrella.min.js" target="_blank" download="umbrella.min.js" class="button icon-download">Download</a> <a href="https://jsfiddle.net/franciscop/mwpcqddj/" target="_blank" class="button icon-jsfiddle">Try it</a></div><a href="#go" class="keepgoing">▼</a></div></header><section id="go" class="row"><div><h2 id="intuitive">Intuitive</h2>
 <p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you&#39;ll feel at ease developing with Umbrella.
 However there are also some improvements to make your code intuitive. Check everything in the documentation:</p>
 <a href="documentation" target="_blank" class="button icon-doc">Documentation</a></div><div><pre>// Simple events like jquery
@@ -10,15 +10,14 @@ u("button").on('click', function(){
 u('form.login').ajax(function(res){
   window.href = '/user/' + res.id;
 });
-
 </pre></div></section><section class="row"><div><h2 id="tiny-and-clear">Tiny and Clear</h2>
 <p><strong>2kb</strong> when minimized and gzipped means it will load in a snap even on mobile. The core is reusable so new features are also tiny.
-Just check those two features or the source code itself, which is highly commented and documented:</p>
+You can see two features of Umbrella JS&#39; source code on the right, or check it on github:</p>
 <a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source on Github</a></div><div><pre>// Add child after all of the current nodes
 u.prototype.after = function(text) {
   return this.adjacent('afterend', text);
 };
-// Check if any of the nodes matches the selector
+// Check if any node matches the selector
 u.prototype.is = function(selector){
   return this.filter(selector).nodes.length > 0;
 };
@@ -28,14 +27,13 @@ u.prototype.is = function(selector){
   expect(u('.demo').nodes.length).to.equal(1);
 });
 
-it("can select by tag", function() {
-  expect(u('body').nodes.length).to.equal(1);
+it("can select the children of ul", function() {
+  var ul = base.find('li').closest('ul');
+  expect(ul.nodes.length).to.equal(1);
 });
-
-
 </pre></div></section><section class="row"><div><h2 id="mit-license">MIT License</h2>
 <p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>
-<a href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE" class="button icon-info">MIT License</a></div><div><h2>Thanks</h2></div></section><script src="umbrella.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+<a href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE" class="button icon-info">MIT License</a></div><div><h2>Thanks</h2></div></section></main><script src="umbrella.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');

@@ -155,10 +155,10 @@ describe(".addClass(name1, name2, ...)", function() {
     expect(typeof base.ajax).to.equal('function');
   });
   
-  it("calls before", function(done) {
-    u('form.login').ajax(console.log, function(xhr){
+  it("calls before", function(next) {
+    u('form.login').ajax(function(err, xhr){
       expect(!!xhr).to.equal(true);
-      done();
+      next();
     });
     u('form.login').trigger('submit');
   });
