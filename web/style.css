@@ -54,6 +54,11 @@
 }
 
 
+.test section {
+  width: 90%;
+  max-width: 960px;
+  margin: 80px auto;
+}
 
 section.row {
   background: #fff;
@@ -63,6 +68,9 @@ section.row {
   margin: 80px auto;
 }
 
+section.row aside {
+  width: 200px;
+}
 
 
 header {
@@ -96,6 +104,21 @@ h2 {
   margin: 0px;
   padding: 0;
   line-height: 1;
+}
+
+.documentation h2 {
+  padding-top: 3em;
+}
+
+.documentation aside h2 {
+  margin-top: 0;
+  padding: 1.4em 0px;
+  line-height: 1;
+}
+
+aside a.button {
+  margin-top: 
+  display: block;
 }
 
 pre {

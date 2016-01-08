@@ -1,0 +1,61 @@
+extends layout
+
+block content
+  block style
+    link(rel="stylesheet" media="all" href="test/vendor/mocha.css")
+    
+    style.
+      #demo { display: none; }
+      
+      #mocha .test.pass::before {
+        font-size: inherit;
+      }
+      
+      #mocha-stats {
+        top: 70px;
+      }
+      
+      @media (max-width:60em) {
+        #mocha-stats {
+          position: static;
+        }
+        body {
+          padding: 10px 20px;
+        }
+      }
+  
+  main.test
+    section
+      div#mocha A test suite for Umbrella JS based on Mocha and Chai
+      
+      div#messages
+      div#fixtures
+      
+      div#demo.demo
+        div#base.base
+          ul
+            li
+              a#world.hello.world Hello world
+            li
+              a Hello world
+            li
+              a Hello world
+          form.login(method="POST" action="/test")
+            input(name="name" value="John")
+            input(name="email" required)
+            input 
+            input(name="other" type="checkbox")
+            input(type="submit" value="Send!")
+          p Lorem <em>ipsum</em>
+  
+  
+  script(src="test/vendor/mocha.js")
+  script(src="test/vendor/chai.js")
+  script(src="test/jquery.js")
+  script(src="umbrella.js")
+  script.
+    mocha.setup('bdd');
+    var base = u("#base");
+  script(src="test/test.js")
+  script.
+    mocha.run();

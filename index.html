@@ -1,121 +1,44 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Umbrella JS</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="icon" type="image/png" href="web/umbrella.svg">
-    <link href="web/fontello.css" rel="stylesheet">
-    <link href="web/picnic.css" rel="stylesheet">
-    <link href="web/style.css" rel="stylesheet">
-  </head>
-  <body>
-    <nav>
-      <div class="brand">
-        <img src="web/umbrella.svg" class="logo">
-        <a href="/">Umbrella JS</a>
-      </div>
-      
-      <div class="menu">
-        <a href="/test" class="pseudo button icon-ok">
-          <span class="text">Tests</span>
-        </a>
-        <a href="https://github.com/umbrellajs/umbrella" class="pseudo button icon-g">
-          <span class="text">Github</span>
-        </a>
-        <a href="https://github.com/umbrellajs/umbrella/blob/master/documentation.md" class="button icon-doc">
-          <span class="text">Documentation</span>
-        </a>
-      </div>
-    </nav>
-    
-    
-    <header class="hero">
-      <div class="wrap">
-        <div class="content">
-          <h1>Umbrella JS</h1>
-          <p class="slogan">Tiny and intuitive javascript library</p>
-          <pre class="install">bower install umbrella</pre>
-          <a href="http://www.jsdelivr.com/projects/umbrella" class="button icon-link" target="_blank">CDN</a>
-          <a href="umbrella.min.js" class="button icon-download" target="_blank" download="umbrella.min.js">Download</a>
-          <a href="https://jsfiddle.net/franciscop/mwpcqddj/" class="button icon-jsfiddle" target="_blank">Try it</a>
-        </div>
-        <div class="keepgoing">▼</div>
-      </div>
-    </header>
-    
-    <section class="row">
-      <div>
-        <h2>Intuitive</h2>
-        <p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at ease developing with Umbrella.</p>
-        <p>However there are also some improvements to make your code intuitive. Check everything in the documentation:</p>
-        <a href="https://github.com/umbrellajs/umbrella/blob/master/documentation.md" class="button icon-doc" target="_blank">Documentation</a>
-      </div>
-      <div>
-        <pre>
-// Simple events like jquery
-u("button").click(function(){
+<!DOCTYPE html><html><head><title>Umbrella JS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="javascript, js, library, umbrella, html, html5, light"><meta name="description" content=" Lightweight and intuitive javascript library"><meta property="og:image" content="http://www.umbrellajs.com/web/umbrella.svg"><link href="web/fontello.css" rel="stylesheet"><link href="web/picnic.css" rel="stylesheet"><link href="web/style.css" rel="stylesheet"><link rel="icon" href="web/umbrella.svg" type="image/svg+xml"></head><body><nav><div class="brand"><img src="web/umbrella.svg" class="logo"><a href="/">Umbrella JS</a></div><div class="menu"><a href="test" class="pseudo button icon-ok"><span class="text">Tests</span></a><a href="https://github.com/umbrellajs/umbrella" class="pseudo button icon-g"><span class="text">Github</span></a><a href="documentation" class="button icon-doc"><span class="text">Documentation</span></a></div></nav><header class="hero"><div class="wrap"><div class="content"><h1>Umbrella JS</h1><p class="slogan">Tiny and intuitive javascript library</p><pre class="install">bower install umbrella</pre><a href="http://www.jsdelivr.com/projects/umbrella" target="_blank" class="button icon-link">CDN</a> <a href="umbrella.min.js" target="_blank" download="umbrella.min.js" class="button icon-download">Download</a> <a href="https://jsfiddle.net/franciscop/mwpcqddj/" target="_blank" class="button icon-jsfiddle">Try it</a></div><div class="keepgoing">▼</div></div></header><section class="row"><div><h2 id="intuitive">Intuitive</h2>
+<p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you&#39;ll feel at ease developing with Umbrella.
+However there are also some improvements to make your code intuitive. Check everything in the documentation:</p>
+<a href="https://github.com/umbrellajs/umbrella/blob/master/documentation.md" target="_blank" class="button icon-doc">Documentation</a></div><div><pre>// Simple events like jquery
+u("button").on('click', function(){
   alert("Hello world");
 });
 
 // Send form through ajax when submitted
 u('form.login').ajax(function(res){
   window.href = '/user/' + res.id;
-});</pre>
-      </div>
-    </section>
-    
-    <section class="row">
-      <div>
-        <h2>Tiny and Clear</h2>
-        <p><strong>2kb</strong> when minimized and gzipped means it will load in a snap even on mobile. The core is reusable so new features are also tiny.</p>
-        <p>Just check those two features or the source code itself, which is highly commented and documented:</p>
-        <a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source on Github</a>
-      </div>
-      <div>
-        <pre>
-// Add child after all of the current nodes
+});
+
+</pre></div></section><section class="row"><div><h2 id="tiny-and-clear">Tiny and Clear</h2>
+<p><strong>2kb</strong> when minimized and gzipped means it will load in a snap even on mobile. The core is reusable so new features are also tiny.
+Just check those two features or the source code itself, which is highly commented and documented:</p>
+<a href="https://github.com/umbrellajs/umbrella" class="button icon-g">Source on Github</a></div><div><pre>// Add child after all of the current nodes
 u.prototype.after = function(text) {
   return this.adjacent('afterend', text);
 };
 // Check if any of the nodes matches the selector
 u.prototype.is = function(selector){
   return this.filter(selector).nodes.length > 0;
-};</pre>
-      </div>
-    </section>
-    
-    <section class="row">
-      <div>
-        <h2>Tested and Performant</h2>
-        <p>The speed is similar to jquery and there are many tests, including performance ones. Check them out:</p>
-        <a href="/test" class="button icon-ok">Tests</a>
-      </div>
-      <div>
-        <pre>
-it("can select by class", function() {
+};
+</pre></div></section><section class="row"><div><h2 id="tested-and-performant">Tested and Performant</h2>
+<p>The speed is similar to jquery and there are many tests, including performance ones. Check them out:</p>
+<a href="/test" class="button icon-ok">Tests</a></div><div><pre>it("can select by class", function() {
   expect(u('.demo').nodes.length).to.equal(1);
 });
 
 it("can select by tag", function() {
   expect(u('body').nodes.length).to.equal(1);
-});</pre>
-      </div>
-    </section>
-    
-    
-    <section class="row">
-      <div>
-        <h2>MIT License</h2>
-        <p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>
-        <a href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE" class="button icon-info">MIT License</a>
-      </div>
-      <div>
-        <h2>Thanks</h2>
-        
-      </div>
-    </section>
-    
-    <script src="umbrella.min.js"></script>
-  </body>
-</html>
+});
+
+
+</pre></div></section><section class="row"><div><h2 id="mit-license">MIT License</h2>
+<p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>
+<a href="https://github.com/umbrellajs/umbrella/blob/master/LICENSE" class="button icon-info">MIT License</a></div><div><h2>Thanks</h2></div></section><script src="umbrella.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-72195046-1', 'auto');
+ga('send', 'pageview');</script></body></html>

@@ -22,27 +22,26 @@ module.exports = function (grunt) {
           'src/plugins/*.md',
           'src/plugins/*/*.js',
           'src/plugins/*/*.md',
+          'web/*.jade',
+          'web/*'
         ],
         tasks: ['default'],
         options: { spawn: false, },
       }
-    }
+    },
     
-    markdown: {
-      all: {
-        files: [
-          {
-            expand: true,
-            src: 'documentation.md',
-            dest: './',
-            ext: '.html'
-          }
-        ],
+    jade: {
+      compile: {
         options: {
-          postCompile: function(src, context) {
-            
-          }
-        }
+          client: false
+        },
+        files: [ {
+          cwd: "web",
+          src: "**/*.jade",
+          dest: ".",
+          expand: true,
+          ext: ".html"
+        } ]
       }
     }
   });
@@ -82,8 +81,11 @@ module.exports = function (grunt) {
 
   // Watch
   grunt.loadNpmTasks('grunt-contrib-watch');
+  
+  // Jade
+  grunt.loadNpmTasks('grunt-contrib-jade');
 
 
   // 4. Where we tell Grunt what to do when we type "grunt" into the terminal
-  grunt.registerTask('default', ['parse', 'concat', 'uglify']);
+  grunt.registerTask('default', ['parse', 'concat', 'uglify', 'jade']);
 };

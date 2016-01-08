@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  main.documentation
+    section.row
+      aside
+        h2 Contents
+      article
+        include:md ../documentation.md
+  
+  script(src="umbrella.min.js")
+  script.
+    u('article h2').each(function(node){
+      var href = 'href="#' + u(node).attr('id') + '" ';
+      var classes = 'class="pseudo button stack" ';
+      var html = u(node).html();
+      u('aside').append('<a ' + classes + href + '>' + html + '</a>');
+    });
