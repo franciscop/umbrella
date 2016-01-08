@@ -60,6 +60,20 @@
   margin: 80px auto;
 }
 
+.documentation h3 {
+  padding: .6em 0 0;
+}
+
+.documentation pre + h3 {
+  padding: 1.2em 0 0;
+}
+
+.documentation h3 + p {
+  margin-top: .3em;
+}
+
+
+
 section.row {
   background: #fff;
   text-align: left;
@@ -110,10 +124,18 @@ h2 {
   padding-top: 3em;
 }
 
+.documentation pre + h2 {
+  margin-top: 1em;
+}
+
 .documentation aside h2 {
   margin-top: 0;
   padding: 1.4em 0px;
   line-height: 1;
+}
+
+.documentation aside a.pseudo {
+  color: #0074D9;
 }
 
 aside a.button {
@@ -167,6 +189,10 @@ pre {
   
   [class*=" icon-"]::before {
     margin: .2em;
+  }
+  
+  .documentation aside {
+    display: none;
   }
 }
 
