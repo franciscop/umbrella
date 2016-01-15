@@ -436,4 +436,6 @@ pre[class*="language-"] {
 
 pre[class*="language-"] {
   padding: .5em .8em;
+  font-size: 1.2em;
+  line-height: 1.3;
 }
