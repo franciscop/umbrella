@@ -37,9 +37,9 @@ u("a").hasClass("button") && u("a").hasClass("primary");
 
 ### Related
 
-[.addClass(name)](/docs/addclass) adds html class(es) to each of the matched elements.
+[.addClass(name)](#addclass) adds html class(es) to each of the matched elements.
 
-[.removeClass(name)](/docs/removeclass) deletes class(es) from the matched elements.
+[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
 
 
 

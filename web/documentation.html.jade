@@ -10,6 +10,11 @@ block content
   
   script(src="umbrella.min.js")
   script.
+  
+    u('h2[id]').each(function(node){
+      u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
+    });
+  
     u('article h2').each(function(node){
       var href = 'href="#' + u(node).attr('id') + '" ';
       var classes = 'class="pseudo button stack" ';

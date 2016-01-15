@@ -314,8 +314,8 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <h3 id="return">Return</h3>
 <p><strong><code>boolean</code></strong>: returns true if all of the passed classes are found in any of the matched elements and false if they couldn&#39;t be found.</p>
 <h3 id="related">Related</h3>
-<p><a href="/docs/addclass">.addClass(name)</a> adds html class(es) to each of the matched elements.</p>
-<p><a href="/docs/removeclass">.removeClass(name)</a> deletes class(es) from the matched elements.</p>
+<p><a href="#addclass">.addClass(name)</a> adds html class(es) to each of the matched elements.</p>
+<p><a href="#removeclass">.removeClass(name)</a> deletes class(es) from the matched elements.</p>
 <h3 id="example">Example</h3>
 <p>Toggle the color of a button depending on the status</p>
 <pre><code class="lang-html">    &lt;a class=&quot;example button&quot;&gt;Click me&lt;/a&gt;
@@ -403,10 +403,14 @@ setInterval(function(){
 <h3 id="related">Related</h3>
 <p><a href="#on">.on()</a> add an event listener to thematched nodes</p>
 </article></section></main><script src="umbrella.min.js"></script><script>u('article h2').each(function(node){
-  var href = 'href="#' + u(node).attr('id') + '" ';
+  var href = 'href="#' + u(node).attr('id').replace(/-/g, '') + '" ';
   var classes = 'class="pseudo button stack" ';
   var html = u(node).html();
   u('aside').append('<a ' + classes + href + '>' + html + '</a>');
+});
+
+u('h2[id]').each(function(node){
+  u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
 });</script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
