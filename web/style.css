@@ -22,13 +22,14 @@
 }
 
 .hero h1 {
+  color: #fff;
   font-size: 3em;
   line-height: 1;
   padding: 0px;
 }
 
 .hero p {
-  text-shadow: 0.05em 0.05em 0.1em rgba(255, 255, 255, 0.8);
+  color: #fff;
 }
 
 .hero .links a {
@@ -97,16 +98,41 @@ section.row aside {
   width: 200px;
 }
 
-
-header {
-  background: #adf url("../web/cloud.svg") repeat top left;
-  background-size: 480px 320px;
-  animation: cloud 10s linear infinite;
-}
-
 nav.transparent {
   background: transparent;
   box-shadow: none;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.color {
+  background-color: #223344;
+}
+
+.city {
+  background: url("../web/city.svg") repeat top left;
+  background-size: cover;
+  background-position: center center;
+}
+
+.cloud {
+  background: url("../web/cloud.svg") repeat top left;
+  background-size: 480px 320px;
+  animation: cloud 10s linear infinite;
+  opacity: .7;
+}
+
+.rain {
+  background: url("../web/drop.svg") repeat top left;
+  background-size: 60px 60px;
+  animation: rain .5s linear infinite;
+  opacity: .4;
 }
 
 .wrap {
