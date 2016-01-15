@@ -128,7 +128,7 @@ nav.transparent {
 .cloud {
   background: url("../web/cloud.svg") repeat top left;
   background-size: 480px 320px;
-  animation: cloud 10s linear infinite;
+  animation: cloud 20s linear infinite;
   opacity: .7;
 }
 
