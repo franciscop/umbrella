@@ -126,6 +126,8 @@ main {
   left: 0;
 }
 
+
+
 .color {
   background-color: #223344;
 }
@@ -235,6 +237,10 @@ aside a.button {
   
   nav .menu > a {
     padding: .3em .6em;
+  }
+  
+  .cover {
+    position: absolute;
   }
   
   [class*=" icon-"]::before {
