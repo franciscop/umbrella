@@ -350,6 +350,39 @@ should pass no parameter so it retrieves the html.</p>
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#attr">.attr(html)</a></p>
+<h2 id="-on-">.on()</h2>
+<p>Calls a function when an event is triggered</p>
+<pre><code class="lang-js">.on(&#39;event1&#39;, callback)
+.on(&#39;event1 event2 eventN&#39;, callback)
+.on(&#39;event1,event2,eventN&#39;, callback)
+.on([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], callback)
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.
+<code>callback</code>: function that will be called when the event is triggered. It accepts a single parameter, the event itself.</p>
+<h3 id="return">Return</h3>
+<p>Umbrella instance</p>
+<h3 id="examples">Examples</h3>
+<p>An auto-save feature that submits the form through ajax every 10 seconds</p>
+<pre><code class="lang-js">// Show &#39;test&#39; when the button test is clicked
+u(&#39;button.test&#39;).on(&#39;click&#39;, function(e) {
+  alert(&quot;Test&quot;);
+});
+
+// This example is very similar to .ajax() implementation
+u(&#39;form.test&#39;).on(&#39;submit&#39;, function(e){
+
+  // Avoid submitting the form normally
+  e.preventDefault();
+
+  // Submit the form through ajax
+  ajax(u(this).attr(&#39;action&#39;), u(this).serialize(), function(){
+    alert(&quot;Sent!&quot;);
+  });
+});
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
 <h2 id="-removeclass">.removeClass</h2>
 <p>Remove html class(es) to all of the matched elements.</p>
 <pre><code class="lang-js">.removeClass(&#39;name1&#39;);
