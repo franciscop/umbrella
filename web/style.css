@@ -24,15 +24,15 @@
 }
 
 .hero h1 {
-  color: #fff;
   font-size: 3em;
-  line-height: 1;
   padding: 0px;
-  font-family: 'Dosis', Arial, Helvetica, sans-serif;
+  line-height: 1;
 }
 
+.hero h1,
 .hero p {
   color: #fff;
+  font-family: 'Dosis', Arial, Helvetica, sans-serif;
 }
 
 .hero .links a {
