@@ -6,12 +6,11 @@
 <pre><code class="lang-html">&lt;a class=&quot;example button&quot;&gt;Click me&lt;/a&gt;
 
 &lt;script&gt;
-  u(&quot;.example&quot;).on(&#39;click&#39;, function() {
-    var button = u(this).html(&quot;Thanks!&quot;);
-    ajax(&#39;/hello&#39;, &#39;hello=world&#39;,
-      function(){ button.html(&quot;Finished&quot;); },
-      function(){ button.html(&quot;Error&quot;); }
-    );
+  u(&#39;form.example&#39;).ajax(function(err, data){
+    if (err) u(&quot;.error&quot;).html(&quot;There was an error&quot;);
+    u(&#39;button.send&#39;).html(&quot;Send again, &quot; + data.name);
+  }, function(){
+    u(&#39;button.send&#39;).html(&quot;Sending...&quot;);
   });
 &lt;/script&gt;
 </code></pre>
@@ -22,16 +21,13 @@
 <pre><code class="lang-js">// When we are on the page &quot;/login&quot;
 page(/^login/, function(){
 
-  function success(res){
+  function done(err, res){
+    if (err) return alert(&quot;There was an error&quot;);
     window.location.href = &quot;/user/&quot; + res.id;
   };
 
-  function error(res){
-    alert(&quot;There was an error: &quot; + res.error);
-  }
-
   // Find the form and handle it through ajax when it&#39;s submitted
-  u(&quot;form.login&quot;).ajax(success, error);
+  u(&quot;form.login&quot;).ajax(done);
 });
 </code></pre>
 <h2 id="-addclass-">.addClass()</h2>
@@ -82,26 +78,22 @@ page(/^login/, function(){
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>done</code> [optional]: A function to be called when the request ends. The first argument is the error, if any. The second is the body, which is parsed to JSON if it&#39;s a JSON string or just the body as a string if it&#39;s not JSON. The third is the request object itself.</p>
-<pre><code class="lang-js">var success = function(body){};
-</code></pre>
-<p><code>error</code> [optional]: A function that is called if the request has an error. The first parameter is an error.</p>
-<pre><code class="lang-js">var error = function(httpCode){};
+<pre><code class="lang-js">var done = function(err, body, xhr){};
 </code></pre>
 <p><code>before</code> [optional]: A function to be called before the request is sent. Useful to manipulate some data in real-time.</p>
-<pre><code class="lang-js">var before = function(code){};
+<pre><code class="lang-js">var before = function(xhr){};
 </code></pre>
 <h3 id="return">Return</h3>
 <p><strong>Undefined</strong>. Please don&#39;t use the returned value for anything (it might be a promise in the future).</p>
 <h3 id="examples">Examples</h3>
 <p>Handle the newsletter through ajax</p>
-<pre><code class="lang-js">u(&#39;.newsletter&#39;).ajax(function(){
+<pre><code class="lang-js">u(&#39;.newsletter&#39;).ajax(function(err){
+  if (err) return alert(&quot;Error&quot;);
   alert(&quot;Thank you for subscribing, awesome!&quot;);
-}, function(err){
-  alert(&quot;Ooops, there was an error: &quot; + err);
 });
 </code></pre>
 <p>Actually send a form through ajax:</p>
-<pre><code class="lang-js">u(&#39;form.edit&#39;).ajax(function(){ console.log(&#39;Saved!&#39;); });
+<pre><code class="lang-js">u(&#39;form.edit&#39;).ajax(function(){ console.log(&#39;Sent!&#39;); });
 u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 </code></pre>
 <h2 id="-append-">.append()</h2>

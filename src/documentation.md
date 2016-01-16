@@ -8,12 +8,11 @@ Lightweight and intuitive javascript library. A simple example:
 <a class="example button">Click me</a>
 
 <script>
-  u(".example").on('click', function() {
-    var button = u(this).html("Thanks!");
-    ajax('/hello', 'hello=world',
-      function(){ button.html("Finished"); },
-      function(){ button.html("Error"); }
-    );
+  u('form.example').ajax(function(err, data){
+    if (err) u(".error").html("There was an error");
+    u('button.send').html("Send again, " + data.name);
+  }, function(){
+    u('button.send').html("Sending...");
   });
 </script>
 ```
@@ -31,15 +30,12 @@ It plays well with other libraries, including jquery. For example, with [pagex.j
 // When we are on the page "/login"
 page(/^login/, function(){
   
-  function success(res){
+  function done(err, res){
+    if (err) return alert("There was an error");
     window.location.href = "/user/" + res.id;
   };
   
-  function error(res){
-    alert("There was an error: " + res.error);
-  }
-  
   // Find the form and handle it through ajax when it's submitted
-  u("form.login").ajax(success, error);
+  u("form.login").ajax(done);
 });
 ```

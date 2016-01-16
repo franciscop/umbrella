@@ -8,12 +8,11 @@ Lightweight and intuitive javascript library. A simple example:
 <a class="example button">Click me</a>
 
 <script>
-  u(".example").on('click', function() {
-    var button = u(this).html("Thanks!");
-    ajax('/hello', 'hello=world',
-      function(){ button.html("Finished"); },
-      function(){ button.html("Error"); }
-    );
+  u('form.example').ajax(function(err, data){
+    if (err) u(".error").html("There was an error");
+    u('button.send').html("Send again, " + data.name);
+  }, function(){
+    u('button.send').html("Sending...");
   });
 </script>
 ```
@@ -31,16 +30,13 @@ It plays well with other libraries, including jquery. For example, with [pagex.j
 // When we are on the page "/login"
 page(/^login/, function(){
   
-  function success(res){
+  function done(err, res){
+    if (err) return alert("There was an error");
     window.location.href = "/user/" + res.id;
   };
   
-  function error(res){
-    alert("There was an error: " + res.error);
-  }
-  
   // Find the form and handle it through ajax when it's submitted
-  u("form.login").ajax(success, error);
+  u("form.login").ajax(done);
 });
 ```
 
@@ -146,19 +142,13 @@ Make all of the matched forms to be submitted by ajax with the same method and v
 `done` [optional]: A function to be called when the request ends. The first argument is the error, if any. The second is the body, which is parsed to JSON if it's a JSON string or just the body as a string if it's not JSON. The third is the request object itself.
 
 ```js
-var success = function(body){};
-```
-
-`error` [optional]: A function that is called if the request has an error. The first parameter is an error.
-
-```js
-var error = function(httpCode){};
+var done = function(err, body, xhr){};
 ```
 
 `before` [optional]: A function to be called before the request is sent. Useful to manipulate some data in real-time.
 
 ```js
-var before = function(code){};
+var before = function(xhr){};
 ```
 
 
@@ -173,17 +163,16 @@ var before = function(code){};
 Handle the newsletter through ajax
 
 ```js
-u('.newsletter').ajax(function(){
+u('.newsletter').ajax(function(err){
+  if (err) return alert("Error");
   alert("Thank you for subscribing, awesome!");
-}, function(err){
-  alert("Ooops, there was an error: " + err);
 });
 ```
 
 Actually send a form through ajax:
 
 ```js
-u('form.edit').ajax(function(){ console.log('Saved!'); });
+u('form.edit').ajax(function(){ console.log('Sent!'); });
 u('form.edit').trigger('submit');
 ```
 
