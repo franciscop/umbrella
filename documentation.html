@@ -376,9 +376,12 @@ u(&#39;form.test&#39;).on(&#39;submit&#39;, function(e){
   e.preventDefault();
 
   // Submit the form through ajax
-  ajax(u(this).attr(&#39;action&#39;), u(this).serialize(), function(){
-    alert(&quot;Sent!&quot;);
-  });
+  ajax(u(this).attr(&#39;action&#39;), u(this).serialize());
+});
+
+// Better &#39;onchange&#39;:
+u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
+  console.log(&quot;Maybe changed&quot;);
 });
 </code></pre>
 <h3 id="related">Related</h3>

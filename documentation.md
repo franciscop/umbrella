@@ -681,9 +681,12 @@ u('form.test').on('submit', function(e){
   e.preventDefault();
   
   // Submit the form through ajax
-  ajax(u(this).attr('action'), u(this).serialize(), function(){
-    alert("Sent!");
-  });
+  ajax(u(this).attr('action'), u(this).serialize());
+});
+
+// Better 'onchange':
+u('input').on('change click blur paste', function(){
+  console.log("Maybe changed");
 });
 ```
 
