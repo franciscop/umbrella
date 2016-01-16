@@ -149,7 +149,7 @@ describe(".after(html)", function() {
   });
 });
 // Testing the main file
-describe(".addClass(name1, name2, ...)", function() {
+describe(".ajax(done, before)", function() {
   
   it("should be defined", function() {
     expect(typeof base.ajax).to.equal('function');

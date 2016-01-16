@@ -25,28 +25,24 @@ function ajax(method, url, data, done, before) {
     done(new Error, null, request);
   }).on('load', function() {
     
-    return done(
-      
-      // Also an error if it doesn't start by 2 or 3...
-      // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
-      !/^(2|3)/.test(request.status) ? new Error(request.status) : null,
-      
-      // Attempt to parse the body into JSON
-      parseJson(request.response) || request.response,
-      
-      // The original request
-      request
-    );
+    // Also an error if it doesn't start by 2 or 3...
+    // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
+    var err = !/^(2|3)/.test(request.status) ? new Error(request.status) : null;
+    
+    // Attempt to parse the body into JSON
+    var body = parseJson(request.response) || request.response;
+    
+    return done(err, body, request);
   });
   
   // Create a request of type POST to the URL and ASYNC
   request.open(method || 'GET', url);
   
   request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   
   // Load the callback before sending the data
-  (before || Function)(request);
+  if (before) before(request);
   
   request.send(typeof data == 'string' ? data : u().param(data));
   
