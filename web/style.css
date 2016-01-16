@@ -29,10 +29,6 @@
   line-height: 1;
 }
 
-.hero .slogan {
-  font-size: 1.1em;
-}
-
 .hero h1,
 .hero p {
   color: #fff;
@@ -45,7 +41,7 @@
 
 
 .hero .slogan {
-  font-size: 1.3em;
+  font-size: 1.5em;
   margin: 0 0 5px;
 }
 
