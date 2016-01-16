@@ -28,6 +28,7 @@
   font-size: 3em;
   line-height: 1;
   padding: 0px;
+  font-family: 'Dosis', Arial, Helvetica, sans-serif;
 }
 
 .hero p {
@@ -127,10 +128,9 @@ main {
   z-index: -1;
   top: 0;
   left: 0;
+  transform: translateZ(0);
   transition: height 999999s;
 }
-
-
 
 .color {
   background-color: #223344;
