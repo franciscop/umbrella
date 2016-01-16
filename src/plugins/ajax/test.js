@@ -6,7 +6,7 @@ describe(".ajax(done, before)", function() {
   });
   
   it("calls before", function(next) {
-    u('form.login').ajax(function(err, xhr){
+    u('form.login').ajax(function(err, body, xhr){
       expect(!!xhr).to.equal(true);
       next();
     });
