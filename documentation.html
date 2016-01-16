@@ -370,7 +370,7 @@ should pass no parameter so it retrieves the html.</p>
 <p>Check if the current form needs to be valdated</p>
 <pre><code class="lang-js">u(&#39;form.subscribe&#39;).ajax(false, function() {
 
-  // Same as u(this).hasClass(&#39;validate&#39;)
+  // Same as u(&#39;form.subscribe&#39;).hasClass(&#39;validate&#39;)
   if (u(&#39;form.subscribe&#39;).is(&#39;.validate&#39;)) {
     validate();
   }

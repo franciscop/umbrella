@@ -35,7 +35,7 @@ Check if the current form needs to be valdated
 ```js
 u('form.subscribe').ajax(false, function() {
   
-  // Same as u(this).hasClass('validate')
+  // Same as u('form.subscribe').hasClass('validate')
   if (u('form.subscribe').is('.validate')) {
     validate();
   }
