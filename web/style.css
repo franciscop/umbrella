@@ -29,6 +29,10 @@
   line-height: 1;
 }
 
+.hero .slogan {
+  font-size: 1.1;
+}
+
 .hero h1,
 .hero p {
   color: #fff;
