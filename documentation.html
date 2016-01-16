@@ -350,6 +350,34 @@ should pass no parameter so it retrieves the html.</p>
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#attr">.attr(html)</a></p>
+<h2 id="-is-">.is()</h2>
+<p>Check whether any of the nodes matches the selector</p>
+<pre><code class="lang-js">.is(filter)
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>filter</code>: it can be two things:</p>
+<ul>
+<li>css selector that each of the nodes must match to stay</li>
+<li>function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available:</li>
+</ul>
+<pre><code class="lang-js">.is(function(node, index){
+  // your code
+});
+</code></pre>
+<h3 id="return">Return</h3>
+<p><em>boolean</em>: <em>true</em> if any of the nodes matches the selector or the function returns true, false otherwise.</p>
+<h3 id="examples">Examples</h3>
+<p>Check if the current form needs to be valdated</p>
+<pre><code class="lang-js">u(&#39;form.subscribe&#39;).ajax(false, function() {
+
+  // Same as u(this).hasClass(&#39;validate&#39;)
+  if (u(&#39;form.subscribe&#39;).is(&#39;.validate&#39;)) {
+    validate();
+  }
+});
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#filter">.filter()</a> remove unwanted nodes</p>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
 <pre><code class="lang-js">.on(&#39;event1&#39;, callback)
