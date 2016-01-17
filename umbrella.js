@@ -616,6 +616,7 @@ u.prototype.trigger = function(event) {
   // Bastard IE11
   console.log("IE", window.Event);
   if (!window.Event) {
+    console.log("Not added");
     window.Event = function(name, opts){
       event = document.createEvent("Event");
       event.initEvent(name, opts.bubbles, opts.cancalable); 
