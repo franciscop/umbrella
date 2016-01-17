@@ -611,14 +611,16 @@ u.prototype.trigger = function(event) {
   // Allow the event to bubble up and to be cancelable (default)
   var opts = { bubbles: true, cancelable: true };
   
+  console.log("Got here");
+  
   // Accept different types of event names or an event itself
   event = (typeof event == 'string') ? new Event(event, opts) : event;
   
   // Loop all of the nodes
   return this.each(function(node){
     
-    alert("Good");
-    alert(node.dispatchEvent);
+    console.log("And here");
+    console.log(node.dispatchEvent);
     
     // Actually trigger the event
     node.dispatchEvent(event);
