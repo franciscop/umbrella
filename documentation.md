@@ -97,7 +97,7 @@ An instance of Umbrella JS so you can chain it to any of the other methods.
 Select all of the list elements that are children of `ul`
 
 ```js
-var lis = u('ul > li');    // Same as u('ul').find('li');
+var lis = u('ul > li');    // Same as u('ul').children('li');
 ```
 
 Find all of the headers from the page to create a Table of Contents:

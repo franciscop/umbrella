@@ -18,7 +18,7 @@ There are few ways to add it to your system. But you can also just play with it 
 
 Instead of installing it, you can just play with it in JSFiddle:
 
-[<button class="icon-jsfiddle">Try on JSFiddle</button>](https://jsfiddle.net/franciscop/mwpcqddj/)
+[<button class="icon-jsfiddle">**Try on JSFiddle**</button>](https://jsfiddle.net/franciscop/mwpcqddj/)
 
 
 
@@ -42,7 +42,7 @@ bower install umbrella
 
 If you like it or prefer to try it locally, just download `umbrella.min.js`:
 
-[<button class="icon-download">Download Umbrella JS</button>](https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js)
+[<button class="icon-download">**Download Umbrella JS**</button>](https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js)
 
 Add it to your project:
 
