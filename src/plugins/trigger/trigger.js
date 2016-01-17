@@ -12,7 +12,8 @@ u.prototype.trigger = function(event) {
   
   console.log("Before");
   
-  // Bastard IE11-
+  // Bastard IE11
+  console.log("IE", window.Event);
   if (!window.Event) {
     window.Event = function(name, opts){
       event = document.createEvent("Event");
