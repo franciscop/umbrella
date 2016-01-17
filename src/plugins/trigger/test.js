@@ -5,15 +5,24 @@ describe(".trigger()", function() {
     expect(typeof base.trigger).to.equal('function');
   });
   
-  it("can trigger a click", function(next) {
-    u(base).on('click', function(e){
-      expect(!!e).to.equal(true)
-      next();
+  it("can trigger a click", function() {
+    base.on('click', function(e){
+      expect(!!e).to.equal(true);
     });
     base.trigger('click');
   });
   
-  it("can get the first li and it's a LI", function() {
-    expect(base.find("li").first().nodeName).to.equal('LI');
+  it("can trigger an event in the wrong element", function() {
+    base.on('click', function(e){
+      expect(!!e).to.equal(true);
+    });
+    base.trigger('click');
+  });
+  
+  it("doesn't trigger all events", function() {
+    base.on('click', function(e){
+      throw "Shouldn't be called";
+    });
+    base.trigger('submit');
   });
 });
