@@ -617,7 +617,7 @@ u.prototype.trigger = function(event) {
   } catch(e) {
     var name = event;
     event = document.createEvent('Event');
-    event.initCustomEvent(name, opts.bubbles, opts.cancelable);
+    event.initEvent(name, opts.bubbles, opts.cancelable);
   }
   
   // Loop all of the nodes
