@@ -11,10 +11,11 @@ describe(".ajax(done, before)", function() {
       next();
     });
     
-    console.log("Event: ", window.Event);
-    var event = document.createEvent("Event");
-    event.initEvent("submit", false, true); 
-    // args: string type, boolean bubbles, boolean cancelable
-    u('form.login').first().dispatchEvent(event);
+    // console.log("Event: ", window.Event);
+    // var event = document.createEvent("Event");
+    // event.initEvent("submit", false, true); 
+    // u('form.login').first().dispatchEvent(event);
+    
+    u('form.login').trigger('submit');
   });
 });
