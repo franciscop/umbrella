@@ -615,7 +615,9 @@ u.prototype.trigger = function(event) {
     // Accept different types of event names or an event itself
     event = (typeof event == 'string') ? new Event(event, opts) : event;
   } catch(e) {
-    console.log("This sucks 2x", e);
+    var name = event;
+    event = document.createEvent('Event');
+    event.initCustomEvent(name, opts.bubbles, opts.cancelable);
   }
   
   // Loop all of the nodes
@@ -625,6 +627,7 @@ u.prototype.trigger = function(event) {
       // Actually trigger the event
       node.dispatchEvent(event);
     } catch (e) {
+      
       console.log("This sucks!!", e);
     }
   });
