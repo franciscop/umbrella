@@ -615,9 +615,9 @@ u.prototype.trigger = function(event) {
   
   // Bastard IE11-
   if (!window.Event) {
-    window.Event = function(name){
+    window.Event = function(name, opts){
       event = document.createEvent("Event");
-      event.initEvent(name, true, true); 
+      event.initEvent(name, opts.bubbles, opts.cancalable); 
     };
   }
   
