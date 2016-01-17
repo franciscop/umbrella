@@ -289,6 +289,21 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <li><p><a href="#find">.children(filter)</a> get the direct child of the matched nodes</p>
 </li>
 </ul>
+<h2 id="-first-">.first()</h2>
+<p>Add html class(es) to all of the matched elements.</p>
+<pre><code class="lang-js">.first();
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>This method doesn&#39;t accept any parameters</p>
+<h3 id="return">Return</h3>
+<p>The first html node or false if there is none.</p>
+<h3 id="examples">Examples</h3>
+<p>Retrieve the first element of a list:</p>
+<pre><code class="lang-js">var next = u(&quot;ul.demo li&quot;).first();
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#removeclass">.removeClass(name)</a> deletes class(es) from the matched elements.</p>
+<p><a href="#hasclass">.hasClass(name)</a> finds if the matched elements contain the class(es)</p>
 <h2 id="-hasclass-">.hasClass()</h2>
 <p>Find if any of the matched elements contains the class passed:</p>
 <pre><code class="lang-js">.hasClass(name1, name2)

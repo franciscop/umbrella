@@ -522,6 +522,42 @@ u('form').on('submit', function(e){
 
 - [.children(filter)](#find) get the direct child of the matched nodes
 
+## .first()
+
+Add html class(es) to all of the matched elements.
+
+```js
+.first();
+```
+
+
+### Parameters
+
+This method doesn't accept any parameters
+
+
+### Return
+
+The first html node or false if there is none.
+
+
+
+### Examples
+
+Retrieve the first element of a list:
+
+```js
+var next = u("ul.demo li").first();
+```
+
+
+
+### Related
+
+[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+
+[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+
 ## .hasClass()
 
 Find if any of the matched elements contains the class passed:
