@@ -16,6 +16,7 @@ u.prototype.trigger = function(event) {
   // Loop all of the nodes
   return this.each(function(node){
     
+    alert("Good");
     alert(node.dispatchEvent);
     
     // Actually trigger the event
