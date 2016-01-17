@@ -611,10 +611,20 @@ u.prototype.trigger = function(event) {
   // Allow the event to bubble up and to be cancelable (default)
   var opts = { bubbles: true, cancelable: true };
   
-  console.log("Got here");
+  console.log("Before");
+  
+  // Bastard IE11-
+  if (!Event) {
+    window.Event = function(name){
+      event = document.createEvent("Event");
+      event.initEvent(name, true, true); 
+    };
+  }
+  
+  console.log("Initialized");
   
   // Accept different types of event names or an event itself
-  event = (typeof event == 'string') ? new Event(event, opts) : event;
+  event = (typeof event != 'string') ? new Event(event, opts) : event;
   
   console.log("After");
   
