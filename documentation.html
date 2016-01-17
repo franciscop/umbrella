@@ -15,10 +15,22 @@
 &lt;/script&gt;
 </code></pre>
 <h2 id="getting-started">Getting started</h2>
-<p>You can download it and include it in your project, add it <a href="http://bower.io/search/?q=umbrella">with bower</a>, use the <a href="bower install umbrella">CDN Jsdelivr</a> or just <a href="https://jsfiddle.net/franciscop/mwpcqddj/">play with it on jsfiddle</a>, whatever you prefer.</p>
-<blockquote>
-<p>If you want it to be confusingly similar to jquery (they are not 100% compatible, just similar) you could just do it with <code>var $ = u;</code></p>
-</blockquote>
+<p>There are few ways to add it to your system. But you can also just play with it in jsfiddle.</p>
+<h3 id="play-with-it">Play with it</h3>
+<p>Instead of installing it, you can just play with it in JSFiddle:</p>
+<p><a href="https://jsfiddle.net/franciscop/mwpcqddj/"><button class="icon-jsfiddle">Try on JSFiddle</button></a></p>
+<h3 id="use-a-cdn">Use a CDN</h3>
+<p>JSDelivr is an awesome service that hosts many open source projects so you don&#39;t need to even download the code:</p>
+<p><a href="http://www.jsdelivr.com/projects/umbrella"><button class="icon-link">JSDelivr CDN</button></a></p>
+<h3 id="use-bower">Use bower</h3>
+<p>Bower is a front-end package manager that makes it super-easy to add a new package:</p>
+<pre><code>bower install umbrella
+</code></pre><h3 id="download-it">Download it</h3>
+<p>If you like it or prefer to try it locally, just download <code>umbrella.min.js</code>:</p>
+<p><a href="https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js"><button class="icon-download">Download Umbrella JS</button></a></p>
+<p>Add it to your project:</p>
+<pre><code class="lang-html">&lt;script src=&quot;umbrella.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <h2 id="u-">u()</h2>
 <p>Find nodes from the HTML with a CSS selector:</p>
 <pre><code class="lang-js">u(&#39;ul li&#39;)
@@ -124,6 +136,31 @@ page(/^login/, function(){
 <p>Actually send a form through ajax:</p>
 <pre><code class="lang-js">u(&#39;form.edit&#39;).ajax(function(){ console.log(&#39;Sent!&#39;); });
 u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
+</code></pre>
+<h3 id="why-not-jquery-">Why not jquery?</h3>
+<p>This was created because this pattern is quite common in jquery:</p>
+<pre><code class="lang-js">$(&#39;form&#39;).on(&#39;submit&#39;, function(e){
+  e.preventDefault();
+  $.post($(this).attr(&#39;action&#39;), $(this).serialize(), function(data){
+    alert(&quot;Done! Thanks, &quot; + data.name);
+  }, &#39;json&#39;);
+});
+</code></pre>
+<p>After repeating that many times, I found out that it&#39;s better if we just make that the default. The same code on Umbrella JS:</p>
+<pre><code class="lang-js">u(&#39;form&#39;).ajax(function(err, data){
+  if (!err) alert(&#39;Done! Thanks, &#39; + data.name);
+});
+</code></pre>
+<p>Of course you have freedom and you can use a similar method to jquery, but I think it&#39;s a bit pointless for this specific situation:</p>
+<pre><code class="lang-js">u(&#39;form&#39;).on(&#39;submit&#39;, function(e){
+  e.preventDefault();
+  ajax(u(this).attr(&#39;method&#39;), u(this).attr(&#39;action&#39;), u(this).serialize(), function(err, data){
+    if (!err) alert(&quot;Done! Thanks, &quot; + data.name);
+  });
+});
+</code></pre>
+<p>This is the footprint of the raw function:</p>
+<pre><code class="lang-js">ajax(method, url, data, done, before);
 </code></pre>
 <h2 id="-append-">.append()</h2>
 <p>Add some html as a child at the end of each of the matched elements.</p>

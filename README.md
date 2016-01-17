@@ -12,12 +12,45 @@ You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a li
 
 ## Getting started
 
-Just download `umbrella.min.js`, include it in your html with `<script src="umbrella.min.js"></script>` and you're good to go. After that, start using it:
+There are few ways to add it to your system. But you can also just play with it in jsfiddle.
 
-```js
-u('.menu a:first-child').addClass('active');
-u('form').ajax(function(){ alert('Thanks!'); });
+### Play with it
+
+Instead of installing it, you can just play with it in JSFiddle:
+
+[<button class="icon-jsfiddle">Try on JSFiddle</button>](https://jsfiddle.net/franciscop/mwpcqddj/)
+
+
+
+### Use a CDN
+
+JSDelivr is an awesome service that hosts many open source projects so you don't need to even download the code:
+
+[<button class="icon-link">JSDelivr CDN</button>](http://www.jsdelivr.com/projects/umbrella)
+
+
+### Use bower
+
+Bower is a front-end package manager that makes it super-easy to add a new package:
+
 ```
+bower install umbrella
+```
+
+
+### Download it
+
+If you like it or prefer to try it locally, just download `umbrella.min.js`:
+
+[<button class="icon-download">Download Umbrella JS</button>](https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js)
+
+Add it to your project:
+
+```html
+<script src="umbrella.min.js"></script>
+```
+
+
 
 
 ## [Documentation (link)](documentation.md)

@@ -47,3 +47,42 @@ Actually send a form through ajax:
 u('form.edit').ajax(function(){ console.log('Sent!'); });
 u('form.edit').trigger('submit');
 ```
+
+
+### Why not jquery?
+
+This was created because this pattern is quite common in jquery:
+
+```js
+$('form').on('submit', function(e){
+  e.preventDefault();
+  $.post($(this).attr('action'), $(this).serialize(), function(data){
+    alert("Done! Thanks, " + data.name);
+  }, 'json');
+});
+```
+
+After repeating that many times, I found out that it's better if we just make that the default. The same code on Umbrella JS:
+
+```js
+u('form').ajax(function(err, data){
+  if (!err) alert('Done! Thanks, ' + data.name);
+});
+```
+
+Of course you have freedom and you can use a similar method to jquery, but I think it's a bit pointless for this specific situation:
+
+```js
+u('form').on('submit', function(e){
+  e.preventDefault();
+  ajax(u(this).attr('method'), u(this).attr('action'), u(this).serialize(), function(err, data){
+    if (!err) alert("Done! Thanks, " + data.name);
+  });
+});
+```
+
+This is the footprint of the raw function:
+
+```js
+ajax(method, url, data, done, before);
+```

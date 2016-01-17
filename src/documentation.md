@@ -19,9 +19,45 @@ Lightweight and intuitive javascript library. A simple example:
 
 ## Getting started
 
-You can download it and include it in your project, add it [with bower](http://bower.io/search/?q=umbrella), use the [CDN Jsdelivr](bower install umbrella) or just [play with it on jsfiddle](https://jsfiddle.net/franciscop/mwpcqddj/), whatever you prefer.
+There are few ways to add it to your system. But you can also just play with it in jsfiddle.
 
-> If you want it to be confusingly similar to jquery (they are not 100% compatible, just similar) you could just do it with `var $ = u;`
+### Play with it
+
+Instead of installing it, you can just play with it in JSFiddle:
+
+[<button class="icon-jsfiddle">Try on JSFiddle</button>](https://jsfiddle.net/franciscop/mwpcqddj/)
+
+
+
+### Use a CDN
+
+JSDelivr is an awesome service that hosts many open source projects so you don't need to even download the code:
+
+[<button class="icon-link">JSDelivr CDN</button>](http://www.jsdelivr.com/projects/umbrella)
+
+
+### Use bower
+
+Bower is a front-end package manager that makes it super-easy to add a new package:
+
+```
+bower install umbrella
+```
+
+
+### Download it
+
+If you like it or prefer to try it locally, just download `umbrella.min.js`:
+
+[<button class="icon-download">Download Umbrella JS</button>](https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js)
+
+Add it to your project:
+
+```html
+<script src="umbrella.min.js"></script>
+```
+
+
 
 ## u()
 
