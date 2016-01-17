@@ -26,7 +26,7 @@ Instead of installing it, you can just play with it in JSFiddle:
 
 JSDelivr is an awesome service that hosts many open source projects so you don't need to even download the code:
 
-[<button class="icon-link">JSDelivr CDN</button>](http://www.jsdelivr.com/projects/umbrella)
+[<button class="icon-link">**JSDelivr CDN**</button>](http://www.jsdelivr.com/projects/umbrella)
 
 
 ### Use bower
