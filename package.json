@@ -22,7 +22,7 @@
     "url": "https://github.com/umbrellajs/umbrella/issues"
   },
   "scripts": {
-    "test": "mocha-phantomjs ./tests.html"
+    "test": "node_modules/mocha-phantomjs/bin/mocha-phantomjs ./tests.html"
   },
   "repository": {
     "type": "git",
@@ -35,5 +35,8 @@
     "grunt-markdown": "^0.7.0",
     "grunt-contrib-uglify": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1"
+  },
+  "dependencies": {
+    "mocha-phantomjs": "^4.0.2"
   }
 }
