@@ -5,7 +5,7 @@ describe(".first()", function() {
     expect(typeof base.first).to.equal('function');
   });
   
-  it("can the first element is an HTML element", function() {
+  it("the first element is an HTML element", function() {
     expect(base.find("li").first().nodeType).to.equal(1);
   });
   
