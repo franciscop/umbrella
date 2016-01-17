@@ -10,6 +10,16 @@ describe(".ajax(done, before)", function() {
       expect(!!xhr).to.equal(true);
       next();
     });
-    u('form.login').trigger('submit');
+    
+    // Compatible test (damn you IE11-)
+    (function (target, type, event) {
+      if (document.createEvent) {
+        event = new Event(type);
+        target.dispatchEvent(event);
+      } else {
+        event = document.createEventObject();
+        target.fireEvent('on' + type, event);
+      }
+    })(u('form.login').first(), 'submit');
   });
 });
