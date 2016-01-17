@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/umbrellajs/umbrella.svg)](https://travis-ci.org/umbrellajs/umbrella)
+
 # Umbrella JS
 
 Covers your javascript needs for those rainy days. A <2kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/), then what do you need?
