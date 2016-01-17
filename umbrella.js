@@ -616,6 +616,8 @@ u.prototype.trigger = function(event) {
   // Accept different types of event names or an event itself
   event = (typeof event == 'string') ? new Event(event, opts) : event;
   
+  console.log("After");
+  
   // Loop all of the nodes
   return this.each(function(node){
     
