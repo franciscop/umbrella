@@ -161,16 +161,10 @@ describe(".ajax(done, before)", function() {
       next();
     });
     
-    // Compatible test (damn you IE11-)
-    (function (target, type, event) {
-      if (document.createEvent) {
-        event = new Event(type);
-        target.dispatchEvent(event);
-      } else {
-        event = document.createEventObject();
-        target.fireEvent('on' + type, event);
-      }
-    })(u('form.login').first(), 'submit');
+    var event = document.createEvent("Event");
+    event.initEvent("submit", false, true); 
+    // args: string type, boolean bubbles, boolean cancelable
+    u('form.login').first().dispatchEvent(event);
   });
 });
 
