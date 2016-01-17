@@ -13,7 +13,7 @@ u.prototype.trigger = function(event) {
   console.log("Before");
   
   // Bastard IE11-
-  if (!Event) {
+  if (!window.Event) {
     window.Event = function(name){
       event = document.createEvent("Event");
       event.initEvent(name, true, true); 
