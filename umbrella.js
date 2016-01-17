@@ -615,18 +615,20 @@ u.prototype.trigger = function(event) {
   
   // Bastard IE11
   console.log("IE", window.Event);
-  if (!window.Event) {
-    console.log("Not added");
-    window.Event = function(name, opts){
+  
+  // Accept different types of event names or an event itself
+  if (typeof event != 'string') {
+    if (document.createEvent) {
       event = document.createEvent("Event");
-      event.initEvent(name, opts.bubbles, opts.cancalable); 
-    };
+      event.initEvent(event, false, true);
+    } else {
+      event = new Event(type);
+      target.dispatchEvent(event);
+    }
   }
   
   console.log("Initialized");
   
-  // Accept different types of event names or an event itself
-  event = (typeof event != 'string') ? new Event(event, opts) : event;
   
   console.log("After");
   
