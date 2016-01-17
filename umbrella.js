@@ -619,9 +619,7 @@ u.prototype.trigger = function(event) {
     event = document.createEvent('Event');
     event.initEvent(name, opts.bubbles, opts.cancelable);
   }
-  
-  console.log(event, this.nodes);
-  
+    
   // Loop all of the nodes
   return this.each(function(node){
     

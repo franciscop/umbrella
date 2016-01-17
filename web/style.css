@@ -87,7 +87,9 @@
   margin-top: .3em;
 }
 
-
+li {
+  list-style-type: circle;
+}
 
 section.row {
   background: #fff;

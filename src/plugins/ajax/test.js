@@ -11,11 +11,6 @@ describe(".ajax(done, before)", function() {
       next();
     });
     
-    // console.log("Event: ", window.Event);
-    // var event = document.createEvent("Event");
-    // event.initEvent("submit", false, true); 
-    // u('form.login').first().dispatchEvent(event);
-    
     u('form.login').trigger('submit');
   });
 });

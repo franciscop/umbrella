@@ -48,6 +48,7 @@ block content
             input(type="submit" value="Send!")
           p Lorem <em>ipsum</em>
   
+  block analytics
   
   script(src="test/vendor/mocha.js")
   script(src="test/vendor/chai.js")
@@ -58,4 +59,5 @@ block content
     var base = u("#base");
   script(src="test/test.js")
   script.
-    mocha.run();
+    if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+    else { mocha.run(); }
