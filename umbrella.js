@@ -617,6 +617,8 @@ u.prototype.trigger = function(event) {
   // Loop all of the nodes
   return this.each(function(node){
     
+    alert(node.dispatchEvent);
+    
     // Actually trigger the event
     node.dispatchEvent(event);
   });

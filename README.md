@@ -9,17 +9,32 @@ You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a li
 - Event handling
 - Ajax
 
+A simple example:
+
+```html
+<a class="example button">Click me</a>
+
+<script>
+  u('form.example').ajax(function(err, data){
+    if (err) u(".error").html("There was an error");
+    u('button.send').html("Send again, " + data.name);
+  }, function(){
+    u('button.send').html("Sending...");
+  });
+</script>
+```
+
 
 ## Getting started
 
-There are few ways to add it to your system. But you can also just play with it in jsfiddle.
+There are few ways to use Umbrella JS:
+
 
 ### Play with it
 
 Instead of installing it, you can just play with it in JSFiddle:
 
 [<button class="icon-jsfiddle">**Try on JSFiddle**</button>](https://jsfiddle.net/franciscop/mwpcqddj/)
-
 
 
 ### Use a CDN
@@ -53,21 +68,13 @@ Add it to your project:
 
 
 
-## [Documentation (link)](documentation.md)
+## [Documentation (link)](http://umbrellajs.com/documentation)
 
 
-## Performance
+## Support: IE11+
 
-Umbrella JS selector is faster than jQuery in some situations (Firefox) and similar in others (Chrome). This is possible by leveraging native methods where possible, but if you find any way to make it faster I'll welcome it greatly.
+Current usage for IE 10- is under 1% for each version (8, 9, 10) so it's not Umbrella's mission to support this. However, those extra seconds gained from loading faster on mobile might be even bigger than that percentage. You should probably test it.
 
-
-## Compatibility
-
-You can have a light library that works on the mobile browsers or a heavy one that works on old Internet Explorer versions, but you cannot have both. This is aimed for modern, responsive websites. The code is tested against Firefox and Chrome frequently and against IE10 ocasionally and on major releases.
-
-This is where there might be more compatibility issues:
-- http://caniuse.com/#feat=queryselector
-- http://caniuse.com/#search=classList (compatible with notes 2 & 3)
 
 
 ## Alternatives
@@ -75,6 +82,8 @@ This is where there might be more compatibility issues:
 - [jQuery](https://jquery.com/)
 
 - [Zepto](http://zeptojs.com/) 
+
+- [Micro Framework (many)](http://microjs.com/)
 
 
 ## Author and License
