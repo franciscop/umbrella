@@ -22,7 +22,7 @@
     "url": "https://github.com/umbrellajs/umbrella/issues"
   },
   "scripts": {
-    "test": "firefox test/index.html"
+    "test": "mocha-phantomjs ./tests.html"
   },
   "repository": {
     "type": "git",
