@@ -10,8 +10,12 @@ u.prototype.trigger = function(event) {
   // Allow the event to bubble up and to be cancelable (default)
   var opts = { bubbles: true, cancelable: true };
   
-  // Accept different types of event names or an event itself
-  event = (typeof event == 'string') ? new Event(event, opts) : event;
+  try {
+    // Accept different types of event names or an event itself
+    event = (typeof event == 'string') ? new Event(event, opts) : event;
+  } catch(e) {
+    console.log("This sucks 2x", e);
+  }
   
   // Loop all of the nodes
   return this.each(function(node){
