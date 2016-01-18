@@ -44,6 +44,10 @@ module.exports = function (grunt) {
           ext: ".html"
         } ]
       }
+    },
+    
+    mocha_phantomjs: {
+      all: './tests.html'
     }
   });
 
@@ -85,8 +89,10 @@ module.exports = function (grunt) {
   
   // Jade
   grunt.loadNpmTasks('grunt-contrib-jade');
-
-
+  
+  // Testing
+  grunt.loadNpmTasks('grunt-mocha-phantomjs');
+  
   // 4. Where we tell Grunt what to do when we type "grunt" into the terminal
-  grunt.registerTask('default', ['parse', 'concat', 'uglify', 'jade']);
+  grunt.registerTask('default', ['parse', 'concat', 'uglify', 'jade', 'mocha_phantomjs']);
 };
