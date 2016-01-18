@@ -1,5 +1,7 @@
 # Umbrella JS [![Circle CI](https://circleci.com/gh/umbrellajs/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/umbrellajs/umbrella/tree/master)
 
+> [**Library Documentation**](http://umbrellajs.com/documentation)
+
 Covers your javascript needs for those rainy days. A <2kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/), then what do you need?
 
 You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a lightweight, modern and performant javascript library. This does:
@@ -66,9 +68,12 @@ Add it to your project:
 ```
 
 
+## Up for grabs
 
+For beginners in Javascript or contributing to an Open Source project, there are few issues that are made on purpose so you can help out. Check them out:
 
-## [Documentation (link)](http://umbrellajs.com/documentation)
+> [**Up For Grabs issues**](https://github.com/umbrellajs/umbrella/labels/up-for-grabs)
+
 
 
 ## Support: IE11+
