@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/umbrellajs/umbrella.svg)](https://travis-ci.org/umbrellajs/umbrella)
+[![Circle CI](https://circleci.com/gh/umbrellajs/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/umbrellajs/umbrella/tree/master)
 
 # Umbrella JS
 
