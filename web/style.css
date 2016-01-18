@@ -71,10 +71,6 @@
   margin: 80px auto;
 }
 
-.documentation {
-  margin: 5em 0;
-}
-
 .documentation h3 {
   padding: .6em 0 0;
 }
@@ -263,6 +259,10 @@ pre code {
   
   [class*=" icon-"]::before {
     margin: .2em;
+  }
+  
+  .documentation {
+    margin: 1em 0;
   }
   
   .documentation aside {
