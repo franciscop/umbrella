@@ -34,14 +34,14 @@ There are few ways to use Umbrella JS:
 
 Instead of installing it, you can just play with it in JSFiddle:
 
-[<button class="icon-jsfiddle">**Try on JSFiddle**</button>](https://jsfiddle.net/franciscop/mwpcqddj/)
+[**Try on JSFiddle**](https://jsfiddle.net/franciscop/mwpcqddj/)
 
 
 ### Use a CDN
 
 JSDelivr is an awesome service that hosts many open source projects so you don't need to even download the code:
 
-[<button class="icon-link">**JSDelivr CDN**</button>](http://www.jsdelivr.com/projects/umbrella)
+[**JSDelivr CDN**](http://www.jsdelivr.com/projects/umbrella)
 
 
 ### Use bower
@@ -57,7 +57,7 @@ bower install umbrella
 
 If you like it or prefer to try it locally, just download `umbrella.min.js`:
 
-[<button class="icon-download">**Download Umbrella JS**</button>](https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js)
+[**Download Umbrella JS**](https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js)
 
 Add it to your project:
 
