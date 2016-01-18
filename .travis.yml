@@ -1,5 +1,0 @@
-language: javascript
-node_js:
-  - "4.1"
-  - "4.0"
-  - "0.12"
