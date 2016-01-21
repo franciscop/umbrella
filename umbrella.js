@@ -456,6 +456,15 @@ u.prototype.join = function(callback) {
 };
 
 /**
+ * Get the last of the nodes
+ * @return htmlnode the last html node in the matched nodes
+ */
+u.prototype.last = function() {
+  
+  return this.nodes[this.nodes.length-1] || false;
+};
+
+/**
  * .on(event, callback)
  * 
  * Attach the callback to the event listener for each node
