@@ -127,26 +127,6 @@ describe("performance tests", function(){
   
   
   
-  it("vs jquery: add class", function() {
-    
-    var uBase = u('.tabletest');
-    var $Base = $('.tabletest');
-    
-    var uTime = performance(function(){
-      uBase.addClass('test');
-    }, 100);
-    
-    var $Time = performance(function(){
-      $Base.addClass('test');
-    }, 100);
-    
-    console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
-    
-    expect(uTime).to.be.below($Time, uTime + ' ms');
-  });
-  
-  
-  
   it("vs jquery: jquery optimized vs raw umbrella", function() {
     
     var uTime = performance(function(){
