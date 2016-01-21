@@ -842,7 +842,7 @@ u('input').on('change click blur paste', function(){
 ### Related
 
 [.trigger()](#trigger) calls an event on all of the matched nodes
-## .removeClass
+## .removeClass()
 
 Remove html class(es) to all of the matched elements.
 
@@ -888,7 +888,7 @@ u("form").removeClass("toValidate", "ajaxify");
 
 [.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
 
-## .trigger
+## .trigger()
 
 Calls an event on all of the matched nodes
 

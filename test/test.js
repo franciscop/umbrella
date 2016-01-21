@@ -67,6 +67,10 @@ describe("u(selector, context)", function() {
     var context = u('.demo li').nodes[0];
     expect(u('a', context).nodes.length).to.equal(1);
   });
+  
+  
+  
+  
 });
 // Testing the main file
 describe(".addClass(name1, name2, ...)", function() {
@@ -117,6 +121,12 @@ describe(".addClass(name1, name2, ...)", function() {
 
   it("adds several classes separated by comma", function() {
     base.addClass('bla,blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("can be concatenated", function() {
+    base.addClass('bla').addClass('blu');
     expect(base.hasClass('bla')).to.equal(true);
     expect(base.hasClass('blu')).to.equal(true);
   });
@@ -418,6 +428,62 @@ describe(".is(selector)", function() {
     base.is(function(node){
       expect(u(node).is('.base')).to.equal(true);
     });
+  });
+});
+// Testing the main file
+describe(".removeClass()", function() {
+  
+  beforeEach(function(){
+    base.addClass('bla,blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+  
+  it("should be defined", function() {
+    expect(typeof base.removeClass).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    base.removeClass();
+    base.removeClass("");
+    base.removeClass([]);
+    base.removeClass("","");
+    base.removeClass(" ");
+  });
+
+  it("removes a single class", function() {
+    base.removeClass('bla');
+    expect(base.hasClass('bla')).to.equal(false);
+  });
+
+  it("remove several classes as arguments", function() {
+    base.removeClass('bla', 'blu');
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+
+  it("removes several classes with an array", function() {
+    base.removeClass(['bla', 'blu']);
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+
+  it("removes several classes separated by space", function() {
+    base.removeClass('bla blu');
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+
+  it("removes several classes separated by comma", function() {
+    base.removeClass('bla,blu');
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+
+  it("can be concatenated", function() {
+    base.removeClass('bla').removeClass('blu');
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(false);
   });
 });
 // Testing the main file

@@ -10,31 +10,29 @@
 // It should make sure that there's at least one element in nodes
 var u = function(parameter, context) {
 
-  // Make sure that we are always working with the u object
-  // This is only so we can avoid selector = new u("whatever");
-  // and use u("whatever").bla();
-  // Reference: http://stackoverflow.com/q/24019863
+  // Make it an instance of u() to avoid needing 'new' as in 'new u()' and just
+  // use 'u().bla();'. Reference: http://stackoverflow.com/q/24019863
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
 
 
-  // Check if it's a selector or an object
+  // Check if it's a css selector
   if (typeof parameter == "string") {
 
-    // Store the nodes
+    // Find and store the node(s)
     parameter = this.select(parameter, context);
   }
   
-  // If we're referring a specific node as in click(){ u(this) }
-  // or the select() returned only one node
+  // If we're referring a specific node as in on('click', function(){ u(this) })
+  // or the select() function returned a single node such as in '#id'
   if (parameter && parameter.nodeName) {
 
     // Store the node as an array
     parameter = [parameter];
   }
   
-  // Make anything an array
+  // Convert to an array, since there are many 'array-like' stuff in js-land
   if (!Array.isArray(parameter)) {
     parameter = this.slice(parameter);
   }
@@ -50,22 +48,23 @@ var u = function(parameter, context) {
 
 
 // Force it to be an array AND also it clones them
-// Store all the nodes as an array
 // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-u.prototype.slice = function(pseudo, temp) {
+u.prototype.slice = function(pseudo) {
   return pseudo ? [].slice.call(pseudo, 0) : [];
 };
 
-// Normalize the arguments to an array
+// Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
-// toString() is to flatten the array: http://stackoverflow.com/q/22920305
 u.prototype.args = function(args){
   
+  // First flatten it all to a string http://stackoverflow.com/q/22920305
   return ((typeof args === 'string') ? args : this.slice(args).toString())
+    
+    // Then convert that string to an array of not-null strings
     .split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
-// Make the nodes unique
+// Make the nodes unique. This is needed for some specific methods
 u.prototype.unique = function(){
   
   return u(this.nodes.reduce(function(clean, node){
@@ -73,30 +72,33 @@ u.prototype.unique = function(){
   }, []));
 };
 
-// Parametize an object
+// Encode the different strings https://gist.github.com/brettz9/7147458
+u.prototype.uri = function(str){
+  return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+}
+
+// Parametize an object: { a: 'b', c: 'd' } => 'a=b&c=d'
 u.prototype.param = function(obj){
   
-  // Encode the values https://gist.github.com/brettz9/7147458
-  function en(str) {
-    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-  }
+  // Note: while this is ~10% slower (~3us/operation) than with a simple for(in)
+  // I find it more legible and more 'logical' (however right now a test fails)
+  // return Object.keys(obj).map(function(key) {
+  //   return this.uri(key) + '=' + this.uri(obj[key]);
+  // }).join('&');
+  
   
   var query = '';
   for(var key in obj) {
-    query += '&' + en(key) + '=' + en(obj[key]);
+    query += '&' + this.uri(key) + '=' + this.uri(obj[key]);
   }
   return query.slice(1);
 }
 
-// This also made the code faster
-// Read "Initializing instance variables" in https://developers.google.com/speed/articles/optimizing-javascript
-// Default selector
+// This made the code faster, read "Initializing instance variables" in
+// https://developers.google.com/speed/articles/optimizing-javascript
 
 // Default value
 u.prototype.nodes = [];
-
-// Options
-u.options = {};
 
 /**
  * .addClass(name1, name2, ...)

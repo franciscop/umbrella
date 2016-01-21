@@ -1,4 +1,4 @@
-## .trigger
+## .trigger()
 
 Calls an event on all of the matched nodes
 

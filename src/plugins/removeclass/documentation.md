@@ -1,4 +1,4 @@
-## .removeClass
+## .removeClass()
 
 Remove html class(es) to all of the matched elements.
 
