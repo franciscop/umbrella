@@ -312,6 +312,18 @@ Handle attributes for the matched elements
 
 
 
+### Important
+
+You must understand that `.attr()` will only retrieve the attributes, not the properties like `checked`. To understad it better, check [jquery's attr() vs prop()](http://api.jquery.com/prop/).
+
+Each property is different so you should consult each case. For example, if you wanted to get the property `checked` you could do:
+
+```js
+u('.terms-os-service').is(':checked');
+```
+
+
+
 ### Examples
 
 Get the alt of an image:

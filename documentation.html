@@ -173,6 +173,11 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <code>string</code>: the value of the attribute</p>
 <p><em>SET</em>
 <code>u</code>: returns the same instance of Umbrella JS</p>
+<h3 id="important">Important</h3>
+<p>You must understand that <code>.attr()</code> will only retrieve the attributes, not the properties like <code>checked</code>. To understad it better, check <a href="http://api.jquery.com/prop/">jquery&#39;s attr() vs prop()</a>.</p>
+<p>Each property is different so you should consult each case. For example, if you wanted to get the property <code>checked</code> you could do:</p>
+<pre><code class="lang-js">u(&#39;.terms-os-service&#39;).is(&#39;:checked&#39;);
+</code></pre>
 <h3 id="examples">Examples</h3>
 <p>Get the alt of an image:</p>
 <pre><code class="lang-js">u(&#39;img.hero&#39;).attr(&#39;alt&#39;);
