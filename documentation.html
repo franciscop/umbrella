@@ -81,9 +81,10 @@ page(/^login/, function(){
 <p><a href="#append">.append(html)</a></p>
 <p><a href="#prepend">.prepend(html)</a></p>
 <h2 id="-ajax-">.ajax()</h2>
-<p>Make all of the matched forms to be submitted by ajax with the same method and values when the user submits the form.</p>
+<p>Make all of the matched forms to be submitted by ajax with the same action, method and values when the user submits the form.</p>
 <blockquote>
 <p>Note: this method does NOT submit the form, it just handles it when it&#39;s submitted (from the user or with .trigger())</p>
+<p>Note2: the .serialize() method used internally is slightly buggy; select can only have a single selection and few other bugs as described here: <a href="http://stackoverflow.com/a/11661219">form serialize javascript</a></p>
 </blockquote>
 <pre><code class="lang-js">.ajax(done, before);
 </code></pre>

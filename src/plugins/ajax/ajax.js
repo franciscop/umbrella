@@ -1,13 +1,13 @@
 /**
- * .ajax(success, error, before)
+ * .ajax(done, before)
  * 
  * Create a POST request for whenever the matched form submits
- * @param function success called when response is received
+ * @param function done called when response is received
  * @param function before called function before sending the request
  */
 u.prototype.ajax = function(done, before) {
   
-  // Loop through all the nodes
+  // Attach the event submit to all of the nodes
   return this.on("submit", function(e) {
     
     // Stop the browser from sending the request
