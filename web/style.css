@@ -104,6 +104,11 @@ section.row:last-child {
   padding-top: 80px;
 }
 
+section.row .love {
+  text-align: center;
+  font-weight: bold;
+}
+
 section.row aside {
   width: 200px;
 }
