@@ -109,16 +109,11 @@ u.prototype.nodes = [];
  */
 u.prototype.addClass = function(args){
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.add(name);
-    });
+    // Add the class using the native method
+    el.classList.add(name);
   });
 };
 
@@ -289,7 +284,6 @@ u.prototype.data = function(name, value) {
  * .each()
  * Loops through every node from the current call
  * it accepts a callback that will be executed on each node
- * The context for 'this' within the callback is the html node
  * The callback has two parameters, the node and the index
  */
 u.prototype.each = function(callback) {
@@ -304,6 +298,26 @@ u.prototype.each = function(callback) {
   }, this);
   
   return this;
+};
+
+/**
+ * .eacharg()
+ * Loops through the combination of every node and every argument
+ * it accepts a callback that will be executed on each combination
+ * The callback has two parameters, the node and the index
+ */
+u.prototype.eacharg = function(args, callback) {
+  
+  return this.each(function(node){
+    
+    this.args(args).forEach(function(arg){
+      
+      // Perform the callback for this node
+      // By doing callback.call we allow "this" to be the context for
+      // the callback (see http://stackoverflow.com/q/4065353 precisely)
+      callback.call(this, node, arg);
+    });
+  });
 };
 
 // .filter(selector)
@@ -544,16 +558,11 @@ u.prototype.remove = function() {
  */
 u.prototype.removeClass = function(args) {
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.remove(name);
-    });
+    // Add the class using the native method
+    el.classList.remove(name);
   });
 };
 
