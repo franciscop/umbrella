@@ -1,6 +1,6 @@
 ## .last()
 
-Add html class(es) to all of the matched elements.
+Get the last element from a list of elements.
 
 ```js
 .last();
@@ -30,6 +30,4 @@ var next = u("ul.demo li").last();
 
 ### Related
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
-
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.first()](#first) deletes class(es) from the matched elements.
