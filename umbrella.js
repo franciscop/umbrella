@@ -107,18 +107,13 @@ u.prototype.nodes = [];
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
-u.prototype.addClass = function(args){
+u.prototype.addClass = function(){
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.add(name);
-    });
+    // Add the class using the native method
+    el.classList.add(name);
   });
 };
 
@@ -289,7 +284,6 @@ u.prototype.data = function(name, value) {
  * .each()
  * Loops through every node from the current call
  * it accepts a callback that will be executed on each node
- * The context for 'this' within the callback is the html node
  * The callback has two parameters, the node and the index
  */
 u.prototype.each = function(callback) {
@@ -304,6 +298,26 @@ u.prototype.each = function(callback) {
   }, this);
   
   return this;
+};
+
+/**
+ * .eacharg()
+ * Loops through the combination of every node and every argument
+ * it accepts a callback that will be executed on each combination
+ * The callback has two parameters, the node and the index
+ */
+u.prototype.eacharg = function(args, callback) {
+  
+  return this.each(function(node){
+    
+    this.args(args).forEach(function(arg){
+      
+      // Perform the callback for this node
+      // By doing callback.call we allow "this" to be the context for
+      // the callback (see http://stackoverflow.com/q/4065353 precisely)
+      callback.call(this, node, arg);
+    });
+  });
 };
 
 // .filter(selector)
@@ -542,18 +556,13 @@ u.prototype.remove = function() {
  * @param String name the class name we want to remove
  * @return this Umbrella object
  */
-u.prototype.removeClass = function(args) {
+u.prototype.removeClass = function() {
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.remove(name);
-    });
+    // Remove the class using the native method
+    el.classList.remove(name);
   });
 };
 
@@ -621,24 +630,27 @@ u.prototype.serialize = function() {
 };
 
 /**
- * .toggleClass(name1, name2, ...)
+ * .toggleClass('name1, name2, nameN' ...[, addOrRemove])
  * 
  * Toggles classes on the matched nodes
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
-u.prototype.toggleClass = function(args){
+u.prototype.toggleClass = function(classes, addOrRemove){
   
   // Normalize the arguments to a simple array
-  args = this.args(arguments);
+  classes = this.args(classes);
+
+  //check if addOrRemove was passed
+  if (typeof addOrRemove === 'boolean') {
+
+    // return the corresponding Umbrella method
+    return (addOrRemove) ? this.addClass(classes) : this.removeClass(classes);
+  }
   
-  // Loop through all the nodes
-  return this.each(function(el){
-    
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.toggle(name);
-    });
+  // Loop through all the nodes and classes
+  return this.eacharg(classes, function(el, name){
+    el.classList.toggle(name);
   });
 };
 

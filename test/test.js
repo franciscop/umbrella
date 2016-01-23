@@ -696,6 +696,16 @@ describe(".toggleClass(name1, name2, ...)", function() {
     expect(base.hasClass('bla')).to.equal(false);
   });
 
+  it("can be called with a second parameter to force a addClass", function() {
+    base.toggleClass('blu', true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("can be called with a second parameter to force a removeClass", function() {
+    base.toggleClass('blu', false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+
   it("toggles several classes separated by comma", function() {
     len = base.toggleClass('bla,blu').nodes.length;
     expect(len).to.equal(1);
