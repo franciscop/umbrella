@@ -856,6 +856,28 @@ u('input').on('change click blur paste', function(){
 ### Related
 
 [.trigger()](#trigger) calls an event on all of the matched nodes
+## .remove()
+
+Removes the matched elements.
+
+```js
+.remove();
+```
+
+
+### Parameters
+
+This method doesn't accept any parameters
+
+
+### Examples
+
+Remove all the elements of a list:
+
+```js
+u("ul.demo li").remove();
+```
+
 ## .removeClass()
 
 Remove html class(es) to all of the matched elements.
