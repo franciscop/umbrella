@@ -187,7 +187,7 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <pre><code class="lang-js">u(&#39;img&#39;).attr({ src: &#39;demo.jpg&#39; });
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#html">.html(html)</a></p>
+<p><a href="#data">.data()</a> handle data-* attributes for the matched elements</p>
 <h2 id="-before-">.before()</h2>
 <p>Add some html before of each of the matched elements.</p>
 <pre><code class="lang-js">.before(html);
@@ -279,7 +279,7 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
   &lt;li data-id=&#39;2&#39;&gt;Third&lt;/li&gt;
 &lt;/ul&gt;
 </code></pre>
-<pre><code class="lang-js">u(&#39;ul li&#39;).first().data(&#39;id&#39;); // 1
+<pre><code class="lang-js">u(&#39;ul li&#39;).first().data(&#39;id&#39;); // 0
 </code></pre>
 <p>Set the data-id of an element:</p>
 <pre><code class="lang-js">u(&#39;ul li&#39;).first().data({ id: &#39;1&#39; }); // &lt;li data-id=&#39;1&#39;&gt;First&lt;/li&gt;
@@ -287,8 +287,7 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#39;2&#39;&gt;First&lt;/li&gt;
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#data">.data(name, value)</a>
-<a href="#html">.html(html)</a></p>
+<p><a href="#attr">.attr()</a> handle attributes for the matched elements</p>
 <h2 id="-each-">.each()</h2>
 <p>Loop through all of the nodes and execute a callback for each</p>
 <pre><code class="lang-js">.each(callback);

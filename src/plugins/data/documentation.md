@@ -35,6 +35,7 @@ Handle data-* attributes for the matched elements
 ### Examples
 
 Get the value for data-id:
+
 ```html
 <ul>
   <li data-id='0'>First</li>
@@ -44,7 +45,7 @@ Get the value for data-id:
 ```
 
 ```js
-u('ul li').first().data('id'); // 1
+u('ul li').first().data('id'); // 0
 ```
 
 Set the data-id of an element:
@@ -58,5 +59,4 @@ u('ul li').first().data('id', '2'); // <li data-id='2'>First</li>
 
 ### Related
 
-[.data(name, value)](#data)
-[.html(html)](#html)
+[.attr()](#attr) handle attributes for the matched elements
