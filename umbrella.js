@@ -276,10 +276,9 @@ u.prototype.closest = function(selector) {
 // Return the fist node attribute
 u.prototype.data = function(name, value) {
   if (typeof name === 'object') {
-    new_name = {};
+    var new_name = {};
     for(var key in name) {
-      new_key = 'data-' + key;
-      new_name[new_key] = name[key];
+      new_name['data-' + key] = name[key];
     }
     return this.attr(new_name);
   }

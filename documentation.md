@@ -497,17 +497,24 @@ Handle data-* attributes for the matched elements
 ### Examples
 
 Get the value for data-id:
+```html
+<ul>
+  <li data-id='0'>First</li>
+  <li data-id='1'>Second</li>
+  <li data-id='2'>Third</li>
+</ul>
+```
 
 ```js
-u('ul li').first().data('id');
+u('ul li').first().data('id'); // 1
 ```
 
 Set the data-id of an element:
 
 ```js
-u('ul li').first().data({ id: '1' });
+u('ul li').first().data({ id: '1' }); // <li data-id='1'>First</li>
 
-u('ul li').first().data('id', '2');
+u('ul li').first().data('id', '2'); // <li data-id='2'>First</li>
 ```
 
 
