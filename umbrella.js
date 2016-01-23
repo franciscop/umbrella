@@ -107,7 +107,7 @@ u.prototype.nodes = [];
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
-u.prototype.addClass = function(args){
+u.prototype.addClass = function(){
   
   // Loop the combination of each node with each argument
   return this.eacharg(arguments, function(el, name){
@@ -324,20 +324,18 @@ u.prototype.eacharg = function(args, callback) {
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function(selector){
   
-  // Just a native filtering function for ultra-speed
-  return u(this.nodes.filter(function(node){
-    
-    // Accept a function to filter the nodes
-    if (typeof selector === 'function') {
-      return selector(node);
-    }
+  // The default function if it's a css selector
+  function fn(node){
     
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
     
     // Check if it's the same element (or any element if no selector was passed)
     return node.matches(selector || "*");
-  }));
+  }
+  
+  // Just a native filtering function for ultra-speed
+  return u(this.nodes.filter((typeof selector == 'function') ? selector : fn));
 };
 /**
  * Find all the nodes children of the current ones matched by a selector
@@ -556,12 +554,12 @@ u.prototype.remove = function() {
  * @param String name the class name we want to remove
  * @return this Umbrella object
  */
-u.prototype.removeClass = function(args) {
+u.prototype.removeClass = function() {
   
   // Loop the combination of each node with each argument
   return this.eacharg(arguments, function(el, name){
     
-    // Add the class using the native method
+    // Remove the class using the native method
     el.classList.remove(name);
   });
 };
