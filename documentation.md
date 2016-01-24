@@ -934,7 +934,7 @@ This method doesn't accept any parameters
 
 ### Return
 
-`u`: returns an instance of Umbrella JS with the removed nodes.
+`u`: Returns an instance of Umbrella JS with the removed nodes.
 
 
 ### Examples
