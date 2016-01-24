@@ -23,8 +23,8 @@ describe(".remove()", function() {
   });
 
   it("can be called even without any node", function() {
-    expect(u('.remove-test .fake-node').nodes).to.be.empty;
-    u('.remove-test .fake-node').remove();
+    expect(u('.remove-test div').nodes).to.be.empty;
+    u('.remove-test div').remove();
   });
 
   it("should return an instance of umbrella with the removed nodes", function() {
