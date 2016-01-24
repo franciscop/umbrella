@@ -12,6 +12,11 @@ Removes the matched elements.
 This method doesn't accept any parameters
 
 
+### Return
+
+`u`: returns an instance of Umbrella JS with the removed nodes.
+
+
 ### Examples
 
 Remove all the elements of a list:

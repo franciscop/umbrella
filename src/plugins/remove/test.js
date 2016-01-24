@@ -22,13 +22,27 @@ describe(".remove()", function() {
     expect(typeof base.remove).to.equal('function');
   });
 
+  it("can be called even without any node", function() {
+    expect(u('.remove-test .fake-node').nodes).to.be.empty;
+    u('.remove-test .fake-node').remove();
+  });
+
+  it("should return an instance of umbrella with the removed nodes", function() {
+    var result = u('.remove-test').remove();
+
+    expect(result).to.be.instanceof(u);
+    expect(result.nodes).to.have.length(1);
+    expect(result.attr('class')).to.equal('remove-test');
+    expect(result.children().nodes).to.have.length(2); // Two li children.
+  });
+
   it("removes a single element", function() {
     u('.remove-test').remove();
-    expect(u('.remove-test').nodes.length).to.equal(0);
+    expect(u('.remove-test').nodes).to.be.empty;
   });
 
   it("removes several elements", function() {
     u('.remove-test li').remove();
-    expect(u('.remove-test li').nodes.length).to.equal(0);
+    expect(u('.remove-test li').nodes).to.be.empty;
   });
 });
