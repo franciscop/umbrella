@@ -2,7 +2,6 @@
  * .each()
  * Loops through every node from the current call
  * it accepts a callback that will be executed on each node
- * The context for 'this' within the callback is the html node
  * The callback has two parameters, the node and the index
  */
 u.prototype.each = function(callback) {

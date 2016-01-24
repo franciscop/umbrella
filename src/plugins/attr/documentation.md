@@ -62,4 +62,4 @@ u('img').attr({ src: 'demo.jpg' });
 
 ### Related
 
-[.html(html)](#html)
+[.data()](#data) handle data-* attributes for the matched elements

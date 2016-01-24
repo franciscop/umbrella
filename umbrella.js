@@ -107,18 +107,13 @@ u.prototype.nodes = [];
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
-u.prototype.addClass = function(args){
+u.prototype.addClass = function(){
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.add(name);
-    });
+    // Add the class using the native method
+    el.classList.add(name);
   });
 };
 
@@ -265,10 +260,30 @@ u.prototype.closest = function(selector) {
 };
 
 /**
+ * .data(name, value)
+ *
+ * Retrieve or set the data-* attributes of the first matched node
+ * @param String name the data-* attribute to search
+ * @param String value optional atribute to set
+ * @return this|String
+ */
+// ATTR
+// Return the fist node attribute
+u.prototype.data = function(name, value) {
+  if (typeof name === 'object') {
+    var new_name = {};
+    for(var key in name) {
+      new_name['data-' + key] = name[key];
+    }
+    return this.attr(new_name);
+  }
+  return this.attr('data-' + name, value);
+};
+
+/**
  * .each()
  * Loops through every node from the current call
  * it accepts a callback that will be executed on each node
- * The context for 'this' within the callback is the html node
  * The callback has two parameters, the node and the index
  */
 u.prototype.each = function(callback) {
@@ -285,24 +300,42 @@ u.prototype.each = function(callback) {
   return this;
 };
 
+/**
+ * .eacharg()
+ * Loops through the combination of every node and every argument
+ * it accepts a callback that will be executed on each combination
+ * The callback has two parameters, the node and the index
+ */
+u.prototype.eacharg = function(args, callback) {
+  
+  return this.each(function(node){
+    
+    this.args(args).forEach(function(arg){
+      
+      // Perform the callback for this node
+      // By doing callback.call we allow "this" to be the context for
+      // the callback (see http://stackoverflow.com/q/4065353 precisely)
+      callback.call(this, node, arg);
+    });
+  });
+};
+
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function(selector){
   
-  // Just a native filtering function for ultra-speed
-  return u(this.nodes.filter(function(node){
-    
-    // Accept a function to filter the nodes
-    if (typeof selector === 'function') {
-      return selector(node);
-    }
+  // The default function if it's a css selector
+  function fn(node){
     
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
     
     // Check if it's the same element (or any element if no selector was passed)
     return node.matches(selector || "*");
-  }));
+  }
+  
+  // Just a native filtering function for ultra-speed
+  return u(this.nodes.filter((typeof selector == 'function') ? selector : fn));
 };
 /**
  * Find all the nodes children of the current ones matched by a selector
@@ -521,18 +554,13 @@ u.prototype.remove = function() {
  * @param String name the class name we want to remove
  * @return this Umbrella object
  */
-u.prototype.removeClass = function(args) {
+u.prototype.removeClass = function() {
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.remove(name);
-    });
+    // Remove the class using the native method
+    el.classList.remove(name);
   });
 };
 

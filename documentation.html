@@ -187,7 +187,7 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <pre><code class="lang-js">u(&#39;img&#39;).attr({ src: &#39;demo.jpg&#39; });
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#html">.html(html)</a></p>
+<p><a href="#data">.data()</a> handle data-* attributes for the matched elements</p>
 <h2 id="-before-">.before()</h2>
 <p>Add some html before of each of the matched elements.</p>
 <pre><code class="lang-js">.before(html);
@@ -251,6 +251,43 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <li><p><a href="#children">.children(filter)</a> get the direct children of all of the nodes with an optional filter</p>
 </li>
 </ul>
+<h2 id="-data-">.data()</h2>
+<p>Handle data-* attributes for the matched elements</p>
+<pre><code class="lang-js">// GET
+.data(&#39;name&#39;);
+
+// SET
+.data(&#39;name&#39;, &#39;value&#39;);
+.data({ name1: &#39;value&#39;, name2: &#39;value2&#39; });
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><em>GET</em>
+<code>name</code>: the data-* attribute that we want to get from the first matched element</p>
+<p><em>SET</em>
+<code>name</code>: the data-* attribute that we want to set for all of the matched elements
+<code>value</code>: what we want to set the attribute to. If it&#39;s not defined, then we get the name</p>
+<h3 id="return">Return</h3>
+<p><em>GET</em>
+<code>string</code>: the value of the data-* attribute</p>
+<p><em>SET</em>
+<code>u</code>: data-* returns the same instance of Umbrella JS</p>
+<h3 id="examples">Examples</h3>
+<p>Get the value for data-id:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li data-id=&#39;0&#39;&gt;First&lt;/li&gt;
+  &lt;li data-id=&#39;1&#39;&gt;Second&lt;/li&gt;
+  &lt;li data-id=&#39;2&#39;&gt;Third&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<pre><code class="lang-js">u(&#39;ul li&#39;).first().data(&#39;id&#39;); // 0
+</code></pre>
+<p>Set the data-id of an element:</p>
+<pre><code class="lang-js">u(&#39;ul li&#39;).first().data({ id: &#39;1&#39; }); // &lt;li data-id=&#39;1&#39;&gt;First&lt;/li&gt;
+
+u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#39;2&#39;&gt;First&lt;/li&gt;
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#attr">.attr()</a> handle attributes for the matched elements</p>
 <h2 id="-each-">.each()</h2>
 <p>Loop through all of the nodes and execute a callback for each</p>
 <pre><code class="lang-js">.each(callback);

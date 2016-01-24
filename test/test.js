@@ -286,47 +286,38 @@ describe(".append(html)", function() {
 });
 // Testing the main file
 describe(".attr(name, value)", function() {
-  
-  beforeEach(function(){
-    expect(u('.bla').nodes.length).to.equal(0);
-  });
-  
-  afterEach(function(){
-    u('.bla').remove();
-  });
-  
   it("should be a function", function() {
-    expect(typeof base.after).to.equal('function');
+    expect(typeof base.attr).to.equal('function');
   });
-  
+
   it("can add an attribute with two params", function() {
     base.attr('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
     base.first().removeAttribute('title');
     expect(!base.attr('title')).to.equal(true);
   });
-  
+
   it("can add an attribute with an object", function() {
     base.attr({title: 'Hello'});
     expect(base.attr('title')).to.equal('Hello');
   });
-  
+
   it("can read the first element attribute", function() {
     base.first().setAttribute('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
   });
-  
+
   it("can be called with no nodes", function() {
     expect(u('dfsdf').attr('title')).to.equal('');
   });
-  
+
   it("can nullify (remove) an attribute with two params", function() {
     base.first().setAttribute('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
     base.attr('title', null);
     expect(!base.attr('title')).to.equal(true);
   });
-  
+
   it("can nullify (remove) an attribute with an object", function() {
     base.first().setAttribute('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
@@ -334,6 +325,7 @@ describe(".attr(name, value)", function() {
     expect(!base.attr('title')).to.equal(true);
   });
 });
+
 // Testing the main file
 describe(".before(html)", function() {
   
@@ -394,6 +386,73 @@ describe(".closest(selector)", function() {
   
   it("can select the children of ul", function() {
     expect(base.find('li').closest('ul').nodes.length).to.equal(1);
+  });
+});
+// Testing the main file
+describe(".data(name, value)", function() {
+  it("should be a function", function() {
+    expect(typeof base.data).to.equal('function');
+  });
+
+  it("can add an attribute with two params", function() {
+    base.data('title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+    base.first().removeAttribute('data-title');
+    expect(!base.data('title')).to.equal(true);
+  });
+
+  it("can add an attribute with an object", function() {
+    base.data({title: 'Hello'});
+    expect(base.data('title')).to.equal('Hello');
+  });
+
+  it("can read the first element attribute", function() {
+    base.first().setAttribute('data-title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+  });
+
+  it("can be called with no nodes", function() {
+    expect(u('dfsdf').data('title')).to.equal('');
+  });
+
+  it("can nullify (remove) an attribute with two params", function() {
+    base.first().setAttribute('data-title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+    base.data('title', null);
+    expect(!base.data('title')).to.equal(true);
+  });
+
+  it("can nullify (remove) an attribute with an object", function() {
+    base.first().setAttribute('data-title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+    base.data({'title': null});
+    expect(!base.data('title')).to.equal(true);
+  });
+});
+
+// Testing the main file
+describe(".filter(selector)", function() {
+  
+  it("should be defined", function() {
+    expect(typeof base.filter).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    base.filter();
+    base.filter("");
+  });
+
+  it("stays the same", function() {
+    expect(base.filter('.base').nodes.length).to.equal(1);
+  });
+
+  it("gets only one", function() {
+    expect(base.find('a').filter('#world').nodes.length).to.equal(1);
+  });
+
+  it("accepts a function", function() {
+    expect(base.filter(function(){ return true; }).nodes.length).to.equal(1);
+    expect(base.filter(function(){ return false; }).nodes.length).to.equal(0);
   });
 });
 // Testing the main file
@@ -682,5 +741,13 @@ describe(".trigger()", function() {
       throw "Shouldn't be called";
     });
     base.trigger('submit');
+  });
+  
+  it("triggers custom event", function(done) {
+    base.on('bla', function(e){
+      expect(!!e).to.equal(true);
+      done();
+    });
+    base.trigger('bla');
   });
 });
