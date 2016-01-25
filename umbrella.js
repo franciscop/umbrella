@@ -348,7 +348,7 @@ u.prototype.eacharg = function(args, callback) {
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function(selector){
-  
+
   // The default function if it's a css selector
   var callback = function(node){
     
@@ -361,7 +361,18 @@ u.prototype.filter = function(selector){
   
   if (typeof selector == 'function') callback = selector;
   // here to check for u() instances
-  
+
+  if (selector instanceof u) {
+    var callback = function (node){
+      var nodes = selector.nodes;
+      for (var i = nodes.length - 1; i >= 0; i--) {
+        if(nodes[i] == node) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
   
   // Just a native filtering function for ultra-speed
   return u(this.nodes.filter(callback));
@@ -521,25 +532,10 @@ u.prototype.join = function(callback) {
 
 // .not(elems)
 // Delete all of the nodes that equals elems
-u.prototype.not = function(elems){
-  if(elems instanceof u){
-    var fn = function (node){
-      var nodes = elems.nodes;
-      for (var i = nodes.length - 1; i >= 0; i--) {
-        if(nodes[i] == node) {
-          return false;
-        }
-      }
-      return true;
-    }
-  } else {
-    var fn = function (node){
-      node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
-      return (elems) ? !node.matches(elems) : node.matches('*');
-    }
-  }
-
-  return this.nodes.filter(fn);
+u.prototype.not = function(filter){
+  return this.filter(function(node){
+    return !u(node).is(filter);
+  });
 };
 /**
  * .on(event, callback)

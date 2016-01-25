@@ -25,10 +25,6 @@ describe(".not(elems)", function() {
     base.not();
   });
 
-  it("returns same if called empty", function() {
-    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
-  });
-
   it("filter single element", function() {
     expect(base.find('.not-test li').not(u(u('.not-test li').first())).nodes.length).to.equal(2);
   });
