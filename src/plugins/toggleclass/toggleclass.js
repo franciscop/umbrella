@@ -11,7 +11,7 @@ u.prototype.toggleClass = function(classes, addOrRemove){
   if (!!addOrRemove === addOrRemove) {
 
     // return the corresponding Umbrella method
-    return this[addOrRemove ? 'addClass' : 'removeClass'](this.args(classes));
+    return this[addOrRemove ? 'addClass' : 'removeClass'](classes);
   }
   
   // Loop through all the nodes and classes combinations
