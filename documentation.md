@@ -343,8 +343,7 @@ u('img').attr({ src: 'demo.jpg' });
 
 ### Related
 
-[.html(html)](#html)
-
+[.data()](#data) handle data-* attributes for the matched elements
 ## .before()
 
 Add some html before of each of the matched elements.
@@ -459,6 +458,69 @@ u("li").closest('ul');
 - [.parent(filter)](#parent) get all of the direct parents
 
 - [.children(filter)](#children) get the direct children of all of the nodes with an optional filter
+
+## .data()
+
+Handle data-* attributes for the matched elements
+
+```js
+// GET
+.data('name');
+
+// SET
+.data('name', 'value');
+.data({ name1: 'value', name2: 'value2' });
+```
+
+
+### Parameters
+
+*GET*
+`name`: the data-* attribute that we want to get from the first matched element
+
+*SET*
+`name`: the data-* attribute that we want to set for all of the matched elements
+`value`: what we want to set the attribute to. If it's not defined, then we get the name
+
+
+
+### Return
+
+*GET*
+`string`: the value of the data-* attribute
+
+*SET*
+`u`: data-* returns the same instance of Umbrella JS
+
+
+### Examples
+
+Get the value for data-id:
+
+```html
+<ul>
+  <li data-id='0'>First</li>
+  <li data-id='1'>Second</li>
+  <li data-id='2'>Third</li>
+</ul>
+```
+
+```js
+u('ul li').first().data('id'); // 0
+```
+
+Set the data-id of an element:
+
+```js
+u('ul li').first().data({ id: '1' }); // <li data-id='1'>First</li>
+
+u('ul li').first().data('id', '2'); // <li data-id='2'>First</li>
+```
+
+
+### Related
+
+[.attr()](#attr) handle attributes for the matched elements
 
 ## .each()
 
@@ -899,6 +961,59 @@ u("form").removeClass("toValidate", "ajaxify");
 ### Related
 
 [.addClass(name)](#addclass) adds class(es) from the matched elements.
+
+[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+
+## .toggleClass()
+
+Toggles html class(es) to all of the matched elements.
+
+```js
+.toggleClass('name1');
+.toggleClass('name1 name2 nameN');
+.toggleClass('name1,name2,nameN');
+.toggleClass('name1', true);
+```
+
+### Parameters
+
+`name1`, `name2`, `nameN`: the class name (or variable containing it) to be toggled to all of the matched elements. It accepts many different types of parameters (see above).
+`addOrRemove`: boolean telling the method whether to force an `.addClass()` or `.removeClass()`. 
+
+
+
+### Return
+
+`u`: returns the same instance of Umbrella JS
+
+
+
+### Examples
+
+Add the class `main` to all the `<h2>` from the page:
+
+```js
+u("h2").toggleClass("main");
+```
+
+Add the class `toValidate` and remove `ajaxify` from the element `<form class="ajaxify">` present in the page:
+
+```js
+u("form.ajaxify").toggleClass("toValidate", "ajaxify");
+```
+
+Force an `.addClass()` on the element `<h2>` from the page:
+
+```js
+u("h2").toggleClass("main", true);
+```
+
+
+
+### Related
+[.addClass(name)](#addclass) adds class(es) from the matched elements.
+
+[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
 
 [.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
 
