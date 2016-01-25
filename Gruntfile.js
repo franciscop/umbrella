@@ -63,6 +63,7 @@ module.exports = function (grunt) {
     };
     
     fs.readdirSync(__dirname + "/src/plugins").forEach(function(name, i){
+      if(name === '.DS_Store') return;
       var file = 'src/plugins/' + name + '/' + name + '.js';
       var test = 'src/plugins/' + name + '/test.js';
       var doc = 'src/plugins/' + name + '/documentation.md';
