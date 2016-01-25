@@ -53,15 +53,33 @@ u.prototype.slice = function(pseudo) {
   return pseudo ? [].slice.call(pseudo, 0) : [];
 };
 
+
+// Flatten an array using 
+u.prototype.str = function(node, i){
+  return function(arg){
+    
+    // Call the function with the corresponding nodes
+    if (typeof arg === 'function') {
+      return arg.call(this, node, i);
+    }
+    
+    // From an array or other 'weird' things
+    return arg.toString();
+  }
+}
+
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
-u.prototype.args = function(args){
+u.prototype.args = function(args, node, i){
   
   // First flatten it all to a string http://stackoverflow.com/q/22920305
-  return ((typeof args === 'string') ? args : this.slice(args).toString())
+  // If we try to slice a string bad things happen: ['n', 'a', 'm', 'e']
+  if (typeof args !== 'string') {
+    args = this.slice(args).map(this.str(node, i));
+  }
     
-    // Then convert that string to an array of not-null strings
-    .split(/[\s,]+/).filter(function(e){ return e.length; });
+  // Then convert that string to an array of not-null strings
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique. This is needed for some specific methods
@@ -308,9 +326,9 @@ u.prototype.each = function(callback) {
  */
 u.prototype.eacharg = function(args, callback) {
   
-  return this.each(function(node){
+  return this.each(function(node, i){
     
-    this.args(args).forEach(function(arg){
+    this.args(args, node, i).forEach(function(arg){
       
       // Perform the callback for this node
       // By doing callback.call we allow "this" to be the context for
@@ -460,8 +478,9 @@ u.prototype.hasClass = function(names) {
 u.prototype.html = function(text) {
   
   // Needs to check undefined as it might be ""
-  if (text === undefined)
+  if (text === undefined) {
     return this.first().innerHTML || "";
+  }
   
   
   // If we're attempting to set some text  

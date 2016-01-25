@@ -161,6 +161,13 @@ describe("performance tests", function(){
   
 });
 // Testing the main file
+function addTest(node, i){
+  return 'test' + i;
+}
+function addDemo(node, i){
+  return 'demo' + i;
+}
+
 describe(".addClass(name1, name2, ...)", function() {
   
   beforeEach(function(){
@@ -222,6 +229,32 @@ describe(".addClass(name1, name2, ...)", function() {
   it("adds several classes separated by comma", function() {
     len = base.addClass('bla,blu').nodes.length;
     expect(len).to.equal(1);
+  });
+  
+  it("adds classes with callback", function(){
+    base.addClass(addTest);
+    expect(base.hasClass('test0')).to.equal(true);
+    
+    // Clean up
+    base.removeClass('test0');
+    expect(base.hasClass('test0')).to.equal(false);
+  });
+  
+  it("adds many classes with callback", function(){
+    base.find('li').addClass(addTest).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+    });
+  });
+  
+  it("accepts two callbacks or more", function(){
+    
+    base.find('li').addClass(addTest, addDemo).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      expect(u(node).hasClass('demo' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+      u(node).removeClass('demo' + i);
+    });
   });
 });
 // Testing the main file

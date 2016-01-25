@@ -41,6 +41,41 @@ page(/^login/, function(){
   u(&quot;form.login&quot;).ajax(done);
 });
 </code></pre>
+<h2 id="native-methods">Native methods</h2>
+<blockquote>
+<p>This section is inspired by <a href="http://blissfuljs.com/docs.html#vanilla">Bliss.js&#39; vanilla methods</a></p>
+</blockquote>
+<p>There are many native methods and properties that you can use. These can be called straight in the <code>.first()</code> or <code>.last()</code> elements, a <code>.nodes</code> element or you can loop every element to call them. For example:</p>
+<pre><code class="lang-js">// Single element from .nodes
+u(&#39;h1&#39;).nodes[0].classList.add(&#39;vanilla&#39;);
+
+// Single element
+u(&#39;h1&#39;).first().classList.add(&#39;vanilla&#39;, &#39;test&#39;);
+
+// Multiple elements
+u(&#39;h2&#39;).each(function(el){
+  el.classList.add(&#39;vanilla&#39;, &#39;test&#39;);
+});
+</code></pre>
+<p>And for the arrays it&#39;s similar, you can call any array method on <code>u().nodes</code> since this is literally an array:</p>
+<pre><code class="lang-js">u(&#39;h2&#39;).nodes.forEach();
+var mapped = u(&#39;h2&#39;).nodes.map();
+var filtered = u(&#39;h2&#39;).nodes.filter();
+var good = u(&#39;h2&#39;).nodes.some();
+</code></pre>
+<p>However, there are also some advantages of using Umbrella&#39;s methods instead of native methods. For example, with <code>.addClass()</code> vs native <code>classList.add()</code>:</p>
+<ul>
+<li><strong>error prevention</strong>: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)</li>
+<li><strong>cross-browser</strong>: the classList.add() with multiple elements <a href="http://caniuse.com/#search=classList">is not compatible with IE10-11 &amp; Android 4.3-</a></li>
+<li><strong>more flexibility</strong>: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:</li>
+</ul>
+<pre><code class="lang-js">u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, &#39;test&#39;);     // It accepts multiple parameters
+u(&#39;h2&#39;).addClass([&#39;vanilla&#39;, &#39;test&#39;]);   // Also accept an array
+u(&#39;h2&#39;).addClass([&#39;vanilla&#39;], [&#39;test&#39;]); // Or multiple arrays
+u(&#39;h2&#39;).addClass(&#39;vanilla, test&#39;);       // Strings with space and/or comma
+u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, [&#39;test&#39;], &#39;one, more&#39; }); // Or just whatever
+</code></pre>
+<p>So it&#39;s convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella&#39;s methods where it&#39;s better suited or then crete your own methods when you need it.</p>
 <h2 id="-addclass-">.addClass()</h2>
 <p>Add html class(es) to all of the matched elements.</p>
 <pre><code class="lang-js">.addClass(&#39;name1&#39;);
@@ -49,6 +84,8 @@ page(/^login/, function(){
 .addClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;);
 .addClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
 .addClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;]);
+.addClass(function(){ return &#39;name1&#39;; });
+.addClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).</p>
