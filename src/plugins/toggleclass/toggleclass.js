@@ -7,17 +7,14 @@
  */
 u.prototype.toggleClass = function(classes, addOrRemove){
   
-  // Normalize the arguments to a simple array
-  classes = this.args(classes);
-
-  //check if addOrRemove was passed
-  if (typeof addOrRemove === 'boolean') {
+  //check if addOrRemove was passed as a boolean
+  if (!!addOrRemove === addOrRemove) {
 
     // return the corresponding Umbrella method
-    return (addOrRemove) ? this.addClass(classes) : this.removeClass(classes);
+    return this[addOrRemove ? 'addClass' : 'removeClass'](this.args(classes));
   }
   
-  // Loop through all the nodes and classes
+  // Loop through all the nodes and classes combinations
   return this.eacharg(classes, function(el, name){
     el.classList.toggle(name);
   });

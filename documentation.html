@@ -536,11 +536,12 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <pre><code class="lang-js">.toggleClass(&#39;name1&#39;);
 .toggleClass(&#39;name1 name2 nameN&#39;);
 .toggleClass(&#39;name1,name2,nameN&#39;);
-.toggleClass(&#39;name1&#39;, true);
+.toggleClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
+.toggleClass(&#39;name1&#39;, forceAdd);
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be toggled to all of the matched elements. It accepts many different types of parameters (see above).
-<code>addOrRemove</code>: boolean telling the method whether to force an <code>.addClass()</code> or <code>.removeClass()</code>. </p>
+<p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be toggled to all of the matched elements. It accepts many different types of parameters (see above).</p>
+<p><code>forceAdd</code>: boolean telling the method whether to force an <code>.addClass()</code> (true) or <code>.removeClass()</code> (false).</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -548,10 +549,13 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;);
 </code></pre>
 <p>Add the class <code>toValidate</code> and remove <code>ajaxify</code> from the element <code>&lt;form class=&quot;ajaxify&quot;&gt;</code> present in the page:</p>
-<pre><code class="lang-js">u(&quot;form.ajaxify&quot;).toggleClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);
+<pre><code class="lang-js">u(&quot;form.ajaxify&quot;).toggleClass(&quot;toValidate ajaxify&quot;);
 </code></pre>
 <p>Force an <code>.addClass()</code> on the element <code>&lt;h2&gt;</code> from the page:</p>
 <pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, true);
+</code></pre>
+<p>Note however that this last example by itself doesn&#39;t make much sense as you could just use <code>addClass()</code> instead. It makes a lot more sense when the second parameter is checked dynamically:</p>
+<pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, u(&#39;.accept&#39;).is(&#39;:checked&#39;));
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass(name)</a> adds class(es) from the matched elements.</p>
