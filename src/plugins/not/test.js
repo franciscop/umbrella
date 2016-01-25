@@ -23,6 +23,18 @@ describe(".not(elems)", function() {
 
   it("can be called empty", function() {
     base.not();
+    base.not('');
+    base.not(null);
+    base.not(undefined);
+    base.not(false);
+  });
+
+  it("returns same if called empty", function() {
+    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not('').nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not(null).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not(undefined).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not(false).nodes.length).to.equal(base.find('.not-test li').nodes.length);
   });
 
   it("filter single element", function() {
