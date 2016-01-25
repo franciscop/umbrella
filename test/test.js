@@ -40,6 +40,10 @@ describe("u(selector, context)", function() {
     var context = u('.demo li').nodes[0];
     expect(u('a', context).nodes.length).to.equal(1);
   });
+  
+  it("can read the length", function() {
+    expect(u('a').length).to.equal(u('a').nodes.length);
+  });
 });
 
 
@@ -161,6 +165,13 @@ describe("performance tests", function(){
   
 });
 // Testing the main file
+function addTest(node, i){
+  return 'test' + i;
+}
+function addDemo(node, i){
+  return 'demo' + i;
+}
+
 describe(".addClass(name1, name2, ...)", function() {
   
   beforeEach(function(){
@@ -222,6 +233,32 @@ describe(".addClass(name1, name2, ...)", function() {
   it("adds several classes separated by comma", function() {
     len = base.addClass('bla,blu').nodes.length;
     expect(len).to.equal(1);
+  });
+  
+  it("adds classes with callback", function(){
+    base.addClass(addTest);
+    expect(base.hasClass('test0')).to.equal(true);
+    
+    // Clean up
+    base.removeClass('test0');
+    expect(base.hasClass('test0')).to.equal(false);
+  });
+  
+  it("adds many classes with callback", function(){
+    base.find('li').addClass(addTest).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+    });
+  });
+  
+  it("accepts two callbacks or more", function(){
+    
+    base.find('li').addClass(addTest, addDemo).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      expect(u(node).hasClass('demo' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+      u(node).removeClass('demo' + i);
+    });
   });
 });
 // Testing the main file
@@ -454,6 +491,12 @@ describe(".filter(selector)", function() {
     expect(base.filter(function(){ return true; }).nodes.length).to.equal(1);
     expect(base.filter(function(){ return false; }).nodes.length).to.equal(0);
   });
+
+  it("accepts an object", function() {
+    expect(base.filter(base).nodes.length).to.equal(1);
+    expect(base.filter(u('.bla')).nodes.length).to.equal(0);
+  });
+
 });
 // Testing the main file
 describe(".find(selector)", function() {
@@ -576,6 +619,14 @@ describe(".is(selector)", function() {
       expect(u(node).is('.base')).to.equal(true);
     });
   });
+
+  it("accepts an object", function() {
+    expect(base.is(base)).to.equal(true);
+    expect(base.is(u('.bla'))).to.equal(false);
+    base.is(function(node){
+      expect(u(node).is(base)).to.equal(true);
+    });
+  });
 });
 describe(".not(elems)", function() {
 
@@ -605,22 +656,71 @@ describe(".not(elems)", function() {
   });
 
   it("returns same if called empty", function() {
-    expect(base.find('.not-test li').not().length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
   });
 
   it("filter single element", function() {
-    expect(base.find('.not-test li').not(u(base.find('.not-test li').first())).length).to.equal(2);
+    expect(base.find('.not-test li').not(u(u('.not-test li').first())).nodes.length).to.equal(2);
   });
 
   it("filter multiple elements", function() {
-    expect(base.find('.not-test li').not(base.find('.not-test li.filter')).length).to.equal(1);
+    expect(base.find('.not-test li').not(u('.not-test li.filter')).nodes.length).to.equal(1);
   });
 
   it("filter selector elements", function() {
-    expect(base.find('.not-test li').not('.filter').length).to.equal(1);
+    expect(base.find('.not-test li').not('.filter').nodes.length).to.equal(1);
   });
 
 });
+// Testing the main file
+describe(".remove()", function() {
+
+  beforeEach(function() {
+    base.append('\
+      <ul class="remove-test"> \
+        <li></li> \
+        <li></li> \
+      </ul> \
+    ');
+
+    expect(u('.remove-test').nodes.length).to.equal(1);
+    expect(u('.remove-test li').nodes.length).to.equal(2);
+  });
+
+  afterEach(function() {
+    u('.remove-test').remove();
+  });
+
+
+  it("should be defined", function() {
+    expect(typeof base.remove).to.equal('function');
+  });
+
+  it("can be called even without any node", function() {
+    expect(u('.remove-test div').nodes).to.be.empty;
+    u('.remove-test div').remove();
+  });
+
+  it("should return an instance of umbrella with the removed nodes", function() {
+    var result = u('.remove-test').remove();
+
+    expect(result).to.be.instanceof(u);
+    expect(result.nodes).to.have.length(1);
+    expect(result.attr('class')).to.equal('remove-test');
+    expect(result.children().nodes).to.have.length(2); // Two li children.
+  });
+
+  it("removes a single element", function() {
+    u('.remove-test').remove();
+    expect(u('.remove-test').nodes).to.be.empty;
+  });
+
+  it("removes several elements", function() {
+    u('.remove-test li').remove();
+    expect(u('.remove-test li').nodes).to.be.empty;
+  });
+});
+
 // Testing the main file
 describe(".removeClass()", function() {
   
@@ -764,7 +864,19 @@ describe(".toggleClass(name1, name2, ...)", function() {
     base.toggleClass('bla').toggleClass('bla');
     expect(base.hasClass('bla')).to.equal(false);
   });
-
+  
+  it("can do double toggle and stays the same", function() {
+    base.toggleClass('bla bla');
+    expect(base.hasClass('bla')).to.equal(false);
+  });
+  
+  it("toggles several classes separated by comma", function() {
+    len = base.toggleClass('bla,blu').nodes.length;
+    expect(len).to.equal(1);
+  });
+  
+  
+  // Second Parameter
   it("can be called with a second parameter to force a addClass", function() {
     base.toggleClass('blu', true);
     expect(base.hasClass('blu')).to.equal(true);
@@ -775,9 +887,39 @@ describe(".toggleClass(name1, name2, ...)", function() {
     expect(base.hasClass('blu')).to.equal(false);
   });
 
-  it("toggles several classes separated by comma", function() {
-    len = base.toggleClass('bla,blu').nodes.length;
-    expect(len).to.equal(1);
+  it("ignores the second parameter if string", function() {
+    base.toggleClass('blu', 'peter');
+    expect(base.hasClass('blu')).to.equal(false);
+    expect(base.hasClass('peter')).to.equal(false);
+    
+    base.toggleClass('blu', 'peter');
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("ignores the second parameter if falsy but not false", function() {
+    base.toggleClass('blu', null);
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', null);
+    expect(base.hasClass('blu')).to.equal(true);
+  
+    base.toggleClass('blu', undefined);
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', undefined);
+    expect(base.hasClass('blu')).to.equal(true);
+  
+    base.toggleClass('blu', 0);
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', 0);
+    expect(base.hasClass('blu')).to.equal(true);
+  
+    base.toggleClass('blu', '');
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', '');
+    expect(base.hasClass('blu')).to.equal(true);
   });
 });
 

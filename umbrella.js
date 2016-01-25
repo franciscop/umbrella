@@ -15,7 +15,14 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-
+  
+  // Map u(...).length to u(...).nodes.length
+  Object.defineProperty(this, 'length', {
+    __proto__: this.length,
+    get: function(){
+      return this.nodes.length;
+    }
+  });
 
   // Check if it's a css selector
   if (typeof parameter == "string") {
@@ -53,15 +60,33 @@ u.prototype.slice = function(pseudo) {
   return pseudo ? [].slice.call(pseudo, 0) : [];
 };
 
+
+// Flatten an array using 
+u.prototype.str = function(node, i){
+  return function(arg){
+    
+    // Call the function with the corresponding nodes
+    if (typeof arg === 'function') {
+      return arg.call(this, node, i);
+    }
+    
+    // From an array or other 'weird' things
+    return arg.toString();
+  }
+}
+
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
-u.prototype.args = function(args){
+u.prototype.args = function(args, node, i){
   
   // First flatten it all to a string http://stackoverflow.com/q/22920305
-  return ((typeof args === 'string') ? args : this.slice(args).toString())
+  // If we try to slice a string bad things happen: ['n', 'a', 'm', 'e']
+  if (typeof args !== 'string') {
+    args = this.slice(args).map(this.str(node, i));
+  }
     
-    // Then convert that string to an array of not-null strings
-    .split(/[\s,]+/).filter(function(e){ return e.length; });
+  // Then convert that string to an array of not-null strings
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique. This is needed for some specific methods
@@ -308,9 +333,9 @@ u.prototype.each = function(callback) {
  */
 u.prototype.eacharg = function(args, callback) {
   
-  return this.each(function(node){
+  return this.each(function(node, i){
     
-    this.args(args).forEach(function(arg){
+    this.args(args, node, i).forEach(function(arg){
       
       // Perform the callback for this node
       // By doing callback.call we allow "this" to be the context for
@@ -325,7 +350,7 @@ u.prototype.eacharg = function(args, callback) {
 u.prototype.filter = function(selector){
   
   // The default function if it's a css selector
-  function fn(node){
+  var callback = function(node){
     
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
@@ -334,8 +359,12 @@ u.prototype.filter = function(selector){
     return node.matches(selector || "*");
   }
   
+  if (typeof selector == 'function') callback = selector;
+  // here to check for u() instances
+  
+  
   // Just a native filtering function for ultra-speed
-  return u(this.nodes.filter((typeof selector == 'function') ? selector : fn));
+  return u(this.nodes.filter(callback));
 };
 /**
  * Find all the nodes children of the current ones matched by a selector
@@ -460,8 +489,9 @@ u.prototype.hasClass = function(names) {
 u.prototype.html = function(text) {
   
   // Needs to check undefined as it might be ""
-  if (text === undefined)
+  if (text === undefined) {
     return this.first().innerHTML || "";
+  }
   
   
   // If we're attempting to set some text  
@@ -476,7 +506,6 @@ u.prototype.html = function(text) {
 // .is(selector)
 // Check whether any of the nodes matches the selector
 u.prototype.is = function(selector){
-  
   return this.filter(selector).nodes.length > 0;
 };
 /**
@@ -493,7 +522,7 @@ u.prototype.join = function(callback) {
 // .not(elems)
 // Delete all of the nodes that equals elems
 u.prototype.not = function(elems){
-  if(typeof elems == 'object'){
+  if(elems instanceof u){
     var fn = function (node){
       var nodes = elems.nodes;
       for (var i = nodes.length - 1; i >= 0; i--) {
@@ -658,17 +687,14 @@ u.prototype.serialize = function() {
  */
 u.prototype.toggleClass = function(classes, addOrRemove){
   
-  // Normalize the arguments to a simple array
-  classes = this.args(classes);
-
-  //check if addOrRemove was passed
-  if (typeof addOrRemove === 'boolean') {
+  //check if addOrRemove was passed as a boolean
+  if (!!addOrRemove === addOrRemove) {
 
     // return the corresponding Umbrella method
-    return (addOrRemove) ? this.addClass(classes) : this.removeClass(classes);
+    return this[addOrRemove ? 'addClass' : 'removeClass'](classes);
   }
   
-  // Loop through all the nodes and classes
+  // Loop through all the nodes and classes combinations
   return this.eacharg(classes, function(el, name){
     el.classList.toggle(name);
   });

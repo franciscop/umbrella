@@ -22,4 +22,10 @@ describe(".filter(selector)", function() {
     expect(base.filter(function(){ return true; }).nodes.length).to.equal(1);
     expect(base.filter(function(){ return false; }).nodes.length).to.equal(0);
   });
+
+  it("accepts an object", function() {
+    expect(base.filter(base).nodes.length).to.equal(1);
+    expect(base.filter(u('.bla')).nodes.length).to.equal(0);
+  });
+
 });

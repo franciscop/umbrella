@@ -15,7 +15,14 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-
+  
+  // Map u(...).length to u(...).nodes.length
+  Object.defineProperty(this, 'length', {
+    __proto__: this.length,
+    get: function(){
+      return this.nodes.length;
+    }
+  });
 
   // Check if it's a css selector
   if (typeof parameter == "string") {
@@ -53,15 +60,33 @@ u.prototype.slice = function(pseudo) {
   return pseudo ? [].slice.call(pseudo, 0) : [];
 };
 
+
+// Flatten an array using 
+u.prototype.str = function(node, i){
+  return function(arg){
+    
+    // Call the function with the corresponding nodes
+    if (typeof arg === 'function') {
+      return arg.call(this, node, i);
+    }
+    
+    // From an array or other 'weird' things
+    return arg.toString();
+  }
+}
+
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
-u.prototype.args = function(args){
+u.prototype.args = function(args, node, i){
   
   // First flatten it all to a string http://stackoverflow.com/q/22920305
-  return ((typeof args === 'string') ? args : this.slice(args).toString())
+  // If we try to slice a string bad things happen: ['n', 'a', 'm', 'e']
+  if (typeof args !== 'string') {
+    args = this.slice(args).map(this.str(node, i));
+  }
     
-    // Then convert that string to an array of not-null strings
-    .split(/[\s,]+/).filter(function(e){ return e.length; });
+  // Then convert that string to an array of not-null strings
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique. This is needed for some specific methods

@@ -41,6 +41,41 @@ page(/^login/, function(){
   u(&quot;form.login&quot;).ajax(done);
 });
 </code></pre>
+<h2 id="native-methods">Native methods</h2>
+<blockquote>
+<p>This section is inspired by <a href="http://blissfuljs.com/docs.html#vanilla">Bliss.js&#39; vanilla methods</a></p>
+</blockquote>
+<p>There are many native methods and properties that you can use. These can be called straight in the <code>.first()</code> or <code>.last()</code> elements, a <code>.nodes</code> element or you can loop every element to call them. For example:</p>
+<pre><code class="lang-js">// Single element from .nodes
+u(&#39;h1&#39;).nodes[0].classList.add(&#39;vanilla&#39;);
+
+// Single element
+u(&#39;h1&#39;).first().classList.add(&#39;vanilla&#39;, &#39;test&#39;);
+
+// Multiple elements
+u(&#39;h2&#39;).each(function(el){
+  el.classList.add(&#39;vanilla&#39;, &#39;test&#39;);
+});
+</code></pre>
+<p>And for the arrays it&#39;s similar, you can call any array method on <code>u().nodes</code> since this is literally an array:</p>
+<pre><code class="lang-js">u(&#39;h2&#39;).nodes.forEach();
+var mapped = u(&#39;h2&#39;).nodes.map();
+var filtered = u(&#39;h2&#39;).nodes.filter();
+var good = u(&#39;h2&#39;).nodes.some();
+</code></pre>
+<p>However, there are also some advantages of using Umbrella&#39;s methods instead of native methods. For example, with <code>.addClass()</code> vs native <code>classList.add()</code>:</p>
+<ul>
+<li><strong>error prevention</strong>: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)</li>
+<li><strong>cross-browser</strong>: the classList.add() with multiple elements <a href="http://caniuse.com/#search=classList">is not compatible with IE10-11 &amp; Android 4.3-</a></li>
+<li><strong>more flexibility</strong>: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:</li>
+</ul>
+<pre><code class="lang-js">u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, &#39;test&#39;);     // It accepts multiple parameters
+u(&#39;h2&#39;).addClass([&#39;vanilla&#39;, &#39;test&#39;]);   // Also accept an array
+u(&#39;h2&#39;).addClass([&#39;vanilla&#39;], [&#39;test&#39;]); // Or multiple arrays
+u(&#39;h2&#39;).addClass(&#39;vanilla, test&#39;);       // Strings with space and/or comma
+u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, [&#39;test&#39;], &#39;one, more&#39; }); // Or just whatever
+</code></pre>
+<p>So it&#39;s convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella&#39;s methods where it&#39;s better suited or then crete your own methods when you need it.</p>
 <h2 id="-addclass-">.addClass()</h2>
 <p>Add html class(es) to all of the matched elements.</p>
 <pre><code class="lang-js">.addClass(&#39;name1&#39;);
@@ -49,6 +84,8 @@ page(/^login/, function(){
 .addClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;);
 .addClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
 .addClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;]);
+.addClass(function(){ return &#39;name1&#39;; });
+.addClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).</p>
@@ -310,7 +347,8 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 </code></pre>
 <h2 id="-filter-">.filter()</h2>
 <p>Remove unwanted nodes</p>
-<pre><code class="lang-js">.filter(filter)
+<pre><code class="lang-js">.filter(&#39;a&#39;)
+.filter(function(node, index){ u(node).is(&#39;a&#39;); })
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be two things:</p>
@@ -508,6 +546,18 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
+<h2 id="-remove-">.remove()</h2>
+<p>Removes the matched elements.</p>
+<pre><code class="lang-js">.remove();
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>This method doesn&#39;t accept any parameters</p>
+<h3 id="return">Return</h3>
+<p><code>u</code>: Returns an instance of Umbrella JS with the removed nodes.</p>
+<h3 id="examples">Examples</h3>
+<p>Remove all the elements of a list:</p>
+<pre><code class="lang-js">u(&quot;ul.demo li&quot;).remove();
+</code></pre>
 <h2 id="-removeclass-">.removeClass()</h2>
 <p>Remove html class(es) to all of the matched elements.</p>
 <pre><code class="lang-js">.removeClass(&#39;name1&#39;);
@@ -536,11 +586,12 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <pre><code class="lang-js">.toggleClass(&#39;name1&#39;);
 .toggleClass(&#39;name1 name2 nameN&#39;);
 .toggleClass(&#39;name1,name2,nameN&#39;);
-.toggleClass(&#39;name1&#39;, true);
+.toggleClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
+.toggleClass(&#39;name1&#39;, forceAdd);
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be toggled to all of the matched elements. It accepts many different types of parameters (see above).
-<code>addOrRemove</code>: boolean telling the method whether to force an <code>.addClass()</code> or <code>.removeClass()</code>. </p>
+<p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be toggled to all of the matched elements. It accepts many different types of parameters (see above).</p>
+<p><code>forceAdd</code>: boolean telling the method whether to force an <code>.addClass()</code> (true) or <code>.removeClass()</code> (false).</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -548,10 +599,13 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;);
 </code></pre>
 <p>Add the class <code>toValidate</code> and remove <code>ajaxify</code> from the element <code>&lt;form class=&quot;ajaxify&quot;&gt;</code> present in the page:</p>
-<pre><code class="lang-js">u(&quot;form.ajaxify&quot;).toggleClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);
+<pre><code class="lang-js">u(&quot;form.ajaxify&quot;).toggleClass(&quot;toValidate ajaxify&quot;);
 </code></pre>
 <p>Force an <code>.addClass()</code> on the element <code>&lt;h2&gt;</code> from the page:</p>
 <pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, true);
+</code></pre>
+<p>Note however that this last example by itself doesn&#39;t make much sense as you could just use <code>addClass()</code> instead. It makes a lot more sense when the second parameter is checked dynamically:</p>
+<pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, u(&#39;.accept&#39;).is(&#39;:checked&#39;));
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass(name)</a> adds class(es) from the matched elements.</p>

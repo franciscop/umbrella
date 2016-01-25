@@ -26,19 +26,19 @@ describe(".not(elems)", function() {
   });
 
   it("returns same if called empty", function() {
-    expect(base.find('.not-test li').not().length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
   });
 
   it("filter single element", function() {
-    expect(base.find('.not-test li').not(u(base.find('.not-test li').first())).length).to.equal(2);
+    expect(base.find('.not-test li').not(u(u('.not-test li').first())).nodes.length).to.equal(2);
   });
 
   it("filter multiple elements", function() {
-    expect(base.find('.not-test li').not(base.find('.not-test li.filter')).length).to.equal(1);
+    expect(base.find('.not-test li').not(u('.not-test li.filter')).nodes.length).to.equal(1);
   });
 
   it("filter selector elements", function() {
-    expect(base.find('.not-test li').not('.filter').length).to.equal(1);
+    expect(base.find('.not-test li').not('.filter').nodes.length).to.equal(1);
   });
 
 });

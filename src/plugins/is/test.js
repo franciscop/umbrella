@@ -22,4 +22,12 @@ describe(".is(selector)", function() {
       expect(u(node).is('.base')).to.equal(true);
     });
   });
+
+  it("accepts an object", function() {
+    expect(base.is(base)).to.equal(true);
+    expect(base.is(u('.bla'))).to.equal(false);
+    base.is(function(node){
+      expect(u(node).is(base)).to.equal(true);
+    });
+  });
 });
