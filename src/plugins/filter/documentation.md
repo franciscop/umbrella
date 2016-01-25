@@ -13,7 +13,7 @@ Remove unwanted nodes
 
 `filter`: it can be:
   - css selector that each of the nodes must match to stay
-  - 
+  - instance of umbrella with the element to keep
   - function that returns a boolean with true to keep the element. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available:
   
 ```js

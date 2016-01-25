@@ -355,7 +355,7 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <p><code>filter</code>: it can be:</p>
 <ul>
 <li>css selector that each of the nodes must match to stay</li>
-<li></li>
+<li>instance of umbrella with the element to keep</li>
 <li>function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available:</li>
 </ul>
 <pre><code class="lang-js">.filter(function(node, index){
