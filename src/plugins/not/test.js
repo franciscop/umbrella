@@ -37,4 +37,8 @@ describe(".not(elems)", function() {
     expect(base.find('.not-test li').not(base.find('.not-test li.filter')).length).to.equal(1);
   });
 
+  it("filter selector elements", function() {
+    expect(base.find('.not-test li').not('.filter').length).to.equal(1);
+  });
+
 });
