@@ -348,12 +348,14 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <h2 id="-filter-">.filter()</h2>
 <p>Remove unwanted nodes</p>
 <pre><code class="lang-js">.filter(&#39;a&#39;)
+.filter(u(&#39;a&#39;))
 .filter(function(node, index){ u(node).is(&#39;a&#39;); })
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>filter</code>: it can be two things:</p>
+<p><code>filter</code>: it can be:</p>
 <ul>
 <li>css selector that each of the nodes must match to stay</li>
+<li></li>
 <li>function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available:</li>
 </ul>
 <pre><code class="lang-js">.filter(function(node, index){
@@ -510,6 +512,43 @@ should pass no parameter so it retrieves the html.</p>
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#filter">.filter()</a> remove unwanted nodes</p>
+<h2 id="-not-">.not()</h2>
+<p>Remove known nodes from nodes</p>
+<pre><code class="lang-js">.not(&#39;a&#39;)
+.not(u(&#39;a&#39;))
+.not(function(node){ return Math.random() &gt; 0.5; })
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>not</code>: it can be two things (in order):</p>
+<ul>
+<li>css selector that each of the nodes must <strong>not</strong> match to stay</li>
+<li>instance of umbrella with the element to remove</li>
+<li>function that returns <code>true</code> to remove the element. It accepts one parameter, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available</li>
+</ul>
+<pre><code class="lang-js">.not(function(node, index){
+  // your code
+});
+</code></pre>
+<h3 id="examples">Examples</h3>
+<pre><code class="lang-html">&lt;ul class=&quot;menu&quot;&gt;
+    &lt;li&gt;&lt;a class=&quot;active&quot;&gt;Menu item 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a&gt;Menu item 2&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a&gt;Menu item 3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>Get only the non-active links on paragraphs</p>
+<pre><code class="lang-js">var nonactive_links = u(&#39;.menu a&#39;).not(&#39;.active&#39;);
+</code></pre>
+<p>Get all of the active:</p>
+<pre><code class="lang-js">active_links = u(&#39;.menu a&#39;).not(nonactive_links);
+</code></pre>
+<h3 id="related">Related</h3>
+<ul>
+<li><p><a href="#is">.is(filter)</a> check whether one or more of the nodes is of one type</p>
+</li>
+<li><p><a href="#filter">.filter(filter)</a> Remove unwanted nodes</p>
+</li>
+</ul>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
 <pre><code class="lang-js">.on(&#39;event1&#39;, callback)

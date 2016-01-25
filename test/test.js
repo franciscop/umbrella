@@ -491,6 +491,19 @@ describe(".filter(selector)", function() {
     expect(base.filter(function(){ return true; }).nodes.length).to.equal(1);
     expect(base.filter(function(){ return false; }).nodes.length).to.equal(0);
   });
+
+  it("accepts an object", function() {
+    expect(base.filter(base).nodes.length).to.equal(1);
+    expect(base.filter(u('.bla')).nodes.length).to.equal(0);
+  });
+  
+  it("returns the same if called empty", function() {
+    expect(base.find('.not-test li').filter().nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').filter('').nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').filter(null).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').filter(undefined).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').filter(false).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+  });
 });
 // Testing the main file
 describe(".find(selector)", function() {
@@ -613,6 +626,66 @@ describe(".is(selector)", function() {
       expect(u(node).is('.base')).to.equal(true);
     });
   });
+
+  it("accepts an object", function() {
+    expect(base.is(base)).to.equal(true);
+    expect(base.is(u('.bla'))).to.equal(false);
+    base.is(function(node){
+      expect(u(node).is(base)).to.equal(true);
+    });
+  });
+});
+describe(".not(elems)", function() {
+
+  beforeEach(function() {
+    base.append('\
+      <ul class="not-test"> \
+        <li class="filter"></li> \
+        <li class="filter"></li> \
+        <li></li> \
+      </ul>');
+
+    expect(u('.not-test').nodes.length).to.equal(1);
+    expect(u('.not-test li').nodes.length).to.equal(3);
+  });
+
+  afterEach(function() {
+    u('.not-test').remove();
+    expect(u('.not-test').nodes.length).to.equal(0);
+  });
+  
+  it("should be a function", function() {
+    expect(typeof base.not).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    base.not();
+    base.not('');
+    base.not(null);
+    base.not(undefined);
+    base.not(false);
+  });
+
+  it("returns same if called empty", function() {
+    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not('').nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not(null).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not(undefined).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not(false).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+  });
+
+  it("filter single element", function() {
+    expect(base.find('.not-test li').not(u(u('.not-test li').first())).nodes.length).to.equal(2);
+  });
+
+  it("filter multiple elements", function() {
+    expect(base.find('.not-test li').not(u('.not-test li.filter')).nodes.length).to.equal(1);
+  });
+
+  it("filter selector elements", function() {
+    expect(base.find('.not-test li').not('.filter').nodes.length).to.equal(1);
+  });
+
 });
 // Testing the main file
 describe(".remove()", function() {
