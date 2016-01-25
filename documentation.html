@@ -347,7 +347,8 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 </code></pre>
 <h2 id="-filter-">.filter()</h2>
 <p>Remove unwanted nodes</p>
-<pre><code class="lang-js">.filter(filter)
+<pre><code class="lang-js">.filter(&#39;a&#39;)
+.filter(function(node, index){ u(node).is(&#39;a&#39;); })
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be two things:</p>

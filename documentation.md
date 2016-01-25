@@ -612,7 +612,8 @@ u('a').each(function(node, i){
 Remove unwanted nodes
 
 ```js
-.filter(filter)
+.filter('a')
+.filter(function(node, index){ u(node).is('a'); })
 ```
 
 
