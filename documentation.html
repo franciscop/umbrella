@@ -486,13 +486,16 @@ should pass no parameter so it retrieves the html.</p>
 <p><a href="#attr">.attr(html)</a></p>
 <h2 id="-is-">.is()</h2>
 <p>Check whether any of the nodes matches the selector</p>
-<pre><code class="lang-js">.is(filter)
+<pre><code class="lang-js">.is(&#39;a&#39;)
+.is(u(&#39;a&#39;))
+.is(function(){ return Math.random() &gt; 0.5 })
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be two things:</p>
 <ul>
-<li>css selector that each of the nodes must match to stay</li>
-<li>function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available:</li>
+<li>css selector to check</li>
+<li>instance of umbrella with the elements to check</li>
+<li>function that returns a boolean to check for each of the nodes. If one of them returns true, then the method <code>is()</code> returns true. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available:</li>
 </ul>
 <pre><code class="lang-js">.is(function(node, index){
   // your code

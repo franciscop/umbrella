@@ -867,7 +867,9 @@ u('h1').html('Hello world');
 Check whether any of the nodes matches the selector
 
 ```js
-.is(filter)
+.is('a')
+.is(u('a'))
+.is(function(){ return Math.random() > 0.5 })
 ```
 
 
@@ -875,8 +877,9 @@ Check whether any of the nodes matches the selector
 ### Parameters
 
 `filter`: it can be two things:
-  - css selector that each of the nodes must match to stay
-  - function that returns a boolean with true to keep the element. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available:
+  - css selector to check
+  - instance of umbrella with the elements to check
+  - function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available:
 
 ```js
 .is(function(node, index){
