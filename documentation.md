@@ -927,10 +927,10 @@ Remove known nodes from nodes
 `not`: it can be two things (in order):
   - css selector that each of the nodes must **not** match to stay
   - instance of umbrella with the element to remove
-  - function that returns `true` to remove the element. It accepts one parameter, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
+  - function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
   
 ```js
-.not(function(node, index){
+.not(function(node){
   // your code
 });
 ```

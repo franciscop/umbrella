@@ -523,9 +523,9 @@ should pass no parameter so it retrieves the html.</p>
 <ul>
 <li>css selector that each of the nodes must <strong>not</strong> match to stay</li>
 <li>instance of umbrella with the element to remove</li>
-<li>function that returns <code>true</code> to remove the element. It accepts one parameter, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available</li>
+<li>function that returns <code>true</code> to remove the element. It accepts <strong>one parameter</strong>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available</li>
 </ul>
-<pre><code class="lang-js">.not(function(node, index){
+<pre><code class="lang-js">.not(function(node){
   // your code
 });
 </code></pre>
