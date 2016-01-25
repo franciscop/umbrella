@@ -65,7 +65,7 @@ page(/^login/, function(){
 ```
 
 
-## Native methods
+### Native methods
 
 > This section is inspired by [Bliss.js' vanilla methods](http://blissfuljs.com/docs.html#vanilla)
 
