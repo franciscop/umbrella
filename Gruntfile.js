@@ -59,14 +59,14 @@ module.exports = function (grunt) {
     var concat = {
       main: { src: [ 'src/umbrella.js' ], dest: 'umbrella.js' },
       test: { src: [ 'src/test.js' ], dest: 'test/test.js' },
-      docs: { src: [ 'src/documentation.md' ], dest: 'documentation.md' }
+      docs: { src: [ 'src/readme.md' ], dest: 'documentation.md' }
     };
     
     fs.readdirSync(__dirname + "/src/plugins").forEach(function(name, i){
-      if(name === '.DS_Store') return;
+      if (name === '.DS_Store') return;
       var file = 'src/plugins/' + name + '/' + name + '.js';
       var test = 'src/plugins/' + name + '/test.js';
-      var doc = 'src/plugins/' + name + '/documentation.md';
+      var doc = 'src/plugins/' + name + '/readme.md';
       
       if (!fs.existsSync(file)) throw new Error("File '" + file + "' doesn't exist");
       
