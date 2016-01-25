@@ -1,7 +1,7 @@
 // .not(elems)
 // Delete all of the nodes that equals elems
 u.prototype.not = function(elems){
-  if(typeof elems == 'object'){
+  if(elems instanceof u){
     var fn = function (node){
       var nodes = elems.nodes;
       for (var i = nodes.length - 1; i >= 0; i--) {
