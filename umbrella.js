@@ -15,7 +15,14 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-
+  
+  // Map u(...).length to u(...).nodes.length
+  Object.defineProperty(this, 'length', {
+    __proto__: this.length,
+    get: function(){
+      return this.nodes.length;
+    }
+  });
 
   // Check if it's a css selector
   if (typeof parameter == "string") {
@@ -343,7 +350,7 @@ u.prototype.eacharg = function(args, callback) {
 u.prototype.filter = function(selector){
   
   // The default function if it's a css selector
-  function fn(node){
+  var callback = function(node){
     
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
@@ -352,8 +359,12 @@ u.prototype.filter = function(selector){
     return node.matches(selector || "*");
   }
   
+  if (typeof selector == 'function') callback = selector;
+  // here to check for u() instances
+  
+  
   // Just a native filtering function for ultra-speed
-  return u(this.nodes.filter((typeof selector == 'function') ? selector : fn));
+  return u(this.nodes.filter(callback));
 };
 /**
  * Find all the nodes children of the current ones matched by a selector

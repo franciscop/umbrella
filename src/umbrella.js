@@ -15,7 +15,14 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-
+  
+  // Map u(...).length to u(...).nodes.length
+  Object.defineProperty(this, 'length', {
+    __proto__: this.length,
+    get: function(){
+      return this.nodes.length;
+    }
+  });
 
   // Check if it's a css selector
   if (typeof parameter == "string") {

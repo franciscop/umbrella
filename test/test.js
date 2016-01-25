@@ -40,6 +40,10 @@ describe("u(selector, context)", function() {
     var context = u('.demo li').nodes[0];
     expect(u('a', context).nodes.length).to.equal(1);
   });
+  
+  it("can read the length", function() {
+    expect(u('a').length).to.equal(u('a').nodes.length);
+  });
 });
 
 
