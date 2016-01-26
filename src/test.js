@@ -75,6 +75,7 @@ describe("performance tests", function(){
       u('.demo');
     }, 10000);
     
+    console.log('u: ' + uTime + 'ms');
     expect(uTime).to.be.below(100, uTime + ' ms');
   });
   

@@ -15,14 +15,6 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-  
-  // Map u(...).length to u(...).nodes.length
-  Object.defineProperty(this, 'length', {
-    __proto__: this.length,
-    get: function(){
-      return this.nodes.length;
-    }
-  });
 
   // Check if it's a css selector
   if (typeof parameter == "string") {
@@ -49,6 +41,21 @@ var u = function(parameter, context) {
   return this;
 };
 
+u.prototype = {
+  get length(){
+    return this.nodes.length;
+  }
+};
+
+
+
+// // Map u(...).length to u(...).nodes.length
+// Object.defineProperty(this, 'length', {
+//   __proto__: this.length,
+//   get: function(){
+//     return this.nodes.length;
+//   }
+// });
 
 
 
@@ -273,8 +280,7 @@ u.prototype.closest = function(selector) {
   
   return this.join(function(node) {
     
-    // Keep going up and up on the tree
-    // First element is also checked
+    // Keep going up and up on the tree. First element is also checked
     do {
       if (u(node).is(selector)) {
         return node;
