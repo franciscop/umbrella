@@ -8,8 +8,9 @@
 u.prototype.html = function(text) {
   
   // Needs to check undefined as it might be ""
-  if (text === undefined)
+  if (text === undefined) {
     return this.first().innerHTML || "";
+  }
   
   
   // If we're attempting to set some text  

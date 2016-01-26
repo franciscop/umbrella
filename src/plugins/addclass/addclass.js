@@ -5,17 +5,12 @@
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
-u.prototype.addClass = function(args){
+u.prototype.addClass = function(){
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.add(name);
-    });
+    // Add the class using the native method
+    el.classList.add(name);
   });
 };

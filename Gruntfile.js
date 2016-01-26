@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     
     uglify: {
-      options: { banner: '/* Umbrella JS ' + require('./package').version + ' umbrellajs.com */\n'},
+      options: { banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'},
       build: { src: 'umbrella.js', dest: 'umbrella.min.js' }
     },
 

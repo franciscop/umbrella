@@ -63,3 +63,48 @@ page(/^login/, function(){
   u("form.login").ajax(done);
 });
 ```
+
+
+## Native methods
+
+> This section is inspired by [Bliss.js' vanilla methods](http://blissfuljs.com/docs.html#vanilla)
+
+There are many native methods and properties that you can use. These can be called straight in the `.first()` or `.last()` elements, a `.nodes` element or you can loop every element to call them. For example:
+
+```js
+// Single element from .nodes
+u('h1').nodes[0].classList.add('vanilla');
+
+// Single element
+u('h1').first().classList.add('vanilla', 'test');
+
+// Multiple elements
+u('h2').each(function(el){
+  el.classList.add('vanilla', 'test');
+});
+```
+
+And for the arrays it's similar, you can call any array method on `u().nodes` since this is literally an array:
+
+```js
+u('h2').nodes.forEach();
+var mapped = u('h2').nodes.map();
+var filtered = u('h2').nodes.filter();
+var good = u('h2').nodes.some();
+```
+
+However, there are also some advantages of using Umbrella's methods instead of native methods. For example, with `.addClass()` vs native `classList.add()`:
+
+- **error prevention**: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)
+- **cross-browser**: the classList.add() with multiple elements [is not compatible with IE10-11 & Android 4.3-](http://caniuse.com/#search=classList)
+- **more flexibility**: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:
+
+```js
+u('h2').addClass('vanilla', 'test');     // It accepts multiple parameters
+u('h2').addClass(['vanilla', 'test']);   // Also accept an array
+u('h2').addClass(['vanilla'], ['test']); // Or multiple arrays
+u('h2').addClass('vanilla, test');       // Strings with space and/or comma
+u('h2').addClass('vanilla', ['test'], 'one, more' }); // Or just whatever
+```
+
+So it's convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella's methods where it's better suited or then crete your own methods when you need it.

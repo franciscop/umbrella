@@ -25,4 +25,12 @@ describe(".trigger()", function() {
     });
     base.trigger('submit');
   });
+  
+  it("triggers custom event", function(done) {
+    base.on('bla', function(e){
+      expect(!!e).to.equal(true);
+      done();
+    });
+    base.trigger('bla');
+  });
 });

@@ -15,7 +15,14 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-
+  
+  // Map u(...).length to u(...).nodes.length
+  Object.defineProperty(this, 'length', {
+    __proto__: this.length,
+    get: function(){
+      return this.nodes.length;
+    }
+  });
 
   // Check if it's a css selector
   if (typeof parameter == "string") {
@@ -53,15 +60,33 @@ u.prototype.slice = function(pseudo) {
   return pseudo ? [].slice.call(pseudo, 0) : [];
 };
 
+
+// Flatten an array using 
+u.prototype.str = function(node, i){
+  return function(arg){
+    
+    // Call the function with the corresponding nodes
+    if (typeof arg === 'function') {
+      return arg.call(this, node, i);
+    }
+    
+    // From an array or other 'weird' things
+    return arg.toString();
+  }
+}
+
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
-u.prototype.args = function(args){
+u.prototype.args = function(args, node, i){
   
   // First flatten it all to a string http://stackoverflow.com/q/22920305
-  return ((typeof args === 'string') ? args : this.slice(args).toString())
+  // If we try to slice a string bad things happen: ['n', 'a', 'm', 'e']
+  if (typeof args !== 'string') {
+    args = this.slice(args).map(this.str(node, i));
+  }
     
-    // Then convert that string to an array of not-null strings
-    .split(/[\s,]+/).filter(function(e){ return e.length; });
+  // Then convert that string to an array of not-null strings
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
 
 // Make the nodes unique. This is needed for some specific methods
@@ -107,18 +132,13 @@ u.prototype.nodes = [];
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
-u.prototype.addClass = function(args){
+u.prototype.addClass = function(){
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.add(name);
-    });
+    // Add the class using the native method
+    el.classList.add(name);
   });
 };
 
@@ -265,10 +285,30 @@ u.prototype.closest = function(selector) {
 };
 
 /**
+ * .data(name, value)
+ *
+ * Retrieve or set the data-* attributes of the first matched node
+ * @param String name the data-* attribute to search
+ * @param String value optional atribute to set
+ * @return this|String
+ */
+// ATTR
+// Return the fist node attribute
+u.prototype.data = function(name, value) {
+  if (typeof name === 'object') {
+    var new_name = {};
+    for(var key in name) {
+      new_name['data-' + key] = name[key];
+    }
+    return this.attr(new_name);
+  }
+  return this.attr('data-' + name, value);
+};
+
+/**
  * .each()
  * Loops through every node from the current call
  * it accepts a callback that will be executed on each node
- * The context for 'this' within the callback is the html node
  * The callback has two parameters, the node and the index
  */
 u.prototype.each = function(callback) {
@@ -285,24 +325,46 @@ u.prototype.each = function(callback) {
   return this;
 };
 
+/**
+ * .eacharg()
+ * Loops through the combination of every node and every argument
+ * it accepts a callback that will be executed on each combination
+ * The callback has two parameters, the node and the index
+ */
+u.prototype.eacharg = function(args, callback) {
+  
+  return this.each(function(node, i){
+    
+    this.args(args, node, i).forEach(function(arg){
+      
+      // Perform the callback for this node
+      // By doing callback.call we allow "this" to be the context for
+      // the callback (see http://stackoverflow.com/q/4065353 precisely)
+      callback.call(this, node, arg);
+    });
+  });
+};
+
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function(selector){
   
-  // Just a native filtering function for ultra-speed
-  return u(this.nodes.filter(function(node){
-    
-    // Accept a function to filter the nodes
-    if (typeof selector === 'function') {
-      return selector(node);
-    }
+  // The default function if it's a css selector
+  var callback = function(node){
     
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
     
     // Check if it's the same element (or any element if no selector was passed)
     return node.matches(selector || "*");
-  }));
+  }
+  
+  if (typeof selector == 'function') callback = selector;
+  // here to check for u() instances
+  
+  
+  // Just a native filtering function for ultra-speed
+  return u(this.nodes.filter(callback));
 };
 /**
  * Find all the nodes children of the current ones matched by a selector
@@ -427,8 +489,9 @@ u.prototype.hasClass = function(names) {
 u.prototype.html = function(text) {
   
   // Needs to check undefined as it might be ""
-  if (text === undefined)
+  if (text === undefined) {
     return this.first().innerHTML || "";
+  }
   
   
   // If we're attempting to set some text  
@@ -521,18 +584,13 @@ u.prototype.remove = function() {
  * @param String name the class name we want to remove
  * @return this Umbrella object
  */
-u.prototype.removeClass = function(args) {
+u.prototype.removeClass = function() {
   
-  // Normalize the arguments to a simple array
-  args = this.args(arguments);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      el.classList.remove(name);
-    });
+    // Remove the class using the native method
+    el.classList.remove(name);
   });
 };
 
@@ -597,6 +655,28 @@ u.prototype.serialize = function() {
     
     return obj;
   }, {}));
+};
+
+/**
+ * .toggleClass('name1, name2, nameN' ...[, addOrRemove])
+ * 
+ * Toggles classes on the matched nodes
+ * Possible polyfill: https://github.com/eligrey/classList.js
+ * @return this Umbrella object
+ */
+u.prototype.toggleClass = function(classes, addOrRemove){
+  
+  //check if addOrRemove was passed as a boolean
+  if (!!addOrRemove === addOrRemove) {
+
+    // return the corresponding Umbrella method
+    return this[addOrRemove ? 'addClass' : 'removeClass'](classes);
+  }
+  
+  // Loop through all the nodes and classes combinations
+  return this.eacharg(classes, function(el, name){
+    el.classList.toggle(name);
+  });
 };
 
 /**

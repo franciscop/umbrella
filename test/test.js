@@ -40,6 +40,10 @@ describe("u(selector, context)", function() {
     var context = u('.demo li').nodes[0];
     expect(u('a', context).nodes.length).to.equal(1);
   });
+  
+  it("can read the length", function() {
+    expect(u('a').length).to.equal(u('a').nodes.length);
+  });
 });
 
 
@@ -161,6 +165,13 @@ describe("performance tests", function(){
   
 });
 // Testing the main file
+function addTest(node, i){
+  return 'test' + i;
+}
+function addDemo(node, i){
+  return 'demo' + i;
+}
+
 describe(".addClass(name1, name2, ...)", function() {
   
   beforeEach(function(){
@@ -222,6 +233,32 @@ describe(".addClass(name1, name2, ...)", function() {
   it("adds several classes separated by comma", function() {
     len = base.addClass('bla,blu').nodes.length;
     expect(len).to.equal(1);
+  });
+  
+  it("adds classes with callback", function(){
+    base.addClass(addTest);
+    expect(base.hasClass('test0')).to.equal(true);
+    
+    // Clean up
+    base.removeClass('test0');
+    expect(base.hasClass('test0')).to.equal(false);
+  });
+  
+  it("adds many classes with callback", function(){
+    base.find('li').addClass(addTest).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+    });
+  });
+  
+  it("accepts two callbacks or more", function(){
+    
+    base.find('li').addClass(addTest, addDemo).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      expect(u(node).hasClass('demo' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+      u(node).removeClass('demo' + i);
+    });
   });
 });
 // Testing the main file
@@ -286,47 +323,38 @@ describe(".append(html)", function() {
 });
 // Testing the main file
 describe(".attr(name, value)", function() {
-  
-  beforeEach(function(){
-    expect(u('.bla').nodes.length).to.equal(0);
-  });
-  
-  afterEach(function(){
-    u('.bla').remove();
-  });
-  
   it("should be a function", function() {
-    expect(typeof base.after).to.equal('function');
+    expect(typeof base.attr).to.equal('function');
   });
-  
+
   it("can add an attribute with two params", function() {
     base.attr('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
     base.first().removeAttribute('title');
     expect(!base.attr('title')).to.equal(true);
   });
-  
+
   it("can add an attribute with an object", function() {
     base.attr({title: 'Hello'});
     expect(base.attr('title')).to.equal('Hello');
   });
-  
+
   it("can read the first element attribute", function() {
     base.first().setAttribute('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
   });
-  
+
   it("can be called with no nodes", function() {
     expect(u('dfsdf').attr('title')).to.equal('');
   });
-  
+
   it("can nullify (remove) an attribute with two params", function() {
     base.first().setAttribute('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
     base.attr('title', null);
     expect(!base.attr('title')).to.equal(true);
   });
-  
+
   it("can nullify (remove) an attribute with an object", function() {
     base.first().setAttribute('title', 'Hello');
     expect(base.attr('title')).to.equal('Hello');
@@ -334,6 +362,7 @@ describe(".attr(name, value)", function() {
     expect(!base.attr('title')).to.equal(true);
   });
 });
+
 // Testing the main file
 describe(".before(html)", function() {
   
@@ -394,6 +423,73 @@ describe(".closest(selector)", function() {
   
   it("can select the children of ul", function() {
     expect(base.find('li').closest('ul').nodes.length).to.equal(1);
+  });
+});
+// Testing the main file
+describe(".data(name, value)", function() {
+  it("should be a function", function() {
+    expect(typeof base.data).to.equal('function');
+  });
+
+  it("can add an attribute with two params", function() {
+    base.data('title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+    base.first().removeAttribute('data-title');
+    expect(!base.data('title')).to.equal(true);
+  });
+
+  it("can add an attribute with an object", function() {
+    base.data({title: 'Hello'});
+    expect(base.data('title')).to.equal('Hello');
+  });
+
+  it("can read the first element attribute", function() {
+    base.first().setAttribute('data-title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+  });
+
+  it("can be called with no nodes", function() {
+    expect(u('dfsdf').data('title')).to.equal('');
+  });
+
+  it("can nullify (remove) an attribute with two params", function() {
+    base.first().setAttribute('data-title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+    base.data('title', null);
+    expect(!base.data('title')).to.equal(true);
+  });
+
+  it("can nullify (remove) an attribute with an object", function() {
+    base.first().setAttribute('data-title', 'Hello');
+    expect(base.data('title')).to.equal('Hello');
+    base.data({'title': null});
+    expect(!base.data('title')).to.equal(true);
+  });
+});
+
+// Testing the main file
+describe(".filter(selector)", function() {
+  
+  it("should be defined", function() {
+    expect(typeof base.filter).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    base.filter();
+    base.filter("");
+  });
+
+  it("stays the same", function() {
+    expect(base.filter('.base').nodes.length).to.equal(1);
+  });
+
+  it("gets only one", function() {
+    expect(base.find('a').filter('#world').nodes.length).to.equal(1);
+  });
+
+  it("accepts a function", function() {
+    expect(base.filter(function(){ return true; }).nodes.length).to.equal(1);
+    expect(base.filter(function(){ return false; }).nodes.length).to.equal(0);
   });
 });
 // Testing the main file
@@ -519,6 +615,55 @@ describe(".is(selector)", function() {
   });
 });
 // Testing the main file
+describe(".remove()", function() {
+
+  beforeEach(function() {
+    base.append('\
+      <ul class="remove-test"> \
+        <li></li> \
+        <li></li> \
+      </ul> \
+    ');
+
+    expect(u('.remove-test').nodes.length).to.equal(1);
+    expect(u('.remove-test li').nodes.length).to.equal(2);
+  });
+
+  afterEach(function() {
+    u('.remove-test').remove();
+  });
+
+
+  it("should be defined", function() {
+    expect(typeof base.remove).to.equal('function');
+  });
+
+  it("can be called even without any node", function() {
+    expect(u('.remove-test div').nodes).to.be.empty;
+    u('.remove-test div').remove();
+  });
+
+  it("should return an instance of umbrella with the removed nodes", function() {
+    var result = u('.remove-test').remove();
+
+    expect(result).to.be.instanceof(u);
+    expect(result.nodes).to.have.length(1);
+    expect(result.attr('class')).to.equal('remove-test');
+    expect(result.children().nodes).to.have.length(2); // Two li children.
+  });
+
+  it("removes a single element", function() {
+    u('.remove-test').remove();
+    expect(u('.remove-test').nodes).to.be.empty;
+  });
+
+  it("removes several elements", function() {
+    u('.remove-test li').remove();
+    expect(u('.remove-test li').nodes).to.be.empty;
+  });
+});
+
+// Testing the main file
 describe(".removeClass()", function() {
   
   beforeEach(function(){
@@ -622,6 +767,105 @@ describe(".select(selector)", function() {
 
 
 // Testing the main file
+describe(".toggleClass(name1, name2, ...)", function() {
+  
+  beforeEach(function(){
+    base.addClass('blu');
+    expect(base.hasClass('bla')).to.equal(false);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+  
+  afterEach(function(){
+    base.removeClass('bla');
+    base.addClass('blu');
+  });
+  
+  it("should be defined", function() {
+    expect(typeof base.toggleClass).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    base.toggleClass();
+    base.toggleClass("");
+    base.toggleClass([]);
+    base.toggleClass("","");
+    base.toggleClass(" ");
+  });
+
+  it("adds a class by toggling", function() {
+    base.toggleClass('bla');
+    expect(base.hasClass('bla')).to.equal(true);
+  });
+
+  it("removes a class by toggling", function() {
+    base.toggleClass('blu');
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+
+  it("can be concatenated", function() {
+    base.toggleClass('bla').toggleClass('bla');
+    expect(base.hasClass('bla')).to.equal(false);
+  });
+  
+  it("can do double toggle and stays the same", function() {
+    base.toggleClass('bla bla');
+    expect(base.hasClass('bla')).to.equal(false);
+  });
+  
+  it("toggles several classes separated by comma", function() {
+    len = base.toggleClass('bla,blu').nodes.length;
+    expect(len).to.equal(1);
+  });
+  
+  
+  // Second Parameter
+  it("can be called with a second parameter to force a addClass", function() {
+    base.toggleClass('blu', true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("can be called with a second parameter to force a removeClass", function() {
+    base.toggleClass('blu', false);
+    expect(base.hasClass('blu')).to.equal(false);
+  });
+
+  it("ignores the second parameter if string", function() {
+    base.toggleClass('blu', 'peter');
+    expect(base.hasClass('blu')).to.equal(false);
+    expect(base.hasClass('peter')).to.equal(false);
+    
+    base.toggleClass('blu', 'peter');
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
+  it("ignores the second parameter if falsy but not false", function() {
+    base.toggleClass('blu', null);
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', null);
+    expect(base.hasClass('blu')).to.equal(true);
+  
+    base.toggleClass('blu', undefined);
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', undefined);
+    expect(base.hasClass('blu')).to.equal(true);
+  
+    base.toggleClass('blu', 0);
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', 0);
+    expect(base.hasClass('blu')).to.equal(true);
+  
+    base.toggleClass('blu', '');
+    expect(base.hasClass('blu')).to.equal(false);
+    
+    base.toggleClass('blu', '');
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+});
+
+// Testing the main file
 describe(".trigger()", function() {
   
   it("should be a function", function() {
@@ -647,5 +891,13 @@ describe(".trigger()", function() {
       throw "Shouldn't be called";
     });
     base.trigger('submit');
+  });
+  
+  it("triggers custom event", function(done) {
+    base.on('bla', function(e){
+      expect(!!e).to.equal(true);
+      done();
+    });
+    base.trigger('bla');
   });
 });
