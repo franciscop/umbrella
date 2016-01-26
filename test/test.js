@@ -434,6 +434,17 @@ describe(".last()", function() {
   it("can get the last li and it's a LI", function() {
     expect(base.find("li").last().nodeName).to.equal('LI');
   });
+
+  it("returns false for non existing element", function() {
+  	expect(u('.non-existing').last()).to.equal(false);
+  })
+
+  it("actually returns the last element", function() {
+  	base.append('<a class="last-test">Link 1</a> <div class="last-test">Link 2</a>');
+  	expect(u('.last-test').last().nodeName).to.equal('DIV');
+  })
+
+
 });
 // Testing the main file
 describe(".select(selector)", function() {
