@@ -109,6 +109,17 @@ u('h2').addClass('vanilla', ['test'], 'one, more' }); // Or just whatever
 
 So it's convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella's methods where it's better suited or then crete your own methods when you need it.
 
+
+
+### .length
+
+You can check how many elements are matched with `.length`:
+
+```js
+// Check how many <a> are in the page
+alert(u('a').length);
+```
+
 ## .addClass()
 
 Add html class(es) to all of the matched elements.

@@ -76,6 +76,11 @@ u(&#39;h2&#39;).addClass(&#39;vanilla, test&#39;);       // Strings with space a
 u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, [&#39;test&#39;], &#39;one, more&#39; }); // Or just whatever
 </code></pre>
 <p>So it&#39;s convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella&#39;s methods where it&#39;s better suited or then crete your own methods when you need it.</p>
+<h3 id="-length">.length</h3>
+<p>You can check how many elements are matched with <code>.length</code>:</p>
+<pre><code class="lang-js">// Check how many &lt;a&gt; are in the page
+alert(u(&#39;a&#39;).length);
+</code></pre>
 <h2 id="-addclass-">.addClass()</h2>
 <p>Add html class(es) to all of the matched elements.</p>
 <pre><code class="lang-js">.addClass(&#39;name1&#39;);
