@@ -18,9 +18,8 @@ describe(".last()", function() {
   })
 
   it("actually returns the last element", function() {
-  	base.append('<a class="last-test">Link 1</a> <div class="last-test">Link 2</a>');
+  	base.append('<a class="last-test">Node 1</a> <div class="last-test">Node 2</div>');
   	expect(u('.last-test').last().nodeName).to.equal('DIV');
   })
-
 
 });
