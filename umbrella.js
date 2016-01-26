@@ -671,6 +671,15 @@ u.prototype.serialize = function() {
 };
 
 /**
+ * .siblings()
+ * 
+ * Travel the matched elements at the same level
+ * @return this Umbrella object
+ */
+u.prototype.siblings = function(selector) {
+  return this.parent().children(selector).not(this);
+};
+/**
  * .toggleClass('name1, name2, nameN' ...[, addOrRemove])
  * 
  * Toggles classes on the matched nodes
