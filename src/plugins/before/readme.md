@@ -31,8 +31,8 @@ u("article").after("<header>Hello world</header>");
 
 ### Related
 
-- [.after(html)](#after)
+[.after(html)](#after)
 
-- [.append(html)](#append)
+[.append(html)](#append)
 
-- [.prepend(html)](#prepend)
+[.prepend(html)](#prepend)

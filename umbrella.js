@@ -41,22 +41,22 @@ var u = function(parameter, context) {
   return this;
 };
 
+
+// Map u(...).length to u(...).nodes.length
 u.prototype = {
   get length(){
     return this.nodes.length;
   }
+  // ,
+  // 
+  // get innerHTML(){
+  //   return this.html();
+  // },
+  // 
+  // set innerHTML(val){
+  //   return this.html(val);
+  // }
 };
-
-
-
-// // Map u(...).length to u(...).nodes.length
-// Object.defineProperty(this, 'length', {
-//   __proto__: this.length,
-//   get: function(){
-//     return this.nodes.length;
-//   }
-// });
-
 
 
 

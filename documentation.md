@@ -331,11 +331,11 @@ u("article").after("<footer>Hello world</footer>");
 
 ### Related
 
-- [.prepend(html)](#prepend)
+[.prepend(html)](#prepend)
 
-- [.before(html)](#before)
+[.before(html)](#before)
 
-- [.after(html)](#after)
+[.after(html)](#after)
 
 ## .attr()
 
@@ -435,11 +435,11 @@ u("article").after("<header>Hello world</header>");
 
 ### Related
 
-- [.after(html)](#after)
+[.after(html)](#after)
 
-- [.append(html)](#append)
+[.append(html)](#append)
 
-- [.prepend(html)](#prepend)
+[.prepend(html)](#prepend)
 ## .children()
 
 Get the direct children of all of the nodes with an optional filter
@@ -473,11 +473,11 @@ u("ul").children('li:first-child');
 
 ### Related
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent(filter)](#parent) get all of the direct parents
 
-- [.find(filter)](#find) get all of the descendants of the matched nodes
+[.find(filter)](#find) get all of the descendants of the matched nodes
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest(filter)](#closest) get the first ascendant that matches the selector
 ## .closest()
 
 Find the first matched node for each node
@@ -511,11 +511,11 @@ u("li").closest('ul');
 
 ### Related
 
-- [.find(filter)](#find) get all of the descendants of the matched nodes
+[.find(filter)](#find) get all of the descendants of the matched nodes
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent(filter)](#parent) get all of the direct parents
 
-- [.children(filter)](#children) get the direct children of all of the nodes with an optional filter
+[.children(filter)](#children) get the direct children of all of the nodes with an optional filter
 
 ## .data()
 
@@ -672,7 +672,7 @@ u('input').filter(function(node, i){
 
 ### Related
 
-- [.is(filter)](#is) check whether one or more of the nodes is of one type
+[.is(filter)](#is) check whether one or more of the nodes is of one type
 
 ## .find()
 

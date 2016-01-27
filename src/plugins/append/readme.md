@@ -31,8 +31,8 @@ u("article").after("<footer>Hello world</footer>");
 
 ### Related
 
-- [.prepend(html)](#prepend)
+[.prepend(html)](#prepend)
 
-- [.before(html)](#before)
+[.before(html)](#before)
 
-- [.after(html)](#after)
+[.after(html)](#after)

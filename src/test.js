@@ -48,6 +48,11 @@ describe("u(selector, context)", function() {
 
 
 
+// u('a').parent.children.filter();
+// u('a').first;
+// u('a').toString()
+// u('a').html("Bla") || u('a').html();
+
 
 
 describe("performance tests", function(){
@@ -146,22 +151,4 @@ describe("performance tests", function(){
     
     expect(uTime).to.be.below($Time, uTime + ' ms');
   });
-  
-  
-  it("jquery vs jquery: mistake?", function() {
-    
-    var aTime = performance(function(){
-      $(".ro > *");
-    }, 100);
-      
-    var bTime = performance(function(){
-      $(".ro").children();
-    }, 100);
-    
-    console.log('a: ' + aTime + 'ms ', 'b: ' + bTime + 'ms');
-    
-    expect(aTime).to.be.below(bTime, uTime + ' ms');
-  });
-  
-  
 });

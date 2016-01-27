@@ -31,8 +31,8 @@ u("ul").children('li:first-child');
 
 ### Related
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent(filter)](#parent) get all of the direct parents
 
-- [.find(filter)](#find) get all of the descendants of the matched nodes
+[.find(filter)](#find) get all of the descendants of the matched nodes
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest(filter)](#closest) get the first ascendant that matches the selector

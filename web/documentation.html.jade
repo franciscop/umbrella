@@ -10,7 +10,6 @@ block content
   
   script(src="umbrella.min.js")
   script.
-  
     u('h2[id]').each(function(node){
       u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
     });
@@ -20,4 +19,13 @@ block content
       var classes = 'class="pseudo button stack" ';
       var html = u(node).html();
       u('aside').append('<a ' + classes + href + '>' + html + '</a>');
+    });
+    
+    u('aside a').on('click', function(e){
+      try {
+        var to = u(e.currentTarget).attr('href');
+        u(to).first().scrollIntoView({behavior: "smooth"});
+        e.preventDefault();
+        history.replaceState(null, '', to);
+      } catch(err) {}
     });

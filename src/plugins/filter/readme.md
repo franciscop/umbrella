@@ -52,4 +52,4 @@ u('input').filter(function(node, i){
 
 ### Related
 
-- [.is(filter)](#is) check whether one or more of the nodes is of one type
+[.is(filter)](#is) check whether one or more of the nodes is of one type
