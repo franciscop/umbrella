@@ -1,4 +1,4 @@
-// Umbrella JS
+// Umbrella JS  http://umbrellajs.com/
 // -----------
 // Covers your basic javascript needs
 
@@ -47,15 +47,6 @@ u.prototype = {
   get length(){
     return this.nodes.length;
   }
-  // ,
-  // 
-  // get innerHTML(){
-  //   return this.html();
-  // },
-  // 
-  // set innerHTML(val){
-  //   return this.html(val);
-  // }
 };
 
 
