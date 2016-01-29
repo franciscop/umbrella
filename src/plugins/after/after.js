@@ -5,7 +5,7 @@
  * @param String html to be inserted
  * @return this Umbrella object
  */
-u.prototype.after = function(text) {
+u.prototype.after = function(text, data) {
   
-  return this.adjacent('afterend', text);
+  return this.adjacent('afterend', text, data);
 };

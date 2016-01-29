@@ -178,14 +178,30 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <h2 id="-append-">.append()</h2>
 <p>Add some html as a child at the end of each of the matched elements.</p>
 <pre><code class="lang-js">.append(html);
+.append()
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html</code>: a string containing the html that is going to be inserted.</p>
+<p><code>html</code>: a string containing the html that is going to be inserted or a function that returns the 
+<code>data</code>, defaults <code>[&quot;&quot;]</code>: an array of elements which will passed to the callback. The callback is executed once per element, and all of them are appended consecutively</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add a footer to each of the articles</p>
-<pre><code class="lang-js">u(&quot;article&quot;).after(&quot;&lt;footer&gt;Hello world&lt;/footer&gt;&quot;);
+<pre><code class="lang-js">u(&quot;article&quot;).append(&quot;&lt;footer&gt;Hello world&lt;/footer&gt;&quot;);
+</code></pre>
+<p>Add three elements to the list. All of these methods are equivalent:</p>
+<pre><code class="lang-js">// Add them all like a single string
+u(&quot;ul&quot;).append(&quot;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&quot;);
+
+// Add them in a chain
+u(&quot;ul&quot;).append(&quot;&lt;li&gt;One&lt;/li&gt;&quot;).append(&quot;&lt;li&gt;Two&lt;/li&gt;&quot;).append(&quot;&lt;li&gt;Three&lt;/li&gt;&quot;);
+
+// Add them with a function parameter
+var cb = function(txt){ return &quot;&lt;li&gt;&quot; + txt + &quot;&lt;/li&gt;&quot; };
+u(&quot;ul&quot;).append(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
+
+// Same as the previous one but with ES6
+u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#prepend">.prepend(html)</a></p>
@@ -571,6 +587,34 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
+<h2 id="-prepend-">.prepend()</h2>
+<p>This method is similar to <code>append</code>. However note that, unlike append, the elements are inserted in <em>inverse</em> order. So all of these methods are equivalent:</p>
+<pre><code class="lang-js">// Add them all like a single string
+u(&quot;ul&quot;).prepend(&quot;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&quot;);
+
+// Add them in a chain
+u(&quot;ul&quot;).prepend(&quot;&lt;li&gt;Three&lt;/li&gt;&quot;).append(&quot;&lt;li&gt;Two&lt;/li&gt;&quot;).append(&quot;&lt;li&gt;One&lt;/li&gt;&quot;);
+
+// Add them with a function parameter
+var cb = function(txt){ return &quot;&lt;li&gt;&quot; + txt + &quot;&lt;/li&gt;&quot; };
+u(&quot;ul&quot;).prepend(cb, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+
+// Same as the previous one but with ES6
+u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+</code></pre>
+<p>And they will yield:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li&gt;One&lt;/li&gt;
+  &lt;li&gt;Two&lt;/li&gt;
+  &lt;li&gt;Three&lt;/li&gt;
+
+  &lt;!-- previous data --&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>You can <em>fix</em> this in the method that accepts <code>data</code> with a simple <code>.reverse()</code>. This will yield the same html:</p>
+<pre><code class="lang-js">u(&quot;ul&quot;).prepend(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;].reverse());
+</code></pre>
+<p>However, as it should be obvious, it cannot be reversed in the chainable method.</p>
 <h2 id="-remove-">.remove()</h2>
 <p>Removes the matched elements.</p>
 <pre><code class="lang-js">.remove();

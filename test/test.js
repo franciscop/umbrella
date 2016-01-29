@@ -308,6 +308,29 @@ describe(".append(html)", function() {
     base.append('<a class="bla">Link</a>');
     expect(u('.base > .bla').nodes.length).to.equal(1);
   });
+  
+  it("can add content with a callback", function() {
+    expect(u('.base > .bla').nodes.length).to.equal(0);
+    base.append(function(){ return '<a class="bla">Link</a>'; });
+    expect(base.html().match('function')).to.equal(null);
+    expect(u('.base > .bla').nodes.length).to.equal(1);
+  });
+  
+  it("can add content with a callback and data", function() {
+    expect(u('.base > .bla').nodes.length).to.equal(0);
+    base.append('<a class="bla">Link</a>', ["a", "b"]);
+    expect(base.html().match('function')).to.equal(null);
+    expect(u('.base > .bla').nodes.length).to.equal(2);
+  });
+  
+  it("can add content with a callback and data", function() {
+    expect(u('.base > .bla').nodes.length).to.equal(0);
+    base.append(function(cl, i){ return '<a class="bla ' + cl + '">Link</a>' }, ["a", "b"]);
+    expect(base.html().match('function')).to.equal(null);
+    expect(u('.base > .bla').nodes.length).to.equal(2);
+    expect(u('.base > .bla.a').nodes.length).to.equal(1);
+    expect(u('.base > .bla.b').nodes.length).to.equal(1);
+  });
 });
 // Testing the main file
 describe(".attr(name, value)", function() {

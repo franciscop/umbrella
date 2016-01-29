@@ -5,7 +5,7 @@
  * @param String html to be inserted
  * @return this Umbrella object
  */
-u.prototype.before = function(html) {
+u.prototype.before = function(html, data) {
   
-  return this.adjacent('beforebegin', html);
+  return this.adjacent('beforebegin', html, data);
 };

@@ -145,14 +145,21 @@ u.prototype.addClass = function(){
  * 
  * Add text in the specified position. It is used by other functions
  */
-u.prototype.adjacent = function(position, text) {
+u.prototype.adjacent = function(position, text, data) {
   
   // Loop through all the nodes
   return this.each(function(node) {
     
-    // http://stackoverflow.com/a/23589438
-    // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-    node.insertAdjacentHTML(position, text);
+    u(data || [""]).each(function(d, i){
+      
+      
+      // Allow for callbacks that accept some data
+      var tx = (typeof text === 'function') ? text(d, i) : text;
+      
+      // http://stackoverflow.com/a/23589438
+      // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
+      node.insertAdjacentHTML(position, tx);
+    });
   });
 };
 
@@ -163,9 +170,9 @@ u.prototype.adjacent = function(position, text) {
  * @param String html to be inserted
  * @return this Umbrella object
  */
-u.prototype.after = function(text) {
+u.prototype.after = function(text, data) {
   
-  return this.adjacent('afterend', text);
+  return this.adjacent('afterend', text, data);
 };
 
 /**
@@ -195,9 +202,9 @@ u.prototype.ajax = function(done, before) {
  * @param String html to be inserted
  * @return this Umbrella object
  */
-u.prototype.append = function(html) {
+u.prototype.append = function(html, data) {
   
-  return this.adjacent('beforeend', html);
+  return this.adjacent('beforeend', html, data);
 };
 
 /**
@@ -240,9 +247,9 @@ u.prototype.attr = function(name, value) {
  * @param String html to be inserted
  * @return this Umbrella object
  */
-u.prototype.before = function(html) {
+u.prototype.before = function(html, data) {
   
-  return this.adjacent('beforebegin', html);
+  return this.adjacent('beforebegin', html, data);
 };
 
 /**
@@ -567,9 +574,9 @@ u.prototype.parent = function(selector) {
  * @param String html to be inserted
  * @return this Umbrella object
  */
-u.prototype.prepend = function(html) {
+u.prototype.prepend = function(html, data) {
   
-  return this.adjacent('afterbegin', html);
+  return this.adjacent('afterbegin', html, data);
 };
 
 /**
