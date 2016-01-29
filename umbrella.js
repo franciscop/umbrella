@@ -6,7 +6,6 @@
 // @author Francisco Presencia Fandos http://francisco.io/
 // @inspiration http://youmightnotneedjquery.com/
 
-
 // INIT
 // It should make sure that there's at least one element in nodes
 var u = function(parameter, context) {
