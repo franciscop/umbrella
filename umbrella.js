@@ -530,6 +530,15 @@ u.prototype.join = function(callback) {
   }, [])).unique();
 };
 
+/**
+ * Get the last of the nodes
+ * @return htmlnode the last html node in the matched nodes
+ */
+u.prototype.last = function() {
+  
+  return this.nodes[this.nodes.length-1] || false;
+};
+
 // .not(elems)
 // Delete all of the nodes that equals filter
 u.prototype.not = function(filter){
