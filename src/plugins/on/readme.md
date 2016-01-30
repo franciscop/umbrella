@@ -36,10 +36,10 @@ u('button.test').on('click', function(e) {
 
 // This example is very similar to .ajax() implementation
 u('form.test').on('submit', function(e){
-  
+
   // Avoid submitting the form normally
   e.preventDefault();
-  
+
   // Submit the form through ajax
   ajax(u(this).attr('action'), u(this).serialize());
 });
@@ -54,4 +54,5 @@ u('input').on('change click blur paste', function(){
 
 ### Related
 
-[.trigger()](#trigger) calls an event on all of the matched nodes
+- [.trigger()](#trigger) calls an event on all of the matched nodes
+- [.off(event, callback)](#off) Removes an event from  matched nodes

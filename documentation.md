@@ -1007,6 +1007,63 @@ active_links = u('.menu a').not(nonactive_links);
 
 - [.filter(filter)](#filter) Remove unwanted nodes
 
+## .off()
+
+Remove event handler from matched nodes
+
+```js
+u('.off-multiple-test').off('click', listener);
+u('.off-multiple-test').off('click mouseover', listener);
+u('.off-multiple-test').off('event1 event2 eventN', listener);
+
+```
+
+
+### Parameters
+
+`event`:
+  Any number of events (such as click, mouseover)    
+`listener`:
+  Function reference to remove from the events
+
+```js
+.not(function(node){
+  // your code
+});
+```
+
+
+
+### Examples
+
+```html
+<ul>
+  <li class="off-single-test">1</li>
+  <li class="off-multiple-test">2</li>
+  <li class="off-multiple-test">3</li>
+</ul>
+```
+
+```js
+const listener = function() {
+  alert('called');
+}
+
+//Add listener
+u('.off-multiple-test').on('click', listener);
+//Trigger event
+u('.off-multiple-test').trigger('click'); //Alert appears
+//Remove listener
+u('.off-multiple-test').off('click', listener);
+//Trigger event
+u('.off-multiple-test').trigger('click'); //No alert
+```
+
+### Related
+
+- [.on(event, callback)](#on) Attaches an event to matched nodes
+- [.trigger(event)](#trigger) Triggers an event on all of the matched nodes
+
 ## .on()
 
 Calls a function when an event is triggered
@@ -1045,10 +1102,10 @@ u('button.test').on('click', function(e) {
 
 // This example is very similar to .ajax() implementation
 u('form.test').on('submit', function(e){
-  
+
   // Avoid submitting the form normally
   e.preventDefault();
-  
+
   // Submit the form through ajax
   ajax(u(this).attr('action'), u(this).serialize());
 });
@@ -1063,7 +1120,9 @@ u('input').on('change click blur paste', function(){
 
 ### Related
 
-[.trigger()](#trigger) calls an event on all of the matched nodes
+- [.trigger()](#trigger) calls an event on all of the matched nodes
+- [.off(event, callback)](#off) Removes an event from  matched nodes
+
 ## .prepend()
 
 This method is similar to `append`. However note that, unlike append, the elements are inserted in *inverse* order. So all of these methods are equivalent:
@@ -1321,4 +1380,5 @@ setInterval(function(){
 
 ### Related
 
-[.on()](#on) add an event listener to thematched nodes
+- [.on()](#on) add an event listener to the matched nodes
+- [.off(event, callback)](#off) Removes an event from matched nodes

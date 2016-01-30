@@ -559,6 +559,45 @@ should pass no parameter so it retrieves the html.</p>
 <li><p><a href="#filter">.filter(filter)</a> Remove unwanted nodes</p>
 </li>
 </ul>
+<h2 id="-off-">.off()</h2>
+<p>Remove event handler from matched nodes</p>
+<pre><code class="lang-js">u(&#39;.off-multiple-test&#39;).off(&#39;click&#39;, listener);
+u(&#39;.off-multiple-test&#39;).off(&#39;click mouseover&#39;, listener);
+u(&#39;.off-multiple-test&#39;).off(&#39;event1 event2 eventN&#39;, listener);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>event</code>:
+  Any number of events (such as click, mouseover)<br><code>listener</code>:
+  Function reference to remove from the events</p>
+<pre><code class="lang-js">.not(function(node){
+  // your code
+});
+</code></pre>
+<h3 id="examples">Examples</h3>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li class=&quot;off-single-test&quot;&gt;1&lt;/li&gt;
+  &lt;li class=&quot;off-multiple-test&quot;&gt;2&lt;/li&gt;
+  &lt;li class=&quot;off-multiple-test&quot;&gt;3&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<pre><code class="lang-js">const listener = function() {
+  alert(&#39;called&#39;);
+}
+
+//Add listener
+u(&#39;.off-multiple-test&#39;).on(&#39;click&#39;, listener);
+//Trigger event
+u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //Alert appears
+//Remove listener
+u(&#39;.off-multiple-test&#39;).off(&#39;click&#39;, listener);
+//Trigger event
+u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
+</code></pre>
+<h3 id="related">Related</h3>
+<ul>
+<li><a href="#on">.on(event, callback)</a> Attaches an event to matched nodes</li>
+<li><a href="#trigger">.trigger(event)</a> Triggers an event on all of the matched nodes</li>
+</ul>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
 <pre><code class="lang-js">.on(&#39;event1&#39;, callback)
@@ -594,7 +633,10 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 });
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
+<ul>
+<li><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</li>
+<li><a href="#off">.off(event, callback)</a> Removes an event from  matched nodes</li>
+</ul>
 <h2 id="-prepend-">.prepend()</h2>
 <p>This method is similar to <code>append</code>. However note that, unlike append, the elements are inserted in <em>inverse</em> order. So all of these methods are equivalent:</p>
 <pre><code class="lang-js">// Add them all like a single string
@@ -736,7 +778,10 @@ setInterval(function(){
 }, 10000);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#on">.on()</a> add an event listener to thematched nodes</p>
+<ul>
+<li><a href="#on">.on()</a> add an event listener to the matched nodes</li>
+<li><a href="#off">.off(event, callback)</a> Removes an event from matched nodes</li>
+</ul>
 </article></section></main><script src="umbrella.min.js"></script><script>u('h2[id]').each(function(node){
   u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
 });
