@@ -15,7 +15,11 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-
+  
+  if (parameter instanceof u) {
+    return parameter;
+  }
+  
   // Check if it's a css selector
   if (typeof parameter == "string") {
 
@@ -629,9 +633,11 @@ u.prototype.select = function(parameter, context) {
     return this.select.byCss(parameter, context);
   }
   
-  for (var i = 0; i < this.s.length; i++) {
-    if (this.s[i].r.test(parameter)) {
-      return this.s[i].f(parameter);
+  for (var key in this.selectors) {
+    // Reusing it to save space
+    context = key.split('/');
+    if ((new RegExp(context[1], context[2])).test(parameter)) {
+      return this.selectors[key](parameter);
     }
   }
   
@@ -647,25 +653,25 @@ u.prototype.select.byCss = function(parameter, context) {
 
 // Allow for adding/removing regexes and parsing functions
 // It stores a regex: function pair to process the parameter and context
-u.prototype.s = [];
+u.prototype.selectors = {};
 
 // Find some html nodes using an Id
-u.prototype.s.push({ r: /^\.[\w\-]+$/, f: function(param) {
-    return document.getElementsByClassName(param.substring(1));
-  }
-});
+u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
+  return document.getElementsByClassName(param.substring(1));
+};
 
-// The tag nodes
-u.prototype.s.push({ r: /^\w+$/, f: function(param) {
-    return document.getElementsByTagName(param);
-  }
-});
+//The tag nodes
+u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
 
 // Find some html nodes using an Id
-u.prototype.s.push({ r: /^\#[\w\-]+$/, f: function(param){
-    return document.getElementById(param.substring(1));
-  }
-});
+u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
+  return document.getElementById(param.substring(1));
+};
+
+// Create a new element for the DOM
+u.prototype.selectors[/^\</] = function(param){
+  return u(document.createElement('div')).html(param).children().nodes;
+};
 
 /**
  * .serialize()

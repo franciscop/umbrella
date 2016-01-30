@@ -15,7 +15,11 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {    // !() http://stackoverflow.com/q/8875878
     return new u(parameter, context);
   }
-
+  
+  if (parameter instanceof u) {
+    return parameter;
+  }
+  
   // Check if it's a css selector
   if (typeof parameter == "string") {
 

@@ -15,30 +15,36 @@ describe("u(selector, context)", function() {
   });
   
   it("can select by class", function() {
-    expect(u('.demo').nodes.length).to.equal(1);
+    expect(u('.demo').length).to.equal(1);
   });
   
   it("can select by tag", function() {
-    expect(u('body').nodes.length).to.equal(1);
+    expect(u('body').length).to.equal(1);
   });
   
   it("can select by id", function() {
-    expect(u('#demo').nodes.length).to.equal(1);
+    expect(u('#demo').length).to.equal(1);
   });
 
   it("can select with css", function() {
     expect(u('[id="demo"]').nodes.length).to.equal(1);
-    expect(u('.demo ul').nodes.length).to.equal(1);
+    expect(u('.demo ul').length).to.equal(1);
   });
   
   it("can select an object", function() {
     var object = u('.demo li').nodes[0];
-    expect(u(object).nodes.length).to.equal(1);
+    expect(u(object).length).to.equal(1);
+  });
+  
+  it("can select an Umbrella instance", function() {
+    var inst = u('.demo');
+    expect(u(inst).length).to.equal(1);
+    expect(u(inst)).to.equal(inst);
   });
   
   it("can use a context", function() {
     var context = u('.demo li').nodes[0];
-    expect(u('a', context).nodes.length).to.equal(1);
+    expect(u('a', context).length).to.equal(1);
   });
   
   it("can read the length", function() {
@@ -74,11 +80,11 @@ describe("performance tests", function(){
   
   
   
-  it("simple select by class 100.000/second", function() {
+  it("simple select by class 10.000/second", function() {
     
     uTime = performance(function(){
       u('.demo');
-    }, 10000);
+    }, 5000);
     
     console.log('u: ' + uTime + 'ms');
     expect(uTime).to.be.below(100, uTime + ' ms');
@@ -103,7 +109,7 @@ describe("performance tests", function(){
   
   
   
-  it("vs jquery: class selector", function() {
+  it("vs jquery: class selector (50% margin)", function() {
     
     var uTime = performance(function(){
       u('.tabletest');
@@ -115,12 +121,12 @@ describe("performance tests", function(){
     
     console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
     
-    expect(uTime).to.be.below($Time, uTime + ' ms');
+    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
   });
   
   
   
-  it("vs jquery: complex selector", function() {
+  it("vs jquery: complex selector (50% margin)", function() {
     
     var uTime = performance(function(){
       u('table td:first-child');
@@ -132,24 +138,24 @@ describe("performance tests", function(){
     
     console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
     
-    expect(uTime).to.be.below($Time, uTime + ' ms');
+    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
   });
   
   
   
-  it("vs jquery: jquery optimized vs raw umbrella", function() {
+  it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
     
     var uTime = performance(function(){
       u(".ro > *");
     }, 100);
     
     var $Time = performance(function(){
-      $(".ro").children();
+      $(".ro > *");
     }, 100);
     
     console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
     
-    expect(uTime).to.be.below($Time, uTime + ' ms');
+    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
   });
 });
 // Testing the main file
@@ -846,31 +852,28 @@ describe(".select(selector)", function() {
     expect(u().select('.base')).to.not.equal(null);
   });
   
-  // it("is fine-tuned by class", function(){
-  //   expect(u().select('.base')).to.equal(u().select.byClass('base'));
-  // });
-  
   it("can select by tag", function(){
     expect(u().select('li').length).to.be.above(1);
     expect(u().select('li')[0].nodeName).to.equal('LI');
   });
   
-  // it("is fine-tuned by tag", function(){
-  //   expect(u().select('li')).to.equal(u().select.byTag('li'));
-  //   //console.log(u().select('#base'));
-  // });
-  
   it("can select by id", function(){
     expect(u().select('#base')).to.not.equal(null);
   });
   
-  // it("is fine-tuned by id", function(){
-  //   expect(u().select('#base')).to.equal(u().select.byId('base'));
-  // });
-  
   it("can select by complex selector", function() {
     expect(u().select('.brand a').length).to.equal(1);
     expect(u().select('.brand a')[0].nodeName).to.equal('A');
+  });
+  
+  it("can create one element", function(){
+    expect(u('<div>').length).to.equal(1);
+    expect(u('<div>').first().nodeName).to.equal('DIV');
+  });
+  
+  it("can create many elements", function(){
+    expect(u('<p></p><p></p>').length).to.equal(2);
+    expect(u('<p></p><p></p>').first().nodeName).to.equal('P');
   });
 });
 

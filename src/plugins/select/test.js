@@ -16,31 +16,28 @@ describe(".select(selector)", function() {
     expect(u().select('.base')).to.not.equal(null);
   });
   
-  // it("is fine-tuned by class", function(){
-  //   expect(u().select('.base')).to.equal(u().select.byClass('base'));
-  // });
-  
   it("can select by tag", function(){
     expect(u().select('li').length).to.be.above(1);
     expect(u().select('li')[0].nodeName).to.equal('LI');
   });
   
-  // it("is fine-tuned by tag", function(){
-  //   expect(u().select('li')).to.equal(u().select.byTag('li'));
-  //   //console.log(u().select('#base'));
-  // });
-  
   it("can select by id", function(){
     expect(u().select('#base')).to.not.equal(null);
   });
   
-  // it("is fine-tuned by id", function(){
-  //   expect(u().select('#base')).to.equal(u().select.byId('base'));
-  // });
-  
   it("can select by complex selector", function() {
     expect(u().select('.brand a').length).to.equal(1);
     expect(u().select('.brand a')[0].nodeName).to.equal('A');
+  });
+  
+  it("can create one element", function(){
+    expect(u('<div>').length).to.equal(1);
+    expect(u('<div>').first().nodeName).to.equal('DIV');
+  });
+  
+  it("can create many elements", function(){
+    expect(u('<p></p><p></p>').length).to.equal(2);
+    expect(u('<p></p><p></p>').first().nodeName).to.equal('P');
   });
 });
 
