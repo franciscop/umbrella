@@ -154,6 +154,7 @@ u.prototype.adjacent = function(position, text, data) {
   // Loop through all the nodes
   return this.each(function(node) {
     
+    // Allow for data to be falsy and still loop once
     u(data || [""]).each(function(d, i){
       
       
@@ -480,18 +481,8 @@ function parseJson(jsonString){
  */
 u.prototype.hasClass = function(names) {
   
-  names = this.args(arguments);
-  
-  // Attempt to find a node that passes the conditions
-  return this.nodes.some(function(node){
-    
-    // Check if the current node has all of the classes
-    return names.every(function(name){
-      
-      //  Check whether
-      return node.classList.contains(name)
-    });
-  });
+  // Check if any of them has all of the classes
+  return this.is('.' + this.args(arguments).join('.'));
 };
 
 /**
@@ -560,10 +551,8 @@ u.prototype.not = function(filter){
  */
 u.prototype.on = function(events, callback) {
   
-  return this.each(function(node){
-    this.args(events).forEach(function(event){
-      node.addEventListener(event, callback);
-    });
+  return this.eacharg(events, function(node, event){
+    node.addEventListener(event, callback);
   });
 };
 

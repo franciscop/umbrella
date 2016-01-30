@@ -7,16 +7,6 @@
  */
 u.prototype.hasClass = function(names) {
   
-  names = this.args(arguments);
-  
-  // Attempt to find a node that passes the conditions
-  return this.nodes.some(function(node){
-    
-    // Check if the current node has all of the classes
-    return names.every(function(name){
-      
-      //  Check whether
-      return node.classList.contains(name)
-    });
-  });
+  // Check if any of them has all of the classes
+  return this.is('.' + this.args(arguments).join('.'));
 };

@@ -8,6 +8,7 @@ u.prototype.adjacent = function(position, text, data) {
   // Loop through all the nodes
   return this.each(function(node) {
     
+    // Allow for data to be falsy and still loop once
     u(data || [""]).each(function(d, i){
       
       

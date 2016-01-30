@@ -9,6 +9,8 @@ Remove html class(es) to all of the matched elements.
 .removeClass('name1', 'name2', 'nameN');
 .removeClass(['name1', 'name2', 'nameN']);
 .removeClass(['name1', 'name2'], ['name3'], ['nameN']);
+.removeClass(function(){ return 'name1'; });
+.removeClass(function(){ return 'name1'; }, function(){ return 'name2'; });
 ```
 
 
