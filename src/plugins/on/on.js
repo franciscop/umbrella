@@ -8,9 +8,7 @@
  */
 u.prototype.on = function(events, callback) {
   
-  return this.each(function(node){
-    this.args(events).forEach(function(event){
-      node.addEventListener(event, callback);
-    });
+  return this.eacharg(events, function(node, event){
+    node.addEventListener(event, callback);
   });
 };

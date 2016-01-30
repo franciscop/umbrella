@@ -424,38 +424,46 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <p><a href="#hasclass">.hasClass(name)</a> finds if the matched elements contain the class(es)</p>
 <h2 id="-hasclass-">.hasClass()</h2>
 <p>Find if any of the matched elements contains the class passed:</p>
-<pre><code class="lang-js">.hasClass(name1, name2)
+<pre><code class="lang-js">.hasClass(&#39;name1&#39;);
+.hasClass(&#39;name1 name2 nameN&#39;);
+.hasClass(&#39;name1,name2,nameN&#39;);
+.hasClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;);
+.hasClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
+.hasClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;]);
+.hasClass(function(){ return &#39;name1&#39;; });
+.hasClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });
 </code></pre>
-<pre><code class="lang-js">u(&quot;a&quot;).hasClass(&quot;button&quot;)
-</code></pre>
-<p>You can also check <strong>multiple classes</strong> with the <strong>AND condition</strong>:</p>
-<pre><code class="lang-js">u(&quot;a&quot;).hasClass(&quot;button primary&quot;)
-</code></pre>
-<p>This would be similar to:</p>
+<p>If more than one class is passed, they are checked <strong>with the AND condition</strong> similar to:</p>
 <pre><code class="lang-js">u(&quot;a&quot;).hasClass(&quot;button&quot;) &amp;&amp; u(&quot;a&quot;).hasClass(&quot;primary&quot;);
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><strong><code>name</code></strong>: a string that represents the class(es) to be matched. To pass several classes they must be separated by an space.</p>
+<p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be matched to any of the matched elements. It accepts many different types of parameters (see above).</p>
 <h3 id="return">Return</h3>
 <p><strong><code>boolean</code></strong>: returns true if all of the passed classes are found in any of the matched elements and false if they couldn&#39;t be found.</p>
+<h3 id="example">Example</h3>
+<p>You can also check manually if it has several classes with the OR parameter with:</p>
+<pre><code class="lang-js">u(&#39;a&#39;).is(&#39;.button, .primary&#39;);
+</code></pre>
+<p>And with the AND parameter:</p>
+<pre><code class="lang-js">u(&#39;a&#39;).is(&#39;.button.primary&#39;);
+</code></pre>
+<p>Toggle the color of a button depending on the status</p>
+<pre><code class="lang-html">&lt;a class=&quot;example button&quot;&gt;Click me&lt;/a&gt;
+
+&lt;script src=&quot;//umbrellajs.com/umbrella.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  u(&quot;.example&quot;).on(&#39;click&#39;, function() {
+    if(u(this).hasClass(&quot;error&quot;)) {
+      u(this).removeClass(&quot;error&quot;).html(&quot;Click me&quot;);
+    } else {
+      u(this).addClass(&quot;error&quot;).html(&quot;Confirm&quot;);
+    }
+  });
+&lt;/script&gt;
+</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass(name)</a> adds html class(es) to each of the matched elements.</p>
 <p><a href="#removeclass">.removeClass(name)</a> deletes class(es) from the matched elements.</p>
-<h3 id="example">Example</h3>
-<p>Toggle the color of a button depending on the status</p>
-<pre><code class="lang-html">    &lt;a class=&quot;example button&quot;&gt;Click me&lt;/a&gt;
-
-    &lt;script src=&quot;//umbrellajs.com/umbrella.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script&gt;
-      u(&quot;.example&quot;).on(&#39;click&#39;, function() {
-        if(u(this).hasClass(&quot;error&quot;)) {
-          u(this).removeClass(&quot;error&quot;).html(&quot;Click me&quot;);
-        } else {
-          u(this).addClass(&quot;error&quot;).html(&quot;Confirm&quot;);
-        }
-      });
-    &lt;/script&gt;
-</code></pre>
 <h2 id="-html-">.html()</h2>
 <p>Retrieve or set the html of the elements:</p>
 <pre><code class="lang-js">// GET
@@ -635,6 +643,8 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Thre
 .removeClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;);
 .removeClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
 .removeClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;]);
+.removeClass(function(){ return &#39;name1&#39;; });
+.removeClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be removed to all of the matched elements. It accepts many different types of parameters (see above).</p>
