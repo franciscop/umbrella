@@ -328,59 +328,52 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <p><a href="#attr">.attr()</a> handle attributes for the matched elements</p>
 <h2 id="-each-">.each()</h2>
 <p>Loop through all of the nodes and execute a callback for each</p>
-<pre><code class="lang-js">.each(callback);
+<pre><code class="lang-js">.each(function(node, i){});
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>callback</code>: the function that will be called. It accepts two parameters, the node and the index, and the context for <code>this</code> is Umbrella&#39;s instance so other methods like <code>this.args()</code> and <code>this.slice()</code> are available.</p>
-<pre><code class="lang-js">.each(function(node, i){
-  // work
-});
-</code></pre>
+<p><code>callback</code>: the function that will be called. It accepts two parameters, the node and the index. <code>this</code> is Umbrella&#39;s instance so other methods like <code>this.args()</code> and <code>this.slice()</code> are available.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns an instance of Umbrella JS with the same nodes</p>
 <h3 id="examples">Examples</h3>
 <p>Loop through all of the links and add them a <code>target=&quot;_blank&quot;</code>:</p>
 <pre><code class="lang-js">u(&#39;a&#39;).each(function(node, i){
-  if (!/^\//.test(node.attr(&#39;href&#39;))){
-    u(node).attr({ target: &#39;_blank&#39; });
-  }
+  u(node).attr({ target: &#39;_blank&#39; });
 });
 </code></pre>
 <h2 id="-filter-">.filter()</h2>
-<p>Remove unwanted nodes</p>
+<p>Remove all the nodes that doesn&#39;t match the criteria</p>
 <pre><code class="lang-js">.filter(&#39;a&#39;)
 .filter(u(&#39;a&#39;))
-.filter(function(node, index){ u(node).is(&#39;a&#39;); })
+.filter(function(node, i){ return u(node).is(&#39;a&#39;); })
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be:</p>
 <ul>
 <li>css selector that each of the nodes must match to stay</li>
-<li>instance of umbrella with the element to keep</li>
-<li>function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available:</li>
+<li>instance of umbrella with the elements to keep (the intersection will be kept)</li>
+<li>function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available</li>
 </ul>
-<pre><code class="lang-js">.filter(function(node, index){
-  // your code
-});
-</code></pre>
+<h3 id="returns">Returns</h3>
+<p>An instance of Umbrella with the nodes that passed the filter.</p>
 <h3 id="examples">Examples</h3>
 <p>Get only the active links</p>
 <pre><code class="lang-js">var links = u(&#39;a&#39;).filter(&#39;.active&#39;);
 </code></pre>
 <p>Get all of the paragraphs with a link:</p>
 <pre><code class="lang-js">var paragraphs = u(&#39;p&#39;).filter(function(node){
-  return u(node).find(&#39;a&#39;).nodes.length &gt; 0;
+  return u(node).find(&#39;a&#39;).length &gt; 0;
 });
 </code></pre>
-<p>Filter the inputs to those with an answer above 5 and show an error:</p>
+<p>Get only the inputs with an answer above 5 and show an error:</p>
 <pre><code class="lang-js">u(&#39;input&#39;).filter(function(node, i){
-  if (parseInt(u(node).html()) &gt; 5) {
+  if (parseInt(u(node).first().value) &gt; 5) {
     return true;
   }
 }).addClass(&#39;error&#39;);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#is">.is(filter)</a> check whether one or more of the nodes is of one type</p>
+<p><a href="#is">.is()</a> check whether one or more of the nodes is of one type</p>
+<p><a href="#not">.not()</a> remove all the nodes that match the criteria</p>
 <h2 id="-find-">.find()</h2>
 <p>Get all of the descendants of the nodes with an optional filter</p>
 <pre><code class="lang-js">.find(filter);
@@ -388,9 +381,9 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: a string containing a selector that nodes must pass or a function that return a boolean. See <a href="#filter">.filter()</a> for a better explanation</p>
 <h3 id="return">Return</h3>
-<p><code>u</code>: returns an instance of Umbrella JS with the new children as nodes</p>
+<p>An instance of Umbrella with the new children as nodes</p>
 <h3 id="examples">Examples</h3>
-<p>Get all of the links within a paragraph</p>
+<p>Get all of the links within all the paragraphs</p>
 <pre><code class="lang-js">u(&quot;p&quot;).find(&#39;a&#39;);
 </code></pre>
 <p>Get the required fields within a submitting form:</p>
@@ -408,7 +401,7 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 </li>
 </ul>
 <h2 id="-first-">.first()</h2>
-<p>Add html class(es) to all of the matched elements.</p>
+<p>Retrieve the first of the matched nodes</p>
 <pre><code class="lang-js">.first();
 </code></pre>
 <h3 id="parameters">Parameters</h3>
@@ -420,8 +413,7 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <pre><code class="lang-js">var next = u(&quot;ul.demo li&quot;).first();
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#removeclass">.removeClass(name)</a> deletes class(es) from the matched elements.</p>
-<p><a href="#hasclass">.hasClass(name)</a> finds if the matched elements contain the class(es)</p>
+<p><a href="#last">.last()</a> retrieve the last matched element</p>
 <h2 id="-hasclass-">.hasClass()</h2>
 <p>Find if any of the matched elements contains the class passed:</p>
 <pre><code class="lang-js">.hasClass(&#39;name1&#39;);
@@ -476,7 +468,7 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <p><em>GET</em>
 should pass no parameter so it retrieves the html.</p>
 <p><em>SET</em>
-<code>html</code>: the new value that you want to set</p>
+<code>html</code>: the new value that you want to set. To remove it, pass an empty string: <code>&quot;&quot;</code></p>
 <h3 id="return">Return</h3>
 <p><em>GET</em>
 <code>string</code>: the html of the first node</p>
@@ -490,7 +482,7 @@ should pass no parameter so it retrieves the html.</p>
 <pre><code class="lang-js">u(&#39;h1&#39;).html(&#39;Hello world&#39;);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#attr">.attr(html)</a></p>
+<p><a href="#attr">.attr(html)</a> Handle attributes for the matched elements</p>
 <h2 id="-is-">.is()</h2>
 <p>Check whether any of the nodes matches the selector</p>
 <pre><code class="lang-js">.is(&#39;a&#39;)
@@ -502,12 +494,8 @@ should pass no parameter so it retrieves the html.</p>
 <ul>
 <li>css selector to check</li>
 <li>instance of umbrella with the elements to check</li>
-<li>function that returns a boolean to check for each of the nodes. If one of them returns true, then the method <code>is()</code> returns true. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available:</li>
+<li>function that returns a boolean to check for each of the nodes. If one of them returns true, then the method <code>is()</code> returns true. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available.</li>
 </ul>
-<pre><code class="lang-js">.is(function(node, index){
-  // your code
-});
-</code></pre>
 <h3 id="return">Return</h3>
 <p><em>boolean</em>: <em>true</em> if any of the nodes matches the selector or the function returns true, false otherwise.</p>
 <h3 id="examples">Examples</h3>
@@ -522,6 +510,21 @@ should pass no parameter so it retrieves the html.</p>
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#filter">.filter()</a> remove unwanted nodes</p>
+<p><a href="#not">.not()</a> remove all the nodes that match the criteria</p>
+<h2 id="-last-">.last()</h2>
+<p>Get the last element from a list of elements.</p>
+<pre><code class="lang-js">.last();
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>This method doesn&#39;t accept any parameters</p>
+<h3 id="return">Return</h3>
+<p>The last html node or false if there is none.</p>
+<h3 id="examples">Examples</h3>
+<p>Retrieve the last element of a list:</p>
+<pre><code class="lang-js">var next = u(&quot;ul.demo li&quot;).last();
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#first">.first()</a> retrieve the first matched element</p>
 <h2 id="-not-">.not()</h2>
 <p>Remove known nodes from nodes</p>
 <pre><code class="lang-js">.not(&#39;a&#39;)
@@ -567,12 +570,9 @@ u(&#39;.off-multiple-test&#39;).off(&#39;event1 event2 eventN&#39;, listener);
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event</code>:
-  Any number of events (such as click, mouseover)<br><code>listener</code>:
+  Any number of events (such as click, mouseover)</p>
+<p><code>listener</code>:
   Function reference to remove from the events</p>
-<pre><code class="lang-js">.not(function(node){
-  // your code
-});
-</code></pre>
 <h3 id="examples">Examples</h3>
 <pre><code class="lang-html">&lt;ul&gt;
   &lt;li class=&quot;off-single-test&quot;&gt;1&lt;/li&gt;
@@ -594,10 +594,8 @@ u(&#39;.off-multiple-test&#39;).off(&#39;click&#39;, listener);
 u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 </code></pre>
 <h3 id="related">Related</h3>
-<ul>
-<li><a href="#on">.on(event, callback)</a> Attaches an event to matched nodes</li>
-<li><a href="#trigger">.trigger(event)</a> Triggers an event on all of the matched nodes</li>
-</ul>
+<p><a href="#on">.on(event, callback)</a> Attaches an event to matched nodes</p>
+<p><a href="#trigger">.trigger(event)</a> Triggers an event on all of the matched nodes</p>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
 <pre><code class="lang-js">.on(&#39;event1&#39;, callback)
@@ -606,8 +604,8 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 .on([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], callback)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.
-<code>callback</code>: function that will be called when the event is triggered. It accepts a single parameter, the event itself.</p>
+<p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
+<p><code>callback</code>: function that will be called when the event is triggered. It accepts a single parameter, the event itself.</p>
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
@@ -633,10 +631,28 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 });
 </code></pre>
 <h3 id="related">Related</h3>
-<ul>
-<li><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</li>
-<li><a href="#off">.off(event, callback)</a> Removes an event from  matched nodes</li>
-</ul>
+<p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
+<p><a href="#off">.off(event, callback)</a> Removes an event from  matched nodes</p>
+<h2 id="-parent-">.parent()</h2>
+<p>Retrieve each parent of the matched nodes, optionally filtered by a selector</p>
+<pre><code class="lang-js">.parent()
+.parent(&#39;p&#39;)
+.parent(u(&#39;p&#39;))
+.parent(function(node, i){})
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>selector</code>: Optional filter argument for the parents</p>
+<h3 id="examples">Examples</h3>
+<p>Retrieve all of the parents of <code>&lt;li&gt;</code> in the page:</p>
+<pre><code class="lang-js">u(&#39;li&#39;).parent();
+</code></pre>
+<p>Retrieve all the paragraphs that have a link as a direct child</p>
+<pre><code class="lang-js">u(&#39;a&#39;).parent(&#39;p&#39;);
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#parent">.children()</a> get all of the direct children</p>
+<p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
+<p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
 <h2 id="-prepend-">.prepend()</h2>
 <p>This method is similar to <code>append</code>. However note that, unlike append, the elements are inserted in <em>inverse</em> order. So all of these methods are equivalent:</p>
 <pre><code class="lang-js">// Add them all like a single string

@@ -603,19 +603,13 @@ u('ul li').first().data('id', '2'); // <li data-id='2'>First</li>
 Loop through all of the nodes and execute a callback for each
 
 ```js
-.each(callback);
+.each(function(node, i){});
 ```
 
 
 ### Parameters
 
-`callback`: the function that will be called. It accepts two parameters, the node and the index, and the context for `this` is Umbrella's instance so other methods like `this.args()` and `this.slice()` are available.
-
-```js
-.each(function(node, i){
-  // work
-});
-```
+`callback`: the function that will be called. It accepts two parameters, the node and the index. `this` is Umbrella's instance so other methods like `this.args()` and `this.slice()` are available.
 
 
 
@@ -631,19 +625,17 @@ Loop through all of the links and add them a `target="_blank"`:
 
 ```js
 u('a').each(function(node, i){
-  if (!/^\//.test(node.attr('href'))){
-    u(node).attr({ target: '_blank' });
-  }
+  u(node).attr({ target: '_blank' });
 });
 ```
 ## .filter()
 
-Remove unwanted nodes
+Remove all the nodes that doesn't match the criteria
 
 ```js
 .filter('a')
 .filter(u('a'))
-.filter(function(node, index){ u(node).is('a'); })
+.filter(function(node, i){ return u(node).is('a'); })
 ```
 
 
@@ -651,14 +643,13 @@ Remove unwanted nodes
 
 `filter`: it can be:
   - css selector that each of the nodes must match to stay
-  - instance of umbrella with the element to keep
-  - function that returns a boolean with true to keep the element. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available:
-  
-```js
-.filter(function(node, index){
-  // your code
-});
-```
+  - instance of umbrella with the elements to keep (the intersection will be kept)
+  - function that returns a boolean with true to keep the element. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
+
+
+### Returns
+
+An instance of Umbrella with the nodes that passed the filter.
 
 
 ### Examples
@@ -673,15 +664,15 @@ Get all of the paragraphs with a link:
 
 ```js
 var paragraphs = u('p').filter(function(node){
-  return u(node).find('a').nodes.length > 0;
+  return u(node).find('a').length > 0;
 });
 ```
 
-Filter the inputs to those with an answer above 5 and show an error:
+Get only the inputs with an answer above 5 and show an error:
 
 ```js
 u('input').filter(function(node, i){
-  if (parseInt(u(node).html()) > 5) {
+  if (parseInt(u(node).first().value) > 5) {
     return true;
   }
 }).addClass('error');
@@ -690,8 +681,9 @@ u('input').filter(function(node, i){
 
 ### Related
 
-[.is(filter)](#is) check whether one or more of the nodes is of one type
+[.is()](#is) check whether one or more of the nodes is of one type
 
+[.not()](#not) remove all the nodes that match the criteria
 ## .find()
 
 Get all of the descendants of the nodes with an optional filter
@@ -709,13 +701,13 @@ Get all of the descendants of the nodes with an optional filter
 
 ### Return
 
-`u`: returns an instance of Umbrella JS with the new children as nodes
+An instance of Umbrella with the new children as nodes
 
 
 
 ### Examples
 
-Get all of the links within a paragraph
+Get all of the links within all the paragraphs
 
 ```js
 u("p").find('a');
@@ -741,7 +733,7 @@ u('form').on('submit', function(e){
 
 ## .first()
 
-Add html class(es) to all of the matched elements.
+Retrieve the first of the matched nodes
 
 ```js
 .first();
@@ -771,10 +763,7 @@ var next = u("ul.demo li").first();
 
 ### Related
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
-
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
-
+[.last()](#last) retrieve the last matched element
 ## .hasClass()
 
 Find if any of the matched elements contains the class passed:
@@ -867,7 +856,7 @@ Retrieve or set the html of the elements:
 should pass no parameter so it retrieves the html.
 
 *SET*
-`html`: the new value that you want to set
+`html`: the new value that you want to set. To remove it, pass an empty string: `""`
 
 
 
@@ -898,7 +887,7 @@ u('h1').html('Hello world');
 
 ### Related
 
-[.attr(html)](#attr)
+[.attr(html)](#attr) Handle attributes for the matched elements
 
 ## .is()
 
@@ -917,13 +906,7 @@ Check whether any of the nodes matches the selector
 `filter`: it can be two things:
   - css selector to check
   - instance of umbrella with the elements to check
-  - function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available:
-
-```js
-.is(function(node, index){
-  // your code
-});
-```
+  - function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available.
 
 
 
@@ -952,6 +935,42 @@ u('form.subscribe').ajax(false, function() {
 ### Related
 
 [.filter()](#filter) remove unwanted nodes
+
+[.not()](#not) remove all the nodes that match the criteria
+## .last()
+
+Get the last element from a list of elements.
+
+```js
+.last();
+```
+
+
+### Parameters
+
+This method doesn't accept any parameters
+
+
+### Return
+
+The last html node or false if there is none.
+
+
+
+### Examples
+
+Retrieve the last element of a list:
+
+```js
+var next = u("ul.demo li").last();
+```
+
+
+
+### Related
+
+[.first()](#first) retrieve the first matched element
+
 ## .not()
 
 Remove known nodes from nodes
@@ -1022,15 +1041,10 @@ u('.off-multiple-test').off('event1 event2 eventN', listener);
 ### Parameters
 
 `event`:
-  Any number of events (such as click, mouseover)    
+  Any number of events (such as click, mouseover)
+
 `listener`:
   Function reference to remove from the events
-
-```js
-.not(function(node){
-  // your code
-});
-```
 
 
 
@@ -1061,8 +1075,9 @@ u('.off-multiple-test').trigger('click'); //No alert
 
 ### Related
 
-- [.on(event, callback)](#on) Attaches an event to matched nodes
-- [.trigger(event)](#trigger) Triggers an event on all of the matched nodes
+[.on(event, callback)](#on) Attaches an event to matched nodes
+
+[.trigger(event)](#trigger) Triggers an event on all of the matched nodes
 
 ## .on()
 
@@ -1080,6 +1095,7 @@ Calls a function when an event is triggered
 ### Parameters
 
 `event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
+
 `callback`: function that will be called when the event is triggered. It accepts a single parameter, the event itself.
 
 
@@ -1120,9 +1136,50 @@ u('input').on('change click blur paste', function(){
 
 ### Related
 
-- [.trigger()](#trigger) calls an event on all of the matched nodes
-- [.off(event, callback)](#off) Removes an event from  matched nodes
+[.trigger()](#trigger) calls an event on all of the matched nodes
 
+[.off(event, callback)](#off) Removes an event from  matched nodes
+
+## .parent()
+
+Retrieve each parent of the matched nodes, optionally filtered by a selector
+
+```js
+.parent()
+.parent('p')
+.parent(u('p'))
+.parent(function(node, i){})
+```
+
+
+### Parameters
+
+`selector`: Optional filter argument for the parents
+
+
+
+### Examples
+
+Retrieve all of the parents of `<li>` in the page:
+
+```js
+u('li').parent();
+```
+
+Retrieve all the paragraphs that have a link as a direct child
+
+```js
+u('a').parent('p');
+```
+
+
+### Related
+
+[.children()](#parent) get all of the direct children
+
+[.find()](#find) get all of the descendants of the matched nodes
+
+[.closest()](#closest) get the first ascendant that matches the selector
 ## .prepend()
 
 This method is similar to `append`. However note that, unlike append, the elements are inserted in *inverse* order. So all of these methods are equivalent:

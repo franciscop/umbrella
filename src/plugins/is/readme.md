@@ -15,13 +15,7 @@ Check whether any of the nodes matches the selector
 `filter`: it can be two things:
   - css selector to check
   - instance of umbrella with the elements to check
-  - function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available:
-
-```js
-.is(function(node, index){
-  // your code
-});
-```
+  - function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available.
 
 
 
@@ -50,3 +44,5 @@ u('form.subscribe').ajax(false, function() {
 ### Related
 
 [.filter()](#filter) remove unwanted nodes
+
+[.not()](#not) remove all the nodes that match the criteria

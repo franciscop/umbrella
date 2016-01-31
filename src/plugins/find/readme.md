@@ -15,13 +15,13 @@ Get all of the descendants of the nodes with an optional filter
 
 ### Return
 
-`u`: returns an instance of Umbrella JS with the new children as nodes
+An instance of Umbrella with the new children as nodes
 
 
 
 ### Examples
 
-Get all of the links within a paragraph
+Get all of the links within all the paragraphs
 
 ```js
 u("p").find('a');

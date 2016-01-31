@@ -65,7 +65,7 @@ describe(".addClass(name1, name2, ...)", function() {
   });
 
   it("adds several classes separated by comma", function() {
-    len = base.addClass('bla,blu').nodes.length;
+    len = base.addClass('bla,blu').length;
     expect(len).to.equal(1);
   });
   

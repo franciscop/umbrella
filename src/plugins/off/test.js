@@ -6,7 +6,7 @@ describe('.off()', function() {
     throw 'Shouldn\'t be called';
   };
 
-  beforeEach(function() {
+  before(function() {
     base.append('<ul><li class="off-single-test">1</li>'
     + '<li class="off-multiple-test">2</li>'
     + '<li class="off-multiple-test">3</li>'
@@ -14,7 +14,7 @@ describe('.off()', function() {
   });
 
   it('should be defined', function() {
-    expect(typeof base.not).to.equal('function');
+    expect(typeof base.off).to.equal('function');
   });
 
   it('removes event from single element', function() {

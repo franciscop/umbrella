@@ -45,7 +45,7 @@ describe(".toggleClass(name1, name2, ...)", function() {
   });
   
   it("toggles several classes separated by comma", function() {
-    len = base.toggleClass('bla,blu').nodes.length;
+    len = base.toggleClass('bla,blu').length;
     expect(len).to.equal(1);
   });
   

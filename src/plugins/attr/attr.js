@@ -28,5 +28,5 @@ u.prototype.attr = function(name, value) {
     });
   }
   
-  return this.nodes.length ? this.first().getAttribute(name) : "";
+  return this.length ? this.first().getAttribute(name) : "";
 };

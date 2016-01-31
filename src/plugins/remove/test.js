@@ -9,8 +9,8 @@ describe(".remove()", function() {
       </ul> \
     ');
 
-    expect(u('.remove-test').nodes.length).to.equal(1);
-    expect(u('.remove-test li').nodes.length).to.equal(2);
+    expect(u('.remove-test').length).to.equal(1);
+    expect(u('.remove-test li').length).to.equal(2);
   });
 
   afterEach(function() {

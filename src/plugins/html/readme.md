@@ -18,7 +18,7 @@ Retrieve or set the html of the elements:
 should pass no parameter so it retrieves the html.
 
 *SET*
-`html`: the new value that you want to set
+`html`: the new value that you want to set. To remove it, pass an empty string: `""`
 
 
 
@@ -49,4 +49,4 @@ u('h1').html('Hello world');
 
 ### Related
 
-[.attr(html)](#attr)
+[.attr(html)](#attr) Handle attributes for the matched elements

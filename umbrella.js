@@ -242,7 +242,7 @@ u.prototype.attr = function(name, value) {
     });
   }
   
-  return this.nodes.length ? this.first().getAttribute(name) : "";
+  return this.length ? this.first().getAttribute(name) : "";
 };
 
 /**
@@ -350,7 +350,7 @@ u.prototype.eacharg = function(args, callback) {
       // By doing callback.call we allow "this" to be the context for
       // the callback (see http://stackoverflow.com/q/4065353 precisely)
       callback.call(this, node, arg);
-    });
+    }, this);
   });
 };
 
@@ -512,16 +512,18 @@ u.prototype.html = function(text) {
 // .is(selector)
 // Check whether any of the nodes matches the selector
 u.prototype.is = function(selector){
-  return this.filter(selector).nodes.length > 0;
+  return this.filter(selector).length > 0;
 };
 /**
  * Merge all of the nodes that the callback returns
  */
 u.prototype.join = function(callback) {
   
+  var self = this;
+  
   return u(this.nodes.reduce(function(newNodes, node, i){
     
-    return newNodes.concat(callback(node, i));
+    return newNodes.concat(callback.call(self, node, i));
   }, [])).unique();
 };
 
@@ -531,7 +533,7 @@ u.prototype.join = function(callback) {
  */
 u.prototype.last = function() {
   
-  return this.nodes[this.nodes.length-1] || false;
+  return this.nodes[this.length-1] || false;
 };
 
 // .not(elems)
@@ -550,10 +552,8 @@ u.prototype.not = function(filter){
  * @return this Umbrella object
  */
 u.prototype.off = function(events, callback) {
-  return this.each(function(node){
-    this.args(events).forEach(function(event){
-      node.removeEventListener(event, callback);
-    });
+  return this.eacharg(events, function(node, event){
+    node.removeEventListener(event, callback);
   });
 };
 

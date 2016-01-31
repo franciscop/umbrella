@@ -7,9 +7,7 @@
  * @return this Umbrella object
  */
 u.prototype.off = function(events, callback) {
-  return this.each(function(node){
-    this.args(events).forEach(function(event){
-      node.removeEventListener(event, callback);
-    });
+  return this.eacharg(events, function(node, event){
+    node.removeEventListener(event, callback);
   });
 };

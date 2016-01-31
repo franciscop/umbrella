@@ -3,19 +3,13 @@
 Loop through all of the nodes and execute a callback for each
 
 ```js
-.each(callback);
+.each(function(node, i){});
 ```
 
 
 ### Parameters
 
-`callback`: the function that will be called. It accepts two parameters, the node and the index, and the context for `this` is Umbrella's instance so other methods like `this.args()` and `this.slice()` are available.
-
-```js
-.each(function(node, i){
-  // work
-});
-```
+`callback`: the function that will be called. It accepts two parameters, the node and the index. `this` is Umbrella's instance so other methods like `this.args()` and `this.slice()` are available.
 
 
 
@@ -31,8 +25,6 @@ Loop through all of the links and add them a `target="_blank"`:
 
 ```js
 u('a').each(function(node, i){
-  if (!/^\//.test(node.attr('href'))){
-    u(node).attr({ target: '_blank' });
-  }
+  u(node).attr({ target: '_blank' });
 });
 ```

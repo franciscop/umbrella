@@ -30,4 +30,4 @@ var next = u("ul.demo li").last();
 
 ### Related
 
-[.first()](#first) deletes class(es) from the matched elements.
+[.first()](#first) retrieve the first matched element

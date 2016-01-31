@@ -225,7 +225,7 @@ describe(".addClass(name1, name2, ...)", function() {
   });
 
   it("adds several classes separated by comma", function() {
-    len = base.addClass('bla,blu').nodes.length;
+    len = base.addClass('bla,blu').length;
     expect(len).to.equal(1);
   });
   
@@ -259,7 +259,7 @@ describe(".addClass(name1, name2, ...)", function() {
 describe(".after(html)", function() {
   
   beforeEach(function(){
-    expect(u('.bla').nodes.length).to.equal(0);
+    expect(u('.bla').length).to.equal(0);
   });
   
   afterEach(function(){
@@ -272,9 +272,9 @@ describe(".after(html)", function() {
   
   it("can add content in the right place", function() {
     base.after('<a class="bla">Link</a>');
-    expect(u('.bla').nodes.length).to.equal(1);
-    expect(base.parent().find('.base, .bla').nodes.length).to.equal(2);
-    expect(base.parent().find('.base ~ .bla').nodes.length).to.equal(1);
+    expect(u('.bla').length).to.equal(1);
+    expect(base.parent().find('.base, .bla').length).to.equal(2);
+    expect(base.parent().find('.base ~ .bla').length).to.equal(1);
   });
 });
 // Testing the main file
@@ -298,7 +298,7 @@ describe(".ajax(done, before)", function() {
 describe(".append(html)", function() {
   
   beforeEach(function(){
-    expect(u('.bla').nodes.length).to.equal(0);
+    expect(u('.bla').length).to.equal(0);
   });
   
   afterEach(function(){
@@ -310,32 +310,32 @@ describe(".append(html)", function() {
   });
   
   it("can add content in the right place", function() {
-    expect(u('.base > .bla').nodes.length).to.equal(0);
+    expect(u('.base > .bla').length).to.equal(0);
     base.append('<a class="bla">Link</a>');
-    expect(u('.base > .bla').nodes.length).to.equal(1);
+    expect(u('.base > .bla').length).to.equal(1);
   });
   
   it("can add content with a callback", function() {
-    expect(u('.base > .bla').nodes.length).to.equal(0);
+    expect(u('.base > .bla').length).to.equal(0);
     base.append(function(){ return '<a class="bla">Link</a>'; });
     expect(base.html().match('function')).to.equal(null);
-    expect(u('.base > .bla').nodes.length).to.equal(1);
+    expect(u('.base > .bla').length).to.equal(1);
   });
   
   it("can add content with a callback and data", function() {
-    expect(u('.base > .bla').nodes.length).to.equal(0);
+    expect(u('.base > .bla').length).to.equal(0);
     base.append('<a class="bla">Link</a>', ["a", "b"]);
     expect(base.html().match('function')).to.equal(null);
-    expect(u('.base > .bla').nodes.length).to.equal(2);
+    expect(u('.base > .bla').length).to.equal(2);
   });
   
   it("can add content with a callback and data", function() {
-    expect(u('.base > .bla').nodes.length).to.equal(0);
+    expect(u('.base > .bla').length).to.equal(0);
     base.append(function(cl, i){ return '<a class="bla ' + cl + '">Link</a>' }, ["a", "b"]);
     expect(base.html().match('function')).to.equal(null);
-    expect(u('.base > .bla').nodes.length).to.equal(2);
-    expect(u('.base > .bla.a').nodes.length).to.equal(1);
-    expect(u('.base > .bla.b').nodes.length).to.equal(1);
+    expect(u('.base > .bla').length).to.equal(2);
+    expect(u('.base > .bla.a').length).to.equal(1);
+    expect(u('.base > .bla.b').length).to.equal(1);
   });
 });
 // Testing the main file
@@ -384,7 +384,7 @@ describe(".attr(name, value)", function() {
 describe(".before(html)", function() {
   
   beforeEach(function(){
-    expect(u('.bla').nodes.length).to.equal(0);
+    expect(u('.bla').length).to.equal(0);
   });
   
   afterEach(function(){
@@ -397,9 +397,9 @@ describe(".before(html)", function() {
   
   it("can add content in the right place", function() {
     base.before('<a class="bla">Link</a>');
-    expect(u('.bla').nodes.length).to.equal(1);
-    expect(base.parent().find('.base, .bla').nodes.length).to.equal(2);
-    expect(base.parent().find('.bla ~ .base').nodes.length).to.equal(1);
+    expect(u('.bla').length).to.equal(1);
+    expect(base.parent().find('.base, .bla').length).to.equal(2);
+    expect(base.parent().find('.bla ~ .base').length).to.equal(1);
   });
 });
 // Testing the main file
@@ -407,7 +407,7 @@ describe(".children(selector)", function() {
   
   afterEach(function(){
     // A previous bug that would change the inner of the original reference
-    expect(base.nodes.length).to.equal(1);
+    expect(base.length).to.equal(1);
   });
   
   it("should be a function", function() {
@@ -415,15 +415,15 @@ describe(".children(selector)", function() {
   });
   
   it("can select the children of ul", function() {
-    expect(base.find('ul').children().nodes.length).to.equal(3);
+    expect(base.find('ul').children().length).to.equal(3);
   });
   
   it("can filter the children", function() {
-    expect(base.find('ul').children(':first-child').nodes.length).to.equal(1);
+    expect(base.find('ul').children(':first-child').length).to.equal(1);
   });
   
   it("okay with no children", function() {
-    expect(base.find('ul').children('.nonexist').nodes.length).to.equal(0);
+    expect(base.find('ul').children('.nonexist').length).to.equal(0);
   });
 });
 // Testing the main file
@@ -484,6 +484,237 @@ describe(".data(name, value)", function() {
   });
 });
 
+describe(".each(function(){})", function() {
+    
+  it("should be defined", function() {
+    expect(typeof base.each).to.equal('function');
+  });
+  
+  it("empty gives an error", function(done){
+    try {
+      u([0, 1, 2]).each();
+    } catch (e) {
+      return done();
+    }
+    throw "Shouldn't get here";
+  });
+
+  it("can loop", function() {
+    u([0, 1, 2, 3]).each(function(node, i){
+      expect(node).to.equal(i);
+    });
+    
+    u([3, 4, 5, 6]).each(function(node, i){
+      expect(node).to.equal(i + 3);
+    });
+  });
+
+  it("can loop a real element", function() {
+    base.each(function(node, i){
+      expect(u(node).hasClass('base')).to.equal(true);
+      expect(i).to.equal(0);
+    });
+  });
+  
+  it("has the right this", function(){
+    u(['a', 'b']).each(function(node, i){
+      expect(this instanceof u).to.equal(true);
+    });
+  });
+  
+  it("returns an umbrella object", function(){
+    var ret = u(['a', 'b']).each(function(){});
+    expect(ret instanceof u).to.equal(true);
+  });
+});
+describe(".eacharg([], function(){})", function() {
+    
+  it("should be defined", function() {
+    expect(typeof base.each).to.equal('function');
+  });
+  
+  it("no data, everything is is okay", function(){
+    base.eacharg();
+    base.eacharg("");
+    base.eacharg("", function(){});
+    base.eacharg(false);
+    base.eacharg(false, function(){});
+    base.eacharg(undefined);
+    base.eacharg(undefined, function(){});
+    base.eacharg(function(){ return false; });
+    base.eacharg(function(){ return false; }, function(){});
+  });
+  
+  it("only first arguments gives an error", function(){
+    expect(base.eacharg.bind(base, ["a"])).to.throw();
+  });
+  
+  it("has the right this", function(){
+    u(['a', 'b']).eacharg(['a'], function(node, arg){
+      expect(this instanceof u).to.equal(true);
+    });
+  });
+  
+  it("returns an umbrella object", function(){
+    var ret = u(['a', 'b']).eacharg(['a'], function(){});
+    expect(ret instanceof u).to.equal(true);
+  });
+  
+  
+  // STRING
+  describe('loops over an string', function(){
+    
+    it("accepts commas as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg('A,B,', function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+      
+    it("accepts space as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg('A B ', function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts commas and spaces as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg('A, B, ', function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts other whitespace as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg('A\nB\n', function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+  });
+  
+  
+  // ARRAY
+  describe("loops over an array", function(){
+    
+    it("accepts an array of elements", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(['A', 'B', ''], function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with space-separated elements", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(['A B '], function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with comma-separated elements", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(['A,B,'], function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with comma and space separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(['A, B, '], function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts an array with other whitespace as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(['A\nB\n'], function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with a combination", function() {
+      var values = ['aA', 'aB', 'aC', 'bA', 'bB', 'bC'];
+      u(['a', 'b']).eacharg(['A, B', 'C, '], function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+  });
+  
+  
+  // FUNCTION
+  describe("loops over a function return", function(){
+    
+    it("accepts commas as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return 'A,B,'; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts space as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return 'A B '; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts commas and spaces as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return 'A, B, '; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts other whitespace as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return 'A\nB\n'; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts an array of elements", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return ['A', 'B', '']; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with space-separated elements", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return ['A B ']; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with comma-separated elements", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return ['A,B,']; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with comma and space separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return ['A, B, ']; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+    
+    it("accepts an array with other whitespace as separation", function() {
+      var values = ['aA', 'aB', 'bA', 'bB'];
+      u(['a', 'b']).eacharg(function(){ return ['A\nB\n']; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+
+    it("accepts an array with a combination", function() {
+      var values = ['aA', 'aB', 'aC', 'bA', 'bB', 'bC'];
+      u(['a', 'b']).eacharg(function(){ return ['A, B', 'C, ']; }, function(node, arg){
+        expect(node + arg).to.equal(values.shift());
+      });
+    });
+  });
+});
 // Testing the main file
 describe(".filter(selector)", function() {
   
@@ -497,29 +728,29 @@ describe(".filter(selector)", function() {
   });
 
   it("stays the same", function() {
-    expect(base.filter('.base').nodes.length).to.equal(1);
+    expect(base.filter('.base').length).to.equal(1);
   });
 
   it("gets only one", function() {
-    expect(base.find('a').filter('#world').nodes.length).to.equal(1);
+    expect(base.find('a').filter('#world').length).to.equal(1);
   });
 
   it("accepts a function", function() {
-    expect(base.filter(function(){ return true; }).nodes.length).to.equal(1);
-    expect(base.filter(function(){ return false; }).nodes.length).to.equal(0);
+    expect(base.filter(function(){ return true; }).length).to.equal(1);
+    expect(base.filter(function(){ return false; }).length).to.equal(0);
   });
 
   it("accepts an object", function() {
-    expect(base.filter(base).nodes.length).to.equal(1);
-    expect(base.filter(u('.bla')).nodes.length).to.equal(0);
+    expect(base.filter(base).length).to.equal(1);
+    expect(base.filter(u('.bla')).length).to.equal(0);
   });
   
   it("returns the same if called empty", function() {
-    expect(base.find('.not-test li').filter().nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').filter('').nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').filter(null).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').filter(undefined).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').filter(false).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').filter().length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').filter('').length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').filter(null).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').filter(undefined).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').filter(false).length).to.equal(base.find('.not-test li').length);
   });
 });
 // Testing the main file
@@ -652,6 +883,77 @@ describe(".is(selector)", function() {
     });
   });
 });
+describe(".join(function(){})", function() {
+    
+  it("should be defined", function() {
+    expect(typeof base.each).to.equal('function');
+  });
+  
+  it("empty gives an error", function(done){
+    try {
+      u([0, 1, 2]).join();
+    } catch (e) {
+      return done();
+    }
+    throw "Shouldn't get here";
+  });
+
+  it("can loop as each()", function() {
+    u([0, 1, 2, 3]).join(function(node, i){
+      expect(node).to.equal(i);
+    });
+    
+    u([3, 4, 5, 6]).join(function(node, i){
+      expect(node).to.equal(i + 3);
+    });
+  });
+
+  it("can loop a real element", function() {
+    base.join(function(node, i){
+      expect(u(node).hasClass('base')).to.equal(true);
+      expect(i).to.equal(0);
+    });
+  });
+
+  it("can remove an element", function() {
+    var final = u([1, 2, 3, 4]).join(function(node, i){
+      return i === 0 ? false : node;
+    });
+    expect(final.length).to.equal(3);
+  });
+
+  it("can remove several elements", function() {
+    var final = u([1, 2, 3, 4]).join(function(node, i){
+      return i < 3 ? false : node;
+    });
+    expect(final.length).to.equal(1);
+  });
+
+  it("can add an element", function() {
+    var final = u([1, 2, 3, 4]).join(function(node, i){
+      return i === 0 ? [node, 'a'] : node;
+    });
+    expect(final.length).to.equal(5);
+  });
+
+  it("can add an many elements", function() {
+    var final = u([1, 2, 3, 4]).join(function(node, i){
+      return [node + 'a', node + 'b', node + 'c'];
+    });
+    expect(final.length).to.equal(12);
+  });
+  
+  it("has the right this", function(){
+    u(['a', 'b']).join(function(node, i){
+      expect(this instanceof u).to.equal(true);
+    });
+  });
+  
+  it("returns an umbrella object", function(){
+    var ret = u(['a', 'b']).join(function(){});
+    expect(ret instanceof u).to.equal(true);
+  });
+});
 // Testing the main file
 describe(".last()", function() {
   
@@ -737,7 +1039,7 @@ describe('.off()', function() {
     throw 'Shouldn\'t be called';
   };
 
-  beforeEach(function() {
+  before(function() {
     base.append('<ul><li class="off-single-test">1</li>'
     + '<li class="off-multiple-test">2</li>'
     + '<li class="off-multiple-test">3</li>'
@@ -745,7 +1047,7 @@ describe('.off()', function() {
   });
 
   it('should be defined', function() {
-    expect(typeof base.not).to.equal('function');
+    expect(typeof base.off).to.equal('function');
   });
 
   it('removes event from single element', function() {
@@ -802,6 +1104,22 @@ describe(".on(event, fn)", function() {
     base.find('.clickable').trigger('submit');
   });
 });
+describe('.parent()', function() {
+
+  it('should be defined', function() {
+    expect(typeof base.parent).to.equal('function');
+  });
+
+  it('can loop the li', function() {
+    expect(u('li').parent().is('ol, ul')).to.equal(true);
+  });
+  
+  it('can retrieve all paragraphs', function() {
+    expect(u('a').parent('p').is('p')).to.equal(true);
+    expect(u('a').parent('p')).not.to.equal(u('a').parent());
+  });
+});
+
 // Testing the main file
 describe(".remove()", function() {
 
@@ -813,8 +1131,8 @@ describe(".remove()", function() {
       </ul> \
     ');
 
-    expect(u('.remove-test').nodes.length).to.equal(1);
-    expect(u('.remove-test li').nodes.length).to.equal(2);
+    expect(u('.remove-test').length).to.equal(1);
+    expect(u('.remove-test li').length).to.equal(2);
   });
 
   afterEach(function() {
@@ -1044,7 +1362,7 @@ describe(".toggleClass(name1, name2, ...)", function() {
   });
   
   it("toggles several classes separated by comma", function() {
-    len = base.toggleClass('bla,blu').nodes.length;
+    len = base.toggleClass('bla,blu').length;
     expect(len).to.equal(1);
   });
   

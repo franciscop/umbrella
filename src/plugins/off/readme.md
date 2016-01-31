@@ -13,15 +13,10 @@ u('.off-multiple-test').off('event1 event2 eventN', listener);
 ### Parameters
 
 `event`:
-  Any number of events (such as click, mouseover)    
+  Any number of events (such as click, mouseover)
+
 `listener`:
   Function reference to remove from the events
-
-```js
-.not(function(node){
-  // your code
-});
-```
 
 
 
@@ -52,5 +47,6 @@ u('.off-multiple-test').trigger('click'); //No alert
 
 ### Related
 
-- [.on(event, callback)](#on) Attaches an event to matched nodes
-- [.trigger(event)](#trigger) Triggers an event on all of the matched nodes
+[.on(event, callback)](#on) Attaches an event to matched nodes
+
+[.trigger(event)](#trigger) Triggers an event on all of the matched nodes

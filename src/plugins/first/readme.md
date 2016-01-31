@@ -1,6 +1,6 @@
 ## .first()
 
-Add html class(es) to all of the matched elements.
+Retrieve the first of the matched nodes
 
 ```js
 .first();
@@ -30,6 +30,4 @@ var next = u("ul.demo li").first();
 
 ### Related
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
-
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.last()](#last) retrieve the last matched element

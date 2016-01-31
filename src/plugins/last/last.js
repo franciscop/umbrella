@@ -4,5 +4,5 @@
  */
 u.prototype.last = function() {
   
-  return this.nodes[this.nodes.length-1] || false;
+  return this.nodes[this.length-1] || false;
 };
