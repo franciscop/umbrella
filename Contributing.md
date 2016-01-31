@@ -13,3 +13,51 @@ After these steps, the library, tests and documentation will be automatically jo
 ## New plugins
 
 Recommended to copy one of the existing ones and modify the files, specially `addclass` (folder `/src/plugins/addclass`).
+
+
+## Testing
+
+Each test should make sure that the smallest possible part of a feature works. While this seems simple, some times it's not so much. For example, let's study the 'addClass' for a single class, one of the simplest examples. You might think this is enough:
+
+```js
+it("can add a single class", function(){
+  base.addClass('bla');
+  expect(base.hasClass('bla')).to.equal(true);
+});
+```
+
+While a priori it might seem right, there are two potential and serious problems: the class might be there already and we might affect other tests. These can be corrected if we follow few simple principles:
+
+1. Make sure that the data at the begin of the test does *not* pass the test
+1. Add the code that we want to test
+1. Make sure we leave the DOM as it was before
+
+So that's it, for our example of addClass we could now do:
+
+```js
+it("can add a single class", function(){
+  
+  // 1. Check that the class is not there previously
+  expect(base.hasClass('bla')).to.equal(false);
+  
+  // 2. The code to test and its test
+  base.addClass('bla');
+  expect(base.hasClass('bla')).to.equal(true);
+  
+  // 3. Make sure we clean up
+  base.removeClass('bla');
+});
+```
+
+Furthermore, as it can be seen in the tests for addClass, when all the tests can reuse methods, it's better to do so:
+
+```js
+beforeEach(function(){
+  expect(base.hasClass('bla')).to.equal(false);
+  expect(base.hasClass('blu')).to.equal(false);
+});
+
+afterEach(function(){
+  base.removeClass('bla blu');
+});
+```

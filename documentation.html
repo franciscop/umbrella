@@ -564,9 +564,10 @@ should pass no parameter so it retrieves the html.</p>
 </ul>
 <h2 id="-off-">.off()</h2>
 <p>Remove event handler from matched nodes</p>
-<pre><code class="lang-js">u(&#39;.off-multiple-test&#39;).off(&#39;click&#39;, listener);
-u(&#39;.off-multiple-test&#39;).off(&#39;click mouseover&#39;, listener);
-u(&#39;.off-multiple-test&#39;).off(&#39;event1 event2 eventN&#39;, listener);
+<pre><code class="lang-js">.off(&#39;event1&#39;)
+.off(&#39;event1 event2 eventN&#39;)
+.off(&#39;event1,event2,eventN&#39;)
+.off([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;])
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event</code>:

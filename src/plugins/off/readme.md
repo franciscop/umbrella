@@ -3,10 +3,10 @@
 Remove event handler from matched nodes
 
 ```js
-u('.off-multiple-test').off('click', listener);
-u('.off-multiple-test').off('click mouseover', listener);
-u('.off-multiple-test').off('event1 event2 eventN', listener);
-
+.off('event1')
+.off('event1 event2 eventN')
+.off('event1,event2,eventN')
+.off(['event1', 'event2', 'eventN'])
 ```
 
 
