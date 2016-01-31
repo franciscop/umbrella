@@ -32,4 +32,5 @@ setInterval(function(){
 
 ### Related
 
-[.on()](#on) add an event listener to thematched nodes
+- [.on()](#on) add an event listener to the matched nodes
+- [.off(event, callback)](#off) Removes an event from matched nodes
