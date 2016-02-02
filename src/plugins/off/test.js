@@ -1,6 +1,6 @@
 describe('.off()', function() {
   
-  const listener = function() {
+  var listener = function() {
     throw 'Shouldn\'t be called';
   };
 
