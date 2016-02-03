@@ -745,6 +745,33 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Thre
 <li><p><a href="#closest">.children(filter)</a> get the direct children of all of the nodes with an optional filter</p>
 </li>
 </ul>
+<h2 id="-text-">.text()</h2>
+<p>Retrieve or set the text content of matched elements:</p>
+<pre><code class="lang-js">// GET
+.text();
+
+// SET
+.text(text);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><em>GET</em>
+should pass no parameter so it retrieves the text from the first matched element.</p>
+<p><em>SET</em>
+<code>html</code>: the new text content that you want to set for all of the matched elements. To remove it, pass an empty string: <code>&quot;&quot;</code></p>
+<h3 id="return">Return</h3>
+<p><em>GET</em>
+<code>string</code>: the text content of the first matched element</p>
+<p><em>SET</em>
+<code>u</code>: returns the same instance of Umbrella JS</p>
+<h3 id="examples">Examples</h3>
+<p>Get the main title text:</p>
+<pre><code class="lang-js">var title = u(&#39;h1&#39;).text();
+</code></pre>
+<p>Set the main title text:</p>
+<pre><code class="lang-js">u(&#39;h1&#39;).text(&#39;Hello world&#39;);
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#html">.html(html)</a> Retrieve or set the HTML of matched elements</p>
 <h2 id="-toggleclass-">.toggleClass()</h2>
 <p>Toggles html class(es) to all of the matched elements.</p>
 <pre><code class="lang-js">.toggleClass(&#39;name1&#39;);
