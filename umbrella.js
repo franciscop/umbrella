@@ -706,6 +706,30 @@ u.prototype.str = function(node, i){
   }
 }
 /**
+ * .text(text)
+ * 
+ * Set or retrieve the text content from the matched node(s)
+ * @param text optional some text to set as the node's content
+ * @return this|String
+ */
+u.prototype.text = function(text) {
+  
+  // Needs to check undefined as it might be ""
+  if (text === undefined) {
+    return this.first().textContent || "";
+  }
+  
+  
+  // If we're attempting to set some text  
+  // Loop through all the nodes
+  return this.each(function(node) {
+    
+    // Set the text content to the node
+    node.textContent = text;
+  });
+};
+
+/**
  * .toggleClass('name1, name2, nameN' ...[, addOrRemove])
  * 
  * Toggles classes on the matched nodes

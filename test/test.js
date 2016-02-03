@@ -982,6 +982,7 @@ describe(".html(content)", function() {
     expect(base.find('#world').html()).not.to.equal('hello');
     base.find('#world').html('hello');
     expect(base.find('#world').html()).to.equal('hello');
+    base.find('#world').html('Hello world');
   });
 });
 // Testing the main file
@@ -1472,6 +1473,23 @@ describe(".siblings(selector)", function() {
 
   it("can handle multiple nodes", function() {
     expect(base.find('.siblings-test').children('.selected').siblings().nodes.length).to.equal(4);
+  });
+});
+// Testing the main file
+describe(".text(content)", function() {
+  
+  it("should be a function", function() {
+    expect(typeof base.hasClass).to.equal('function');
+  });
+  
+  it("can get the text content", function() {
+    expect(base.find('#world').text()).to.equal('Hello world');
+  });
+  
+  it("can set the text content", function() {
+    expect(base.find('#world').text()).not.to.equal('hello!');
+    base.find('#world').text('hello!');
+    expect(base.find('#world').text()).to.equal('hello!');
   });
 });
 // Testing the main file
