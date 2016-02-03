@@ -12,6 +12,7 @@ describe("u(selector, context)", function() {
   
   it("can accept no argument", function() {
     expect(typeof u()).to.equal('object', typeof u());
+    expect(u().length).to.equal(0);
   });
   
   it("can select by class", function() {
@@ -25,15 +26,27 @@ describe("u(selector, context)", function() {
   it("can select by id", function() {
     expect(u('#demo').length).to.equal(1);
   });
-
+  
   it("can select with css", function() {
-    expect(u('[id="demo"]').nodes.length).to.equal(1);
+    expect(u('[id="demo"]').length).to.equal(1);
     expect(u('.demo ul').length).to.equal(1);
   });
+
+  it("can select a NodeList", function() {
+    expect(u(document.querySelectorAll('li')).length).to.equal(3);
+  });
   
-  it("can select an object", function() {
+  it("can select an html element", function() {
     var object = u('.demo li').nodes[0];
     expect(u(object).length).to.equal(1);
+  });
+  
+  it("won't select a function", function() {
+    expect(u(function(){ return "test"; }).length).to.equal(0);
+  });
+  
+  it("won't select a random object", function() {
+    expect(u({ a: 'b', c: 'd' }).length).to.equal(0);
   });
   
   it("can select an Umbrella instance", function() {
@@ -48,114 +61,108 @@ describe("u(selector, context)", function() {
   });
   
   it("can read the length", function() {
-    expect(u('a').length).to.equal(u('a').nodes.length);
+    expect(u('a').nodes.length).to.equal(u('a').length);
   });
-});
 
 
 
-// u('a').parent.children.filter();
-// u('a').first;
-// u('a').toString()
-// u('a').html("Bla") || u('a').html();
 
-
-
-describe("performance tests", function(){
-  
-  function performance(callback, times){
-    var init = new Date().getTime();
-    for (var i = 0; i < times; i++) {
-      callback(i);
+  describe("performance tests", function(){
+    
+    function performance(callback, times){
+      var init = new Date().getTime();
+      for (var i = 0; i < times; i++) {
+        callback(i);
+      }
+      return new Date().getTime() - init;
     }
-    return new Date().getTime() - init;
-  }
-  
-  // Generate a big and varied 100 element table
-  before(function(){
-    performance(function(i){
-      u('.performance').append('<tr class="ro"><td id="idn' + i + '"></td><td class="tabletest"></td><td></td><td></td></tr>');
-    }, 1000);
-  });
-  
-  
-  
-  it("simple select by class 10.000/second", function() {
     
-    uTime = performance(function(){
-      u('.demo');
-    }, 5000);
+    // Generate a big and varied 100 element table
+    before(function(){
+      performance(function(i){
+        u('.performance').append('<tr class="ro"><td id="idn' + i + '"></td><td class="tabletest"></td><td></td><td></td></tr>');
+      }, 1000);
+    });
     
-    console.log('u: ' + uTime + 'ms');
-    expect(uTime).to.be.below(100, uTime + ' ms');
-  });
-  
-  
-  
-  it("select by class is comparable to jquery (50% margin)", function() {
     
-    var uTime = performance(function(){
-      u('.demo');
-    }, 10000);
     
-    var $Time = performance(function(){
-      $('.demo');
-    }, 10000);
+    it("simple select by class 10.000/second", function() {
+      
+      uTime = performance(function(){
+        u('.demo');
+      }, 5000);
+      
+      console.log('u: ' + uTime + 'ms');
+      expect(uTime).to.be.below(100, uTime + ' ms');
+    });
     
-    console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
     
-    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-  });
-  
-  
-  
-  it("vs jquery: class selector (50% margin)", function() {
     
-    var uTime = performance(function(){
-      u('.tabletest');
-    }, 500);
+    it("select by class is comparable to jquery (50% margin)", function() {
+      
+      var uTime = performance(function(){
+        u('.demo');
+      }, 10000);
+      
+      var $Time = performance(function(){
+        $('.demo');
+      }, 10000);
+      
+      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      
+      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+    });
     
-    var $Time = performance(function(){
-      $('.tabletest');
-    }, 500);
     
-    console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
     
-    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-  });
-  
-  
-  
-  it("vs jquery: complex selector (50% margin)", function() {
+    it("vs jquery: class selector (50% margin)", function() {
+      
+      var uTime = performance(function(){
+        u('.tabletest');
+      }, 500);
+      
+      var $Time = performance(function(){
+        $('.tabletest');
+      }, 500);
+      
+      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      
+      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+    });
     
-    var uTime = performance(function(){
-      u('table td:first-child');
-    }, 100);
     
-    var $Time = performance(function(){
-      $('table td:first-child');
-    }, 100);
     
-    console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+    it("vs jquery: complex selector (50% margin)", function() {
+      
+      var uTime = performance(function(){
+        u('table td:first-child');
+      }, 100);
+      
+      var $Time = performance(function(){
+        $('table td:first-child');
+      }, 100);
+      
+      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      
+      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+    });
     
-    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-  });
-  
-  
-  
-  it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
     
-    var uTime = performance(function(){
-      u(".ro > *");
-    }, 100);
     
-    var $Time = performance(function(){
-      $(".ro > *");
-    }, 100);
-    
-    console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
-    
-    expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+    it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
+      
+      var uTime = performance(function(){
+        u(".ro > *");
+      }, 100);
+      
+      var $Time = performance(function(){
+        $(".ro > *");
+      }, 100);
+      
+      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      
+      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+    });
   });
 });
 // Testing the main file
@@ -336,6 +343,108 @@ describe(".append(html)", function() {
     expect(u('.base > .bla').length).to.equal(2);
     expect(u('.base > .bla.a').length).to.equal(1);
     expect(u('.base > .bla.b').length).to.equal(1);
+  });
+});
+
+describe(".args(arguments)", function() {
+  
+  it("should be defined", function() {
+    expect(typeof u().args).to.equal('function');
+  });
+  
+  it("accepts zero parameters", function(){
+    expect(u().args()).to.deep.equal([]);
+  });
+  
+  it("accepts falsy", function(){
+    expect(u().args(null)).to.deep.equal([]);
+    expect(u().args(false)).to.deep.equal([]);
+    expect(u().args(undefined)).to.deep.equal([]);
+    expect(u().args("")).to.deep.equal([]);
+    expect(u().args([])).to.deep.equal([]);
+  });
+  
+  it("doesn't accept two parameters", function(){
+    expect(u().args('a', 'b')).to.deep.equal(['a']);
+  });
+  
+  
+  describe("works with a single string", function(){
+    it("single string", function(){
+      expect(u().args('a')).to.deep.equal(['a']);
+    });
+    
+    it("splits a string with space", function(){
+      expect(u().args('a b ')).to.deep.equal(['a', 'b']);
+    });
+    
+    it("splits a string with comma", function(){
+      expect(u().args('a,b,')).to.deep.equal(['a', 'b']);
+    });
+    
+    it("splits a string with space and comma", function(){
+      expect(u().args('a, b, ')).to.deep.equal(['a', 'b']);
+    });
+    
+    it("splits a string with enter", function(){
+      expect(u().args('a\nb\t')).to.deep.equal(['a', 'b']);
+    });
+  });
+  
+  
+  describe("works with different arrays", function(){
+    
+    it("single element", function(){
+      expect(u().args(['a'])).to.deep.equal(['a']);
+    });
+    
+    it("single element", function(){
+      expect(u().args(['a', 'b', 'c'])).to.deep.equal(['a', 'b', 'c']);
+    });
+    
+    it("splits a string with space", function(){
+      expect(u().args(['a b', 'c d'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
+    
+    it("splits a string with comma", function(){
+      expect(u().args(['a,b', 'c,d'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
+    
+    it("splits a string with space and comma", function(){
+      expect(u().args(['a, b', 'c, d'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
+    
+    it("splits a string with whitespaces", function(){
+      expect(u().args(['a\nb', 'c\td'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
+  });
+  
+  
+  describe("works with a function", function(){
+    
+    it("single element", function(){
+      expect(u().args(['a'])).to.deep.equal(['a']);
+    });
+    
+    it("single element", function(){
+      expect(u().args(['a', 'b', 'c'])).to.deep.equal(['a', 'b', 'c']);
+    });
+    
+    it("splits a string with space", function(){
+      expect(u().args(['a b', 'c d'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
+    
+    it("splits a string with comma", function(){
+      expect(u().args(['a,b', 'c,d'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
+    
+    it("splits a string with space and comma", function(){
+      expect(u().args(['a, b', 'c, d'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
+    
+    it("splits a string with whitespaces", function(){
+      expect(u().args(['a\nb', 'c\td'])).to.deep.equal(['a', 'b', 'c', 'd']);
+    });
   });
 });
 // Testing the main file
@@ -644,74 +753,99 @@ describe(".eacharg([], function(){})", function() {
   // FUNCTION
   describe("loops over a function return", function(){
     
+    var called = false;
+    beforeEach(function(){
+      called = false;
+    });
+    
     it("accepts commas as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A,B,'; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts space as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A B '; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts commas and spaces as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A, B, '; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts other whitespace as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A\nB\n'; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts an array of elements", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A', 'B', '']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with space-separated elements", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A B ']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with comma-separated elements", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A,B,']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with comma and space separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A, B, ']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts an array with other whitespace as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A\nB\n']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with a combination", function() {
       var values = ['aA', 'aB', 'aC', 'bA', 'bB', 'bC'];
       u(['a', 'b']).eacharg(function(){ return ['A, B', 'C, ']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
   });
 });

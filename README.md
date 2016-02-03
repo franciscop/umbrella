@@ -80,6 +80,19 @@ For beginners in Javascript or contributing to an Open Source project, there are
 
 Current usage for IE 10- is under 1% for each version (8, 9, 10) so it's not Umbrella's mission to support this. However, those extra seconds gained from loading faster on mobile might be even bigger than that percentage. You should probably test it.
 
+Known, wontfix IE9- bugs:
+
+- [Invalid target element for this operation](http://caniuse.com/#feat=insertadjacenthtml) when trying to use insertAdjacentHTML on table, tbody, thead or tr. Affects in that situation to:
+  - `.before()`
+  - `.after()`
+  - `.append()`
+  - `.prepend`
+- [unable to get property ____ of undefined or null reference](http://caniuse.com/#search=classList) since classList is not supported by IE9-. Affects:
+  - `.addClass()`
+  - `.removeClass()`
+  - `.hasClass()`
+  - `.toggleClass()`
+
 
 
 ## Alternatives
@@ -93,4 +106,4 @@ Current usage for IE 10- is under 1% for each version (8, 9, 10) so it's not Umb
 
 ## Author and License
 
-Created and maintained by [Francisco Presencia](https://github.com/FranciscoP) under the MIT license.
+Created and maintained by [Francisco Presencia](https://github.com/franciscop) under the MIT license.

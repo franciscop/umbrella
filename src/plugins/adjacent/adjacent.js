@@ -1,3 +1,5 @@
+// [INTERNAL USE ONLY]
+
 /**
  * .adjacent(position, text)
  * 

@@ -10,6 +10,7 @@ u('ul li')
 u(document.getElementById('demo'))
 u(document.getElementsByClassName('demo'))
 u([ document.getElementById('demo'), document.getElementById('test') ])
+u( u('ul li') )
 u('li', context)
 ```
 
@@ -22,10 +23,15 @@ The first parameter can be:
 - A text CSS selector
 - A single HTML Node. This is specially useful in events where you can just pass `this`
 - A NodeList or other similar objects that can be converted to an array
-- An array of nodes
+- An array of nodes*
+- Another Umbrella instance
 - Nothing
 
 The second parameter is only for the CSS selector, which indicates a portion of the DOM where the selector is applied. For example, with `u('li', u('ul').first())` it will find all of the `li` from the first `ul`.
+
+
+* actually it can be an array of anything you want as in `["a", "b"]`, however this is not officially supported and might change at any moment
+
 
 
 ### Return
@@ -78,7 +84,7 @@ u('h1').nodes[0].classList.add('vanilla');
 // Single element
 u('h1').first().classList.add('vanilla', 'test');
 
-// Multiple elements
+// Multiple elements. Note that the order of arguments is different from jquery (it's standard order)
 u('h2').each(function(el){
   el.classList.add('vanilla', 'test');
 });

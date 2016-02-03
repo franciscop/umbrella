@@ -115,74 +115,99 @@ describe(".eacharg([], function(){})", function() {
   // FUNCTION
   describe("loops over a function return", function(){
     
+    var called = false;
+    beforeEach(function(){
+      called = false;
+    });
+    
     it("accepts commas as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A,B,'; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts space as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A B '; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts commas and spaces as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A, B, '; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts other whitespace as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return 'A\nB\n'; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts an array of elements", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A', 'B', '']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with space-separated elements", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A B ']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with comma-separated elements", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A,B,']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with comma and space separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A, B, ']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
     
     it("accepts an array with other whitespace as separation", function() {
       var values = ['aA', 'aB', 'bA', 'bB'];
       u(['a', 'b']).eacharg(function(){ return ['A\nB\n']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
 
     it("accepts an array with a combination", function() {
       var values = ['aA', 'aB', 'aC', 'bA', 'bB', 'bC'];
       u(['a', 'b']).eacharg(function(){ return ['A, B', 'C, ']; }, function(node, arg){
         expect(node + arg).to.equal(values.shift());
+        called = true;
       });
+      expect(called).to.equal(true);
     });
   });
 });

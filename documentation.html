@@ -7,6 +7,7 @@
 u(document.getElementById(&#39;demo&#39;))
 u(document.getElementsByClassName(&#39;demo&#39;))
 u([ document.getElementById(&#39;demo&#39;), document.getElementById(&#39;test&#39;) ])
+u( u(&#39;ul li&#39;) )
 u(&#39;li&#39;, context)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
@@ -15,10 +16,14 @@ u(&#39;li&#39;, context)
 <li>A text CSS selector</li>
 <li>A single HTML Node. This is specially useful in events where you can just pass <code>this</code></li>
 <li>A NodeList or other similar objects that can be converted to an array</li>
-<li>An array of nodes</li>
+<li>An array of nodes*</li>
+<li>Another Umbrella instance</li>
 <li>Nothing</li>
 </ul>
 <p>The second parameter is only for the CSS selector, which indicates a portion of the DOM where the selector is applied. For example, with <code>u(&#39;li&#39;, u(&#39;ul&#39;).first())</code> it will find all of the <code>li</code> from the first <code>ul</code>.</p>
+<ul>
+<li>actually it can be an array of anything you want as in <code>[&quot;a&quot;, &quot;b&quot;]</code>, however this is not officially supported and might change at any moment</li>
+</ul>
 <h3 id="return">Return</h3>
 <p>An instance of Umbrella JS so you can chain it to any of the other methods.</p>
 <h3 id="examples">Examples</h3>
@@ -52,7 +57,7 @@ u(&#39;h1&#39;).nodes[0].classList.add(&#39;vanilla&#39;);
 // Single element
 u(&#39;h1&#39;).first().classList.add(&#39;vanilla&#39;, &#39;test&#39;);
 
-// Multiple elements
+// Multiple elements. Note that the order of arguments is different from jquery (it&#39;s standard order)
 u(&#39;h2&#39;).each(function(el){
   el.classList.add(&#39;vanilla&#39;, &#39;test&#39;);
 });
