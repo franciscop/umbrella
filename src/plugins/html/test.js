@@ -13,5 +13,6 @@ describe(".html(content)", function() {
     expect(base.find('#world').html()).not.to.equal('hello');
     base.find('#world').html('hello');
     expect(base.find('#world').html()).to.equal('hello');
+    base.find('#world').html('Hello world');
   });
 });
