@@ -75,15 +75,15 @@ u.prototype.addClass = function(){
  */
 u.prototype.adjacent = function(position, text, data) {
   
-  // Loop through all the nodes
+  // Loop through all the nodes. It cannot reuse the eacharg() since the data
+  // we want to do it once even if there's no "data"
   return this.each(function(node) {
     
     // Allow for data to be falsy and still loop once
-    u(data || [""]).each(function(d, i){
-      
+    u(data || [""]).each(function(el){
       
       // Allow for callbacks that accept some data
-      var tx = (typeof text === 'function') ? text(d, i) : text;
+      var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
       
       // http://stackoverflow.com/a/23589438
       // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
@@ -151,7 +151,7 @@ u.prototype.args = function(args, node, i){
   if (typeof args !== 'string') {
     args = this.slice(args).map(this.str(node, i));
   }
-    
+  
   // Then convert that string to an array of not-null strings
   return this.clean(args.toString().split(/[\s,]+/));
 };
@@ -687,7 +687,9 @@ u.prototype.siblings = function(selector) {
 // Force it to be an array AND also it clones them
 // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
 u.prototype.slice = function(pseudo) {
-  return pseudo ? [].slice.call(pseudo, 0) : [];
+
+  // Accept also a u() object (that has .nodes)
+  return pseudo ? [].slice.call(pseudo.nodes || pseudo) : [];
 };
 
 // [INTERNAL USE ONLY]

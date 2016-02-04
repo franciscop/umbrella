@@ -21,6 +21,11 @@ describe(".args(arguments)", function() {
     expect(u().args('a', 'b')).to.deep.equal(['a']);
   });
   
+  it("accepts an umbrella instance", function(){
+    expect(u().args(u(['a', 'b']))).to.deep.equal(['a', 'b']);
+    expect(u().args(u(['a', 'b']).nodes)).to.deep.equal(['a', 'b']);
+  });
+  
   
   describe("works with a single string", function(){
     it("single string", function(){
@@ -99,4 +104,6 @@ describe(".args(arguments)", function() {
       expect(u().args(['a\nb', 'c\td'])).to.deep.equal(['a', 'b', 'c', 'd']);
     });
   });
+  
+  
 });

@@ -310,13 +310,13 @@ Add some html as a child at the end of each of the matched elements.
 
 ```js
 .append(html);
-.append()
+.append(function(){})
 ```
 
 
 ### Parameters
 
-`html`: a string containing the html that is going to be inserted or a function that returns the 
+`html`: a string containing the html that is going to be inserted or a function that returns the html to be inserted
 `data`, defaults `[""]`: an array of elements which will passed to the callback. The callback is executed once per element, and all of them are appended consecutively
 
 

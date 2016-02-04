@@ -1,5 +1,68 @@
 var expect = chai.expect;
 
+// Whether or not to run the tests. When this is set to "false", then all of
+// the tests for this function should fail
+var work = true;
+
+// Quickly test the size of a selector and returns itself for chaining:
+// size('.a', 2)('.b', 3)('.c', 1)
+function hasClass(cls, negate, root) {
+  root = root ? u(root) : base;
+  u().args(cls).forEach(function(cl){
+    expect(root.hasClass(cl)).to.equal(!negate);
+  });
+  return hasClass;
+}
+
+function same(a, b) {
+  expect(a).to.deep.equal(b);
+  return isFn;
+}
+
+function isFn(fn) {
+  expect(typeof fn).to.equal('function');
+  return isFn;
+}
+
+function getListOfClasses(){
+  
+  return [
+    // Strings
+    { from: 'bla blu blo', it: 'a space-separated string' },
+    { from: 'bla,blu,blo,', it: 'a comma-separated string' },
+    { from: 'bla, blu, blo, ', it: 'a comma and space separated string' },
+    { from: 'bla\n\tblu\n\tblo\n\t', it: 'a whitespace-separated string' },
+    
+    // Single array
+    { from: ['bla', 'blu', 'blo'], it: 'an array' },
+    { from: ['bla blu ', 'blo '], it: 'a space-separated array' },
+    { from: ['bla,blu,', 'blo,'], it: 'a comma-separated array' },
+    { from: ['bla, blu, ', 'blo, '], it: 'a comma and space separated array' },
+    { from: ['bla\n\tblu\n\t', 'blo\n\t'], it: 'a whitespace-separated array' },
+    
+    // Nested
+    { from: [['bla', 'blu'], 'blo'], it: 'an array' },
+    { from: [['bla blu '], 'blo '], it: 'a space-separated array' },
+    { from: [['bla,blu,'], 'blo,'], it: 'a comma-separated array' },
+    { from: [['bla, blu, '], 'blo, '], it: 'a comma and space separated array' },
+    { from: [['bla\n\tblu\n\t'], 'blo\n\t'], it: 'a whitespace-separated array' },
+  ];
+};
+
+
+
+
+
+
+
+
+// Quickly test the size of a selector and returns itself for chaining:
+// size('.a', 2)('.b', 3)('.c', 1)
+function size(sel, number) {
+  expect(u(sel).length).to.equal(number);
+  return size;
+}
+
 // Testing the main file
 describe("u(selector, context)", function() {
   it("should be defined", function() {
@@ -84,6 +147,10 @@ describe("u(selector, context)", function() {
       }, 1000);
     });
     
+    after(function(){
+      u('.performance').remove();
+    });
+    
     
     
     it("simple select by class 10.000/second", function() {
@@ -92,7 +159,7 @@ describe("u(selector, context)", function() {
         u('.demo');
       }, 5000);
       
-      console.log('u: ' + uTime + 'ms');
+      console.log('      - u: ' + uTime + 'ms');
       expect(uTime).to.be.below(100, uTime + ' ms');
     });
     
@@ -108,7 +175,7 @@ describe("u(selector, context)", function() {
         $('.demo');
       }, 10000);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });
@@ -125,7 +192,7 @@ describe("u(selector, context)", function() {
         $('.tabletest');
       }, 500);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });
@@ -142,7 +209,7 @@ describe("u(selector, context)", function() {
         $('table td:first-child');
       }, 100);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });
@@ -159,7 +226,7 @@ describe("u(selector, context)", function() {
         $(".ro > *");
       }, 100);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });

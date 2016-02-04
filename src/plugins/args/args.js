@@ -13,7 +13,7 @@ u.prototype.args = function(args, node, i){
   if (typeof args !== 'string') {
     args = this.slice(args).map(this.str(node, i));
   }
-    
+  
   // Then convert that string to an array of not-null strings
   return this.clean(args.toString().split(/[\s,]+/));
 };

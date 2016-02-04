@@ -1,5 +1,68 @@
 var expect = chai.expect;
 
+// Whether or not to run the tests. When this is set to "false", then all of
+// the tests for this function should fail
+var work = true;
+
+// Quickly test the size of a selector and returns itself for chaining:
+// size('.a', 2)('.b', 3)('.c', 1)
+function hasClass(cls, negate, root) {
+  root = root ? u(root) : base;
+  u().args(cls).forEach(function(cl){
+    expect(root.hasClass(cl)).to.equal(!negate);
+  });
+  return hasClass;
+}
+
+function same(a, b) {
+  expect(a).to.deep.equal(b);
+  return isFn;
+}
+
+function isFn(fn) {
+  expect(typeof fn).to.equal('function');
+  return isFn;
+}
+
+function getListOfClasses(){
+  
+  return [
+    // Strings
+    { from: 'bla blu blo', it: 'a space-separated string' },
+    { from: 'bla,blu,blo,', it: 'a comma-separated string' },
+    { from: 'bla, blu, blo, ', it: 'a comma and space separated string' },
+    { from: 'bla\n\tblu\n\tblo\n\t', it: 'a whitespace-separated string' },
+    
+    // Single array
+    { from: ['bla', 'blu', 'blo'], it: 'an array' },
+    { from: ['bla blu ', 'blo '], it: 'a space-separated array' },
+    { from: ['bla,blu,', 'blo,'], it: 'a comma-separated array' },
+    { from: ['bla, blu, ', 'blo, '], it: 'a comma and space separated array' },
+    { from: ['bla\n\tblu\n\t', 'blo\n\t'], it: 'a whitespace-separated array' },
+    
+    // Nested
+    { from: [['bla', 'blu'], 'blo'], it: 'an array' },
+    { from: [['bla blu '], 'blo '], it: 'a space-separated array' },
+    { from: [['bla,blu,'], 'blo,'], it: 'a comma-separated array' },
+    { from: [['bla, blu, '], 'blo, '], it: 'a comma and space separated array' },
+    { from: [['bla\n\tblu\n\t'], 'blo\n\t'], it: 'a whitespace-separated array' },
+  ];
+};
+
+
+
+
+
+
+
+
+// Quickly test the size of a selector and returns itself for chaining:
+// size('.a', 2)('.b', 3)('.c', 1)
+function size(sel, number) {
+  expect(u(sel).length).to.equal(number);
+  return size;
+}
+
 // Testing the main file
 describe("u(selector, context)", function() {
   it("should be defined", function() {
@@ -84,6 +147,10 @@ describe("u(selector, context)", function() {
       }, 1000);
     });
     
+    after(function(){
+      u('.performance').remove();
+    });
+    
     
     
     it("simple select by class 10.000/second", function() {
@@ -92,7 +159,7 @@ describe("u(selector, context)", function() {
         u('.demo');
       }, 5000);
       
-      console.log('u: ' + uTime + 'ms');
+      console.log('      - u: ' + uTime + 'ms');
       expect(uTime).to.be.below(100, uTime + ' ms');
     });
     
@@ -108,7 +175,7 @@ describe("u(selector, context)", function() {
         $('.demo');
       }, 10000);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });
@@ -125,7 +192,7 @@ describe("u(selector, context)", function() {
         $('.tabletest');
       }, 500);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });
@@ -142,7 +209,7 @@ describe("u(selector, context)", function() {
         $('table td:first-child');
       }, 100);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });
@@ -159,33 +226,30 @@ describe("u(selector, context)", function() {
         $(".ro > *");
       }, 100);
       
-      console.log('u: ' + uTime + 'ms ', '$: ' + $Time + 'ms');
+      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
       
       expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
     });
   });
 });
-// Testing the main file
-function addTest(node, i){
-  return 'test' + i;
-}
-function addDemo(node, i){
-  return 'demo' + i;
-}
+var listOfClasses = getListOfClasses();
 
-describe(".addClass(name1, name2, ...)", function() {
+describe(".addClass()", function() {
   
   beforeEach(function(){
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
+    base.removeClass('bla blu blo');
+    hasClass('bla blu blo', true);
   });
   
   afterEach(function(){
-    base.removeClass('bla blu');
+    base.removeClass('bla blu blo');
+    hasClass('bla blu blo', true);
   });
   
+  
+  
   it("should be defined", function() {
-    expect(typeof base.addClass).to.equal('function');
+    isFn(work ? base.addClass : false);
   });
 
   it("can be called empty", function() {
@@ -194,76 +258,107 @@ describe(".addClass(name1, name2, ...)", function() {
     base.addClass([]);
     base.addClass("","");
     base.addClass(" ");
-  });
-
-  it("adds a class", function() {
-    base.addClass('bla');
-    expect(base.hasClass('bla')).to.equal(true);
-  });
-
-  it("adds several classes as arguments", function() {
-    base.addClass('bla', 'blu');
-    expect(base.hasClass('bla')).to.equal(true);
-    expect(base.hasClass('blu')).to.equal(true);
-  });
-
-  it("adds several classes with an array", function() {
-    base.addClass(['bla', 'blu']);
-    expect(base.hasClass('bla')).to.equal(true);
-    expect(base.hasClass('blu')).to.equal(true);
-  });
-
-  it("adds several classes separated by space", function() {
-    base.addClass('bla blu');
-    expect(base.hasClass('bla')).to.equal(true);
-    expect(base.hasClass('blu')).to.equal(true);
-  });
-
-  it("adds several classes separated by comma", function() {
-    base.addClass('bla,blu');
-    expect(base.hasClass('bla')).to.equal(true);
-    expect(base.hasClass('blu')).to.equal(true);
+    
+    if (!work) throw "Forced failure";
   });
 
   it("can be concatenated", function() {
-    base.addClass('bla').addClass('blu');
-    expect(base.hasClass('bla')).to.equal(true);
-    expect(base.hasClass('blu')).to.equal(true);
+    if (work) base.addClass('bla').addClass('blu');
+    hasClass('bla')('blu');
   });
 
-  it("adds several classes separated by comma", function() {
-    len = base.addClass('bla,blu').length;
-    expect(len).to.equal(1);
+  it("returns the same instance", function() {
+    var inst = false;
+    if (work) inst = base.addClass('bla,blu');
+    same(base, inst);
   });
   
-  it("adds classes with callback", function(){
-    base.addClass(addTest);
-    expect(base.hasClass('test0')).to.equal(true);
-    
-    // Clean up
-    base.removeClass('test0');
-    expect(base.hasClass('test0')).to.equal(false);
+  it("adds a single class", function() {
+    if (work) base.addClass('bla');
+    hasClass('bla');
   });
-  
-  it("adds many classes with callback", function(){
-    base.find('li').addClass(addTest).each(function(node, i){
-      expect(u(node).hasClass('test' + i)).to.equal(true);
-      u(node).removeClass('test' + i);
+
+
+
+  describe("single argument", function(){
+    listOfClasses.forEach(function(part){
+      it("accepts " + part.it, function(){
+        if (work) base.addClass(part.from);
+        hasClass('bla blu blo');
+      });
     });
   });
   
-  it("accepts two callbacks or more", function(){
-    
-    base.find('li').addClass(addTest, addDemo).each(function(node, i){
-      expect(u(node).hasClass('test' + i)).to.equal(true);
-      expect(u(node).hasClass('demo' + i)).to.equal(true);
-      u(node).removeClass('test' + i);
-      u(node).removeClass('demo' + i);
+  describe("single function argument uses the return value", function(){
+    listOfClasses.forEach(function(part){
+      it("accepts as a return value " + part.it, function(){
+        if (work) base.addClass(function() { return part.from; });
+        hasClass('bla blu blo');
+      });
     });
+  });
+  
+  describe("multiple functions uses the return value", function(){
+    function add(arg){ return function(){ return arg; }; } 
+    listOfClasses.forEach(function(part){
+      it("accepts as a return value " + part.it, function(){
+        if (work) base.addClass(add(part.from), add("bli"));
+        hasClass('bla blu blo bli');
+      });
+    });
+  });
+  
+  describe("several arguments", function(){    
+    listOfClasses.filter(function(part){
+      return Array.isArray(part.from)
+    }).forEach(function(part){
+      it("used .apply() with " + part.it, function(){
+        if (work) base.addClass.apply(base, part.from);
+        hasClass('bla blu blo');
+      });
+    });
+  });
+
+
+  describe("callback uses the arguments", function(){
+    
+    // Testing the main file
+    function addTest(node, i){
+      return 'test' + i;
+    }
+    
+    it("adds classes with callback", function(){
+      if (work) base.addClass(addTest);
+      
+      hasClass('test0');
+      
+      base.removeClass('test0');
+      expect(base.hasClass('test0')).to.equal(false);
+    });
+    
+    it("adds many classes with callback", function(){
+      if (work) base.find('li').addClass(addTest);
+      
+      base.find('li').each(function(node, i){
+        hasClass('test' + i, false, node);
+        u(node).removeClass('test' + i);
+      });
+    });
+    
   });
 });
 // Testing the main file
 describe(".after(html)", function() {
+  
+  //var work = false;
+  
+  // Default callback for the tests
+  function callback(node, cl){
+    return '<a class="bla ' + cl + '">Link</a>'
+  };
+  
+  
+  
   
   beforeEach(function(){
     expect(u('.bla').length).to.equal(0);
@@ -273,15 +368,34 @@ describe(".after(html)", function() {
     u('.bla').remove();
   });
   
+  
+  
   it("should be a function", function() {
-    expect(typeof base.after).to.equal('function');
+    expect(work ? typeof base.after : false).to.equal('function');
   });
   
   it("can add content in the right place", function() {
-    base.after('<a class="bla">Link</a>');
-    expect(u('.bla').length).to.equal(1);
-    expect(base.parent().find('.base, .bla').length).to.equal(2);
-    expect(base.parent().find('.base ~ .bla').length).to.equal(1);
+    if (work) base.after('<a class="bla">Link</a>');
+    
+    size('.bla', 1)('.base + .bla', 1);
+  });
+  
+  it("accepts a callback that will be called once", function(){
+    if (work) base.after(callback);
+    
+    size('.bla', 1)('.base + .bla', 1);
+  });
+  
+  it("accepts a single parameter", function(){
+    if (work) base.after(callback, ['a']);
+    
+    size('.base + .bla.a', 1);
+  });
+  
+  it("can add as many as the array", function(){
+    if (work) base.after(callback, ['a', 'b']);
+    
+    size('.bla.a', 1)('.bla.b', 1)('.base + .bla.b + .bla.a', 1);
   });
 });
 // Testing the main file
@@ -305,11 +419,11 @@ describe(".ajax(done, before)", function() {
 describe(".append(html)", function() {
   
   beforeEach(function(){
-    expect(u('.bla').length).to.equal(0);
+    expect(u('.bla, .blu').length).to.equal(0);
   });
   
   afterEach(function(){
-    u('.bla').remove();
+    u('.bla, .blu').remove();
   });
   
   it("should be a function", function() {
@@ -317,28 +431,24 @@ describe(".append(html)", function() {
   });
   
   it("can add content in the right place", function() {
-    expect(u('.base > .bla').length).to.equal(0);
     base.append('<a class="bla">Link</a>');
     expect(u('.base > .bla').length).to.equal(1);
   });
   
   it("can add content with a callback", function() {
-    expect(u('.base > .bla').length).to.equal(0);
     base.append(function(){ return '<a class="bla">Link</a>'; });
     expect(base.html().match('function')).to.equal(null);
     expect(u('.base > .bla').length).to.equal(1);
   });
   
-  it("can add content with a callback and data", function() {
-    expect(u('.base > .bla').length).to.equal(0);
+  it("is called as many times as data in the second param", function() {
     base.append('<a class="bla">Link</a>', ["a", "b"]);
     expect(base.html().match('function')).to.equal(null);
     expect(u('.base > .bla').length).to.equal(2);
   });
   
   it("can add content with a callback and data", function() {
-    expect(u('.base > .bla').length).to.equal(0);
-    base.append(function(cl, i){ return '<a class="bla ' + cl + '">Link</a>' }, ["a", "b"]);
+    base.append(function(el, cl){ return '<a class="bla ' + cl + '">Link</a>' }, ["a", "b"]);
     expect(base.html().match('function')).to.equal(null);
     expect(u('.base > .bla').length).to.equal(2);
     expect(u('.base > .bla.a').length).to.equal(1);
@@ -366,6 +476,11 @@ describe(".args(arguments)", function() {
   
   it("doesn't accept two parameters", function(){
     expect(u().args('a', 'b')).to.deep.equal(['a']);
+  });
+  
+  it("accepts an umbrella instance", function(){
+    expect(u().args(u(['a', 'b']))).to.deep.equal(['a', 'b']);
+    expect(u().args(u(['a', 'b']).nodes)).to.deep.equal(['a', 'b']);
   });
   
   
@@ -446,6 +561,8 @@ describe(".args(arguments)", function() {
       expect(u().args(['a\nb', 'c\td'])).to.deep.equal(['a', 'b', 'c', 'd']);
     });
   });
+  
+  
 });
 // Testing the main file
 describe(".attr(name, value)", function() {
@@ -1332,14 +1449,20 @@ describe(".remove()", function() {
 // Testing the main file
 describe(".removeClass()", function() {
   
+  //var work = false;
+  
   beforeEach(function(){
-    base.addClass('bla,blu');
-    expect(base.hasClass('bla')).to.equal(true);
-    expect(base.hasClass('blu')).to.equal(true);
+    base.addClass('bla blu blo');
+    hasClass('bla blu blo');
+  });
+  
+  afterEach(function(){
+    base.removeClass('bla blu blo');
+    hasClass('bla blu blo', true);
   });
   
   it("should be defined", function() {
-    expect(typeof base.removeClass).to.equal('function');
+    isFn(work ? base.removeClass : false);
   });
 
   it("can be called empty", function() {
@@ -1348,41 +1471,62 @@ describe(".removeClass()", function() {
     base.removeClass([]);
     base.removeClass("","");
     base.removeClass(" ");
+    
+    if (!work) throw "Force failure";
   });
 
   it("removes a single class", function() {
-    base.removeClass('bla');
-    expect(base.hasClass('bla')).to.equal(false);
-  });
-
-  it("remove several classes as arguments", function() {
-    base.removeClass('bla', 'blu');
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
-  });
-
-  it("removes several classes with an array", function() {
-    base.removeClass(['bla', 'blu']);
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
-  });
-
-  it("removes several classes separated by space", function() {
-    base.removeClass('bla blu');
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
-  });
-
-  it("removes several classes separated by comma", function() {
-    base.removeClass('bla,blu');
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
+    if (work) base.removeClass('bla');
+    hasClass('bla', true);
   });
 
   it("can be concatenated", function() {
-    base.removeClass('bla').removeClass('blu');
-    expect(base.hasClass('bla')).to.equal(false);
-    expect(base.hasClass('blu')).to.equal(false);
+    if (work) base.removeClass('bla').removeClass('blu');
+    hasClass('bla blu', true);
+  });
+  
+  
+  
+  
+  describe("single argument", function(){
+    base.addClass('bla blu blo');
+    listOfClasses.forEach(function(part){
+      it("accepts " + part.it, function(){
+        if (work) base.removeClass(part.from);
+        hasClass('bla blu blo', true);
+      });
+    });
+  });
+  
+  describe("single function argument uses the return value", function(){
+    base.addClass('bla blu blo');
+    listOfClasses.forEach(function(part){
+      it("accepts as a return value " + part.it, function(){
+        if (work) base.removeClass(function() { return part.from; });
+        hasClass('bla blu blo', true);
+      });
+    });
+  });
+  
+  describe("multiple functions uses the return value", function(){
+    function add(arg){ return function(){ return arg; }; } 
+    listOfClasses.forEach(function(part){
+      it("accepts as a return value " + part.it, function(){
+        if (work) base.removeClass(add(part.from), add("bli"));
+        hasClass('bla blu blo bli', true);
+      });
+    });
+  });
+  
+  describe("several arguments", function(){    
+    listOfClasses.filter(function(part){
+      return Array.isArray(part.from)
+    }).forEach(function(part){
+      it("used .apply() with " + part.it, function(){
+        if (work) base.removeClass.apply(base, part.from);
+        hasClass('bla blu blo', true);
+      });
+    });
   });
 });
 // Testing the main file
