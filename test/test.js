@@ -96,7 +96,7 @@ describe("u(selector, context)", function() {
   });
 
   it("can select a NodeList", function() {
-    expect(u(document.querySelectorAll('li')).length).to.equal(3);
+    expect(u(document.querySelectorAll('.demo li')).length).to.equal(3);
   });
   
   it("can select an html element", function() {

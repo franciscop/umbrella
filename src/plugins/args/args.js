@@ -15,5 +15,5 @@ u.prototype.args = function(args, node, i){
   }
   
   // Then convert that string to an array of not-null strings
-  return this.clean(args.toString().split(/[\s,]+/));
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length });
 };

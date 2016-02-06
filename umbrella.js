@@ -153,7 +153,7 @@ u.prototype.args = function(args, node, i){
   }
   
   // Then convert that string to an array of not-null strings
-  return this.clean(args.toString().split(/[\s,]+/));
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length });
 };
 /**
  * .attr(name, value)
@@ -216,9 +216,6 @@ u.prototype.children = function(selector) {
 };
 
 
-u.prototype.clean = function (el) {
-  return el.filter(function(e){ return e && e.length; });
-};
 /**
  * .closest()
  * 
@@ -268,14 +265,9 @@ u.prototype.data = function(name, value) {
  */
 u.prototype.each = function(callback) {
   
-  // Loop through all the nodes
-  this.nodes.forEach(function(node, i){
-    
-    // Perform the callback for this node
-    // By doing callback.call we allow "this" to be the context for
-    // the callback (see http://stackoverflow.com/q/4065353 precisely)
-    callback.call(this, node, i);
-  }, this);
+  // By doing callback.call we allow "this" to be the context for
+  // the callback (see http://stackoverflow.com/q/4065353 precisely)
+  this.nodes.forEach(callback.bind(this));
   
   return this;
 };
@@ -516,6 +508,8 @@ u.prototype.on = function(events, callback) {
   
   return this.eacharg(events, function(node, event){
     node.addEventListener(event, callback);
+    
+    // Store it so we can dereference it with `.off()` later on
     node._e = node._e || {};
     node._e[event] = (node._e[event] || []).concat(callback);
   });
