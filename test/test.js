@@ -64,7 +64,7 @@ function size(sel, number) {
 }
 
 // Testing the main file
-describe("u(selector, context)", function() {
+describe("u()", function() {
   it("should be defined", function() {
     expect(u).to.be.not.null;
   });
@@ -1035,6 +1035,10 @@ describe(".find(selector)", function() {
   
   it("can select the list ul", function() {
     expect(base.find('ul').nodes.length).to.equal(1);
+  });
+  
+  it("cannot select body", function() {
+    expect(base.find('body').nodes.length).to.equal(0);
   });
   
   it("doesn't select duplicates", function(){

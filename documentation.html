@@ -112,7 +112,9 @@ alert(u(&#39;a&#39;).length);
 <p><a href="#toggleclass">.toggleClass()</a> adds or removes the class</p>
 <h2 id="-after-">.after()</h2>
 <p>Add some html as a sibling after each of the matched elements.</p>
-<pre><code class="lang-js">.after(html);
+<pre><code class="lang-js">.after(html)
+.after(function(){})
+.after(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html</code>: a string containing the html that is going to be inserted.</p>
@@ -122,10 +124,33 @@ alert(u(&#39;a&#39;).length);
 <p>Add a separator <code>&lt;hr&gt;</code> after each of the main titles h1:</p>
 <pre><code class="lang-js">u(&quot;h1&quot;).after(&quot;&lt;hr&gt;&quot;);
 </code></pre>
+<blockquote>
+<p>Note that, unlike before, the elements are inserted in <em>inverse</em> order</p>
+</blockquote>
+<p>Add three elements after the link. All of these methods are equivalent:</p>
+<pre><code class="lang-js">// Add them all like a single string
+u(&quot;a.main&quot;).after(&quot;&lt;a&gt;One&lt;/a&gt;&lt;a&gt;Two&lt;/a&gt;&lt;a&gt;Three&lt;/a&gt;&quot;);
+
+// Add them in a chain
+u(&quot;a.main&quot;).after(&quot;&lt;a&gt;Three&lt;/a&gt;&quot;).after(&quot;&lt;a&gt;Two&lt;/a&gt;&quot;).after(&quot;&lt;a&gt;One&lt;/a&gt;&quot;);
+
+// Add them with a function parameter
+var cb = function(txt){ return &quot;&lt;a&gt;&quot; + txt + &quot;&lt;/a&gt;&quot; };
+u(&quot;a.main&quot;).after(cb, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+
+// Same as the previous one but with ES6
+u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+</code></pre>
+<p>They all result in:</p>
+<pre><code class="lang-html">&lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
+&lt;a&gt;Three&lt;/a&gt;
+&lt;a&gt;Two&lt;/a&gt;
+&lt;a&gt;One&lt;/a&gt;
+</code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#before">.before(html)</a></p>
-<p><a href="#append">.append(html)</a></p>
-<p><a href="#prepend">.prepend(html)</a></p>
+<p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
+<p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>
+<p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <h2 id="-ajax-">.ajax()</h2>
 <p>Make all of the matched forms to be submitted by ajax with the same action, method and values when the user submits the form.</p>
 <blockquote>
@@ -180,7 +205,7 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 <pre><code class="lang-js">ajax(method, url, data, done, before);
 </code></pre>
 <h2 id="-append-">.append()</h2>
-<p>Add some html as a child at the end of each of the matched elements.</p>
+<p>Add some html as a child at the end of each of the matched elements</p>
 <pre><code class="lang-js">.append(html)
 .append(function(){})
 .append(function(el){}, elements)
@@ -209,9 +234,9 @@ u(&quot;ul&quot;).append(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot
 u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#prepend">.prepend(html)</a></p>
-<p><a href="#before">.before(html)</a></p>
-<p><a href="#after">.after(html)</a></p>
+<p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
+<p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
+<p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
 <h2 id="-attr-">.attr()</h2>
 <p>Handle attributes for the matched elements</p>
 <pre><code class="lang-js">// GET
@@ -248,7 +273,9 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
 <p><a href="#data">.data()</a> handle data-* attributes for the matched elements</p>
 <h2 id="-before-">.before()</h2>
 <p>Add some html before each of the matched elements.</p>
-<pre><code class="lang-js">.before(html);
+<pre><code class="lang-js">.before(html)
+.before(function(){})
+.before(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html</code>: a string containing the html that is going to be inserted.</p>
@@ -258,10 +285,30 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
 <p>Add a header to each of the articles</p>
 <pre><code class="lang-js">u(&quot;article&quot;).after(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);
 </code></pre>
+<p>Add three elements before the link. All of these methods are equivalent:</p>
+<pre><code class="lang-js">// Add them all like a single string
+u(&quot;a.main&quot;).before(&quot;&lt;a&gt;One&lt;/a&gt;&lt;a&gt;Two&lt;/a&gt;&lt;a&gt;Three&lt;/a&gt;&quot;);
+
+// Add them in a chain
+u(&quot;a.main&quot;).before(&quot;&lt;a&gt;One&lt;/a&gt;&quot;).before(&quot;&lt;a&gt;Two&lt;/a&gt;&quot;).before(&quot;&lt;a&gt;Three&lt;/a&gt;&quot;);
+
+// Add them with a function parameter
+var cb = function(txt){ return &quot;&lt;a&gt;&quot; + txt + &quot;&lt;/a&gt;&quot; };
+u(&quot;a.main&quot;).before(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
+
+// Same as the previous one but with ES6
+u(&quot;a.main&quot;).before(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
+</code></pre>
+<p>They all result in:</p>
+<pre><code class="lang-html">&lt;a&gt;One&lt;/a&gt;
+&lt;a&gt;Two&lt;/a&gt;
+&lt;a&gt;Three&lt;/a&gt;
+&lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
+</code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#after">.after(html)</a></p>
-<p><a href="#append">.append(html)</a></p>
-<p><a href="#prepend">.prepend(html)</a></p>
+<p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
+<p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>
+<p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <h2 id="-children-">.children()</h2>
 <p>Get the direct children of all of the nodes with an optional filter</p>
 <pre><code class="lang-js">.children(filter);
@@ -675,8 +722,9 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <pre><code class="lang-js">u(&quot;article&quot;).prepend(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);
 </code></pre>
 <blockquote>
-<p>Note that, unlike append, the elements are inserted in <em>inverse</em> order. So all of these methods are equivalent:</p>
+<p>Note that, unlike append, the elements are inserted in <em>inverse</em> order</p>
 </blockquote>
+<p>Add three elements at the beginning of the list. All of these methods are equivalent:</p>
 <pre><code class="lang-js">// Add them all like a single string
 u(&quot;ul&quot;).prepend(&quot;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&quot;);
 
@@ -702,6 +750,10 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Thre
 <p>You can <em>fix</em> this in the method that accepts <code>data</code> with a simple <code>.reverse()</code>. This will yield the same html:</p>
 <pre><code class="lang-js">u(&quot;ul&quot;).prepend(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;].reverse());
 </code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>
+<p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
+<p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
 <h2 id="-remove-">.remove()</h2>
 <p>Removes the matched elements.</p>
 <pre><code class="lang-js">.remove();
