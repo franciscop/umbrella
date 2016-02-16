@@ -1816,6 +1816,10 @@ describe(".toggleClass(name1, name2, ...)", function() {
 // Testing the main file
 describe(".trigger()", function() {
   
+  afterEach(function(){
+    base.off('click bla');
+  });
+  
   it("should be a function", function() {
     expect(typeof base.trigger).to.equal('function');
   });
@@ -1847,5 +1851,14 @@ describe(".trigger()", function() {
       done();
     });
     base.trigger('bla');
+  });
+  
+  it("passes data", function(done) {
+    base.on('click', function(e){
+      expect(!!e).to.equal(true);
+      expect(e.detail).to.equal("good");
+      done();
+    });
+    base.trigger('click', 'good');
   });
 });

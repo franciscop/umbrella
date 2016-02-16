@@ -824,11 +824,14 @@ should pass no parameter so it retrieves the text from the first matched element
 <p><a href="#hasclass">.hasClass(name)</a> finds if the matched elements contain the class(es)</p>
 <h2 id="-trigger-">.trigger()</h2>
 <p>Calls an event on all of the matched nodes</p>
-<pre><code class="lang-js">.trigger(&#39;submit&#39;)
-.trigger(new Event(&#39;submit&#39;, {}));
+<pre><code class="lang-js">.trigger(&#39;event1&#39;, data)
+.trigger(&#39;event1 event2 eventN&#39;, data)
+.trigger(&#39;event1,event2,eventN&#39;, data)
+.trigger([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], data)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p>The only parameter that it accepts is either an event name such as <code>click</code>, <code>submit</code>, <code>change</code>, etc or an event itself.</p>
+<p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
+<p><code>data</code> optional: the data that will be passed to the event listener in the <code>e.details</code> variable.</p>
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
@@ -842,10 +845,8 @@ setInterval(function(){
 }, 10000);
 </code></pre>
 <h3 id="related">Related</h3>
-<ul>
-<li><a href="#on">.on()</a> add an event listener to the matched nodes</li>
-<li><a href="#off">.off(event, callback)</a> Removes an event from matched nodes</li>
-</ul>
+<p><a href="#on">.on()</a> add an event listener to the matched nodes</p>
+<p><a href="#off">.off()</a> Removes an event from matched nodes</p>
 </article></section></main><script src="umbrella.min.js"></script><script>u('h2[id]').each(function(node){
   u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
 });

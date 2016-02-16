@@ -3,17 +3,26 @@
 Calls an event on all of the matched nodes
 
 ```js
-.trigger('submit')
-.trigger(new Event('submit', {}));
+.trigger('event1', data)
+.trigger('event1 event2 eventN', data)
+.trigger('event1,event2,eventN', data)
+.trigger(['event1', 'event2', 'eventN'], data)
 ```
+
+
 
 ### Parameters
 
-The only parameter that it accepts is either an event name such as `click`, `submit`, `change`, etc or an event itself.
+`event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
+
+`data` optional: the data that will be passed to the event listener in the `e.details` variable.
+
 
 ### Return
 
 Umbrella instance
+
+
 
 ### Examples
 
@@ -32,5 +41,6 @@ setInterval(function(){
 
 ### Related
 
-- [.on()](#on) add an event listener to the matched nodes
-- [.off(event, callback)](#off) Removes an event from matched nodes
+[.on()](#on) add an event listener to the matched nodes
+
+[.off()](#off) Removes an event from matched nodes
