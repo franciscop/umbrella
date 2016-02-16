@@ -15,10 +15,14 @@ Handle attributes for the matched elements
 ### Parameters
 
 *GET*
+
 `name`: the attribute that we want to get from the first matched element
 
+
 *SET*
+
 `name`: the attribute that we want to set for all of the matched elements
+
 `value`: what we want to set the attribute to. If it's not defined, then we get the name
 
 
@@ -26,9 +30,11 @@ Handle attributes for the matched elements
 ### Return
 
 *GET*
+
 `string`: the value of the attribute
 
 *SET*
+
 `u`: returns the same instance of Umbrella JS
 
 

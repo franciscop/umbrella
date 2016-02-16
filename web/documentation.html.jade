@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  main.documentation
+  main.documentation#home
     section.row
       aside
-        a.top.pseudo.button(href="#" tabindex="-1") ▲ Up you go ▲
+        a.top.pseudo.button(href="#home" tabindex="-1") ▲ Up you go ▲
         h2 Contents
       article
         include:markdown ../documentation.md
@@ -34,5 +34,4 @@ block content
     u([window]).on('scroll', function(){
       var top = this.scrollY || document.documentElement.scrollTop;
       u('.top').toggleClass('visible', top > 1000);
-      console.log(top);
     }).trigger('scroll');
