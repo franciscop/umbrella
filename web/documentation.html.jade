@@ -4,6 +4,7 @@ block content
   main.documentation
     section.row
       aside
+        a.top.pseudo.button(href="#" tabindex="-1") ▲ Up you go ▲
         h2 Contents
       article
         include:markdown ../documentation.md
@@ -29,3 +30,9 @@ block content
         history.replaceState(null, '', to);
       } catch(err) {}
     });
+    
+    u([window]).on('scroll', function(){
+      var top = this.scrollY || document.documentElement.scrollTop;
+      u('.top').toggleClass('visible', top > 1000);
+      console.log(top);
+    }).trigger('scroll');

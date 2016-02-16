@@ -1,14 +1,5 @@
-/**
- * .attr(name, value)
- *
- * Retrieve or set the data for an attribute of the first matched node
- * @param String name the attribute to search
- * @param String value optional atribute to set
- * @return this|String
- */
-// ATTR
-// Return the fist node attribute
-u.prototype.attr = function(name, value) {
+// Handle attributes for the matched elements
+u.prototype.attr = function(name, value, data) {
   
   if (value !== undefined){
     var nm = name;
@@ -19,14 +10,16 @@ u.prototype.attr = function(name, value) {
   if (typeof name === 'object') {
     return this.each(function(node){
       for(var key in name) {
+        var k = data ? 'data-' + key : key;
         if (name[key] !== null){
-          node.setAttribute(key, name[key]);
+          node.setAttribute(k, name[key]);
         } else {
-          node.removeAttribute(key);
+          node.removeAttribute(k);
         }
-      }
+      } 
     });
   }
   
+  if (data) name = 'data-' + name;
   return this.length ? this.first().getAttribute(name) : "";
 };

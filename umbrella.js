@@ -49,34 +49,20 @@ u.prototype = {
 // https://developers.google.com/speed/articles/optimizing-javascript
 u.prototype.nodes = [];
 
-/**
- * .addClass(name1, name2, ...)
- * 
- * Add a class to the matched nodes
- * Possible polyfill: https://github.com/eligrey/classList.js
- * @return this Umbrella object
- */
+// Add class(es) to the matched nodes
 u.prototype.addClass = function(){
   
   // Loop the combination of each node with each argument
   return this.eacharg(arguments, function(el, name){
-    
-    // Add the class using the native method
     el.classList.add(name);
   });
 };
-
 // [INTERNAL USE ONLY]
-
-/**
- * .adjacent(position, text)
- * 
- * Add text in the specified position. It is used by other functions
- */
+// Add text in the specified position. It is used by other functions
 u.prototype.adjacent = function(position, text, data) {
   
   // Loop through all the nodes. It cannot reuse the eacharg() since the data
-  // we want to do it once even if there's no "data"
+  // we want to do it once even if there's no "data" and we accept a selector
   return this.each(function(node) {
     
     // Allow for data to be falsy and still loop once
@@ -92,47 +78,22 @@ u.prototype.adjacent = function(position, text, data) {
   });
 };
 
-/**
- * .after(html)
- * 
- * Add child after all of the current nodes
- * @param String html to be inserted
- * @return this Umbrella object
- */
+// Add some html as a sibling after each of the matched elements.
 u.prototype.after = function(text, data) {
-  
   return this.adjacent('afterend', text, data);
 };
 
-/**
- * .ajax(done, before)
- * 
- * Create a POST request for whenever the matched form submits
- * @param function done called when response is received
- * @param function before called function before sending the request
- */
+// Create a HTTP request for whenever the matched form submits
 u.prototype.ajax = function(done, before) {
-  
-  // Attach the event submit to all of the nodes
   return this.on("submit", function(e) {
-    
-    // Stop the browser from sending the request
-    e.preventDefault();
-    
-    // Post the actual data
-    ajax(u(this).attr("method"), u(this).attr("action"), u(this).serialize(), done, before);
+    e.preventDefault();   // Stop native request
+    var f = u(this);
+    ajax(f.attr("method"), f.attr("action"), f.serialize(), done, before);
   });
 };
 
-/**
- * .append(html)
- * 
- * Add child the last thing inside each node
- * @param String html to be inserted
- * @return this Umbrella object
- */
+// Add some html as a child at the end of each of the matched elements.
 u.prototype.append = function(html, data) {
-  
   return this.adjacent('beforeend', html, data);
 };
 
@@ -155,17 +116,8 @@ u.prototype.args = function(args, node, i){
   // Then convert that string to an array of not-null strings
   return args.toString().split(/[\s,]+/).filter(function(e){ return e.length });
 };
-/**
- * .attr(name, value)
- *
- * Retrieve or set the data for an attribute of the first matched node
- * @param String name the attribute to search
- * @param String value optional atribute to set
- * @return this|String
- */
-// ATTR
-// Return the fist node attribute
-u.prototype.attr = function(name, value) {
+// Handle attributes for the matched elements
+u.prototype.attr = function(name, value, data) {
   
   if (value !== undefined){
     var nm = name;
@@ -176,54 +128,35 @@ u.prototype.attr = function(name, value) {
   if (typeof name === 'object') {
     return this.each(function(node){
       for(var key in name) {
+        var k = data ? 'data-' + key : key;
         if (name[key] !== null){
-          node.setAttribute(key, name[key]);
+          node.setAttribute(k, name[key]);
         } else {
-          node.removeAttribute(key);
+          node.removeAttribute(k);
         }
-      }
+      } 
     });
   }
   
+  if (data) name = 'data-' + name;
   return this.length ? this.first().getAttribute(name) : "";
 };
 
-/**
- * .before(html)
- * 
- * Add child before all of the current nodes
- * @param String html to be inserted
- * @return this Umbrella object
- */
+// Add some html before each of the matched elements.
 u.prototype.before = function(html, data) {
-  
   return this.adjacent('beforebegin', html, data);
 };
 
-/**
- * .children()
- * 
- * Travel the matched elements one node down
- * @return this Umbrella object
- */
+// Get the direct children of all of the nodes with an optional filter
 u.prototype.children = function(selector) {
-  
-  var self = this;
-  
   return this.join(function(node){
-    return self.slice(node.children);
+    return this.slice(node.children);
   }).filter(selector);
 };
 
 
-/**
- * .closest()
- * 
- * Find a node that matches the passed selector
- * @return this Umbrella object
- */
+// Find the first ancestor that matches the selector for each node
 u.prototype.closest = function(selector) {
-  
   return this.join(function(node) {
     
     // Keep going up and up on the tree. First element is also checked
@@ -232,29 +165,12 @@ u.prototype.closest = function(selector) {
         return node;
       }
     } while (node = node.parentNode)
-    
   });
 };
 
-/**
- * .data(name, value)
- *
- * Retrieve or set the data-* attributes of the first matched node
- * @param String name the data-* attribute to search
- * @param String value optional atribute to set
- * @return this|String
- */
-// ATTR
-// Return the fist node attribute
+// Handle data-* attributes for the matched elements
 u.prototype.data = function(name, value) {
-  if (typeof name === 'object') {
-    var new_name = {};
-    for(var key in name) {
-      new_name['data-' + key] = name[key];
-    }
-    return this.attr(new_name);
-  }
-  return this.attr('data-' + name, value);
+  return this.attr(name, value, true);
 };
 
 /**
@@ -452,15 +368,11 @@ u.prototype.html = function(text) {
 u.prototype.is = function(selector){
   return this.filter(selector).length > 0;
 };
-/**
- * Merge all of the nodes that the callback returns
- */
+// [INTERNAL USE ONLY]
+// Merge all of the nodes that the callback returns
 u.prototype.join = function(callback) {
-  
   var self = this;
-  
   return u(this.nodes.reduce(function(newNodes, node, i){
-    
     return newNodes.concat(callback.call(self, node, i));
   }, [])).unique();
 };

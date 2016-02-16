@@ -1,6 +1,6 @@
 ## .before()
 
-Add some html before of each of the matched elements.
+Add some html before each of the matched elements.
 
 ```js
 .before(html);

@@ -1,6 +1,6 @@
 ## .closest()
 
-Find the first matched node for each node
+Find the first ancestor that matches the selector for each node
 
 ```js
 .closest(filter);

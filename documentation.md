@@ -30,7 +30,7 @@ The first parameter can be:
 The second parameter is only for the CSS selector, which indicates a portion of the DOM where the selector is applied. For example, with `u('li', u('ul').first())` it will find all of the `li` from the first `ul`.
 
 
-* actually it can be an array of anything you want as in `["a", "b"]`, however this is not officially supported and might change at any moment
+\* actually it can be an array of anything you want as in `["a", "b"]`, however this is not officially supported and might change at any moment
 
 
 
@@ -110,7 +110,7 @@ u('h2').addClass('vanilla', 'test');     // It accepts multiple parameters
 u('h2').addClass(['vanilla', 'test']);   // Also accept an array
 u('h2').addClass(['vanilla'], ['test']); // Or multiple arrays
 u('h2').addClass('vanilla, test');       // Strings with space and/or comma
-u('h2').addClass('vanilla', ['test'], 'one, more' }); // Or just whatever
+u('h2').addClass('vanilla', ['test'], 'one, more' ); // Or just whatever
 ```
 
 So it's convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella's methods where it's better suited or then crete your own methods when you need it.
@@ -171,10 +171,11 @@ u("form").addClass("toValidate", "ajaxify");
 
 ### Related
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+[.hasClass()](#hasclass) finds if the matched elements contain the class(es).
 
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
+[.toggleClass()](#toggleclass) adds or removes the class
 ## .after()
 
 Add some html as a sibling after each of the matched elements.
@@ -430,7 +431,7 @@ u('img').attr({ src: 'demo.jpg' });
 [.data()](#data) handle data-* attributes for the matched elements
 ## .before()
 
-Add some html before of each of the matched elements.
+Add some html before each of the matched elements.
 
 ```js
 .before(html);
@@ -506,7 +507,7 @@ u("ul").children('li:first-child');
 [.closest(filter)](#closest) get the first ascendant that matches the selector
 ## .closest()
 
-Find the first matched node for each node
+Find the first ancestor that matches the selector for each node
 
 ```js
 .closest(filter);

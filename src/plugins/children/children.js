@@ -1,15 +1,7 @@
-/**
- * .children()
- * 
- * Travel the matched elements one node down
- * @return this Umbrella object
- */
+// Get the direct children of all of the nodes with an optional filter
 u.prototype.children = function(selector) {
-  
-  var self = this;
-  
   return this.join(function(node){
-    return self.slice(node.children);
+    return this.slice(node.children);
   }).filter(selector);
 };
 
