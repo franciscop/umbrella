@@ -101,6 +101,10 @@ Known, wontfix IE9- bugs:
 
 - [Zepto](http://zeptojs.com/) 
 
+- [Bliss](http://blissfuljs.com/)
+
+- [NodeList](https://github.com/eorroe/NodeList.js)
+
 - [Micro Framework (many)](http://microjs.com/)
 
 

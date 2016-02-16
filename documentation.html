@@ -182,7 +182,7 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 </code></pre>
 <h2 id="-append-">.append()</h2>
 <p>Add some html as a child at the end of each of the matched elements.</p>
-<pre><code class="lang-js">.append(html);
+<pre><code class="lang-js">.append(html)
 .append(function(){})
 .append(function(el){}, elements)
 </code></pre>
@@ -661,7 +661,23 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
 <p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
 <h2 id="-prepend-">.prepend()</h2>
-<p>This method is similar to <code>append</code>. However note that, unlike append, the elements are inserted in <em>inverse</em> order. So all of these methods are equivalent:</p>
+<p>Add some html as a child at the beginning of each of the matched elements.</p>
+<pre><code class="lang-js">.prepend(html)
+.prepend(function(){})
+.prepend(function(el){}, elements)
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted</p>
+<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element. It can also be a css selector, so the function will be executed once per matched element.</p>
+<h3 id="return">Return</h3>
+<p><code>u</code>: returns the same instance of Umbrella JS</p>
+<h3 id="examples">Examples</h3>
+<p>Add a header to each of the articles</p>
+<pre><code class="lang-js">u(&quot;article&quot;).prepend(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);
+</code></pre>
+<blockquote>
+<p>Note that, unlike append, the elements are inserted in <em>inverse</em> order. So all of these methods are equivalent:</p>
+</blockquote>
 <pre><code class="lang-js">// Add them all like a single string
 u(&quot;ul&quot;).prepend(&quot;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&quot;);
 
@@ -687,7 +703,6 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Thre
 <p>You can <em>fix</em> this in the method that accepts <code>data</code> with a simple <code>.reverse()</code>. This will yield the same html:</p>
 <pre><code class="lang-js">u(&quot;ul&quot;).prepend(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;].reverse());
 </code></pre>
-<p>However, as it should be obvious, it cannot be reversed in the chainable method.</p>
 <h2 id="-remove-">.remove()</h2>
 <p>Removes the matched elements.</p>
 <pre><code class="lang-js">.remove();
