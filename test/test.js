@@ -395,7 +395,9 @@ describe(".after(html)", function() {
   it("can add as many as the array", function(){
     if (work) base.after(callback, ['a', 'b']);
     
-    size('.bla.a', 1)('.bla.b', 1)('.base + .bla.b + .bla.a', 1);
+    expect(base.html().match('function')).to.equal(null);
+    size('.base ~ .bla', 2)('.base ~ .bla.a', 1)('.base ~ .bla.b', 1);
+    size('.base + .bla.b + .bla.a', 1);
   });
 });
 // Testing the main file
@@ -418,13 +420,23 @@ describe(".ajax(done, before)", function() {
 // Testing the main file
 describe(".append(html)", function() {
   
+  // Default callback for the tests
+  function callback(node, cl){
+    return '<a class="bla ' + cl + '">Link</a>'
+  };
+  
   beforeEach(function(){
     expect(u('.bla, .blu').length).to.equal(0);
   });
   
   afterEach(function(){
+    
+    // Just in case it stringifies the callback
+    expect(base.html().match('function')).to.equal(null);
     u('.bla, .blu').remove();
   });
+  
+  
   
   it("should be a function", function() {
     expect(typeof base.append).to.equal('function');
@@ -432,27 +444,23 @@ describe(".append(html)", function() {
   
   it("can add content in the right place", function() {
     base.append('<a class="bla">Link</a>');
-    expect(u('.base > .bla').length).to.equal(1);
+    size('.base > .bla', 1);
   });
   
   it("can add content with a callback", function() {
-    base.append(function(){ return '<a class="bla">Link</a>'; });
-    expect(base.html().match('function')).to.equal(null);
-    expect(u('.base > .bla').length).to.equal(1);
+    base.append(callback);
+    size('.base > .bla', 1)('.base > .bla:last-child', 1);
   });
   
   it("is called as many times as data in the second param", function() {
     base.append('<a class="bla">Link</a>', ["a", "b"]);
-    expect(base.html().match('function')).to.equal(null);
-    expect(u('.base > .bla').length).to.equal(2);
+    size('.base > .bla', 2)('.base > .bla:last-child', 1);
   });
   
   it("can add content with a callback and data", function() {
-    base.append(function(el, cl){ return '<a class="bla ' + cl + '">Link</a>' }, ["a", "b"]);
-    expect(base.html().match('function')).to.equal(null);
-    expect(u('.base > .bla').length).to.equal(2);
-    expect(u('.base > .bla.a').length).to.equal(1);
-    expect(u('.base > .bla.b').length).to.equal(1);
+    base.append(callback, ["a", "b"]);
+    size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
+    size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.b:last-child', 1);
   });
 });
 
@@ -609,6 +617,11 @@ describe(".attr(name, value)", function() {
 // Testing the main file
 describe(".before(html)", function() {
   
+  // Default callback for the tests
+  function callback(node, cl){
+    return '<a class="bla ' + cl + '">Link</a>'
+  };
+  
   beforeEach(function(){
     expect(u('.bla').length).to.equal(0);
   });
@@ -626,6 +639,27 @@ describe(".before(html)", function() {
     expect(u('.bla').length).to.equal(1);
     expect(base.parent().find('.base, .bla').length).to.equal(2);
     expect(base.parent().find('.bla ~ .base').length).to.equal(1);
+  });
+  
+  it("second parameter defaults to ''", function(){
+    if (work) base.before(callback);
+    
+    expect(base.html().match('function')).to.equal(null);
+    size('.bla', 1)('.bla + .base', 1);
+  });
+  
+  it("can add a single one", function(){
+    if (work) base.before(callback, ['a']);
+    
+    expect(base.html().match('function')).to.equal(null);
+    size('.bla', 1)('.bla.a', 1)('.bla.a + .base', 1);
+  });
+  
+  it("can add as many as the array", function(){
+    if (work) base.before(callback, ['a', 'b']);
+    
+    expect(base.html().match('function')).to.equal(null);
+    size('.bla', 2)('.bla.a', 1)('.bla.b', 1)('.bla.a + .bla.b + .base', 1);
   });
 });
 // Testing the main file
@@ -1397,6 +1431,50 @@ describe('.parent()', function() {
   });
 });
 
+// Testing the main file
+describe(".prepend()", function() {
+  
+  // Default callback for the tests
+  function callback(node, cl){
+    return '<a class="bla ' + cl + '">Link</a>'
+  };
+  
+  beforeEach(function(){
+    
+    // Just in case it stringifies the callback
+    expect(base.html().match('function')).to.equal(null);
+    expect(u('.bla, .blu').length).to.equal(0);
+  });
+  
+  afterEach(function(){
+    u('.bla, .blu').remove();
+  });
+  
+  it("should be a function", function() {
+    expect(typeof base.prepend).to.equal('function');
+  });
+  
+  it("can add content in the right place", function() {
+    base.prepend('<a class="bla">Link</a>');
+    size('.base > .bla', 1);
+  });
+  
+  it("can add content with a callback", function() {
+    base.prepend(callback);
+    size('.base > .bla', 1)('.base > .bla:first-child', 1);
+  });
+  
+  it("is called as many times as data in the second param", function() {
+    base.prepend('<a class="bla">Link</a>', ["a", "b"]);
+    size('.base > .bla', 2)('.base > .bla:first-child', 1);
+  });
+  
+  it("can add content inverted with a callback and data", function() {
+    base.prepend(callback, ["a", "b"]);
+    size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
+    size('.bla.b + .bla.a', 1)('.bla.a + .bla.b', 0)('.base > .bla.b:first-child', 1);
+  });
+});
 // Testing the main file
 describe(".remove()", function() {
 

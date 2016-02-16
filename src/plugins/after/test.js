@@ -46,6 +46,8 @@ describe(".after(html)", function() {
   it("can add as many as the array", function(){
     if (work) base.after(callback, ['a', 'b']);
     
-    size('.bla.a', 1)('.bla.b', 1)('.base + .bla.b + .bla.a', 1);
+    expect(base.html().match('function')).to.equal(null);
+    size('.base ~ .bla', 2)('.base ~ .bla.a', 1)('.base ~ .bla.b', 1);
+    size('.base + .bla.b + .bla.a', 1);
   });
 });

@@ -1,6 +1,11 @@
 // Testing the main file
 describe(".before(html)", function() {
   
+  // Default callback for the tests
+  function callback(node, cl){
+    return '<a class="bla ' + cl + '">Link</a>'
+  };
+  
   beforeEach(function(){
     expect(u('.bla').length).to.equal(0);
   });
@@ -18,5 +23,26 @@ describe(".before(html)", function() {
     expect(u('.bla').length).to.equal(1);
     expect(base.parent().find('.base, .bla').length).to.equal(2);
     expect(base.parent().find('.bla ~ .base').length).to.equal(1);
+  });
+  
+  it("second parameter defaults to ''", function(){
+    if (work) base.before(callback);
+    
+    expect(base.html().match('function')).to.equal(null);
+    size('.bla', 1)('.bla + .base', 1);
+  });
+  
+  it("can add a single one", function(){
+    if (work) base.before(callback, ['a']);
+    
+    expect(base.html().match('function')).to.equal(null);
+    size('.bla', 1)('.bla.a', 1)('.bla.a + .base', 1);
+  });
+  
+  it("can add as many as the array", function(){
+    if (work) base.before(callback, ['a', 'b']);
+    
+    expect(base.html().match('function')).to.equal(null);
+    size('.bla', 2)('.bla.a', 1)('.bla.b', 1)('.bla.a + .bla.b + .base', 1);
   });
 });

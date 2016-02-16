@@ -311,13 +311,15 @@ Add some html as a child at the end of each of the matched elements.
 ```js
 .append(html);
 .append(function(){})
+.append(function(el){}, elements)
 ```
 
 
 ### Parameters
 
-`html`: a string containing the html that is going to be inserted or a function that returns the html to be inserted
-`data`, defaults `[""]`: an array of elements which will passed to the callback. The callback is executed once per element, and all of them are appended consecutively
+`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted
+
+`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
 
 
