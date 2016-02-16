@@ -119,6 +119,8 @@ u.prototype.args = function(args, node, i){
 // Handle attributes for the matched elements
 u.prototype.attr = function(name, value, data) {
   
+  data = data ? 'data-' : '';
+  
   if (value !== undefined){
     var nm = name;
     name = {};
@@ -128,18 +130,12 @@ u.prototype.attr = function(name, value, data) {
   if (typeof name === 'object') {
     return this.each(function(node){
       for(var key in name) {
-        var k = data ? 'data-' + key : key;
-        if (name[key] !== null){
-          node.setAttribute(k, name[key]);
-        } else {
-          node.removeAttribute(k);
-        }
+        node.setAttribute(data + key, name[key]);
       } 
     });
   }
   
-  if (data) name = 'data-' + name;
-  return this.length ? this.first().getAttribute(name) : "";
+  return this.length ? this.first().getAttribute(data + name) : "";
 };
 
 // Add some html before each of the matched elements.
