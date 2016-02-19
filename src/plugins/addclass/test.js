@@ -1,19 +1,19 @@
 var listOfClasses = getListOfClasses();
 
 describe(".addClass()", function() {
-  
+
   beforeEach(function(){
     base.removeClass('bla blu blo');
     hasClass('bla blu blo', true);
   });
-  
+
   afterEach(function(){
     base.removeClass('bla blu blo');
     hasClass('bla blu blo', true);
   });
-  
-  
-  
+
+
+
   it("should be defined", function() {
     isFn(work ? base.addClass : false);
   });
@@ -24,7 +24,7 @@ describe(".addClass()", function() {
     base.addClass([]);
     base.addClass("","");
     base.addClass(" ");
-    
+
     if (!work) throw "Forced failure";
   });
 
@@ -38,7 +38,7 @@ describe(".addClass()", function() {
     if (work) inst = base.addClass('bla,blu');
     same(base, inst);
   });
-  
+
   it("adds a single class", function() {
     if (work) base.addClass('bla');
     hasClass('bla');
@@ -54,7 +54,7 @@ describe(".addClass()", function() {
       });
     });
   });
-  
+
   describe("single function argument uses the return value", function(){
     listOfClasses.forEach(function(part){
       it("accepts as a return value " + part.it, function(){
@@ -63,9 +63,9 @@ describe(".addClass()", function() {
       });
     });
   });
-  
+
   describe("multiple functions uses the return value", function(){
-    function add(arg){ return function(){ return arg; }; } 
+    function add(arg){ return function(){ return arg; }; }
     listOfClasses.forEach(function(part){
       it("accepts as a return value " + part.it, function(){
         if (work) base.addClass(add(part.from), add("bli"));
@@ -73,10 +73,10 @@ describe(".addClass()", function() {
       });
     });
   });
-  
-  describe("several arguments", function(){    
+
+  describe("several arguments", function(){
     listOfClasses.filter(function(part){
-      return Array.isArray(part.from)
+      return Array.isArray(part.from);
     }).forEach(function(part){
       it("used .apply() with " + part.it, function(){
         if (work) base.addClass.apply(base, part.from);
@@ -87,29 +87,29 @@ describe(".addClass()", function() {
 
 
   describe("callback uses the arguments", function(){
-    
+
     // Testing the main file
     function addTest(node, i){
       return 'test' + i;
     }
-    
+
     it("adds classes with callback", function(){
       if (work) base.addClass(addTest);
-      
+
       hasClass('test0');
-      
+
       base.removeClass('test0');
       expect(base.hasClass('test0')).to.equal(false);
     });
-    
+
     it("adds many classes with callback", function(){
       if (work) base.find('li').addClass(addTest);
-      
+
       base.find('li').each(function(node, i){
         hasClass('test' + i, false, node);
         u(node).removeClass('test' + i);
       });
     });
-    
+
   });
 });

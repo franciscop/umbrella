@@ -102,20 +102,21 @@ u.prototype.append = function(html, data) {
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
 u.prototype.args = function(args, node, i){
-  
+
   if (typeof args === 'function') {
     args = args(node, i);
   }
-  
+
   // First flatten it all to a string http://stackoverflow.com/q/22920305
   // If we try to slice a string bad things happen: ['n', 'a', 'm', 'e']
   if (typeof args !== 'string') {
     args = this.slice(args).map(this.str(node, i));
   }
-  
+
   // Then convert that string to an array of not-null strings
-  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length });
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
+
 // Handle attributes for the matched elements
 u.prototype.attr = function(name, value, data) {
   
@@ -154,13 +155,13 @@ u.prototype.children = function(selector) {
 // Find the first ancestor that matches the selector for each node
 u.prototype.closest = function(selector) {
   return this.join(function(node) {
-    
+
     // Keep going up and up on the tree. First element is also checked
     do {
       if (u(node).is(selector)) {
         return node;
       }
-    } while (node = node.parentNode)
+    } while ((node = node.parentNode));
   });
 };
 
@@ -207,31 +208,32 @@ u.prototype.eacharg = function(args, callback) {
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function(selector){
-  
+
   // The default function if it's a css selector
   // Cannot change name to 'selector' since it'd mess with it inside this fn
   var callback = function(node){
-    
+
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
-    
+
     // Check if it's the same element (or any element if no selector was passed)
     return node.matches(selector || "*");
-  }
-  
+  };
+
   // filter() receives a function as in .filter(e => u(e).children().length)
   if (typeof selector == 'function') callback = selector;
-  
+
   // filter() receives an instance of Umbrella as in .filter(u('a'))
   if (selector instanceof u) {
     callback = function(node){
       return (selector.nodes).indexOf(node) !== -1;
     };
   }
-  
+
   // Just a native filtering function for ultra-speed
   return u(this.nodes.filter(callback));
 };
+
 /**
  * Find all the nodes children of the current ones matched by a selector
  */
@@ -420,20 +422,21 @@ u.prototype.on = function(events, callback) {
 
 // Parametize an object: { a: 'b', c: 'd' } => 'a=b&c=d'
 u.prototype.param = function(obj){
-  
+
   // Note: while this is ~10% slower (~3us/operation) than with a simple for(in)
   // I find it more legible and more 'logical' (however right now a test fails)
   // return Object.keys(obj).map(function(key) {
   //   return this.uri(key) + '=' + this.uri(obj[key]);
   // }).join('&');
-  
-  
+
+
   var query = '';
   for(var key in obj) {
     query += '&' + this.uri(key) + '=' + this.uri(obj[key]);
   }
   return query.slice(1);
-}
+};
+
 /**
  * .parent()
  * 
@@ -495,11 +498,11 @@ u.prototype.removeClass = function() {
 
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
-  
+
   if (context) {
     return this.select.byCss(parameter, context);
   }
-  
+
   for (var key in this.selectors) {
     // Reusing it to save space
     context = key.split('/');
@@ -507,7 +510,7 @@ u.prototype.select = function(parameter, context) {
       return this.selectors[key](parameter);
     }
   }
-  
+
   return this.select.byCss(parameter);
 };
 
@@ -536,13 +539,13 @@ u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
 };
 
 // Create a new element for the DOM
-u.prototype.selectors[/^\</] = function(param){
+u.prototype.selectors[/^</] = function(param){
   return u(document.createElement('div')).html(param).children().nodes;
 };
 
 /**
  * .serialize()
- * 
+ *
  * Convert al html form elements into an object
  * The <input> and <button> without type will be parsed as default
  * NOTE: select-multiple for <select> is disabled on purpose
@@ -550,20 +553,20 @@ u.prototype.selectors[/^\</] = function(param){
  * @return string from the form's data
  */
 u.prototype.serialize = function() {
-  
+
   // Store the class in a variable for manipulation
   return this.param(this.slice(this.first().elements).reduce(function(obj, el) {
-    
+
     // We only want to match elements with names, but not files
-    if (el.name && el.type !== 'file'
-    
+    if (el.name && el.type !== 'file' &&
+
     // Ignore the checkboxes that are not checked
-    && (!/(checkbox|radio)/.test(el.type) || el.checked)) {
-      
+    (!/(checkbox|radio)/.test(el.type) || el.checked)) {
+
       // Add the element to the object
       obj[el.name] = el.value;
     }
-    
+
     return obj;
   }, {}));
 };
@@ -592,16 +595,17 @@ u.prototype.slice = function(pseudo) {
 // Create a string from different things
 u.prototype.str = function(node, i){
   return function(arg){
-    
+
     // Call the function with the corresponding nodes
     if (typeof arg === 'function') {
       return arg.call(this, node, i);
     }
-    
+
     // From an array or other 'weird' things
     return arg.toString();
-  }
-}
+  };
+};
+
 /**
  * .text(text)
  * 
@@ -628,20 +632,22 @@ u.prototype.text = function(text) {
 
 /**
  * .toggleClass('name1, name2, nameN' ...[, addOrRemove])
- * 
+ *
  * Toggles classes on the matched nodes
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
 u.prototype.toggleClass = function(classes, addOrRemove){
-  
+
+  /*jshint -W018 */
   //check if addOrRemove was passed as a boolean
   if (!!addOrRemove === addOrRemove) {
 
     // return the corresponding Umbrella method
     return this[addOrRemove ? 'addClass' : 'removeClass'](classes);
   }
-  
+  /*jshint +W018 */
+
   // Loop through all the nodes and classes combinations
   return this.eacharg(classes, function(el, name){
     el.classList.toggle(name);
@@ -682,4 +688,4 @@ u.prototype.unique = function(){
 // Encode the different strings https://gist.github.com/brettz9/7147458
 u.prototype.uri = function(str){
   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-}
+};
