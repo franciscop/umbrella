@@ -9,7 +9,7 @@ u('#container').dragula(options);
 
 ### Install
 
-This is a plugin for the [Dragula project](https://github.com/bevacqua/dragula). As all of Umbrella's external plugins, this needs first to be added to your codebase. According to [Dragula's install guide](https://github.com/bevacqua/dragula#install), you can do so using NPM:
+Remember to use `plugins.min.js` **instead** of `umbrella.js`. This is a plugin for the [Dragula project](https://github.com/bevacqua/dragula). As all of Umbrella's external plugins, this needs first to be added to your codebase. According to [Dragula's install guide](https://github.com/bevacqua/dragula#install), you can do so using NPM:
 
 ```bash
 npm install dragula --save
