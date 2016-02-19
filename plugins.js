@@ -722,3 +722,9 @@ u.prototype.unique = function(){
 u.prototype.uri = function(str){
   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
 };
+
+// Drag and drop so simple it hurts
+u.prototype.dragula = function(opts){
+  return dragula(this.nodes, opts);
+};
+
