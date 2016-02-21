@@ -2,7 +2,7 @@
  * .scroll()
  *
  * Scroll to the first matched element
- * @return this Umbrella object
+ * @return matched element
  */
 u.prototype.scroll = function() {
 

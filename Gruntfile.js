@@ -6,7 +6,7 @@ module.exports = function (grunt) {
   // Configuration
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    
+
     uglify: {
       options: { banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'},
       build: { src: 'umbrella.js', dest: 'umbrella.min.js' }
@@ -30,7 +30,7 @@ module.exports = function (grunt) {
         options: { spawn: false, },
       }
     },
-    
+
     jade: {
       compile: {
         options: {
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         } ]
       }
     },
-    
+
     mocha_phantomjs: {
       all: './tests.html'
     }
@@ -54,27 +54,27 @@ module.exports = function (grunt) {
   // Dynamically add plugins to the concat
   // Order of include is irrelevant http://stackoverflow.com/q/7609276
   grunt.registerTask("parse", "Join and concatenate", function(){
-    
+
     // get the current concat config
     var concat = {
       main: { src: [ 'src/umbrella.js' ], dest: 'umbrella.js' },
       test: { src: [ 'src/test.js' ], dest: 'test/test.js' },
       docs: { src: [ 'src/readme.md' ], dest: 'documentation.md' }
     };
-    
+
     fs.readdirSync(__dirname + "/src/plugins").forEach(function(name, i){
       if (name === '.DS_Store') return;
       var file = 'src/plugins/' + name + '/' + name + '.js';
       var test = 'src/plugins/' + name + '/test.js';
       var doc = 'src/plugins/' + name + '/readme.md';
-      
+
       if (!fs.existsSync(file)) throw new Error("File '" + file + "' doesn't exist");
-      
+
       concat.main.src.push(file);
       concat.test.src.push(test);
       concat.docs.src.push(doc);
     });
-    
+
     // save the new concat configuration
     grunt.config.set('concat', concat);
   });
@@ -87,13 +87,13 @@ module.exports = function (grunt) {
 
   // Watch
   grunt.loadNpmTasks('grunt-contrib-watch');
-  
+
   // Jade
   grunt.loadNpmTasks('grunt-contrib-jade');
-  
+
   // Testing
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
-  
+
   // 4. Where we tell Grunt what to do when we type "grunt" into the terminal
   grunt.registerTask('default', ['parse', 'concat', 'uglify', 'jade', 'mocha_phantomjs']);
 };
