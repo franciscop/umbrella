@@ -506,7 +506,7 @@ u.prototype.removeClass = function() {
  * .scroll()
  *
  * Scroll to the first matched element
- * @return matched element
+ * @return this Umbrella object
  */
 u.prototype.scroll = function() {
 
@@ -514,7 +514,7 @@ u.prototype.scroll = function() {
     behavior: 'smooth'
   });
 
-  return this.first();
+  return this;
 };
 
 
