@@ -1,11 +1,4 @@
-/**
- * .on(event, callback)
- * 
- * Attach the callback to the event listener for each node
- * @param String event(s) the type of event ('click', 'submit', etc)
- * @param function callback function called when the event triggers
- * @return this Umbrella object
- */
+// Attach a callback to the specified events
 u.prototype.on = function(events, callback) {
   
   return this.eacharg(events, function(node, event){

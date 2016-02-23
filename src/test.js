@@ -64,7 +64,7 @@ function size(sel, number) {
 }
 
 // Testing the main file
-describe("u(selector, context)", function() {
+describe("u()", function() {
   it("should be defined", function() {
     expect(u).to.be.not.null;
   });

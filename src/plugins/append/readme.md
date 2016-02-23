@@ -1,6 +1,6 @@
 ## .append()
 
-Add some html as a child at the end of each of the matched elements.
+Add some html as a child at the end of each of the matched elements
 
 ```js
 .append(html)
@@ -51,8 +51,8 @@ u("ul").append(txt => `<li>${ txt }</li>`, ["One", "Two", "Three"]);
 
 ### Related
 
-[.prepend(html)](#prepend)
+[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
-[.before(html)](#before)
+[.before(html)](#before) Add some html before each of the matched elements.
 
-[.after(html)](#after)
+[.after(html)](#after) Add some html as a sibling after each of the matched elements.

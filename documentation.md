@@ -181,7 +181,9 @@ u("form").addClass("toValidate", "ajaxify");
 Add some html as a sibling after each of the matched elements.
 
 ```js
-.after(html);
+.after(html)
+.after(function(){})
+.after(function(el){}, elements)
 ```
 
 
@@ -206,14 +208,42 @@ u("h1").after("<hr>");
 ```
 
 
+> Note that, unlike before, the elements are inserted in *inverse* order
+
+Add three elements after the link. All of these methods are equivalent:
+
+```js
+// Add them all like a single string
+u("a.main").after("<a>One</a><a>Two</a><a>Three</a>");
+
+// Add them in a chain
+u("a.main").after("<a>Three</a>").after("<a>Two</a>").after("<a>One</a>");
+
+// Add them with a function parameter
+var cb = function(txt){ return "<a>" + txt + "</a>" };
+u("a.main").after(cb, ["Three", "Two", "One"]);
+
+// Same as the previous one but with ES6
+u("a.main").after(txt => `<a>${ txt }</a>`, ["Three", "Two", "One"]);
+```
+
+They all result in:
+
+```html
+<a class="main"></a>
+<a>Three</a>
+<a>Two</a>
+<a>One</a>
+```
+
 
 ### Related
 
-[.before(html)](#before)
+[.before(html)](#before) Add some html before each of the matched elements.
 
-[.append(html)](#append)
+[.append(html)](#append) Add some html as a child at the end of each of the matched elements
 
-[.prepend(html)](#prepend)
+[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
 ## .ajax()
 
@@ -307,7 +337,7 @@ ajax(method, url, data, done, before);
 ```
 ## .append()
 
-Add some html as a child at the end of each of the matched elements.
+Add some html as a child at the end of each of the matched elements
 
 ```js
 .append(html)
@@ -358,11 +388,11 @@ u("ul").append(txt => `<li>${ txt }</li>`, ["One", "Two", "Three"]);
 
 ### Related
 
-[.prepend(html)](#prepend)
+[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
-[.before(html)](#before)
+[.before(html)](#before) Add some html before each of the matched elements.
 
-[.after(html)](#after)
+[.after(html)](#after) Add some html as a sibling after each of the matched elements.
 
 ## .attr()
 
@@ -381,10 +411,14 @@ Handle attributes for the matched elements
 ### Parameters
 
 *GET*
+
 `name`: the attribute that we want to get from the first matched element
 
+
 *SET*
+
 `name`: the attribute that we want to set for all of the matched elements
+
 `value`: what we want to set the attribute to. If it's not defined, then we get the name
 
 
@@ -392,9 +426,11 @@ Handle attributes for the matched elements
 ### Return
 
 *GET*
+
 `string`: the value of the attribute
 
 *SET*
+
 `u`: returns the same instance of Umbrella JS
 
 
@@ -434,7 +470,9 @@ u('img').attr({ src: 'demo.jpg' });
 Add some html before each of the matched elements.
 
 ```js
-.before(html);
+.before(html)
+.before(function(){})
+.before(function(el){}, elements)
 ```
 
 
@@ -458,15 +496,43 @@ Add a header to each of the articles
 u("article").after("<header>Hello world</header>");
 ```
 
+Add three elements before the link. All of these methods are equivalent:
+
+```js
+// Add them all like a single string
+u("a.main").before("<a>One</a><a>Two</a><a>Three</a>");
+
+// Add them in a chain
+u("a.main").before("<a>One</a>").before("<a>Two</a>").before("<a>Three</a>");
+
+// Add them with a function parameter
+var cb = function(txt){ return "<a>" + txt + "</a>" };
+u("a.main").before(cb, ["One", "Two", "Three"]);
+
+// Same as the previous one but with ES6
+u("a.main").before(txt => `<a>${ txt }</a>`, ["One", "Two", "Three"]);
+```
+
+They all result in:
+
+```html
+<a>One</a>
+<a>Two</a>
+<a>Three</a>
+<a class="main"></a>
+```
+
+
 
 
 ### Related
 
-[.after(html)](#after)
+[.after(html)](#after) Add some html as a sibling after each of the matched elements.
 
-[.append(html)](#append)
+[.append(html)](#append) Add some html as a child at the end of each of the matched elements
 
-[.prepend(html)](#prepend)
+[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+
 ## .children()
 
 Get the direct children of all of the nodes with an optional filter
@@ -561,10 +627,14 @@ Handle data-* attributes for the matched elements
 ### Parameters
 
 *GET*
+
 `name`: the data-* attribute that we want to get from the first matched element
 
+
 *SET*
+
 `name`: the data-* attribute that we want to set for all of the matched elements
+
 `value`: what we want to set the attribute to. If it's not defined, then we get the name
 
 
@@ -572,9 +642,11 @@ Handle data-* attributes for the matched elements
 ### Return
 
 *GET*
+
 `string`: the value of the data-* attribute
 
 *SET*
+
 `u`: data-* returns the same instance of Umbrella JS
 
 
@@ -1222,7 +1294,9 @@ Add a header to each of the articles
 u("article").prepend("<header>Hello world</header>");
 ```
 
-> Note that, unlike append, the elements are inserted in *inverse* order. So all of these methods are equivalent:
+> Note that, unlike append, the elements are inserted in *inverse* order
+
+Add three elements at the beginning of the list. All of these methods are equivalent:
 
 ```js
 // Add them all like a single string
@@ -1256,6 +1330,16 @@ You can *fix* this in the method that accepts `data` with a simple `.reverse()`.
 ```js
 u("ul").prepend(cb, ["One", "Two", "Three"].reverse());
 ```
+
+
+
+### Related
+
+[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+
+[.before(html)](#before) Add some html before each of the matched elements.
+
+[.after(html)](#after) Add some html as a sibling after each of the matched elements.
 
 ## .remove()
 
@@ -1525,17 +1609,26 @@ u("h2").toggleClass("main", u('.accept').is(':checked'));
 Calls an event on all of the matched nodes
 
 ```js
-.trigger('submit')
-.trigger(new Event('submit', {}));
+.trigger('event1', data)
+.trigger('event1 event2 eventN', data)
+.trigger('event1,event2,eventN', data)
+.trigger(['event1', 'event2', 'eventN'], data)
 ```
+
+
 
 ### Parameters
 
-The only parameter that it accepts is either an event name such as `click`, `submit`, `change`, etc or an event itself.
+`event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
+
+`data` optional: the data that will be passed to the event listener in the `e.details` variable.
+
 
 ### Return
 
 Umbrella instance
+
+
 
 ### Examples
 
@@ -1554,5 +1647,6 @@ setInterval(function(){
 
 ### Related
 
-- [.on()](#on) add an event listener to the matched nodes
-- [.off(event, callback)](#off) Removes an event from matched nodes
+[.on()](#on) add an event listener to the matched nodes
+
+[.off()](#off) Removes an event from matched nodes

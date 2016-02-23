@@ -31,7 +31,9 @@ Add a header to each of the articles
 u("article").prepend("<header>Hello world</header>");
 ```
 
-> Note that, unlike append, the elements are inserted in *inverse* order. So all of these methods are equivalent:
+> Note that, unlike append, the elements are inserted in *inverse* order
+
+Add three elements at the beginning of the list. All of these methods are equivalent:
 
 ```js
 // Add them all like a single string
@@ -65,3 +67,13 @@ You can *fix* this in the method that accepts `data` with a simple `.reverse()`.
 ```js
 u("ul").prepend(cb, ["One", "Two", "Three"].reverse());
 ```
+
+
+
+### Related
+
+[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+
+[.before(html)](#before) Add some html before each of the matched elements.
+
+[.after(html)](#after) Add some html as a sibling after each of the matched elements.

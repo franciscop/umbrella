@@ -119,6 +119,8 @@ u.prototype.args = function(args, node, i){
 // Handle attributes for the matched elements
 u.prototype.attr = function(name, value, data) {
   
+  data = data ? 'data-' : '';
+  
   if (value !== undefined){
     var nm = name;
     name = {};
@@ -128,18 +130,12 @@ u.prototype.attr = function(name, value, data) {
   if (typeof name === 'object') {
     return this.each(function(node){
       for(var key in name) {
-        var k = data ? 'data-' + key : key;
-        if (name[key] !== null){
-          node.setAttribute(k, name[key]);
-        } else {
-          node.removeAttribute(k);
-        }
+        node.setAttribute(data + key, name[key]);
       } 
     });
   }
   
-  if (data) name = 'data-' + name;
-  return this.length ? this.first().getAttribute(name) : "";
+  return this.length ? this.first().getAttribute(data + name) : "";
 };
 
 // Add some html before each of the matched elements.
@@ -408,14 +404,7 @@ u.prototype.off = function(events) {
   });
 };
 
-/**
- * .on(event, callback)
- * 
- * Attach the callback to the event listener for each node
- * @param String event(s) the type of event ('click', 'submit', etc)
- * @param function callback function called when the event triggers
- * @return this Umbrella object
- */
+// Attach a callback to the specified events
 u.prototype.on = function(events, callback) {
   
   return this.eacharg(events, function(node, event){
@@ -674,32 +663,23 @@ u.prototype.toggleClass = function(classes, addOrRemove){
   });
 };
 
-/**
- * .trigger(name)
- * ----------
- * Call an event manually on all the nodes
- * @param event: the event or event name to call
- * @return u: an instance of umbrella
- */
-u.prototype.trigger = function(event) {
+// Call an event manually on all the nodes
+u.prototype.trigger = function(events, data) {
   
-  // Allow the event to bubble up and to be cancelable (default)
-  var opts = { bubbles: true, cancelable: true };
-  
-  try {
-    // Accept different types of event names or an event itself
-    event = (typeof event == 'string') ? new Event(event, opts) : event;
-  } catch(e) {
-    var name = event;
-    event = document.createEvent('Event');
-    event.initEvent(name, opts.bubbles, opts.cancelable);
-  }
+  this.eacharg(events, function(node, event){
     
-  // Loop all of the nodes
-  return this.each(function(node){
+    // Allow the event to bubble up and to be cancelable (default)
+    var ev, opts = { bubbles: true, cancelable: true, detail: data };
     
-    // Actually trigger the event
-    node.dispatchEvent(event);
+    try {
+      // Accept different types of event names or an event itself
+      ev = new CustomEvent(event, opts);
+    } catch(e) {
+      ev = document.createEvent('CustomEvent');
+      ev.initCustomEvent(event, true, true, data);
+    }
+    
+    node.dispatchEvent(ev);
   });
 };
 

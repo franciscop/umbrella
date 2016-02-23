@@ -24,18 +24,4 @@ describe(".data(name, value)", function() {
   it("can be called with no nodes", function() {
     expect(u('dfsdf').data('title')).to.equal('');
   });
-
-  it("can nullify (remove) an attribute with two params", function() {
-    base.first().setAttribute('data-title', 'Hello');
-    expect(base.data('title')).to.equal('Hello');
-    base.data('title', null);
-    expect(!base.data('title')).to.equal(true);
-  });
-
-  it("can nullify (remove) an attribute with an object", function() {
-    base.first().setAttribute('data-title', 'Hello');
-    expect(base.data('title')).to.equal('Hello');
-    base.data({'title': null});
-    expect(!base.data('title')).to.equal(true);
-  });
 });
