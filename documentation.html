@@ -739,6 +739,20 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Thre
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass(name)</a> adds class(es) from the matched elements.</p>
 <p><a href="#hasclass">.hasClass(name)</a> finds if the matched elements contain the class(es)</p>
+<h2 id="-scroll-">.scroll()</h2>
+<p>Scroll to the first matched element, smoothly if supported.</p>
+<pre><code class="lang-js">.scroll()
+</code></pre>
+<h3 id="examples">Examples</h3>
+<p>Scroll to the first <code>&lt;li&gt;</code> in the page:</p>
+<pre><code class="lang-js">u(&#39;li&#39;).scroll();
+</code></pre>
+<p>On click event, scroll the first <code>&lt;section&gt;</code> element with the class &quot;team&quot;:</p>
+<pre><code class="lang-js">u(&#39;a.team&#39;).on(&#39;click&#39;, function(e){
+  e.preventDefault();
+  u(&#39;section.team&#39;).scroll();
+});
+</code></pre>
 <h2 id="-siblings-">.siblings()</h2>
 <p>Get the siblings of all of the nodes with an optional filter</p>
 <pre><code class="lang-js">.siblings(selector);
