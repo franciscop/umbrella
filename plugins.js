@@ -522,6 +522,22 @@ u.prototype.removeClass = function() {
 };
 
 
+/**
+ * .scroll()
+ *
+ * Scroll to the first matched element
+ * @return this Umbrella object
+ */
+u.prototype.scroll = function() {
+
+  this.first().scrollIntoView({
+    behavior: 'smooth'
+  });
+
+  return this;
+};
+
+
 
 
 // Select the adecuate part from the context
@@ -727,21 +743,5 @@ u.prototype.uri = function(str){
 u.prototype.dragula = function(opts){
   return dragula(this.nodes, opts);
 };
-
-/**
- * .scroll()
- *
- * Scroll to the first matched element
- * @return this Umbrella object
- */
-u.prototype.scroll = function() {
-
-  this.first().scrollIntoView({
-    behavior: 'smooth'
-  });
-
-  return this;
-};
-
 
 // No need for anything here; htemplate *is* already an Umbrella JS plugin
