@@ -1,5 +1,7 @@
 # Contributing
 
+> Please use the branch 2 for changes/new features/fixes until this notice is removed
+
 Thanks for contributing! Developing Umbrella is quite easy:
 
 1. Clone the repository `git clone git+https://github.com/umbrellajs/umbrella.git && cd ./umbrellajs`
@@ -58,14 +60,14 @@ So that's it, for our example of addClass we could now do:
 
 ```js
 it("can add a single class", function(){
-  
+
   // 1. Check that the class is not there previously
   expect(base.hasClass('bla')).to.equal(false);
-  
+
   // 2. The code to test and its test
   base.addClass('bla');
   expect(base.hasClass('bla')).to.equal(true);
-  
+
   // 3. Make sure we clean up
   base.removeClass('bla');
 });
