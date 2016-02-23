@@ -1,6 +1,6 @@
 # Contributing
 
-> Please use the branch "2" for changes/new features/fixes until this notice is removed
+> Please use the branch "2" for changes/new features until this notice is removed
 
 Thanks for contributing! Developing Umbrella is quite easy:
 
