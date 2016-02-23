@@ -592,6 +592,11 @@ u.prototype.serialize = function() {
 u.prototype.siblings = function(selector) {
   return this.parent().children(selector).not(this);
 };
+// Find the size of the first matched element
+u.prototype.size = function(){
+  return this.first().getBoundingClientRect();
+};
+
 // [INTERNAL USE ONLY]
 
 // Force it to be an array AND also it clones them
