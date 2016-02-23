@@ -831,6 +831,26 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Thre
 <li><p><a href="#closest">.children(filter)</a> get the direct children of all of the nodes with an optional filter</p>
 </li>
 </ul>
+<h2 id="-size-">.size()</h2>
+<p>Get the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect">bounding client rect</a> of the first matched element. This has height, width, top, left, right and bottom properties</p>
+<pre><code class="lang-js">.size()
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>None</p>
+<h3 id="return">Return</h3>
+<p>Returns a simple object with the following properties referring to the first matched element:</p>
+<ul>
+<li>left</li>
+<li>right</li>
+<li>top</li>
+<li>height</li>
+<li>bottom</li>
+<li>width</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<pre><code class="lang-js">u(&#39;body&#39;).size();
+// {&quot;left&quot;:0,&quot;right&quot;:400,&quot;top&quot;:0,&quot;height&quot;:300,&quot;bottom&quot;:300,&quot;width&quot;:400}
+</code></pre>
 <h2 id="-text-">.text()</h2>
 <p>Retrieve or set the text content of matched elements:</p>
 <pre><code class="lang-js">// GET

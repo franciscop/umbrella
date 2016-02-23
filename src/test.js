@@ -4,8 +4,11 @@ var expect = chai.expect;
 // the tests for this function should fail
 var work = true;
 
-// Quickly test the size of a selector and returns itself for chaining:
-// size('.a', 2)('.b', 3)('.c', 1)
+// Check whether or not the element has a class
+// - cls: the classes that should be checked
+// - negate: whether or not the class should be present
+// - root: the element to check (defaults to "base")
+// hasClass('bla', true, 'ul')
 function hasClass(cls, negate, root) {
   root = root ? u(root) : base;
   u().args(cls).forEach(function(cl){
@@ -14,16 +17,27 @@ function hasClass(cls, negate, root) {
   return hasClass;
 }
 
+// Check that two objects are the same
+// same({ a: 'hi' }, { a: 'hi' })
 function same(a, b) {
   expect(a).to.deep.equal(b);
   return isFn;
 }
 
+// Chech whether or not something is a function
 function isFn(fn) {
   expect(typeof fn).to.equal('function');
   return isFn;
 }
 
+// Quickly test the size of a selector and returns itself for chaining:
+// size('.a', 2)('.b', 3)('.c', 1)
+function size(sel, number) {
+  expect(u(sel).length).to.equal(number);
+  return size;
+}
+
+// Get a great list of classes for testing different configurations
 function getListOfClasses(){
 
   return [
@@ -56,12 +70,6 @@ function getListOfClasses(){
 
 
 
-// Quickly test the size of a selector and returns itself for chaining:
-// size('.a', 2)('.b', 3)('.c', 1)
-function size(sel, number) {
-  expect(u(sel).length).to.equal(number);
-  return size;
-}
 
 // Testing the main file
 describe("u()", function() {
