@@ -1,3 +1,8 @@
+body {
+  padding-top: 1px;
+  margin-top: -1px;
+}
+
 .brand a, .brand a:hover, .brand a:active {
   color: #333;
   box-shadow: none;
@@ -256,36 +261,36 @@ pre code {
     width: auto;
     margin-right: .3em;
   }
-  
+
   nav.transparent .menu {
     background: transparent;
   }
-  
+
   nav .menu > * {
     display: inline-block;
     margin: .3em .3em;
   }
-  
+
   nav .menu > a {
     padding: .3em .6em;
   }
-  
+
   .cover {
     position: absolute;
   }
-  
+
   section.row {
     padding: 40px 0 0;
   }
-  
+
   [class*=" icon-"]::before {
     margin: .2em;
   }
-  
+
   .documentation {
     margin: 1em 0;
   }
-  
+
   .documentation aside {
     display: none;
   }
@@ -296,15 +301,15 @@ pre code {
     margin: 0;
     padding-right: .3em;
   }
-  
+
   nav .menu > * {
     margin: .3em .1em;
   }
-  
+
   nav .menu .text {
     display: none;
   }
-  
+
   section.row {
     padding: 20px 0 0;
   }
@@ -314,7 +319,7 @@ pre code {
   body {
     font-size: .9em;
   }
-  
+
   section.row {
     padding: 10px 0 0;
   }
