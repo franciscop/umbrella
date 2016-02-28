@@ -15,6 +15,6 @@ describe('.size()', function() {
 
   it('can get the height', function() {
     var size = u('body').size();
-    expect(size.height).to.equal(Math.round(u('body').first().clientHeight));
+    expect(Math.round(size.height)).to.equal(u('body').first().clientHeight);
   });
 });
