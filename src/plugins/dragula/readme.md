@@ -1,8 +1,9 @@
 ## .dragula()
 
-Drag and drop so simple it hurts:
+[Dragula](https://github.com/bevacqua/dragula): Drag and drop so simple it hurts:
 
 ```js
+var options = {};
 u('#container').dragula(options);
 ```
 

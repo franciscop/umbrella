@@ -751,3 +751,10 @@ u.prototype.dragula = function(opts){
 };
 
 // No need for anything here; htemplate *is* already an Umbrella JS plugin
+
+// Reactive Components for Modern Web Interfaces
+u.prototype.vue = function(opt){
+	opt = opt || {};
+  opt.el = opt.el || this.first();
+  return new Vue(opt);
+};
