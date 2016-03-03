@@ -1,4 +1,4 @@
-# Umbrella JS [![Circle CI](https://circleci.com/gh/umbrellajs/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/umbrellajs/umbrella/tree/master)
+# Umbrella JS [![Circle CI](https://circleci.com/gh/umbrellajs/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/umbrellajs/umbrella/tree/master) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/umbrellajs/umbrella/blob/master/LICENSE)
 
 > [**Library Documentation**](http://umbrellajs.com/documentation)
 
@@ -99,7 +99,7 @@ Known, wontfix IE9- bugs:
 
 - [jQuery](https://jquery.com/)
 
-- [Zepto](http://zeptojs.com/) 
+- [Zepto](http://zeptojs.com/)
 
 - [Bliss](http://blissfuljs.com/)
 
