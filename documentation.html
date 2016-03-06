@@ -500,6 +500,33 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#last">.last()</a> retrieve the last matched element</p>
+<h2 id="ajax-">ajax()</h2>
+<p>Function (not method) that allows performing ajax requests. The implementation is somewhat similar to <a href="https://github.com/yanatan16/nanoajax">nanoajax</a>:</p>
+<pre><code class="lang-js">var action = &#39;/save&#39;;
+var options = { body: &#39;a=b&#39; };
+var after = function(err, data){ console.log(data); };
+var before = function(xhr){};
+
+ajax(action, options, after, before);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>action</code>: the place where to send the ajax request</p>
+<p><code>options</code>: an object that sets the options to be passed. These are:</p>
+<ul>
+<li><code>method = &#39;GET&#39;</code>: the way to send the request. It can be GET or POST</li>
+<li><code>body = &#39;&#39;</code>: a string on the <code>a=b&amp;c=d</code> format or a simple object that will be converted</li>
+<li><code>headers = {}</code>: an object with <code>{ key: value }</code> headers to be manually set</li>
+</ul>
+<p><code>after</code>: the callback to be called when the request has ben sent and parsed. The first parameter is an error that can be null, and the second one the parsed data in JSON or the unparsed data as an string.</p>
+<p><code>before</code>: a callback that can be called just before sending the request. It receives the XHR object as the first parameter.</p>
+<h3 id="return">Return</h3>
+<p>Returns the already sent XHR object.</p>
+<h3 id="tips">Tips</h3>
+<p>You can modify the XHR object straight by using the <em>before</em> callback. It is called just before sending the request, after setting all its parameters:</p>
+<pre><code class="lang-js">ajax(&#39;/save&#39;, {}, after, function(xhr){
+  xhr.responseType = &#39;json&#39;;
+});
+</code></pre>
 <h2 id="-hasclass-">.hasClass()</h2>
 <p>Find if any of the matched elements contains the class passed:</p>
 <pre><code class="lang-js">.hasClass(&#39;name1&#39;);
