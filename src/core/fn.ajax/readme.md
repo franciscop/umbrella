@@ -1,4 +1,4 @@
-## ajax()
+## ajax() fn
 
 Function (not method) that allows performing ajax requests. The implementation is somewhat similar to [nanoajax](https://github.com/yanatan16/nanoajax):
 
