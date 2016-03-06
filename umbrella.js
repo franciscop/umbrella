@@ -81,7 +81,7 @@ u.prototype.adjacent = function(position, text, data) {
 
 // Add some html as a sibling after each of the matched elements.
 u.prototype.after = function(text, data) {
-  return this.adjacent('afterend', text, data);
+  return this.adjacent('afterend', text, u(data || [""]).nodes.reverse());
 };
 
 
@@ -388,6 +388,8 @@ u.prototype.is = function(selector){
 // [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
 u.prototype.join = function(callback) {
+  //return u(this.array(callback)).unique();
+
   var self = this;
   return u(this.nodes.reduce(function(newNodes, node, i){
     return newNodes.concat(callback.call(self, node, i));
@@ -477,14 +479,14 @@ u.prototype.parent = function(selector) {
 
 /**
  * .prepend(html)
- * 
+ *
  * Add child the first thing inside each node
  * @param String html to be inserted
  * @return this Umbrella object
  */
 u.prototype.prepend = function(html, data) {
-  
-  return this.adjacent('afterbegin', html, data);
+
+  return this.adjacent('afterbegin', html, u(data || [""]).nodes.reverse());
 };
 
 

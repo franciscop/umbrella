@@ -48,6 +48,6 @@ describe(".after(html)", function() {
 
     expect(base.html().match('function')).to.equal(null);
     size('.base ~ .bla', 2)('.base ~ .bla.a', 1)('.base ~ .bla.b', 1);
-    size('.base + .bla.b + .bla.a', 1);
+    size('.base + .bla.a + .bla.b', 1);
   });
 });

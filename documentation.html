@@ -117,16 +117,14 @@ alert(u(&#39;a&#39;).length);
 .after(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html</code>: a string containing the html that is going to be inserted.</p>
+<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
+<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add a separator <code>&lt;hr&gt;</code> after each of the main titles h1:</p>
 <pre><code class="lang-js">u(&quot;h1&quot;).after(&quot;&lt;hr&gt;&quot;);
 </code></pre>
-<blockquote>
-<p>Note that, unlike before, the elements are inserted in <em>inverse</em> order</p>
-</blockquote>
 <p>Add three elements after the link. All of these methods are equivalent:</p>
 <pre><code class="lang-js">// Add them all like a single string
 u(&quot;a.main&quot;).after(&quot;&lt;a&gt;One&lt;/a&gt;&lt;a&gt;Two&lt;/a&gt;&lt;a&gt;Three&lt;/a&gt;&quot;);
@@ -136,16 +134,16 @@ u(&quot;a.main&quot;).after(&quot;&lt;a&gt;Three&lt;/a&gt;&quot;).after(&quot;&l
 
 // Add them with a function parameter
 var cb = function(txt){ return &quot;&lt;a&gt;&quot; + txt + &quot;&lt;/a&gt;&quot; };
-u(&quot;a.main&quot;).after(cb, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+u(&quot;a.main&quot;).after(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 
 // Same as the previous one but with ES6
-u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 </code></pre>
 <p>They all result in:</p>
 <pre><code class="lang-html">&lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
-&lt;a&gt;Three&lt;/a&gt;
-&lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;One&lt;/a&gt;
+&lt;a&gt;Two&lt;/a&gt;
+&lt;a&gt;Three&lt;/a&gt;
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
@@ -211,7 +209,7 @@ u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
 .append(function(node, el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted</p>
+<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
 <p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
@@ -232,6 +230,15 @@ u(&quot;ul&quot;).append(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot
 
 // Same as the previous one but with ES6
 u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
+</code></pre>
+<p>They all result in:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;!-- previous data --&gt;
+
+  &lt;li&gt;One&lt;/li&gt;
+  &lt;li&gt;Two&lt;/li&gt;
+  &lt;li&gt;Three&lt;/li&gt;
+&lt;/ul&gt;
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
@@ -278,7 +285,8 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
 .before(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html</code>: a string containing the html that is going to be inserted.</p>
+<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
+<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -713,17 +721,14 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 .prepend(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted</p>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
+<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add a header to each of the articles</p>
 <pre><code class="lang-js">u(&quot;article&quot;).prepend(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);
 </code></pre>
-<blockquote>
-<p>Note that, unlike append, the elements are inserted in <em>inverse</em> order</p>
-</blockquote>
 <p>Add three elements at the beginning of the list. All of these methods are equivalent:</p>
 <pre><code class="lang-js">// Add them all like a single string
 u(&quot;ul&quot;).prepend(&quot;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&quot;);
@@ -733,12 +738,12 @@ u(&quot;ul&quot;).prepend(&quot;&lt;li&gt;Three&lt;/li&gt;&quot;).append(&quot;&
 
 // Add them with a function parameter
 var cb = function(txt){ return &quot;&lt;li&gt;&quot; + txt + &quot;&lt;/li&gt;&quot; };
-u(&quot;ul&quot;).prepend(cb, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+u(&quot;ul&quot;).prepend(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 
 // Same as the previous one but with ES6
-u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Three&quot;, &quot;Two&quot;, &quot;One&quot;]);
+u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 </code></pre>
-<p>And they will yield:</p>
+<p>They all result in:</p>
 <pre><code class="lang-html">&lt;ul&gt;
   &lt;li&gt;One&lt;/li&gt;
   &lt;li&gt;Two&lt;/li&gt;
@@ -746,9 +751,6 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;Thre
 
   &lt;!-- previous data --&gt;
 &lt;/ul&gt;
-</code></pre>
-<p>You can <em>fix</em> this in the method that accepts <code>data</code> with a simple <code>.reverse()</code>. This will yield the same html:</p>
-<pre><code class="lang-js">u(&quot;ul&quot;).prepend(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;].reverse());
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>

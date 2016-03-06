@@ -9,9 +9,12 @@ Add some html as a sibling after each of the matched elements.
 ```
 
 
+
 ### Parameters
 
-`html`: a string containing the html that is going to be inserted.
+`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
+
+`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
 
 
@@ -29,9 +32,6 @@ Add a separator `<hr>` after each of the main titles h1:
 u("h1").after("<hr>");
 ```
 
-
-> Note that, unlike before, the elements are inserted in *inverse* order
-
 Add three elements after the link. All of these methods are equivalent:
 
 ```js
@@ -43,19 +43,19 @@ u("a.main").after("<a>Three</a>").after("<a>Two</a>").after("<a>One</a>");
 
 // Add them with a function parameter
 var cb = function(txt){ return "<a>" + txt + "</a>" };
-u("a.main").after(cb, ["Three", "Two", "One"]);
+u("a.main").after(cb, ["One", "Two", "Three"]);
 
 // Same as the previous one but with ES6
-u("a.main").after(txt => `<a>${ txt }</a>`, ["Three", "Two", "One"]);
+u("a.main").after(txt => `<a>${ txt }</a>`, ["One", "Two", "Three"]);
 ```
 
 They all result in:
 
 ```html
 <a class="main"></a>
-<a>Three</a>
-<a>Two</a>
 <a>One</a>
+<a>Two</a>
+<a>Three</a>
 ```
 
 

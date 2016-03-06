@@ -187,9 +187,12 @@ Add some html as a sibling after each of the matched elements.
 ```
 
 
+
 ### Parameters
 
-`html`: a string containing the html that is going to be inserted.
+`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
+
+`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
 
 
@@ -207,9 +210,6 @@ Add a separator `<hr>` after each of the main titles h1:
 u("h1").after("<hr>");
 ```
 
-
-> Note that, unlike before, the elements are inserted in *inverse* order
-
 Add three elements after the link. All of these methods are equivalent:
 
 ```js
@@ -221,19 +221,19 @@ u("a.main").after("<a>Three</a>").after("<a>Two</a>").after("<a>One</a>");
 
 // Add them with a function parameter
 var cb = function(txt){ return "<a>" + txt + "</a>" };
-u("a.main").after(cb, ["Three", "Two", "One"]);
+u("a.main").after(cb, ["One", "Two", "Three"]);
 
 // Same as the previous one but with ES6
-u("a.main").after(txt => `<a>${ txt }</a>`, ["Three", "Two", "One"]);
+u("a.main").after(txt => `<a>${ txt }</a>`, ["One", "Two", "Three"]);
 ```
 
 They all result in:
 
 ```html
 <a class="main"></a>
-<a>Three</a>
-<a>Two</a>
 <a>One</a>
+<a>Two</a>
+<a>Three</a>
 ```
 
 
@@ -346,9 +346,10 @@ Add some html as a child at the end of each of the matched elements
 ```
 
 
+
 ### Parameters
 
-`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted
+`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
@@ -383,6 +384,18 @@ u("ul").append(cb, ["One", "Two", "Three"]);
 
 // Same as the previous one but with ES6
 u("ul").append(txt => `<li>${ txt }</li>`, ["One", "Two", "Three"]);
+```
+
+They all result in:
+
+```html
+<ul>
+  <!-- previous data -->
+
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ul>
 ```
 
 
@@ -476,9 +489,12 @@ Add some html before each of the matched elements.
 ```
 
 
+
 ### Parameters
 
-`html`: a string containing the html that is going to be inserted.
+`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
+
+`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
 
 
@@ -1272,11 +1288,12 @@ Add some html as a child at the beginning of each of the matched elements.
 ```
 
 
+
 ### Parameters
 
-`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted
+`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
 
-`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element. It can also be a css selector, so the function will be executed once per matched element.
+`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
 
 
@@ -1294,8 +1311,6 @@ Add a header to each of the articles
 u("article").prepend("<header>Hello world</header>");
 ```
 
-> Note that, unlike append, the elements are inserted in *inverse* order
-
 Add three elements at the beginning of the list. All of these methods are equivalent:
 
 ```js
@@ -1307,28 +1322,22 @@ u("ul").prepend("<li>Three</li>").append("<li>Two</li>").append("<li>One</li>");
 
 // Add them with a function parameter
 var cb = function(txt){ return "<li>" + txt + "</li>" };
-u("ul").prepend(cb, ["Three", "Two", "One"]);
+u("ul").prepend(cb, ["One", "Two", "Three"]);
 
 // Same as the previous one but with ES6
-u("ul").prepend(txt => `<li>${ txt }</li>`, ["Three", "Two", "One"]);
+u("ul").prepend(txt => `<li>${ txt }</li>`, ["One", "Two", "Three"]);
 ```
 
-And they will yield:
+They all result in:
 
 ```html
 <ul>
   <li>One</li>
   <li>Two</li>
   <li>Three</li>
-  
+
   <!-- previous data -->
 </ul>
-```
-
-You can *fix* this in the method that accepts `data` with a simple `.reverse()`. This will yield the same html:
-
-```js
-u("ul").prepend(cb, ["One", "Two", "Three"].reverse());
 ```
 
 

@@ -9,9 +9,10 @@ Add some html as a child at the end of each of the matched elements
 ```
 
 
+
 ### Parameters
 
-`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted
+`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
@@ -46,6 +47,18 @@ u("ul").append(cb, ["One", "Two", "Three"]);
 
 // Same as the previous one but with ES6
 u("ul").append(txt => `<li>${ txt }</li>`, ["One", "Two", "Three"]);
+```
+
+They all result in:
+
+```html
+<ul>
+  <!-- previous data -->
+
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ul>
 ```
 
 
