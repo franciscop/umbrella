@@ -122,6 +122,17 @@ u.prototype.args = function(args, node, i){
 };
 
 
+// Merge all of the nodes that the callback return into a simple array
+u.prototype.array = function(callback){
+  callback = callback || function(node) { return node.innerHTML; };
+  var self = this;
+  return this.nodes.reduce(function(list, node, i){
+    var val = callback.call(self, node, i);
+    return list.concat(val !== undefined && val !== null ? val : []);
+  }, []);
+};
+
+
 // Handle attributes for the matched elements
 u.prototype.attr = function(name, value, data) {
   
@@ -388,12 +399,7 @@ u.prototype.is = function(selector){
 // [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
 u.prototype.join = function(callback) {
-  //return u(this.array(callback)).unique();
-
-  var self = this;
-  return u(this.nodes.reduce(function(newNodes, node, i){
-    return newNodes.concat(callback.call(self, node, i));
-  }, [])).unique();
+  return callback ? u(this.array(callback)).unique() : this;
 };
 
 

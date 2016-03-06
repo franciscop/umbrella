@@ -244,6 +244,32 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
 <p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
 <p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
+<h2 id="-array-">.array()</h2>
+<p>Extract structured data from the DOM.</p>
+<pre><code class="lang-js">.array()
+.array(callback)
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>callback = function(node, i){ return node.innerHTML }</code>: a callback to be called on each node. The returned value is the one set on the final version. If an array is returned then these elements are added to the set. However, if nothing or null is returned it removes them.</p>
+<h3 id="return">Return</h3>
+<p>A simple javascript array consisting on the elements returned by the callback</p>
+<h3 id="example">Example</h3>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li&gt;Peter&lt;/li&gt;
+  &lt;li&gt;Mery&lt;/li&gt;
+  &lt;li&gt;John&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>Javascript (by default):</p>
+<pre><code class="lang-js">u(&#39;ul li&#39;).array();
+// [&#39;Peter&#39;, &#39;Mery&#39;, &#39;John&#39;]
+</code></pre>
+<p>Javascript (with custom callback):</p>
+<pre><code class="lang-js">u(&#39;ul li&#39;).array(function(node){
+  return { name: u(node).text() };
+});
+// [{ name: &#39;Peter&#39; }, { name: &#39;Mery&#39; }, { name: &#39;John&#39; }]
+</code></pre>
 <h2 id="-attr-">.attr()</h2>
 <p>Handle attributes for the matched elements</p>
 <pre><code class="lang-js">// GET
