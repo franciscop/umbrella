@@ -7,6 +7,8 @@ u.prototype.ajax = function(done, before) {
       body: f.serialize(),
       method: f.attr("method")
     };
+    if (done) done = done.bind(this);
+    if (before) before = before.bind(this);
     ajax(f.attr("action"), opt, done, before);
   });
 };

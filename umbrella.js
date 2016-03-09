@@ -94,6 +94,8 @@ u.prototype.ajax = function(done, before) {
       body: f.serialize(),
       method: f.attr("method")
     };
+    if (done) done = done.bind(this);
+    if (before) before = before.bind(this);
     ajax(f.attr("action"), opt, done, before);
   });
 };
@@ -358,6 +360,15 @@ function parseJson(jsonString){
   return false;
 }
 
+
+// Change the default event for the callback. Simple decorator to preventDefault
+u.prototype.handle = function(events, callback) {
+
+  return this.on(events, function(e){
+    e.preventDefault();
+    callback.apply(this, arguments);
+  });
+};
 
 /**
  * .hasClass(name)

@@ -531,6 +531,17 @@ ajax(action, options, after, before);
   xhr.responseType = &#39;json&#39;;
 });
 </code></pre>
+<h2 id="-handle-">.handle()</h2>
+<p>This function is the same as <a href="#on"><code>on()</code></a>, but it executes the <code>e.preventDefault()</code> so you don&#39;t need to do it. So these two are exactly the same:</p>
+<pre><code class="lang-js">u(&#39;form.login&#39;).on(&#39;submit&#39;, function(e){
+  e.preventDefault();
+  // logic
+});
+</code></pre>
+<pre><code class="lang-js">u(&#39;form.login&#39;).handle(&#39;submit&#39;, function(e){
+  // logic
+});
+</code></pre>
 <h2 id="-hasclass-">.hasClass()</h2>
 <p>Find if any of the matched elements contains the class passed:</p>
 <pre><code class="lang-js">.hasClass(&#39;name1&#39;);
