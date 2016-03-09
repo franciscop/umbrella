@@ -1687,15 +1687,15 @@ describe('.scroll()', function() {
   });
 
   it('can scroll to the element', function(done) {
-    expect(u('#scrollTest').size().top < 10).to.equal(false);
+    expect(u('body').size().top).to.be.above(-10);
     u('#scrollTest').scroll();
 
     setTimeout(function(){
-      expect(u('#scrollTest').size().top < 10).to.equal(true);
+      expect(u('body').size().top).to.be.below(-10);
       u('#scrollTest').remove();
       u('body').scroll();
       done();
-    }, 100);
+    }, 50);
   });
 });
 
