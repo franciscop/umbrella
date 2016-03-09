@@ -165,7 +165,7 @@ describe("u()", function() {
 
       uTime = performance(function(){
         u('.demo');
-      }, 5000);
+      }, 1000);
 
       console.log('      - u: ' + uTime + 'ms');
       expect(uTime).to.be.below(100, uTime + ' ms');
@@ -177,11 +177,11 @@ describe("u()", function() {
 
       var uTime = performance(function(){
         u('.demo');
-      }, 10000);
+      }, 5000);
 
       var $Time = performance(function(){
         $('.demo');
-      }, 10000);
+      }, 5000);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 
@@ -194,11 +194,11 @@ describe("u()", function() {
 
       var uTime = performance(function(){
         u('.tabletest');
-      }, 500);
+      }, 100);
 
       var $Time = performance(function(){
         $('.tabletest');
-      }, 500);
+      }, 100);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 
@@ -211,11 +211,11 @@ describe("u()", function() {
 
       var uTime = performance(function(){
         u('table td:first-child');
-      }, 100);
+      }, 50);
 
       var $Time = performance(function(){
         $('table td:first-child');
-      }, 100);
+      }, 50);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 
@@ -228,11 +228,11 @@ describe("u()", function() {
 
       var uTime = performance(function(){
         u(".ro > *");
-      }, 100);
+      }, 50);
 
       var $Time = performance(function(){
         $(".ro > *");
-      }, 100);
+      }, 50);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 
@@ -1695,7 +1695,7 @@ describe('.scroll()', function() {
       u('#scrollTest').remove();
       u('body').scroll();
       done();
-    }, 1000);
+    }, 100);
   });
 });
 

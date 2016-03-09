@@ -9,7 +9,7 @@ module.exports = function (grunt) {
 
     jshint: {
       ignore_warning: {
-        src: ['Gruntfile.js', 'src/*.js', 'src/**/*.js'],
+        src: ['Gruntfile.js', 'umbrella.js', 'plugins.js'],
         options: {
           '-W058': true,  // Allow for new without parenthesis
           '-W043': true,  // Allow for multiline with \ backslash
@@ -39,7 +39,10 @@ module.exports = function (grunt) {
           'web/*'
         ],
         tasks: ['default'],
-        options: { spawn: false, },
+        options: {
+          spawn: false,
+          livereload: true,
+        },
       }
     },
 

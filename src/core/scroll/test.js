@@ -23,6 +23,6 @@ describe('.scroll()', function() {
       u('#scrollTest').remove();
       u('body').scroll();
       done();
-    }, 1000);
+    }, 100);
   });
 });
