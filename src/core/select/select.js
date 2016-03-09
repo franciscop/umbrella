@@ -1,5 +1,4 @@
-
-
+// [INTERNAL USE ONLY]
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
 

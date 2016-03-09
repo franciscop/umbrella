@@ -213,18 +213,14 @@ u.prototype.each = function(callback) {
 };
 
 
-/**
- * .eacharg()
- * Loops through the combination of every node and every argument
- * it accepts a callback that will be executed on each combination
- * The callback has two parameters, the node and the index
- */
+// [INTERNAL USE ONLY]
+// Loop through the combination of every node and every argument passed
 u.prototype.eacharg = function(args, callback) {
-  
+
   return this.each(function(node, i){
-    
+
     this.args(args, node, i).forEach(function(arg){
-      
+
       // Perform the callback for this node
       // By doing callback.call we allow "this" to be the context for
       // the callback (see http://stackoverflow.com/q/4065353 precisely)
@@ -339,13 +335,8 @@ function ajax(action, opt, done, before) {
   return request;
 }
 
-/**
- * parseJson(json)
- * 
- * Parse JSON without throwing an error
- * @param String json the string to check
- * @return object from the json or false
- */
+// [INTERNAL USE ONLY]
+// Parse JSON without throwing an error
 function parseJson(jsonString){
   try {
     var o = JSON.parse(jsonString);
@@ -565,8 +556,7 @@ u.prototype.scroll = function() {
 };
 
 
-
-
+// [INTERNAL USE ONLY]
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
 
@@ -762,13 +752,14 @@ u.prototype.trigger = function(events, data) {
 
 // [INTERNAL USE ONLY]
 
-// Make the nodes unique. This is needed for some specific methods
+// Removed duplicated nodes, used for some specific methods
 u.prototype.unique = function(){
-  
+
   return u(this.nodes.reduce(function(clean, node){
     return (node && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
   }, []));
 };
+
 // [INTERNAL USE ONLY]
 
 // Encode the different strings https://gist.github.com/brettz9/7147458
