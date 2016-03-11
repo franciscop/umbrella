@@ -2,7 +2,7 @@
 describe(".append(html)", function() {
 
   // Default callback for the tests
-  function callback(node, cl){
+  function callback(cl){
     return '<a class="bla ' + cl + '">Link</a>';
   }
 
@@ -42,5 +42,10 @@ describe(".append(html)", function() {
     base.append(callback, ["a", "b"]);
     size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
     size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.b:last-child', 1);
+  });
+
+  it("can append an html node", function() {
+    base.append(u('<div>').addClass('bla').first());
+    size('.bla', 1);
   });
 });

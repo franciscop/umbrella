@@ -175,6 +175,8 @@ describe("u()", function() {
 
     it("select by class is comparable to jquery (50% margin)", function() {
 
+      size('.demo', 1);
+
       var uTime = performance(function(){
         u('.demo');
       }, 5000);
@@ -191,6 +193,8 @@ describe("u()", function() {
 
 
     it("vs jquery: class selector (50% margin)", function() {
+
+      size('.tabletest', 1000);
 
       var uTime = performance(function(){
         u('.tabletest');
@@ -209,6 +213,8 @@ describe("u()", function() {
 
     it("vs jquery: complex selector (50% margin)", function() {
 
+      size('table td:first-child', 1000);
+
       var uTime = performance(function(){
         u('table td:first-child');
       }, 50);
@@ -225,6 +231,8 @@ describe("u()", function() {
 
 
     it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
+
+      size(".ro > *", 4000);
 
       var uTime = performance(function(){
         u(".ro > *");
@@ -363,7 +371,7 @@ describe(".after(html)", function() {
   //var work = false;
 
   // Default callback for the tests
-  function callback(node, cl){
+  function callback(cl){
     return '<a class="bla ' + cl + '">Link</a>';
   }
 
@@ -432,7 +440,7 @@ describe(".ajax(done, before)", function() {
 describe(".append(html)", function() {
 
   // Default callback for the tests
-  function callback(node, cl){
+  function callback(cl){
     return '<a class="bla ' + cl + '">Link</a>';
   }
 
@@ -472,6 +480,11 @@ describe(".append(html)", function() {
     base.append(callback, ["a", "b"]);
     size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
     size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.b:last-child', 1);
+  });
+
+  it("can append an html node", function() {
+    base.append(u('<div>').addClass('bla').first());
+    size('.bla', 1);
   });
 });
 
@@ -691,7 +704,7 @@ describe(".attr(name, value)", function() {
 describe(".before(html)", function() {
 
   // Default callback for the tests
-  function callback(node, cl){
+  function callback(cl){
     return '<a class="bla ' + cl + '">Link</a>';
   }
 
@@ -1496,7 +1509,7 @@ describe('.parent()', function() {
 describe(".prepend()", function() {
 
   // Default callback for the tests
-  function callback(node, cl){
+  function callback(cl){
     return '<a class="bla ' + cl + '">Link</a>';
   }
 
@@ -1532,6 +1545,8 @@ describe(".prepend()", function() {
 
   it("can add content inverted with a callback and data", function() {
     base.prepend(callback, ["a", "b"]);
+    //console.log(u('.base').nodes);
+    //throw "Error";
     size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
     size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.a:first-child', 1);
   });
@@ -1701,47 +1716,66 @@ describe('.scroll()', function() {
 
 // Testing the main file
 describe(".select(selector)", function() {
-  
+
   it("should be a function", function() {
     expect(typeof base.select).to.equal('function');
   });
-  
+
   it("is fine-tuned for context (use css with that)", function() {
     var withContext = u().select('a', u('.brand').first())[0];
     var withCss = u().select.byCss('.brand a')[0];
     expect(withContext).to.equal(withCss);
   });
-  
+
   it("can select by class", function(){
     expect(u().select('.base').length).to.equal(1);
     expect(u().select('.base')).to.not.equal(null);
   });
-  
+
   it("can select by tag", function(){
     expect(u().select('li').length).to.be.above(1);
     expect(u().select('li')[0].nodeName).to.equal('LI');
   });
-  
+
   it("can select by id", function(){
     expect(u().select('#base')).to.not.equal(null);
   });
-  
+
   it("can select by complex selector", function() {
     expect(u().select('.brand a').length).to.equal(1);
     expect(u().select('.brand a')[0].nodeName).to.equal('A');
   });
-  
+
   it("can create one element", function(){
     expect(u('<div>').length).to.equal(1);
     expect(u('<div>').first().nodeName).to.equal('DIV');
   });
-  
+
   it("can create many elements", function(){
     expect(u('<p></p><p></p>').length).to.equal(2);
     expect(u('<p></p><p></p>').first().nodeName).to.equal('P');
   });
-});
 
+  it("can have spaces before or after", function(){
+    expect(u(' <p></p><p></p>').length).to.equal(2);
+    expect(u('<p></p><p></p>').first().nodeName).to.equal('P');
+
+    expect(u('<p></p><p></p> ').length).to.equal(2);
+    expect(u('<p></p><p></p> ').first().nodeName).to.equal('P');
+  });
+
+  it("can create table stuff", function() {
+    size('<table>Hello</table>', 1);
+    size('<th>Hello</th>', 1);
+    size('<tr>Hello</tr>', 1);
+    size('<td>Hello</td>', 1);
+  });
+
+  it("can create list stuff", function() {
+    size('<ul><li>A</li></ul>', 1);
+    size('<li>B</li>', 1);
+  });
+});
 
 // Testing the main file
 describe(".serialize()", function() {

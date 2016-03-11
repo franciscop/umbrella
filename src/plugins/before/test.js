@@ -2,7 +2,7 @@
 describe(".before(html)", function() {
 
   // Default callback for the tests
-  function callback(node, cl){
+  function callback(cl){
     return '<a class="bla ' + cl + '">Link</a>';
   }
 

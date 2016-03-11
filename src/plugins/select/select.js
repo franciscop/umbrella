@@ -2,6 +2,9 @@
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
 
+  // Allow for spaces before or after
+  parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
+
   if (context) {
     return this.select.byCss(parameter, context);
   }
@@ -39,6 +42,11 @@ u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
 // Find some html nodes using an Id
 u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
   return document.getElementById(param.substring(1));
+};
+
+// Table elements need to be child of <table> for some f***ed up reason
+u.prototype.selectors[/^<t(h|r|d)/] = function(param){
+  return u(document.createElement('table')).html(param).children().nodes;
 };
 
 // Create a new element for the DOM

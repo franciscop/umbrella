@@ -4,7 +4,7 @@ describe(".after(html)", function() {
   //var work = false;
 
   // Default callback for the tests
-  function callback(node, cl){
+  function callback(cl){
     return '<a class="bla ' + cl + '">Link</a>';
   }
 

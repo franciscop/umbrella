@@ -90,5 +90,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
   // 4. Where we tell Grunt what to do when we type "grunt" into the terminal
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'jade', 'mocha_phantomjs']);
+  grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'jade', 'mocha_phantomjs']);
 };

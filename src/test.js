@@ -175,6 +175,8 @@ describe("u()", function() {
 
     it("select by class is comparable to jquery (50% margin)", function() {
 
+      size('.demo', 1);
+
       var uTime = performance(function(){
         u('.demo');
       }, 5000);
@@ -191,6 +193,8 @@ describe("u()", function() {
 
 
     it("vs jquery: class selector (50% margin)", function() {
+
+      size('.tabletest', 1000);
 
       var uTime = performance(function(){
         u('.tabletest');
@@ -209,6 +213,8 @@ describe("u()", function() {
 
     it("vs jquery: complex selector (50% margin)", function() {
 
+      size('table td:first-child', 1000);
+
       var uTime = performance(function(){
         u('table td:first-child');
       }, 50);
@@ -225,6 +231,8 @@ describe("u()", function() {
 
 
     it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
+
+      size(".ro > *", 4000);
 
       var uTime = performance(function(){
         u(".ro > *");

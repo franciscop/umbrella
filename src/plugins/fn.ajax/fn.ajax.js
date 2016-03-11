@@ -16,14 +16,14 @@ function ajax(action, opt, done, before) {
 
 
   // Create and send the actual request
-  var request = new XMLHttpRequest;
+  var request = new XMLHttpRequest();
 
   // An error is just an error
   // This uses a little hack of passing an array to u() so it handles it as
   // an array of nodes, hence we can use 'on'. However a single element wouldn't
   // work since it a) doesn't have nodeName and b) it will be sliced, failing
   u([request]).on('error timeout abort', function(){
-    done(new Error, null, request);
+    done(new Error(), null, request);
   }).on('load', function() {
 
     // Also an error if it doesn't start by 2 or 3...

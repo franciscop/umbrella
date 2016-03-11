@@ -60,28 +60,54 @@ u.prototype.addClass = function(){
 
 // [INTERNAL USE ONLY]
 // Add text in the specified position. It is used by other functions
-u.prototype.adjacent = function(position, text, data) {
-  
+u.prototype.adjacent = function(html, data, callback) {
+
   // Loop through all the nodes. It cannot reuse the eacharg() since the data
   // we want to do it once even if there's no "data" and we accept a selector
-  return this.each(function(node) {
-    
+  return this.each(function(node, j) {
+
+    var fragment = document.createDocumentFragment();
+    var elements = [];
+
     // Allow for data to be falsy and still loop once
-    u(data || [""]).each(function(el){
-      
+    u(data || [""]).each(function(el, i){
+
       // Allow for callbacks that accept some data
-      var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
-      
-      // http://stackoverflow.com/a/23589438
-      // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-      node.insertAdjacentHTML(position, tx);
+      var nodes = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
+
+      u(nodes).each(function(n){
+        fragment.appendChild(n);
+      });
     });
+
+    callback.call(this, node, fragment);
   });
+
+
+
+
+  // // Loop through all the nodes. It cannot reuse the eacharg() since the data
+  // // we want to do it once even if there's no "data" and we accept a selector
+  // return this.each(function(node) {
+  //
+  //   // Allow for data to be falsy and still loop once
+  //   u(data || [""]).each(function(el){
+  //
+  //     // Allow for callbacks that accept some data
+  //     var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
+  //
+  //     // http://stackoverflow.com/a/23589438
+  //     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
+  //     node.insertAdjacentHTML(position, tx);
+  //   });
+  // });
 };
 
 // Add some html as a sibling after each of the matched elements.
-u.prototype.after = function(text, data) {
-  return this.adjacent('afterend', text, u(data || [""]).nodes.reverse());
+u.prototype.after = function(html, data) {
+  return this.adjacent(html, data, function(node, fragment){
+    node.parentNode.insertBefore(fragment, node.nextSibling);
+  });
 };
 
 
@@ -103,7 +129,9 @@ u.prototype.ajax = function(done, before) {
 
 // Add some html as a child at the end of each of the matched elements.
 u.prototype.append = function(html, data) {
-  return this.adjacent('beforeend', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.appendChild(fragment);
+  });
 };
 
 
@@ -164,7 +192,9 @@ u.prototype.attr = function(name, value, data) {
 
 // Add some html before each of the matched elements.
 u.prototype.before = function(html, data) {
-  return this.adjacent('beforebegin', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.parentNode.insertBefore(fragment, node);
+  });
 };
 
 
@@ -299,14 +329,14 @@ function ajax(action, opt, done, before) {
 
 
   // Create and send the actual request
-  var request = new XMLHttpRequest;
+  var request = new XMLHttpRequest();
 
   // An error is just an error
   // This uses a little hack of passing an array to u() so it handles it as
   // an array of nodes, hence we can use 'on'. However a single element wouldn't
   // work since it a) doesn't have nodeName and b) it will be sliced, failing
   u([request]).on('error timeout abort', function(){
-    done(new Error, null, request);
+    done(new Error(), null, request);
   }).on('load', function() {
 
     // Also an error if it doesn't start by 2 or 3...
@@ -493,16 +523,11 @@ u.prototype.parent = function(selector) {
 };
 
 
-/**
- * .prepend(html)
- *
- * Add child the first thing inside each node
- * @param String html to be inserted
- * @return this Umbrella object
- */
+// Add nodes at the beginning of each node
 u.prototype.prepend = function(html, data) {
-
-  return this.adjacent('afterbegin', html, u(data || [""]).nodes.reverse());
+  return this.adjacent(html, data, function(node, fragment){
+    node.insertBefore(fragment, node.firstChild);
+  });
 };
 
 
@@ -560,6 +585,9 @@ u.prototype.scroll = function() {
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
 
+  // Allow for spaces before or after
+  parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
+
   if (context) {
     return this.select.byCss(parameter, context);
   }
@@ -597,6 +625,11 @@ u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
 // Find some html nodes using an Id
 u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
   return document.getElementById(param.substring(1));
+};
+
+// Table elements need to be child of <table> for some f***ed up reason
+u.prototype.selectors[/^<t(h|r|d)/] = function(param){
+  return u(document.createElement('table')).html(param).children().nodes;
 };
 
 // Create a new element for the DOM
