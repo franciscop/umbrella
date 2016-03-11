@@ -9,9 +9,8 @@ module.exports = function (grunt) {
 
     jshint: {
       ignore_warning: {
-        src: ['Gruntfile.js', 'umbrella.js', 'plugins.js'],
+        src: ['Gruntfile.js', 'umbrella.js'],
         options: {
-          '-W058': true,  // Allow for new without parenthesis
           '-W043': true,  // Allow for multiline with \ backslash
         }
       }
@@ -21,8 +20,7 @@ module.exports = function (grunt) {
       options: { banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'},
       my_target: {
         files: {
-          'umbrella.min.js': 'umbrella.js',
-          'plugins.min.js': 'plugins.js',
+          'umbrella.min.js': 'umbrella.js'
         }
       }
     },
@@ -72,14 +70,13 @@ module.exports = function (grunt) {
           process: function(src, file){ return /test\.js/.test(file) ? "" : src; }
         },
         files: {
-          'umbrella.js': ['src/umbrella.js', 'src/core/**/*.js'],
-          'plugins.js': ['src/umbrella.js', 'src/core/**/*.js', 'src/plugins/**/*.js'],
-          'documentation.md': ['src/readme.md', 'src/core/**/readme.md']
+          'umbrella.js': ['src/umbrella.js', 'src/plugins/**/*.js'],
+          'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
         }
       },
       test: {
         files: {
-          'test/test.js': ['src/test.js', 'src/core/**/test.js']
+          'test/test.js': ['src/test.js', 'src/plugins/**/test.js']
         }
       },
     }
