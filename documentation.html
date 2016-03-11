@@ -118,11 +118,22 @@ alert(u(&#39;a&#39;).length);
 <h2 id="-after-">.after()</h2>
 <p>Add some html as a sibling after each of the matched elements.</p>
 <pre><code class="lang-js">.after(html)
+.after(u(&#39;&lt;div&gt;&#39;))
+.after(document.createElement(&#39;div&#39;))
 .after(function(){})
 .after(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
+<p><code>html = &quot;&quot;</code>:</p>
+<ul>
+<li>Any of the elements that can be inserted into the constructor <code>u()</code>:<ul>
+<li>a string containing the html that is going to be inserted</li>
+<li>an HTML node</li>
+<li>an array containing HTML nodes</li>
+</ul>
+</li>
+<li>A callback that returns any of the previous</li>
+</ul>
 <p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>

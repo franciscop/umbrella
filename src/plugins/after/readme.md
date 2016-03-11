@@ -4,6 +4,8 @@ Add some html as a sibling after each of the matched elements.
 
 ```js
 .after(html)
+.after(u('<div>'))
+.after(document.createElement('div'))
 .after(function(){})
 .after(function(el){}, elements)
 ```
@@ -12,7 +14,12 @@ Add some html as a sibling after each of the matched elements.
 
 ### Parameters
 
-`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
+`html = ""`:
+  - Any of the elements that can be inserted into the constructor `u()`:
+    - a string containing the html that is going to be inserted
+    - an HTML node
+    - an array containing HTML nodes
+  - A callback that returns any of the previous
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
