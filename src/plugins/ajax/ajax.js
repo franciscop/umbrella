@@ -3,6 +3,12 @@ u.prototype.ajax = function(done, before) {
   return this.on("submit", function(e) {
     e.preventDefault();   // Stop native request
     var f = u(this);
-    ajax(f.attr("method"), f.attr("action"), f.serialize(), done, before);
+    var opt = {
+      body: f.serialize(),
+      method: f.attr("method")
+    };
+    if (done) done = done.bind(this);
+    if (before) before = before.bind(this);
+    ajax(f.attr("action"), opt, done, before);
   });
 };

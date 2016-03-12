@@ -7,9 +7,22 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    jshint: {
+      ignore_warning: {
+        src: ['Gruntfile.js', 'umbrella.js'],
+        options: {
+          '-W043': true,  // Allow for multiline with \ backslash
+        }
+      }
+    },
+
     uglify: {
       options: { banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'},
-      build: { src: 'umbrella.js', dest: 'umbrella.min.js' }
+      my_target: {
+        files: {
+          'umbrella.min.js': 'umbrella.js'
+        }
+      }
     },
 
     watch: {
@@ -19,15 +32,15 @@ module.exports = function (grunt) {
           'Gruntfile.js',
           'src/*.js',
           'src/*.md',
-          'src/plugins/*.js',
-          'src/plugins/*.md',
-          'src/plugins/*/*.js',
-          'src/plugins/*/*.md',
+          'src/**/*.*',
           'web/*.jade',
           'web/*'
         ],
         tasks: ['default'],
-        options: { spawn: false, },
+        options: {
+          spawn: false,
+          livereload: true,
+        },
       }
     },
 
@@ -48,52 +61,34 @@ module.exports = function (grunt) {
 
     mocha_phantomjs: {
       all: './tests.html'
+    },
+
+    concat: {
+      main: {
+        // No test files
+        options: {
+          process: function(src, file){ return /test\.js/.test(file) ? "" : src; }
+        },
+        files: {
+          'umbrella.js': ['src/umbrella.js', 'src/plugins/**/*.js'],
+          'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
+        }
+      },
+      test: {
+        files: {
+          'test/test.js': ['src/test.js', 'src/plugins/**/test.js']
+        }
+      },
     }
   });
 
-  // Dynamically add plugins to the concat
-  // Order of include is irrelevant http://stackoverflow.com/q/7609276
-  grunt.registerTask("parse", "Join and concatenate", function(){
-
-    // get the current concat config
-    var concat = {
-      main: { src: [ 'src/umbrella.js' ], dest: 'umbrella.js' },
-      test: { src: [ 'src/test.js' ], dest: 'test/test.js' },
-      docs: { src: [ 'src/readme.md' ], dest: 'documentation.md' }
-    };
-
-    fs.readdirSync(__dirname + "/src/plugins").forEach(function(name, i){
-      if (name === '.DS_Store') return;
-      var file = 'src/plugins/' + name + '/' + name + '.js';
-      var test = 'src/plugins/' + name + '/test.js';
-      var doc = 'src/plugins/' + name + '/readme.md';
-
-      if (!fs.existsSync(file)) throw new Error("File '" + file + "' doesn't exist");
-
-      concat.main.src.push(file);
-      concat.test.src.push(test);
-      concat.docs.src.push(doc);
-    });
-
-    // save the new concat configuration
-    grunt.config.set('concat', concat);
-  });
-
-  // Concatenate
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
-
-  // Minify
   grunt.loadNpmTasks('grunt-contrib-uglify');
-
-  // Watch
   grunt.loadNpmTasks('grunt-contrib-watch');
-
-  // Jade
   grunt.loadNpmTasks('grunt-contrib-jade');
-
-  // Testing
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
   // 4. Where we tell Grunt what to do when we type "grunt" into the terminal
-  grunt.registerTask('default', ['parse', 'concat', 'uglify', 'jade', 'mocha_phantomjs']);
+  grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'jade', 'mocha_phantomjs']);
 };

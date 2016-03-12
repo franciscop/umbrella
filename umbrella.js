@@ -57,65 +57,119 @@ u.prototype.addClass = function(){
     el.classList.add(name);
   });
 };
+
 // [INTERNAL USE ONLY]
 // Add text in the specified position. It is used by other functions
-u.prototype.adjacent = function(position, text, data) {
-  
+u.prototype.adjacent = function(html, data, callback) {
+
   // Loop through all the nodes. It cannot reuse the eacharg() since the data
   // we want to do it once even if there's no "data" and we accept a selector
-  return this.each(function(node) {
-    
+  return this.each(function(node, j) {
+
+    var fragment = document.createDocumentFragment();
+
     // Allow for data to be falsy and still loop once
-    u(data || [""]).each(function(el){
-      
+    u(data || [""]).join(function(el, i){
+
       // Allow for callbacks that accept some data
-      var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
-      
-      // http://stackoverflow.com/a/23589438
-      // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-      node.insertAdjacentHTML(position, tx);
+      var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
+
+      if (typeof part === 'string') {
+        return this.generate(part);
+      }
+
+      return u(part).nodes;
+    }).each(function(n){
+      fragment.appendChild(n);
     });
+
+    callback.call(this, node, fragment);
   });
+
+
+
+
+  // // Loop through all the nodes. It cannot reuse the eacharg() since the data
+  // // we want to do it once even if there's no "data" and we accept a selector
+  // return this.each(function(node) {
+  //
+  //   // Allow for data to be falsy and still loop once
+  //   u(data || [""]).each(function(el){
+  //
+  //     // Allow for callbacks that accept some data
+  //     var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
+  //
+  //     // http://stackoverflow.com/a/23589438
+  //     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
+  //     node.insertAdjacentHTML(position, tx);
+  //   });
+  // });
 };
 
 // Add some html as a sibling after each of the matched elements.
-u.prototype.after = function(text, data) {
-  return this.adjacent('afterend', text, data);
+u.prototype.after = function(html, data) {
+  return this.adjacent(html, data, function(node, fragment){
+    node.parentNode.insertBefore(fragment, node.nextSibling);
+  });
 };
+
 
 // Create a HTTP request for whenever the matched form submits
 u.prototype.ajax = function(done, before) {
   return this.on("submit", function(e) {
     e.preventDefault();   // Stop native request
     var f = u(this);
-    ajax(f.attr("method"), f.attr("action"), f.serialize(), done, before);
+    var opt = {
+      body: f.serialize(),
+      method: f.attr("method")
+    };
+    if (done) done = done.bind(this);
+    if (before) before = before.bind(this);
+    ajax(f.attr("action"), opt, done, before);
   });
 };
 
+
 // Add some html as a child at the end of each of the matched elements.
 u.prototype.append = function(html, data) {
-  return this.adjacent('beforeend', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.appendChild(fragment);
+  });
 };
+
 
 // [INTERNAL USE ONLY]
 
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
 u.prototype.args = function(args, node, i){
-  
+
   if (typeof args === 'function') {
     args = args(node, i);
   }
-  
+
   // First flatten it all to a string http://stackoverflow.com/q/22920305
   // If we try to slice a string bad things happen: ['n', 'a', 'm', 'e']
   if (typeof args !== 'string') {
     args = this.slice(args).map(this.str(node, i));
   }
-  
+
   // Then convert that string to an array of not-null strings
-  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length });
+  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
 };
+
+
+// Merge all of the nodes that the callback return into a simple array
+u.prototype.array = function(callback){
+  callback = callback || function(node) { return node.innerHTML; };
+  var self = this;
+  return this.nodes.reduce(function(list, node, i){
+    var val = callback.call(self, node, i);
+    return list.concat(val !== undefined && val !== null ? val : []);
+  }, []);
+};
+
+
 // Handle attributes for the matched elements
 u.prototype.attr = function(name, value, data) {
   
@@ -138,10 +192,14 @@ u.prototype.attr = function(name, value, data) {
   return this.length ? this.first().getAttribute(data + name) : "";
 };
 
+
 // Add some html before each of the matched elements.
 u.prototype.before = function(html, data) {
-  return this.adjacent('beforebegin', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.parentNode.insertBefore(fragment, node);
+  });
 };
+
 
 // Get the direct children of all of the nodes with an optional filter
 u.prototype.children = function(selector) {
@@ -151,23 +209,26 @@ u.prototype.children = function(selector) {
 };
 
 
+
 // Find the first ancestor that matches the selector for each node
 u.prototype.closest = function(selector) {
   return this.join(function(node) {
-    
+
     // Keep going up and up on the tree. First element is also checked
     do {
       if (u(node).is(selector)) {
         return node;
       }
-    } while (node = node.parentNode)
+    } while ((node = node.parentNode));
   });
 };
+
 
 // Handle data-* attributes for the matched elements
 u.prototype.data = function(name, value) {
   return this.attr(name, value, true);
 };
+
 
 /**
  * .each()
@@ -184,18 +245,15 @@ u.prototype.each = function(callback) {
   return this;
 };
 
-/**
- * .eacharg()
- * Loops through the combination of every node and every argument
- * it accepts a callback that will be executed on each combination
- * The callback has two parameters, the node and the index
- */
+
+// [INTERNAL USE ONLY]
+// Loop through the combination of every node and every argument passed
 u.prototype.eacharg = function(args, callback) {
-  
+
   return this.each(function(node, i){
-    
+
     this.args(args, node, i).forEach(function(arg){
-      
+
       // Perform the callback for this node
       // By doing callback.call we allow "this" to be the context for
       // the callback (see http://stackoverflow.com/q/4065353 precisely)
@@ -204,34 +262,37 @@ u.prototype.eacharg = function(args, callback) {
   });
 };
 
+
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function(selector){
-  
+
   // The default function if it's a css selector
   // Cannot change name to 'selector' since it'd mess with it inside this fn
   var callback = function(node){
-    
+
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
-    
+
     // Check if it's the same element (or any element if no selector was passed)
     return node.matches(selector || "*");
-  }
-  
+  };
+
   // filter() receives a function as in .filter(e => u(e).children().length)
   if (typeof selector == 'function') callback = selector;
-  
+
   // filter() receives an instance of Umbrella as in .filter(u('a'))
   if (selector instanceof u) {
     callback = function(node){
       return (selector.nodes).indexOf(node) !== -1;
     };
   }
-  
+
   // Just a native filtering function for ultra-speed
   return u(this.nodes.filter(callback));
 };
+
+
 /**
  * Find all the nodes children of the current ones matched by a selector
  */
@@ -242,6 +303,7 @@ u.prototype.find = function(selector) {
   });
 };
 
+
 /**
  * Get the first of the nodes
  * @return htmlnode the first html node in the matched nodes
@@ -251,63 +313,63 @@ u.prototype.first = function() {
   return this.nodes[0] || false;
 };
 
-/**
-* ajax(url, data, success, error, before);
-* 
-* Perform a POST request to the given url
-* @param String method the method to send the data, defaults to GET
-* @param String url the place to send the request
-* @param String data the ready to send string of data
-* @param function success optional callback if everything goes right
-* @param function error optional callback if anything goes south
-* @param function before optional previous callback
-*/
-function ajax(method, url, data, done, before) {
-  
+
+// Perform ajax calls
+function ajax(action, opt, done, before) {
+
   // To avoid repeating it
-  done = done || Function;
-  
+  done = done || function(){};
+
+  opt = opt || {};
+  opt.body = opt.body || "";
+  opt.method = (opt.method || 'GET').toUpperCase();
+  opt.headers = opt.headers || {};
+  opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
+  if (!FormData || !(opt.body instanceof FormData)) {
+    opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
+  }
+  opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
+
+
   // Create and send the actual request
-  var request = new XMLHttpRequest;
-  
+  var request = new XMLHttpRequest();
+
   // An error is just an error
   // This uses a little hack of passing an array to u() so it handles it as
   // an array of nodes, hence we can use 'on'. However a single element wouldn't
   // work since it a) doesn't have nodeName and b) it will be sliced, failing
   u([request]).on('error timeout abort', function(){
-    done(new Error, null, request);
+    done(new Error(), null, request);
   }).on('load', function() {
-    
+
     // Also an error if it doesn't start by 2 or 3...
     // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
     var err = !/^(2|3)/.test(request.status) ? new Error(request.status) : null;
-    
+
     // Attempt to parse the body into JSON
     var body = parseJson(request.response) || request.response;
-    
+
     return done(err, body, request);
   });
-  
-  // Create a request of type POST to the URL and ASYNC
-  request.open(method || 'GET', url);
-  
-  request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  
+
+  // Create a request of the specified type to the URL and ASYNC
+  request.open(opt.method, action);
+
+  // Set the corresponding headers
+  for (var name in opt.headers) {
+    request.setRequestHeader(name, opt.headers[name]);
+  }
+
   // Load the callback before sending the data
   if (before) before(request);
-  
-  request.send(typeof data == 'string' ? data : u().param(data));
-  
+
+  request.send(opt.body);
+
   return request;
 }
-/**
- * parseJson(json)
- * 
- * Parse JSON without throwing an error
- * @param String json the string to check
- * @return object from the json or false
- */
+
+// [INTERNAL USE ONLY]
+// Parse JSON without throwing an error
 function parseJson(jsonString){
   try {
     var o = JSON.parse(jsonString);
@@ -322,6 +384,30 @@ function parseJson(jsonString){
   return false;
 }
 
+
+// [INTERNAL USE ONLY]
+// Generate a fragment of HTML. This irons out the inconsistences
+u.prototype.generate = function(html){
+
+  // Table elements need to be child of <table> for some f***ed up reason
+  if (/^\s*<t(h|r|d)/.test(html)) {
+    return u(document.createElement('table')).html(html).children().nodes;
+  } else if (/^\s*</.test(html)) {
+    return u(document.createElement('div')).html(html).children().nodes;
+  } else {
+    return document.createTextNode(html);
+  }
+};
+
+// Change the default event for the callback. Simple decorator to preventDefault
+u.prototype.handle = function(events, callback) {
+
+  return this.on(events, function(e){
+    e.preventDefault();
+    callback.apply(this, arguments);
+  });
+};
+
 /**
  * .hasClass(name)
  * 
@@ -335,43 +421,44 @@ u.prototype.hasClass = function(names) {
   return this.is('.' + this.args(arguments).join('.'));
 };
 
+
 /**
  * .html(text)
- * 
+ *
  * Set or retrieve the html from the matched node(s)
  * @param text optional some text to set as html
  * @return this|html Umbrella object
  */
 u.prototype.html = function(text) {
-  
+
   // Needs to check undefined as it might be ""
   if (text === undefined) {
     return this.first().innerHTML || "";
   }
-  
-  
-  // If we're attempting to set some text  
+
+
+  // If we're attempting to set some text
   // Loop through all the nodes
   return this.each(function(node) {
-    
+
     // Set the inner html to the node
     node.innerHTML = text;
   });
 };
+
 
 // .is(selector)
 // Check whether any of the nodes matches the selector
 u.prototype.is = function(selector){
   return this.filter(selector).length > 0;
 };
+
 // [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
 u.prototype.join = function(callback) {
-  var self = this;
-  return u(this.nodes.reduce(function(newNodes, node, i){
-    return newNodes.concat(callback.call(self, node, i));
-  }, [])).unique();
+  return callback ? u(this.array(callback)).unique() : this;
 };
+
 
 /**
  * Get the last of the nodes
@@ -382,6 +469,7 @@ u.prototype.last = function() {
   return this.nodes[this.length-1] || false;
 };
 
+
 // .not(elems)
 // Delete all of the nodes that equals filter
 u.prototype.not = function(filter){
@@ -389,6 +477,7 @@ u.prototype.not = function(filter){
     return !u(node).is(filter || true);
   });
 };
+
 /**
  * .off(event, callback)
  *
@@ -404,6 +493,7 @@ u.prototype.off = function(events) {
   });
 };
 
+
 // Attach a callback to the specified events
 u.prototype.on = function(events, callback) {
   
@@ -416,24 +506,26 @@ u.prototype.on = function(events, callback) {
   });
 };
 
+
 // [INTERNAL USE ONLY]
 
 // Parametize an object: { a: 'b', c: 'd' } => 'a=b&c=d'
 u.prototype.param = function(obj){
-  
+
   // Note: while this is ~10% slower (~3us/operation) than with a simple for(in)
   // I find it more legible and more 'logical' (however right now a test fails)
   // return Object.keys(obj).map(function(key) {
   //   return this.uri(key) + '=' + this.uri(obj[key]);
   // }).join('&');
-  
-  
+
+
   var query = '';
   for(var key in obj) {
     query += '&' + this.uri(key) + '=' + this.uri(obj[key]);
   }
   return query.slice(1);
-}
+};
+
 /**
  * .parent()
  * 
@@ -447,17 +539,14 @@ u.prototype.parent = function(selector) {
   }).filter(selector);
 };
 
-/**
- * .prepend(html)
- * 
- * Add child the first thing inside each node
- * @param String html to be inserted
- * @return this Umbrella object
- */
+
+// Add nodes at the beginning of each node
 u.prototype.prepend = function(html, data) {
-  
-  return this.adjacent('afterbegin', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.insertBefore(fragment, node.firstChild);
+  });
 };
+
 
 /**
  * .remove()
@@ -473,6 +562,7 @@ u.prototype.remove = function() {
     node.parentNode.removeChild(node);
   });
 };
+
 
 /**
  * .removeClass(name)
@@ -491,6 +581,7 @@ u.prototype.removeClass = function() {
   });
 };
 
+
 /**
  * .scroll()
  *
@@ -507,14 +598,17 @@ u.prototype.scroll = function() {
 };
 
 
-
+// [INTERNAL USE ONLY]
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
-  
+
+  // Allow for spaces before or after
+  parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
+
   if (context) {
     return this.select.byCss(parameter, context);
   }
-  
+
   for (var key in this.selectors) {
     // Reusing it to save space
     context = key.split('/');
@@ -522,7 +616,7 @@ u.prototype.select = function(parameter, context) {
       return this.selectors[key](parameter);
     }
   }
-  
+
   return this.select.byCss(parameter);
 };
 
@@ -543,7 +637,9 @@ u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
 };
 
 //The tag nodes
-u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
+u.prototype.selectors[/^\w+$/] = function(param){
+  return document.getElementsByTagName(param);
+};
 
 // Find some html nodes using an Id
 u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
@@ -551,37 +647,42 @@ u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
 };
 
 // Create a new element for the DOM
-u.prototype.selectors[/^\</] = function(param){
-  return u(document.createElement('div')).html(param).children().nodes;
+u.prototype.selectors[/^</] = function(param){
+  return u().generate(param);
 };
 
-/**
- * .serialize()
- * 
- * Convert al html form elements into an object
- * The <input> and <button> without type will be parsed as default
- * NOTE: select-multiple for <select> is disabled on purpose
- * Source: http://stackoverflow.com/q/11661187
- * @return string from the form's data
- */
+
+// Convert forms into a string able to be submitted
+// Original source: http://stackoverflow.com/q/11661187
 u.prototype.serialize = function() {
-  
+
+  var self = this;
+
   // Store the class in a variable for manipulation
-  return this.param(this.slice(this.first().elements).reduce(function(obj, el) {
-    
-    // We only want to match elements with names, but not files
-    if (el.name && el.type !== 'file'
-    
+  return this.slice(this.first().elements).reduce(function(query, el) {
+
+    // We only want to match enabled elements with names, but not files
+    if (!el.name || el.disabled || el.type === 'file') return query;
+
     // Ignore the checkboxes that are not checked
-    && (!/(checkbox|radio)/.test(el.type) || el.checked)) {
-      
-      // Add the element to the object
-      obj[el.name] = el.value;
+    if (/(checkbox|radio)/.test(el.type) && !el.checked) return query;
+
+    // Handle multiple selects
+    if (el.type === 'select-multiple') {
+
+      u(el.options).each(function(opt){
+        if (opt.selected) {
+          query += '&' + self.uri(el.name) + '=' + self.uri(opt.value);
+        }
+      });
+      return query;
     }
-    
-    return obj;
-  }, {}));
+
+    // Add the element to the object
+    return query + '&' + self.uri(el.name) + '=' + self.uri(el.value);
+  }, '').slice(1);
 };
+
 
 /**
  * .siblings()
@@ -592,10 +693,12 @@ u.prototype.serialize = function() {
 u.prototype.siblings = function(selector) {
   return this.parent().children(selector).not(this);
 };
+
 // Find the size of the first matched element
 u.prototype.size = function(){
   return this.first().getBoundingClientRect();
 };
+
 
 // [INTERNAL USE ONLY]
 
@@ -612,16 +715,18 @@ u.prototype.slice = function(pseudo) {
 // Create a string from different things
 u.prototype.str = function(node, i){
   return function(arg){
-    
+
     // Call the function with the corresponding nodes
     if (typeof arg === 'function') {
       return arg.call(this, node, i);
     }
-    
+
     // From an array or other 'weird' things
     return arg.toString();
-  }
-}
+  };
+};
+
+
 /**
  * .text(text)
  * 
@@ -646,27 +751,31 @@ u.prototype.text = function(text) {
   });
 };
 
+
 /**
  * .toggleClass('name1, name2, nameN' ...[, addOrRemove])
- * 
+ *
  * Toggles classes on the matched nodes
  * Possible polyfill: https://github.com/eligrey/classList.js
  * @return this Umbrella object
  */
 u.prototype.toggleClass = function(classes, addOrRemove){
-  
+
+  /*jshint -W018 */
   //check if addOrRemove was passed as a boolean
   if (!!addOrRemove === addOrRemove) {
 
     // return the corresponding Umbrella method
     return this[addOrRemove ? 'addClass' : 'removeClass'](classes);
   }
-  
+  /*jshint +W018 */
+
   // Loop through all the nodes and classes combinations
   return this.eacharg(classes, function(el, name){
     el.classList.toggle(name);
   });
 };
+
 
 // Call an event manually on all the nodes
 u.prototype.trigger = function(events, data) {
@@ -690,16 +799,17 @@ u.prototype.trigger = function(events, data) {
 
 // [INTERNAL USE ONLY]
 
-// Make the nodes unique. This is needed for some specific methods
+// Removed duplicated nodes, used for some specific methods
 u.prototype.unique = function(){
-  
+
   return u(this.nodes.reduce(function(clean, node){
     return (node && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
   }, []));
 };
+
 // [INTERNAL USE ONLY]
 
 // Encode the different strings https://gist.github.com/brettz9/7147458
 u.prototype.uri = function(str){
   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-}
+};

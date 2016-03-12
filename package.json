@@ -1,6 +1,6 @@
 {
   "name": "umbrella",
-  "version": "1.12.0",
+  "version": "2.0.0",
   "homepage": "http://umbrellajs.com/",
   "authors": [
     "Francisco Presencia <developerfrancisco@hotmail.com>"
@@ -37,5 +37,8 @@
     "grunt-markdown": "^0.7.0",
     "grunt-mocha-phantomjs": "^2.0.1",
     "mocha-phantomjs": "^4.0.2"
+  },
+  "dependencies": {
+    "grunt-contrib-jshint": "^1.0.0"
   }
 }

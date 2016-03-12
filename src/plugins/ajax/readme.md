@@ -46,8 +46,7 @@ u('.newsletter').ajax(function(err){
 Actually send a form through ajax:
 
 ```js
-u('form.edit').ajax(function(){ console.log('Sent!'); });
-u('form.edit').trigger('submit');
+u('form.edit').ajax(function(){ console.log('Sent!'); }).trigger('submit');
 ```
 
 
@@ -77,14 +76,14 @@ Of course you have freedom and you can use a similar method to jquery, but I thi
 ```js
 u('form').on('submit', function(e){
   e.preventDefault();
-  ajax(u(this).attr('method'), u(this).attr('action'), u(this).serialize(), function(err, data){
+  var options = { method: u(this).attr('method'), body: u(this).serialize() };
+  ajax(u(this).attr('action'), options, function(err, data){
     if (!err) alert("Done! Thanks, " + data.name);
   });
 });
 ```
 
-This is the footprint of the raw function:
 
-```js
-ajax(method, url, data, done, before);
-```
+### Related
+
+[`ajax()`](#ajaxfn): perform ajax requests

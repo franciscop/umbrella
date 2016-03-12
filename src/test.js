@@ -61,7 +61,7 @@ function getListOfClasses(){
     { from: [['bla, blu, '], 'blo, '], it: 'a comma and space separated array' },
     { from: [['bla\n\tblu\n\t'], 'blo\n\t'], it: 'a whitespace-separated array' },
   ];
-};
+}
 
 
 
@@ -74,7 +74,7 @@ function getListOfClasses(){
 // Testing the main file
 describe("u()", function() {
   it("should be defined", function() {
-    expect(u).to.be.not.null;
+    expect(!!u).to.equal(true);
   });
 
   it("should be a function", function() {
@@ -165,7 +165,7 @@ describe("u()", function() {
 
       uTime = performance(function(){
         u('.demo');
-      }, 5000);
+      }, 1000);
 
       console.log('      - u: ' + uTime + 'ms');
       expect(uTime).to.be.below(100, uTime + ' ms');
@@ -175,13 +175,15 @@ describe("u()", function() {
 
     it("select by class is comparable to jquery (50% margin)", function() {
 
+      size('.demo', 1);
+
       var uTime = performance(function(){
         u('.demo');
-      }, 10000);
+      }, 5000);
 
       var $Time = performance(function(){
         $('.demo');
-      }, 10000);
+      }, 5000);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 
@@ -192,13 +194,15 @@ describe("u()", function() {
 
     it("vs jquery: class selector (50% margin)", function() {
 
+      size('.tabletest', 1000);
+
       var uTime = performance(function(){
         u('.tabletest');
-      }, 500);
+      }, 100);
 
       var $Time = performance(function(){
         $('.tabletest');
-      }, 500);
+      }, 100);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 
@@ -209,13 +213,15 @@ describe("u()", function() {
 
     it("vs jquery: complex selector (50% margin)", function() {
 
+      size('table td:first-child', 1000);
+
       var uTime = performance(function(){
         u('table td:first-child');
-      }, 100);
+      }, 50);
 
       var $Time = performance(function(){
         $('table td:first-child');
-      }, 100);
+      }, 50);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 
@@ -226,13 +232,15 @@ describe("u()", function() {
 
     it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
 
+      size(".ro > *", 4000);
+
       var uTime = performance(function(){
         u(".ro > *");
-      }, 100);
+      }, 50);
 
       var $Time = performance(function(){
         $(".ro > *");
-      }, 100);
+      }, 50);
 
       console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
 

@@ -23,7 +23,7 @@ describe(".remove()", function() {
   });
 
   it("can be called even without any node", function() {
-    expect(u('.remove-test div').nodes).to.be.empty;
+    expect(u('.remove-test div').length).to.equal(0);
     u('.remove-test div').remove();
   });
 
@@ -38,11 +38,11 @@ describe(".remove()", function() {
 
   it("removes a single element", function() {
     u('.remove-test').remove();
-    expect(u('.remove-test').nodes).to.be.empty;
+    expect(u('.remove-test').length).to.equal(0);
   });
 
   it("removes several elements", function() {
     u('.remove-test li').remove();
-    expect(u('.remove-test li').nodes).to.be.empty;
+    expect(u('.remove-test li').length).to.equal(0);
   });
 });

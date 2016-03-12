@@ -1,27 +1,30 @@
-/**
- * .serialize()
- * 
- * Convert al html form elements into an object
- * The <input> and <button> without type will be parsed as default
- * NOTE: select-multiple for <select> is disabled on purpose
- * Source: http://stackoverflow.com/q/11661187
- * @return string from the form's data
- */
+// Convert forms into a string able to be submitted
+// Original source: http://stackoverflow.com/q/11661187
 u.prototype.serialize = function() {
-  
+
+  var self = this;
+
   // Store the class in a variable for manipulation
-  return this.param(this.slice(this.first().elements).reduce(function(obj, el) {
-    
-    // We only want to match elements with names, but not files
-    if (el.name && el.type !== 'file'
-    
+  return this.slice(this.first().elements).reduce(function(query, el) {
+
+    // We only want to match enabled elements with names, but not files
+    if (!el.name || el.disabled || el.type === 'file') return query;
+
     // Ignore the checkboxes that are not checked
-    && (!/(checkbox|radio)/.test(el.type) || el.checked)) {
-      
-      // Add the element to the object
-      obj[el.name] = el.value;
+    if (/(checkbox|radio)/.test(el.type) && !el.checked) return query;
+
+    // Handle multiple selects
+    if (el.type === 'select-multiple') {
+
+      u(el.options).each(function(opt){
+        if (opt.selected) {
+          query += '&' + self.uri(el.name) + '=' + self.uri(opt.value);
+        }
+      });
+      return query;
     }
-    
-    return obj;
-  }, {}));
+
+    // Add the element to the object
+    return query + '&' + self.uri(el.name) + '=' + self.uri(el.value);
+  }, '').slice(1);
 };

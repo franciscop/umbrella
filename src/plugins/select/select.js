@@ -1,12 +1,14 @@
-
-
+// [INTERNAL USE ONLY]
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
-  
+
+  // Allow for spaces before or after
+  parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
+
   if (context) {
     return this.select.byCss(parameter, context);
   }
-  
+
   for (var key in this.selectors) {
     // Reusing it to save space
     context = key.split('/');
@@ -14,7 +16,7 @@ u.prototype.select = function(parameter, context) {
       return this.selectors[key](parameter);
     }
   }
-  
+
   return this.select.byCss(parameter);
 };
 
@@ -35,7 +37,9 @@ u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
 };
 
 //The tag nodes
-u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
+u.prototype.selectors[/^\w+$/] = function(param){
+  return document.getElementsByTagName(param);
+};
 
 // Find some html nodes using an Id
 u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
@@ -43,6 +47,6 @@ u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
 };
 
 // Create a new element for the DOM
-u.prototype.selectors[/^\</] = function(param){
-  return u(document.createElement('div')).html(param).children().nodes;
+u.prototype.selectors[/^</] = function(param){
+  return u().generate(param);
 };

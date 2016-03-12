@@ -1,16 +1,16 @@
 describe('.off()', function() {
-  
+
   var listener = function() {
     throw 'Shouldn\'t be called';
   };
 
   beforeEach(function() {
-    base.append('<ul class="temp"><li class="off-single-test">1</li>'
-    + '<li class="off-multiple-test">2</li>'
-    + '<li class="off-multiple-test">3</li>'
-    + '</ul>');
+    base.append('<ul class="temp"><li class="off-single-test">1</li>\
+    <li class="off-multiple-test">2</li>\
+    <li class="off-multiple-test">3</li>\
+    </ul>');
   });
-  
+
   afterEach(function(){
     base.find(".temp").remove();
     expect(u(".temp").length).to.equal(0);

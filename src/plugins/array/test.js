@@ -1,66 +1,62 @@
-describe(".join(function(){})", function() {
+describe(".array()", function() {
 
   it("should be defined", function() {
-    expect(typeof base.join).to.equal('function');
+    expect(typeof base.array).to.equal('function');
   });
 
   it("empty gives an error", function(){
-    same(u([0, 1, 2]).join(), u([0, 1, 2]));
+    same(base.array(), [base.html()]);
   });
 
   it("can loop as each()", function() {
-    u([0, 1, 2, 3]).join(function(node, i){
+    u([0, 1, 2, 3]).array(function(node, i){
       expect(node).to.equal(i);
-    });
-
-    u([3, 4, 5, 6]).join(function(node, i){
-      expect(node).to.equal(i + 3);
     });
   });
 
   it("can loop a real element", function() {
-    base.join(function(node, i){
+    base.array(function(node, i){
       expect(u(node).hasClass('base')).to.equal(true);
       expect(i).to.equal(0);
     });
   });
 
   it("can remove an element", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
-      return i === 0 ? false : node;
+    var final = u([1, 2, 3, 4]).array(function(node, i){
+      if (i !== 0) return node;
     });
     expect(final.length).to.equal(3);
   });
 
   it("can remove several elements", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
-      return i < 3 ? false : node;
+    var final = u([1, 2, 3, 4]).array(function(node, i){
+      if (i >= 3) return node;
     });
     expect(final.length).to.equal(1);
   });
 
   it("can add an element", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
+    var final = u([1, 2, 3, 4]).array(function(node, i){
       return i === 0 ? [node, 'a'] : node;
     });
     expect(final.length).to.equal(5);
   });
 
   it("can add an many elements", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
+    var final = u([1, 2, 3, 4]).array(function(node, i){
       return [node + 'a', node + 'b', node + 'c'];
     });
     expect(final.length).to.equal(12);
   });
 
   it("has the right this", function(){
-    u(['a', 'b']).join(function(node, i){
+    u(['a', 'b']).array(function(node, i){
       expect(this instanceof u).to.equal(true);
     });
   });
 
-  it("returns an umbrella object", function(){
-    var ret = u(['a', 'b']).join(function(){});
-    expect(ret instanceof u).to.equal(true);
+  it("returns a simple array", function(){
+    var ret = u(['a', 'b']).array(function(){});
+    expect(Array.isArray(ret)).to.equal(true);
   });
 });

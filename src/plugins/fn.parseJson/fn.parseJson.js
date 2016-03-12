@@ -1,10 +1,5 @@
-/**
- * parseJson(json)
- * 
- * Parse JSON without throwing an error
- * @param String json the string to check
- * @return object from the json or false
- */
+// [INTERNAL USE ONLY]
+// Parse JSON without throwing an error
 function parseJson(jsonString){
   try {
     var o = JSON.parse(jsonString);
