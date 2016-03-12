@@ -1726,7 +1726,7 @@ describe('.scroll()', function() {
       u('#scrollTest').remove();
       u('body').scroll();
       done();
-    }, 50);
+    }, 100);
   });
 });
 
