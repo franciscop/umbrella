@@ -52,10 +52,13 @@ block content
       div
         pre
           code.language-javascript.
-            // Add child after all of the current nodes
-            u.prototype.after = function(text) {
-              return this.adjacent('afterend', text);
+            // Find the nodes matched by a selector
+            u.prototype.find = function(selector) {
+              return this.join(function(node){
+                return u(selector || "*", node).nodes;
+              });
             };
+
             // Check if any node matches the selector
             u.prototype.is = function(selector){
               return this.filter(selector).nodes.length > 0;
