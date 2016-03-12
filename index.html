@@ -19,7 +19,6 @@ u.prototype.find = function(selector) {
     return u(selector || "*", node).nodes;
   });
 };
-
 // Check if any node matches the selector
 u.prototype.is = function(selector){
   return this.filter(selector).nodes.length > 0;
