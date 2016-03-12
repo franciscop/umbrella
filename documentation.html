@@ -36,6 +36,12 @@ u(&#39;li&#39;, context)
 <p>Generate a link on the fly:</p>
 <pre><code class="lang-js">var link = u(&#39;&lt;a&gt;&#39;).addClass(&#39;main&#39;).attr({ href: &#39;/hello&#39; });
 </code></pre>
+<p>You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):</p>
+<pre><code class="lang-js">var products = [&#39;apple&#39;, &#39;strawberry&#39;, &#39;pear&#39;, &#39;banana&#39;];
+var list = u(&#39;&lt;ul&gt;&#39;).append(product =&gt; `&lt;li&gt;${ product }&lt;/li&gt;`, products);
+
+u(&#39;body&#39;).append(list);
+</code></pre>
 <p>It plays well with other libraries, including jquery. For example, with <a href="http://github.com/franciscop/pagex">pagex.js</a>:</p>
 <pre><code class="lang-js">// When we are on the page &quot;/login&quot;
 page(/^login/, function(){

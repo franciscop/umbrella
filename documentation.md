@@ -59,6 +59,16 @@ Generate a link on the fly:
 var link = u('<a>').addClass('main').attr({ href: '/hello' });
 ```
 
+You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):
+
+```js
+var products = ['apple', 'strawberry', 'pear', 'banana'];
+var list = u('<ul>').append(product => `<li>${ product }</li>`, products);
+
+u('body').append(list);
+```
+
+
 It plays well with other libraries, including jquery. For example, with [pagex.js](http://github.com/franciscop/pagex):
 
 ```js
