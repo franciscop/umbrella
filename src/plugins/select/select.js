@@ -37,19 +37,16 @@ u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
 };
 
 //The tag nodes
-u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
+u.prototype.selectors[/^\w+$/] = function(param){
+  return document.getElementsByTagName(param);
+};
 
 // Find some html nodes using an Id
 u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
   return document.getElementById(param.substring(1));
 };
 
-// Table elements need to be child of <table> for some f***ed up reason
-u.prototype.selectors[/^<t(h|r|d)/] = function(param){
-  return u(document.createElement('table')).html(param).children().nodes;
-};
-
 // Create a new element for the DOM
 u.prototype.selectors[/^</] = function(param){
-  return u(document.createElement('div')).html(param).children().nodes;
+  return u().generate(param);
 };

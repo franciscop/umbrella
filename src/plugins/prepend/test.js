@@ -43,4 +43,12 @@ describe(".prepend()", function() {
     size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
     size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.a:first-child', 1);
   });
+
+  it("can generate some text", function(){
+    var list = u("<div>");
+    if (work) list.prepend  (function(n){ return n + "\n" }, ['a', 'b']);
+
+    expect(list.children().length).to.equal(0);
+    expect(list.html()).to.equal('a\nb\n');
+  });
 });

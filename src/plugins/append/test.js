@@ -48,4 +48,12 @@ describe(".append(html)", function() {
     base.append(u('<div>').addClass('bla').first());
     size('.bla', 1);
   });
+
+  it("can generate some text", function(){
+    var list = u("<div>");
+    if (work) list.append(function(n){ return n + "\n" }, ['a', 'b']);
+
+    expect(list.children().length).to.equal(0);
+    expect(list.html()).to.equal('a\nb\n');
+  });
 });

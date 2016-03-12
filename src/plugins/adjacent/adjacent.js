@@ -7,17 +7,20 @@ u.prototype.adjacent = function(html, data, callback) {
   return this.each(function(node, j) {
 
     var fragment = document.createDocumentFragment();
-    var elements = [];
 
     // Allow for data to be falsy and still loop once
-    u(data || [""]).each(function(el, i){
+    u(data || [""]).join(function(el, i){
 
       // Allow for callbacks that accept some data
-      var nodes = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
+      var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
 
-      u(nodes).each(function(n){
-        fragment.appendChild(n);
-      });
+      if (typeof part === 'string') {
+        return this.generate(part);
+      }
+
+      return u(part).nodes;
+    }).each(function(n){
+      fragment.appendChild(n);
     });
 
     callback.call(this, node, fragment);

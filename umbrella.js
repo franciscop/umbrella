@@ -67,17 +67,20 @@ u.prototype.adjacent = function(html, data, callback) {
   return this.each(function(node, j) {
 
     var fragment = document.createDocumentFragment();
-    var elements = [];
 
     // Allow for data to be falsy and still loop once
-    u(data || [""]).each(function(el, i){
+    u(data || [""]).join(function(el, i){
 
       // Allow for callbacks that accept some data
-      var nodes = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
+      var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
 
-      u(nodes).each(function(n){
-        fragment.appendChild(n);
-      });
+      if (typeof part === 'string') {
+        return this.generate(part);
+      }
+
+      return u(part).nodes;
+    }).each(function(n){
+      fragment.appendChild(n);
     });
 
     callback.call(this, node, fragment);
@@ -382,6 +385,20 @@ function parseJson(jsonString){
 }
 
 
+// [INTERNAL USE ONLY]
+// Generate a fragment of HTML. This irons out the inconsistences
+u.prototype.generate = function(html){
+
+  // Table elements need to be child of <table> for some f***ed up reason
+  if (/^\s*<t(h|r|d)/.test(html)) {
+    return u(document.createElement('table')).html(html).children().nodes;
+  } else if (/^\s*</.test(html)) {
+    return u(document.createElement('div')).html(html).children().nodes;
+  } else {
+    return document.createTextNode(html);
+  }
+};
+
 // Change the default event for the callback. Simple decorator to preventDefault
 u.prototype.handle = function(events, callback) {
 
@@ -407,23 +424,23 @@ u.prototype.hasClass = function(names) {
 
 /**
  * .html(text)
- * 
+ *
  * Set or retrieve the html from the matched node(s)
  * @param text optional some text to set as html
  * @return this|html Umbrella object
  */
 u.prototype.html = function(text) {
-  
+
   // Needs to check undefined as it might be ""
   if (text === undefined) {
     return this.first().innerHTML || "";
   }
-  
-  
-  // If we're attempting to set some text  
+
+
+  // If we're attempting to set some text
   // Loop through all the nodes
   return this.each(function(node) {
-    
+
     // Set the inner html to the node
     node.innerHTML = text;
   });
@@ -620,21 +637,18 @@ u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
 };
 
 //The tag nodes
-u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
+u.prototype.selectors[/^\w+$/] = function(param){
+  return document.getElementsByTagName(param);
+};
 
 // Find some html nodes using an Id
 u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
   return document.getElementById(param.substring(1));
 };
 
-// Table elements need to be child of <table> for some f***ed up reason
-u.prototype.selectors[/^<t(h|r|d)/] = function(param){
-  return u(document.createElement('table')).html(param).children().nodes;
-};
-
 // Create a new element for the DOM
 u.prototype.selectors[/^</] = function(param){
-  return u(document.createElement('div')).html(param).children().nodes;
+  return u().generate(param);
 };
 
 
