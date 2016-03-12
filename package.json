@@ -39,6 +39,7 @@
     "mocha-phantomjs": "^4.0.2"
   },
   "dependencies": {
+    "grunt-bytesize": "^0.1.1",
     "grunt-contrib-jshint": "^1.0.0"
   }
 }

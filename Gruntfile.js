@@ -79,6 +79,13 @@ module.exports = function (grunt) {
           'test/test.js': ['src/test.js', 'src/plugins/**/test.js']
         }
       },
+    },
+    bytesize: {
+      all: {
+        src: [
+          'umbrella.min.js'
+        ]
+      }
     }
   });
 
@@ -88,7 +95,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
+  grunt.loadNpmTasks('grunt-bytesize');
 
   // 4. Where we tell Grunt what to do when we type "grunt" into the terminal
-  grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'jade', 'mocha_phantomjs']);
+  grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'jade', 'mocha_phantomjs', 'bytesize']);
 };
