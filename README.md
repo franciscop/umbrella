@@ -13,17 +13,16 @@ You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a li
 
 A simple example:
 
-```html
-<a class="example button">Click me</a>
+```js
+// Simple events like jquery
+u("button").on('click', function(){
+  alert("Hello world");
+});
 
-<script>
-  u('form.example').ajax(function(err, data){
-    if (err) u(".error").html("There was an error");
-    u('button.send').html("Send again, " + data.name);
-  }, function(){
-    u('button.send').html("Sending...");
-  });
-</script>
+// Send form through ajax when submitted
+u('form.login').ajax(function(err, res){
+  window.href = '/user/' + res.id;
+});
 ```
 
 
