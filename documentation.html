@@ -118,21 +118,29 @@ alert(u(&#39;a&#39;).length);
 <h2 id="-after-">.after()</h2>
 <p>Add some html as a sibling after each of the matched elements.</p>
 <pre><code class="lang-js">.after(html)
+
+.after(&#39;&lt;div&gt;&#39;)
 .after(u(&#39;&lt;div&gt;&#39;))
-.after(document.createElement(&#39;div&#39;))
+.after(u(&#39;&lt;div&gt;&#39;).first()) // Same as document.createElement(&#39;div&#39;)
+.after(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .after(function(){})
 .after(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
-<li>Any of the elements that can be inserted into the constructor <code>u()</code>:<ul>
+<li>Any of these elements:<ul>
 <li>a string containing the html that is going to be inserted</li>
+<li>an instance of Umbrella</li>
 <li>an HTML node</li>
 <li>an array containing HTML nodes</li>
 </ul>
 </li>
-<li>A callback that returns any of the previous</li>
+<li>A callback that returns any of the previous. It gets passed these parameters:<ul>
+<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
+<li>i: the index of the current element</li>
+</ul>
+</li>
 </ul>
 <p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
@@ -160,6 +168,13 @@ u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&
 &lt;a&gt;One&lt;/a&gt;
 &lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;Three&lt;/a&gt;
+</code></pre>
+<p>You can also add some events to them by creating an html node:</p>
+<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+
+u(&quot;a.main&quot;).after(function(){
+  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
+});
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
@@ -220,11 +235,30 @@ u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&
 <h2 id="-append-">.append()</h2>
 <p>Add some html as a child at the end of each of the matched elements</p>
 <pre><code class="lang-js">.append(html)
+
+.append(&#39;&lt;div&gt;&#39;)
+.append(u(&#39;&lt;div&gt;&#39;))
+.append(u(&#39;&lt;div&gt;&#39;).first()) // Same as document.createElement(&#39;div&#39;)
+.append(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .append(function(){})
-.append(function(node, el){}, elements)
+.append(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
+<p><code>html = &quot;&quot;</code>:</p>
+<ul>
+<li>Any of these elements:<ul>
+<li>a string containing the html that is going to be inserted</li>
+<li>an instance of Umbrella</li>
+<li>an HTML node</li>
+<li>an array containing HTML nodes</li>
+</ul>
+</li>
+<li>A callback that returns any of the previous. It gets passed these parameters:<ul>
+<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
+<li>i: the index of the current element</li>
+</ul>
+</li>
+</ul>
 <p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
@@ -254,6 +288,13 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
   &lt;li&gt;Two&lt;/li&gt;
   &lt;li&gt;Three&lt;/li&gt;
 &lt;/ul&gt;
+</code></pre>
+<p>You can also add some events to them by creating an html node:</p>
+<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+
+u(&quot;a.main&quot;).append(function(){
+  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
+});
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
@@ -322,11 +363,30 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
 <h2 id="-before-">.before()</h2>
 <p>Add some html before each of the matched elements.</p>
 <pre><code class="lang-js">.before(html)
+
+.before(&#39;&lt;div&gt;&#39;)
+.before(u(&#39;&lt;div&gt;&#39;))
+.before(u(&#39;&lt;div&gt;&#39;).first()) // Same as document.createElement(&#39;div&#39;)
+.before(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .before(function(){})
 .before(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
+<p><code>html = &quot;&quot;</code>:</p>
+<ul>
+<li>Any of these elements:<ul>
+<li>a string containing the html that is going to be inserted</li>
+<li>an instance of Umbrella</li>
+<li>an HTML node</li>
+<li>an array containing HTML nodes</li>
+</ul>
+</li>
+<li>A callback that returns any of the previous. It gets passed these parameters:<ul>
+<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
+<li>i: the index of the current element</li>
+</ul>
+</li>
+</ul>
 <p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
@@ -353,6 +413,13 @@ u(&quot;a.main&quot;).before(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One
 &lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;Three&lt;/a&gt;
 &lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
+</code></pre>
+<p>You can also add some events to them by creating an html node:</p>
+<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+
+u(&quot;a.main&quot;).before(function(){
+  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
+});
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
@@ -796,11 +863,30 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <h2 id="-prepend-">.prepend()</h2>
 <p>Add some html as a child at the beginning of each of the matched elements.</p>
 <pre><code class="lang-js">.prepend(html)
+
+.prepend(&#39;&lt;div&gt;&#39;)
+.prepend(u(&#39;&lt;div&gt;&#39;))
+.prepend(u(&#39;&lt;div&gt;&#39;).first()) // Same as document.createElement(&#39;div&#39;)
+.prepend(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .prepend(function(){})
 .prepend(function(el){}, elements)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>html = &quot;&quot;</code>: a string containing the html that is going to be inserted or a function that returns the html to be inserted.</p>
+<p><code>html = &quot;&quot;</code>:</p>
+<ul>
+<li>Any of these elements:<ul>
+<li>a string containing the html that is going to be inserted</li>
+<li>an instance of Umbrella</li>
+<li>an HTML node</li>
+<li>an array containing HTML nodes</li>
+</ul>
+</li>
+<li>A callback that returns any of the previous. It gets passed these parameters:<ul>
+<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
+<li>i: the index of the current element</li>
+</ul>
+</li>
+</ul>
 <p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
@@ -830,6 +916,13 @@ u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&
 
   &lt;!-- previous data --&gt;
 &lt;/ul&gt;
+</code></pre>
+<p>You can also add some events to them by creating an html node:</p>
+<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+
+u(&quot;a.main&quot;).prepend(function(){
+  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
+});
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>

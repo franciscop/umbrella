@@ -4,8 +4,11 @@ Add some html as a sibling after each of the matched elements.
 
 ```js
 .after(html)
+
+.after('<div>')
 .after(u('<div>'))
-.after(document.createElement('div'))
+.after(u('<div>').first()) // Same as document.createElement('div')
+.after(u('<div></div><div></div>').nodes)
 .after(function(){})
 .after(function(el){}, elements)
 ```
@@ -15,11 +18,14 @@ Add some html as a sibling after each of the matched elements.
 ### Parameters
 
 `html = ""`:
-  - Any of the elements that can be inserted into the constructor `u()`:
+  - Any of these elements:
     - a string containing the html that is going to be inserted
+    - an instance of Umbrella
     - an HTML node
     - an array containing HTML nodes
-  - A callback that returns any of the previous
+  - A callback that returns any of the previous. It gets passed these parameters:
+    - el: the current element from the [elements] array (or "" if none)
+    - i: the index of the current element
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
@@ -64,6 +70,17 @@ They all result in:
 <a>Two</a>
 <a>Three</a>
 ```
+
+You can also add some events to them by creating an html node:
+
+```js
+function greeting(){ alert("Hello world"); }
+
+u("a.main").after(function(){
+  return u('<a>').addClass('hi').on('click', greeting).html("Greetings!");
+});
+```
+
 
 
 ### Related

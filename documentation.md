@@ -188,8 +188,11 @@ Add some html as a sibling after each of the matched elements.
 
 ```js
 .after(html)
+
+.after('<div>')
 .after(u('<div>'))
-.after(document.createElement('div'))
+.after(u('<div>').first()) // Same as document.createElement('div')
+.after(u('<div></div><div></div>').nodes)
 .after(function(){})
 .after(function(el){}, elements)
 ```
@@ -199,11 +202,14 @@ Add some html as a sibling after each of the matched elements.
 ### Parameters
 
 `html = ""`:
-  - Any of the elements that can be inserted into the constructor `u()`:
+  - Any of these elements:
     - a string containing the html that is going to be inserted
+    - an instance of Umbrella
     - an HTML node
     - an array containing HTML nodes
-  - A callback that returns any of the previous
+  - A callback that returns any of the previous. It gets passed these parameters:
+    - el: the current element from the [elements] array (or "" if none)
+    - i: the index of the current element
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
@@ -248,6 +254,17 @@ They all result in:
 <a>Two</a>
 <a>Three</a>
 ```
+
+You can also add some events to them by creating an html node:
+
+```js
+function greeting(){ alert("Hello world"); }
+
+u("a.main").after(function(){
+  return u('<a>').addClass('hi').on('click', greeting).html("Greetings!");
+});
+```
+
 
 
 ### Related
@@ -354,15 +371,28 @@ Add some html as a child at the end of each of the matched elements
 
 ```js
 .append(html)
+
+.append('<div>')
+.append(u('<div>'))
+.append(u('<div>').first()) // Same as document.createElement('div')
+.append(u('<div></div><div></div>').nodes)
 .append(function(){})
-.append(function(node, el){}, elements)
+.append(function(el){}, elements)
 ```
 
 
 
 ### Parameters
 
-`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
+`html = ""`:
+  - Any of these elements:
+    - a string containing the html that is going to be inserted
+    - an instance of Umbrella
+    - an HTML node
+    - an array containing HTML nodes
+  - A callback that returns any of the previous. It gets passed these parameters:
+    - el: the current element from the [elements] array (or "" if none)
+    - i: the index of the current element
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
@@ -410,6 +440,17 @@ They all result in:
   <li>Three</li>
 </ul>
 ```
+
+You can also add some events to them by creating an html node:
+
+```js
+function greeting(){ alert("Hello world"); }
+
+u("a.main").append(function(){
+  return u('<a>').addClass('hi').on('click', greeting).html("Greetings!");
+});
+```
+
 
 
 ### Related
@@ -543,6 +584,11 @@ Add some html before each of the matched elements.
 
 ```js
 .before(html)
+
+.before('<div>')
+.before(u('<div>'))
+.before(u('<div>').first()) // Same as document.createElement('div')
+.before(u('<div></div><div></div>').nodes)
 .before(function(){})
 .before(function(el){}, elements)
 ```
@@ -551,7 +597,15 @@ Add some html before each of the matched elements.
 
 ### Parameters
 
-`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
+`html = ""`:
+  - Any of these elements:
+    - a string containing the html that is going to be inserted
+    - an instance of Umbrella
+    - an HTML node
+    - an array containing HTML nodes
+  - A callback that returns any of the previous. It gets passed these parameters:
+    - el: the current element from the [elements] array (or "" if none)
+    - i: the index of the current element
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
@@ -597,6 +651,15 @@ They all result in:
 <a class="main"></a>
 ```
 
+You can also add some events to them by creating an html node:
+
+```js
+function greeting(){ alert("Hello world"); }
+
+u("a.main").before(function(){
+  return u('<a>').addClass('hi').on('click', greeting).html("Greetings!");
+});
+```
 
 
 
@@ -1402,6 +1465,11 @@ Add some html as a child at the beginning of each of the matched elements.
 
 ```js
 .prepend(html)
+
+.prepend('<div>')
+.prepend(u('<div>'))
+.prepend(u('<div>').first()) // Same as document.createElement('div')
+.prepend(u('<div></div><div></div>').nodes)
 .prepend(function(){})
 .prepend(function(el){}, elements)
 ```
@@ -1410,7 +1478,15 @@ Add some html as a child at the beginning of each of the matched elements.
 
 ### Parameters
 
-`html = ""`: a string containing the html that is going to be inserted or a function that returns the html to be inserted.
+`html = ""`:
+  - Any of these elements:
+    - a string containing the html that is going to be inserted
+    - an instance of Umbrella
+    - an HTML node
+    - an array containing HTML nodes
+  - A callback that returns any of the previous. It gets passed these parameters:
+    - el: the current element from the [elements] array (or "" if none)
+    - i: the index of the current element
 
 `elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
 
@@ -1457,6 +1533,16 @@ They all result in:
 
   <!-- previous data -->
 </ul>
+```
+
+You can also add some events to them by creating an html node:
+
+```js
+function greeting(){ alert("Hello world"); }
+
+u("a.main").prepend(function(){
+  return u('<a>').addClass('hi').on('click', greeting).html("Greetings!");
+});
 ```
 
 
