@@ -1666,6 +1666,16 @@ u('a.team').on('click', function(e){
 });
 ```
 
+## .serialize()
+
+Converts a form into a string to be sent:
+
+```js
+.serialize()
+```
+
+> Note: multiple-select are not supported in Internet Explorer, [similarly to jQuery](https://github.com/jquery/jquery-mobile/issues/3947)
+
 ## .siblings()
 
 Get the siblings of all of the nodes with an optional filter
