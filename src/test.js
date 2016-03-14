@@ -116,8 +116,8 @@ describe("u()", function() {
     expect(u(function(){ return "test"; }).length).to.equal(0);
   });
 
-  it("won't select a random object", function() {
-    expect(u({ a: 'b', c: 'd' }).length).to.equal(0);
+  it("will select a random object", function() {
+    expect(u({ a: 'b', c: 'd' }).length).to.equal(1);
   });
 
   it("can select an Umbrella instance", function() {

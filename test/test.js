@@ -116,8 +116,8 @@ describe("u()", function() {
     expect(u(function(){ return "test"; }).length).to.equal(0);
   });
 
-  it("won't select a random object", function() {
-    expect(u({ a: 'b', c: 'd' }).length).to.equal(0);
+  it("will select a random object", function() {
+    expect(u({ a: 'b', c: 'd' }).length).to.equal(1);
   });
 
   it("can select an Umbrella instance", function() {
@@ -1898,23 +1898,74 @@ describe('.size()', function() {
   });
 });
 
+describe(".slice()", function() {
+
+  it("should be a function", function() {
+    expect(typeof base.slice).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    same(base.slice(), []);
+    same(base.slice(''), []);
+    same(base.slice(null), []);
+    same(base.slice(undefined), []);
+    same(base.slice(false), []);
+  });
+
+  it("can slice an array", function() {
+    same(base.slice(['a', 'b']), ['a', 'b']);
+  });
+
+  it("ignores a string", function() {
+    same(base.slice('Hello world'), []);
+  });
+
+  it("ignores a function", function() {
+    same(base.slice(function(){}), []);
+  });
+
+  it("accepts a simple number", function() {
+    same(base.slice(5), [5]);
+  });
+
+  it("converts a simple object to array", function() {
+    same(base.slice({ a: 'b' }), [{ a: 'b' }]);
+  });
+
+  it("accepts an XMLRequest", function() {
+    var request = new XMLHttpRequest;
+    same(base.slice(request), [request]);
+  });
+
+  it("accepts the document", function() {
+    same(base.slice(document), [document]);
+  });
+
+  it("accepts an argument list", function() {
+    (function(){
+      same(base.slice(arguments), ['a', 'b']);
+    })('a', 'b');
+  });
+});
+
 // Testing the main file
 describe(".text(content)", function() {
-  
+
   it("should be a function", function() {
     expect(typeof base.hasClass).to.equal('function');
   });
-  
+
   it("can get the text content", function() {
     expect(base.find('#world').text()).to.equal('Hello world');
   });
-  
+
   it("can set the text content", function() {
     expect(base.find('#world').text()).not.to.equal('hello!');
     base.find('#world').text('hello!');
     expect(base.find('#world').text()).to.equal('hello!');
   });
 });
+
 // Testing the main file
 describe(".toggleClass(name1, name2, ...)", function() {
   
