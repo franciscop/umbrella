@@ -43,4 +43,6 @@ setInterval(function(){
 
 [.on()](#on) add an event listener to the matched nodes
 
+[.handle()](#off) Same as `.on()`, but it prevents the default action
+
 [.off()](#off) Removes an event from matched nodes

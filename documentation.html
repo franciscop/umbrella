@@ -626,6 +626,10 @@ ajax(action, options, after, before);
   // logic
 });
 </code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#off">.on()</a> Calls a function when an event is triggered</p>
+<p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
+<p><a href="#off">.off()</a> Removes an event from  matched nodes</p>
 <h2 id="-hasclass-">.hasClass()</h2>
 <p>Find if any of the matched elements contains the class passed:</p>
 <pre><code class="lang-js">.hasClass(&#39;name1&#39;);
@@ -808,6 +812,7 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#on">.on(event, callback)</a> Attaches an event to matched nodes</p>
+<p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#trigger">.trigger(event)</a> Triggers an event on all of the matched nodes</p>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
@@ -855,8 +860,9 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 });
 </code></pre>
 <h3 id="related">Related</h3>
+<p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
-<p><a href="#off">.off(event, callback)</a> Removes an event from  matched nodes</p>
+<p><a href="#off">.off()</a> Removes an event from  matched nodes</p>
 <h2 id="-parent-">.parent()</h2>
 <p>Retrieve each parent of the matched nodes, optionally filtered by a selector</p>
 <pre><code class="lang-js">.parent()
@@ -1130,6 +1136,7 @@ setInterval(function(){
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#on">.on()</a> add an event listener to the matched nodes</p>
+<p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#off">.off()</a> Removes an event from matched nodes</p>
 </article></section></main><script src="umbrella.min.js"></script><script>u('h2[id]').each(function(node){
   u(node).attr('id', u(node).attr('id').replace(/-/g, ''));

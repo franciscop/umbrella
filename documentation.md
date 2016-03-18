@@ -1053,6 +1053,14 @@ u('form.login').handle('submit', function(e){
 });
 ```
 
+### Related
+
+[.on()](#off) Calls a function when an event is triggered
+
+[.trigger()](#trigger) calls an event on all of the matched nodes
+
+[.off()](#off) Removes an event from  matched nodes
+
 ## .hasClass()
 
 Find if any of the matched elements contains the class passed:
@@ -1366,6 +1374,8 @@ u('.off-multiple-test').trigger('click'); //No alert
 
 [.on(event, callback)](#on) Attaches an event to matched nodes
 
+[.handle()](#off) Same as `.on()`, but it prevents the default action
+
 [.trigger(event)](#trigger) Triggers an event on all of the matched nodes
 
 ## .on()
@@ -1433,9 +1443,11 @@ u('input').on('change click blur paste', function(){
 
 ### Related
 
+[.handle()](#off) Same as `.on()`, but it prevents the default action
+
 [.trigger()](#trigger) calls an event on all of the matched nodes
 
-[.off(event, callback)](#off) Removes an event from  matched nodes
+[.off()](#off) Removes an event from  matched nodes
 
 ## .parent()
 
@@ -1924,5 +1936,7 @@ setInterval(function(){
 ### Related
 
 [.on()](#on) add an event listener to the matched nodes
+
+[.handle()](#off) Same as `.on()`, but it prevents the default action
 
 [.off()](#off) Removes an event from matched nodes
