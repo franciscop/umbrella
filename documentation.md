@@ -1385,7 +1385,15 @@ Calls a function when an event is triggered
 
 `event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
 
-`callback`: function that will be called when the event is triggered. It accepts a single parameter, the event itself.
+`callback`: function that will be called when the event is triggered. The parameters it accepts are `function(e, data1, data2, ..., dataN)`:
+
+  - `e`: the event that was triggered. It has some interesting properties:
+
+    - `e.currentTarget`: Contains the element that triggered the event.
+    - `e.preventDefault()`: Avoids the browser from performing the default action.
+    - `e.details`: an array of the argument data passed to `trigger()` if it was passed with that function. See other arguments:
+
+  - `data1`, `data2`, `dataN`: the arguments that were passed to `trigger()` if it was called with that function.
 
 
 
@@ -1878,9 +1886,9 @@ Calls an event on all of the matched nodes
 
 ```js
 .trigger('event1', data)
-.trigger('event1 event2 eventN', data)
-.trigger('event1,event2,eventN', data)
-.trigger(['event1', 'event2', 'eventN'], data)
+.trigger('event1 event2 eventN', data1, data2, dataN)
+.trigger('event1,event2,eventN', data1, data2, dataN)
+.trigger(['event1', 'event2', 'eventN'], data1, data2, dataN)
 ```
 
 
@@ -1889,7 +1897,7 @@ Calls an event on all of the matched nodes
 
 `event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
 
-`data` optional: the data that will be passed to the event listener in the `e.details` variable.
+`data1`, `data2`, `dataN` (optional): the data that will be passed to the event listener in the `e.details` variable and as arguments.
 
 
 ### Return

@@ -818,7 +818,18 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
-<p><code>callback</code>: function that will be called when the event is triggered. It accepts a single parameter, the event itself.</p>
+<p><code>callback</code>: function that will be called when the event is triggered. The parameters it accepts are <code>function(e, data1, data2, ..., dataN)</code>:</p>
+<ul>
+<li><p><code>e</code>: the event that was triggered. It has some interesting properties:</p>
+<ul>
+<li><code>e.currentTarget</code>: Contains the element that triggered the event.</li>
+<li><code>e.preventDefault()</code>: Avoids the browser from performing the default action.</li>
+<li><code>e.details</code>: an array of the argument data passed to <code>trigger()</code> if it was passed with that function. See other arguments:</li>
+</ul>
+</li>
+<li><p><code>data1</code>, <code>data2</code>, <code>dataN</code>: the arguments that were passed to <code>trigger()</code> if it was called with that function.</p>
+</li>
+</ul>
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
@@ -1098,13 +1109,13 @@ should pass no parameter so it retrieves the text from the first matched element
 <h2 id="-trigger-">.trigger()</h2>
 <p>Calls an event on all of the matched nodes</p>
 <pre><code class="lang-js">.trigger(&#39;event1&#39;, data)
-.trigger(&#39;event1 event2 eventN&#39;, data)
-.trigger(&#39;event1,event2,eventN&#39;, data)
-.trigger([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], data)
+.trigger(&#39;event1 event2 eventN&#39;, data1, data2, dataN)
+.trigger(&#39;event1,event2,eventN&#39;, data1, data2, dataN)
+.trigger([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], data1, data2, dataN)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
-<p><code>data</code> optional: the data that will be passed to the event listener in the <code>e.details</code> variable.</p>
+<p><code>data1</code>, <code>data2</code>, <code>dataN</code> (optional): the data that will be passed to the event listener in the <code>e.details</code> variable and as arguments.</p>
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>

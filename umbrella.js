@@ -450,6 +450,7 @@ u.prototype.is = function(selector){
   return this.filter(selector).length > 0;
 };
 
+
 // [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
 u.prototype.join = function(callback) {
@@ -492,11 +493,16 @@ u.prototype.off = function(events) {
 
 
 // Attach a callback to the specified events
-u.prototype.on = function(events, callback) {
-  
+u.prototype.on = function(events, cb) {
+
+  // Add the custom data as arguments to the callback
+  var callback = function(e){
+    return cb.apply(this, [e].concat(e.detail || []));
+  };
+
   return this.eacharg(events, function(node, event){
     node.addEventListener(event, callback);
-    
+
     // Store it so we can dereference it with `.off()` later on
     node._e = node._e || {};
     node._e[event] = (node._e[event] || []).concat(callback);
@@ -783,12 +789,14 @@ u.prototype.toggleClass = function(classes, addOrRemove){
 
 // Call an event manually on all the nodes
 u.prototype.trigger = function(events, data) {
-  
+
+  data = this.slice(arguments).slice(1);
+
   this.eacharg(events, function(node, event){
-    
+
     // Allow the event to bubble up and to be cancelable (default)
     var ev, opts = { bubbles: true, cancelable: true, detail: data };
-    
+
     try {
       // Accept different types of event names or an event itself
       ev = new CustomEvent(event, opts);
@@ -796,7 +804,7 @@ u.prototype.trigger = function(events, data) {
       ev = document.createEvent('CustomEvent');
       ev.initCustomEvent(event, true, true, data);
     }
-    
+
     node.dispatchEvent(ev);
   });
 };

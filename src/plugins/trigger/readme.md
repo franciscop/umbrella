@@ -4,9 +4,9 @@ Calls an event on all of the matched nodes
 
 ```js
 .trigger('event1', data)
-.trigger('event1 event2 eventN', data)
-.trigger('event1,event2,eventN', data)
-.trigger(['event1', 'event2', 'eventN'], data)
+.trigger('event1 event2 eventN', data1, data2, dataN)
+.trigger('event1,event2,eventN', data1, data2, dataN)
+.trigger(['event1', 'event2', 'eventN'], data1, data2, dataN)
 ```
 
 
@@ -15,7 +15,7 @@ Calls an event on all of the matched nodes
 
 `event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
 
-`data` optional: the data that will be passed to the event listener in the `e.details` variable.
+`data1`, `data2`, `dataN` (optional): the data that will be passed to the event listener in the `e.details` variable and as arguments.
 
 
 ### Return
