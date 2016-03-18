@@ -279,11 +279,11 @@ u("a.main").after(function(){
 
 ### Related
 
-[.before(html)](#before) Add some html before each of the matched elements.
+[.before()](#before) Add some html before each of the matched elements.
 
-[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+[.append()](#append) Add some html as a child at the end of each of the matched elements
 
-[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+[.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
 ## .ajax()
 
@@ -465,11 +465,11 @@ u("a.main").append(function(){
 
 ### Related
 
-[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+[.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
-[.before(html)](#before) Add some html before each of the matched elements.
+[.before()](#before) Add some html before each of the matched elements.
 
-[.after(html)](#after) Add some html as a sibling after each of the matched elements.
+[.after()](#after) Add some html as a sibling after each of the matched elements.
 
 ## .array()
 
@@ -675,11 +675,11 @@ u("a.main").before(function(){
 
 ### Related
 
-[.after(html)](#after) Add some html as a sibling after each of the matched elements.
+[.after()](#after) Add some html as a sibling after each of the matched elements.
 
-[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+[.append()](#append) Add some html as a child at the end of each of the matched elements
 
-[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+[.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
 ## .children()
 
@@ -714,11 +714,12 @@ u("ul").children('li:first-child');
 
 ### Related
 
-[.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-[.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-[.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
+
 ## .closest()
 
 Find the first ancestor that matches the selector for each node
@@ -752,11 +753,11 @@ u("li").closest('ul');
 
 ### Related
 
-[.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-[.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-[.children(filter)](#children) get the direct children of all of the nodes with an optional filter
+[.children()](#children) get the direct children of all of the nodes with an optional filter
 
 ## .data()
 
@@ -954,11 +955,11 @@ u('form').on('submit', function(e){
 
 ### Related
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-- [.children(filter)](#find) get the direct child of the matched nodes
+[.children()](#find) get the direct child of the matched nodes
 
 ## .first()
 
@@ -1129,9 +1130,9 @@ Toggle the color of a button depending on the status
 
 ### Related
 
-[.addClass(name)](#addclass) adds html class(es) to each of the matched elements.
+[.addClass()](#addclass) adds html class(es) to each of the matched elements.
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+[.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
 ## .html()
 
@@ -1184,7 +1185,9 @@ u('h1').html('Hello world');
 
 ### Related
 
-[.attr(html)](#attr) Handle attributes for the matched elements
+[.text()](#attr) Retrieve or set the textContent of the elements
+
+[.attr()](#attr) Handle attributes for the matched elements
 
 ## .is()
 
@@ -1285,7 +1288,7 @@ Remove known nodes from nodes
   - css selector that each of the nodes must **not** match to stay
   - instance of umbrella with the element to remove
   - function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
-  
+
 ```js
 .not(function(node){
   // your code
@@ -1319,9 +1322,9 @@ active_links = u('.menu a').not(nonactive_links);
 
 ### Related
 
-- [.is(filter)](#is) check whether one or more of the nodes is of one type
+- [.is()](#is) check whether one or more of the nodes is of one type
 
-- [.filter(filter)](#filter) Remove unwanted nodes
+- [.filter()](#filter) Remove unwanted nodes
 
 ## .off()
 
@@ -1372,11 +1375,11 @@ u('.off-multiple-test').trigger('click'); //No alert
 
 ### Related
 
-[.on(event, callback)](#on) Attaches an event to matched nodes
+[.on()](#on) Attaches an event to matched nodes
 
 [.handle()](#off) Same as `.on()`, but it prevents the default action
 
-[.trigger(event)](#trigger) Triggers an event on all of the matched nodes
+[.trigger()](#trigger) Triggers an event on all of the matched nodes
 
 ## .on()
 
@@ -1579,11 +1582,11 @@ u("a.main").prepend(function(){
 
 ### Related
 
-[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+[.append()](#append) Add some html as a child at the end of each of the matched elements
 
-[.before(html)](#before) Add some html before each of the matched elements.
+[.before()](#before) Add some html before each of the matched elements.
 
-[.after(html)](#after) Add some html as a sibling after each of the matched elements.
+[.after()](#after) Add some html as a sibling after each of the matched elements.
 
 ## .remove()
 
@@ -1656,9 +1659,9 @@ u("form").removeClass("toValidate", "ajaxify");
 
 ### Related
 
-[.addClass(name)](#addclass) adds class(es) from the matched elements.
+[.addClass()](#addclass) adds class(es) from the matched elements.
 
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.hasClass()](#hasclass) finds if the matched elements contain the class(es)
 
 ## .scroll()
 
@@ -1735,13 +1738,13 @@ u("li").siblings();
 
 ### Related
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-- [.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
 
-- [.children(filter)](#closest) get the direct children of all of the nodes with an optional filter
+[.children()](#closest) get the direct children of all of the nodes with an optional filter
 
 ## .size()
 
@@ -1828,7 +1831,7 @@ u('h1').text('Hello world');
 
 ### Related
 
-[.html(html)](#html) Retrieve or set the HTML of matched elements
+[.html()](#html) Retrieve or set the HTML of matched elements
 
 ## .toggleClass()
 
@@ -1886,11 +1889,11 @@ u("h2").toggleClass("main", u('.accept').is(':checked'));
 
 ### Related
 
-[.addClass(name)](#addclass) adds class(es) from the matched elements.
+[.addClass()](#addclass) adds class(es) from the matched elements.
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+[.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.hasClass()](#hasclass) finds if the matched elements contain the class(es)
 
 ## .trigger()
 

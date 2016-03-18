@@ -49,4 +49,4 @@ u('h1').text('Hello world');
 
 ### Related
 
-[.html(html)](#html) Retrieve or set the HTML of matched elements
+[.html()](#html) Retrieve or set the HTML of matched elements

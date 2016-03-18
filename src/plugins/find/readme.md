@@ -39,8 +39,8 @@ u('form').on('submit', function(e){
 
 ### Related
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-- [.children(filter)](#find) get the direct child of the matched nodes
+[.children()](#find) get the direct child of the matched nodes

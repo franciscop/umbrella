@@ -37,10 +37,10 @@ u("li").siblings();
 
 ### Related
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-- [.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
 
-- [.children(filter)](#closest) get the direct children of all of the nodes with an optional filter
+[.children()](#closest) get the direct children of all of the nodes with an optional filter

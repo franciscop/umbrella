@@ -183,9 +183,9 @@ u(&quot;a.main&quot;).after(function(){
 });
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
-<p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>
-<p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
+<p><a href="#before">.before()</a> Add some html before each of the matched elements.</p>
+<p><a href="#append">.append()</a> Add some html as a child at the end of each of the matched elements</p>
+<p><a href="#prepend">.prepend()</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <h2 id="-ajax-">.ajax()</h2>
 <p>Make all of the matched forms to be submitted by ajax with the same action, method and values when the user submits the form.</p>
 <blockquote>
@@ -303,9 +303,9 @@ u(&quot;a.main&quot;).append(function(){
 });
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
-<p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
-<p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
+<p><a href="#prepend">.prepend()</a> Add some html as a child at the beginning of each of the matched elements.</p>
+<p><a href="#before">.before()</a> Add some html before each of the matched elements.</p>
+<p><a href="#after">.after()</a> Add some html as a sibling after each of the matched elements.</p>
 <h2 id="-array-">.array()</h2>
 <p>Extract structured data from the DOM.</p>
 <pre><code class="lang-js">.array()
@@ -428,9 +428,9 @@ u(&quot;a.main&quot;).before(function(){
 });
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
-<p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>
-<p><a href="#prepend">.prepend(html)</a> Add some html as a child at the beginning of each of the matched elements.</p>
+<p><a href="#after">.after()</a> Add some html as a sibling after each of the matched elements.</p>
+<p><a href="#append">.append()</a> Add some html as a child at the end of each of the matched elements</p>
+<p><a href="#prepend">.prepend()</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <h2 id="-children-">.children()</h2>
 <p>Get the direct children of all of the nodes with an optional filter</p>
 <pre><code class="lang-js">.children(filter);
@@ -444,9 +444,9 @@ u(&quot;a.main&quot;).before(function(){
 <pre><code class="lang-js">u(&quot;ul&quot;).children(&#39;li:first-child&#39;);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#parent">.parent(filter)</a> get all of the direct parents</p>
-<p><a href="#find">.find(filter)</a> get all of the descendants of the matched nodes</p>
-<p><a href="#closest">.closest(filter)</a> get the first ascendant that matches the selector</p>
+<p><a href="#parent">.parent()</a> get all of the direct parents</p>
+<p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
+<p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
 <h2 id="-closest-">.closest()</h2>
 <p>Find the first ancestor that matches the selector for each node</p>
 <pre><code class="lang-js">.closest(filter);
@@ -460,9 +460,9 @@ u(&quot;a.main&quot;).before(function(){
 <pre><code class="lang-js">u(&quot;li&quot;).closest(&#39;ul&#39;);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#find">.find(filter)</a> get all of the descendants of the matched nodes</p>
-<p><a href="#parent">.parent(filter)</a> get all of the direct parents</p>
-<p><a href="#children">.children(filter)</a> get the direct children of all of the nodes with an optional filter</p>
+<p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
+<p><a href="#parent">.parent()</a> get all of the direct parents</p>
+<p><a href="#children">.children()</a> get the direct children of all of the nodes with an optional filter</p>
 <h2 id="-data-">.data()</h2>
 <p>Handle data-* attributes for the matched elements</p>
 <pre><code class="lang-js">// GET
@@ -566,14 +566,9 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 });
 </code></pre>
 <h3 id="related">Related</h3>
-<ul>
-<li><p><a href="#closest">.closest(filter)</a> get the first ascendant that matches the selector</p>
-</li>
-<li><p><a href="#parent">.parent(filter)</a> get all of the direct parents</p>
-</li>
-<li><p><a href="#find">.children(filter)</a> get the direct child of the matched nodes</p>
-</li>
-</ul>
+<p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
+<p><a href="#parent">.parent()</a> get all of the direct parents</p>
+<p><a href="#find">.children()</a> get the direct child of the matched nodes</p>
 <h2 id="-first-">.first()</h2>
 <p>Retrieve the first of the matched nodes</p>
 <pre><code class="lang-js">.first();
@@ -670,8 +665,8 @@ ajax(action, options, after, before);
 &lt;/script&gt;
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#addclass">.addClass(name)</a> adds html class(es) to each of the matched elements.</p>
-<p><a href="#removeclass">.removeClass(name)</a> deletes class(es) from the matched elements.</p>
+<p><a href="#addclass">.addClass()</a> adds html class(es) to each of the matched elements.</p>
+<p><a href="#removeclass">.removeClass()</a> deletes class(es) from the matched elements.</p>
 <h2 id="-html-">.html()</h2>
 <p>Retrieve or set the html of the elements:</p>
 <pre><code class="lang-js">// GET
@@ -698,7 +693,8 @@ should pass no parameter so it retrieves the html.</p>
 <pre><code class="lang-js">u(&#39;h1&#39;).html(&#39;Hello world&#39;);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#attr">.attr(html)</a> Handle attributes for the matched elements</p>
+<p><a href="#attr">.text()</a> Retrieve or set the textContent of the elements</p>
+<p><a href="#attr">.attr()</a> Handle attributes for the matched elements</p>
 <h2 id="-is-">.is()</h2>
 <p>Check whether any of the nodes matches the selector</p>
 <pre><code class="lang-js">.is(&#39;a&#39;)
@@ -773,9 +769,9 @@ should pass no parameter so it retrieves the html.</p>
 </code></pre>
 <h3 id="related">Related</h3>
 <ul>
-<li><p><a href="#is">.is(filter)</a> check whether one or more of the nodes is of one type</p>
+<li><p><a href="#is">.is()</a> check whether one or more of the nodes is of one type</p>
 </li>
-<li><p><a href="#filter">.filter(filter)</a> Remove unwanted nodes</p>
+<li><p><a href="#filter">.filter()</a> Remove unwanted nodes</p>
 </li>
 </ul>
 <h2 id="-off-">.off()</h2>
@@ -811,9 +807,9 @@ u(&#39;.off-multiple-test&#39;).off(&#39;click&#39;, listener);
 u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#on">.on(event, callback)</a> Attaches an event to matched nodes</p>
+<p><a href="#on">.on()</a> Attaches an event to matched nodes</p>
 <p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
-<p><a href="#trigger">.trigger(event)</a> Triggers an event on all of the matched nodes</p>
+<p><a href="#trigger">.trigger()</a> Triggers an event on all of the matched nodes</p>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
 <pre><code class="lang-js">.on(&#39;event1&#39;, callback)
@@ -948,9 +944,9 @@ u(&quot;a.main&quot;).prepend(function(){
 });
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#append">.append(html)</a> Add some html as a child at the end of each of the matched elements</p>
-<p><a href="#before">.before(html)</a> Add some html before each of the matched elements.</p>
-<p><a href="#after">.after(html)</a> Add some html as a sibling after each of the matched elements.</p>
+<p><a href="#append">.append()</a> Add some html as a child at the end of each of the matched elements</p>
+<p><a href="#before">.before()</a> Add some html before each of the matched elements.</p>
+<p><a href="#after">.after()</a> Add some html as a sibling after each of the matched elements.</p>
 <h2 id="-remove-">.remove()</h2>
 <p>Removes the matched elements.</p>
 <pre><code class="lang-js">.remove();
@@ -986,8 +982,8 @@ u(&quot;a.main&quot;).prepend(function(){
 <pre><code class="lang-js">u(&quot;form&quot;).removeClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#addclass">.addClass(name)</a> adds class(es) from the matched elements.</p>
-<p><a href="#hasclass">.hasClass(name)</a> finds if the matched elements contain the class(es)</p>
+<p><a href="#addclass">.addClass()</a> adds class(es) from the matched elements.</p>
+<p><a href="#hasclass">.hasClass()</a> finds if the matched elements contain the class(es)</p>
 <h2 id="-scroll-">.scroll()</h2>
 <p>Scroll to the first matched element, smoothly if supported.</p>
 <pre><code class="lang-js">.scroll()
@@ -1025,16 +1021,10 @@ u(&quot;a.main&quot;).prepend(function(){
 <pre><code class="lang-js">u(&quot;li&quot;).siblings();
 </code></pre>
 <h3 id="related">Related</h3>
-<ul>
-<li><p><a href="#parent">.parent(filter)</a> get all of the direct parents</p>
-</li>
-<li><p><a href="#find">.find(filter)</a> get all of the descendants of the matched nodes</p>
-</li>
-<li><p><a href="#closest">.closest(filter)</a> get the first ascendant that matches the selector</p>
-</li>
-<li><p><a href="#closest">.children(filter)</a> get the direct children of all of the nodes with an optional filter</p>
-</li>
-</ul>
+<p><a href="#parent">.parent()</a> get all of the direct parents</p>
+<p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
+<p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
+<p><a href="#closest">.children()</a> get the direct children of all of the nodes with an optional filter</p>
 <h2 id="-size-">.size()</h2>
 <p>Get the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect">bounding client rect</a> of the first matched element. This has height, width, top, left, right and bottom properties</p>
 <pre><code class="lang-js">.size()
@@ -1081,7 +1071,7 @@ should pass no parameter so it retrieves the text from the first matched element
 <pre><code class="lang-js">u(&#39;h1&#39;).text(&#39;Hello world&#39;);
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#html">.html(html)</a> Retrieve or set the HTML of matched elements</p>
+<p><a href="#html">.html()</a> Retrieve or set the HTML of matched elements</p>
 <h2 id="-toggleclass-">.toggleClass()</h2>
 <p>Toggles html class(es) to all of the matched elements.</p>
 <pre><code class="lang-js">.toggleClass(&#39;name1&#39;);
@@ -1109,9 +1099,9 @@ should pass no parameter so it retrieves the text from the first matched element
 <pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, u(&#39;.accept&#39;).is(&#39;:checked&#39;));
 </code></pre>
 <h3 id="related">Related</h3>
-<p><a href="#addclass">.addClass(name)</a> adds class(es) from the matched elements.</p>
-<p><a href="#removeclass">.removeClass(name)</a> deletes class(es) from the matched elements.</p>
-<p><a href="#hasclass">.hasClass(name)</a> finds if the matched elements contain the class(es)</p>
+<p><a href="#addclass">.addClass()</a> adds class(es) from the matched elements.</p>
+<p><a href="#removeclass">.removeClass()</a> deletes class(es) from the matched elements.</p>
+<p><a href="#hasclass">.hasClass()</a> finds if the matched elements contain the class(es)</p>
 <h2 id="-trigger-">.trigger()</h2>
 <p>Calls an event on all of the matched nodes</p>
 <pre><code class="lang-js">.trigger(&#39;event1&#39;, data)

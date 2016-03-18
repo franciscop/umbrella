@@ -49,4 +49,6 @@ u('h1').html('Hello world');
 
 ### Related
 
-[.attr(html)](#attr) Handle attributes for the matched elements
+[.text()](#attr) Retrieve or set the textContent of the elements
+
+[.attr()](#attr) Handle attributes for the matched elements
