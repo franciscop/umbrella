@@ -373,7 +373,7 @@ u('form').on('submit', function(e){
 
 ### Related
 
-[`ajax()`](#ajaxfn): perform ajax requests
+[ajax()](#ajaxfn): perform ajax requests
 
 ## .append()
 
@@ -1322,9 +1322,9 @@ active_links = u('.menu a').not(nonactive_links);
 
 ### Related
 
-- [.is()](#is) check whether one or more of the nodes is of one type
+[.is()](#is) check whether one or more of the nodes is of one type
 
-- [.filter()](#filter) Remove unwanted nodes
+[.filter()](#filter) Remove unwanted nodes
 
 ## .off()
 

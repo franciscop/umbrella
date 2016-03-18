@@ -86,4 +86,4 @@ u('form').on('submit', function(e){
 
 ### Related
 
-[`ajax()`](#ajaxfn): perform ajax requests
+[ajax()](#ajaxfn): perform ajax requests

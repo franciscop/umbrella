@@ -49,6 +49,6 @@ active_links = u('.menu a').not(nonactive_links);
 
 ### Related
 
-- [.is()](#is) check whether one or more of the nodes is of one type
+[.is()](#is) check whether one or more of the nodes is of one type
 
-- [.filter()](#filter) Remove unwanted nodes
+[.filter()](#filter) Remove unwanted nodes
