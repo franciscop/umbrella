@@ -38,8 +38,11 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-markdown": "^0.7.0",
     "grunt-mocha-phantomjs": "^2.0.1",
-    "phantomjs": "^1.9.8",
+<<<<<<< HEAD
     "marked": "^0.3.5",
+=======
+    "phantomjs": "^1.9.8",
+>>>>>>> 6a36b50ff96632b39f919ec72f7cc19dbb030512
     "mocha-phantomjs": "^4.0.2"
   }
 }
