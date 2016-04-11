@@ -1,7 +1,7 @@
 // Call an event manually on all the nodes
-u.prototype.trigger = function(events, data) {
+u.prototype.trigger = function(events) {
 
-  data = this.slice(arguments).slice(1);
+  var data = this.slice(arguments).slice(1);
 
   this.eacharg(events, function(node, event){
 
