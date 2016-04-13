@@ -22,13 +22,15 @@
     "url": "https://github.com/umbrellajs/umbrella/issues"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt",
+    "postinstall": "git remote set-url --add --push origin git@github.com:umbrellajs/umbrella.git && git remote set-url --add --push origin git@github.com:umbrellajs/umbrellajs.github.io.git"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/umbrellajs/umbrella.git"
   },
   "devDependencies": {
+    "phantomjs": "^1.9.8",
     "grunt": "^0.4.5",
     "grunt-bytesize": "^0.1.1",
     "grunt-contrib-concat": "^0.5.1",
@@ -38,7 +40,6 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-markdown": "^0.7.0",
     "grunt-mocha-phantomjs": "^2.0.1",
-    "phantomjs": "^1.9.8",
     "marked": "^0.3.5",
     "mocha-phantomjs": "^4.0.2"
   }
