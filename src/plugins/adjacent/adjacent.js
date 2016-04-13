@@ -9,7 +9,7 @@ u.prototype.adjacent = function(html, data, callback) {
     var fragment = document.createDocumentFragment();
 
     // Allow for data to be falsy and still loop once
-    u(data || [""]).join(function(el, i){
+    u(data || {}).join(function(el, i){
 
       // Allow for callbacks that accept some data
       var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
@@ -25,23 +25,4 @@ u.prototype.adjacent = function(html, data, callback) {
 
     callback.call(this, node, fragment);
   });
-
-
-
-
-  // // Loop through all the nodes. It cannot reuse the eacharg() since the data
-  // // we want to do it once even if there's no "data" and we accept a selector
-  // return this.each(function(node) {
-  //
-  //   // Allow for data to be falsy and still loop once
-  //   u(data || [""]).each(function(el){
-  //
-  //     // Allow for callbacks that accept some data
-  //     var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
-  //
-  //     // http://stackoverflow.com/a/23589438
-  //     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-  //     node.insertAdjacentHTML(position, tx);
-  //   });
-  // });
 };

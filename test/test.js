@@ -421,18 +421,36 @@ describe(".after(html)", function() {
 
 // Testing the main file
 describe(".ajax(done, before)", function() {
-  
+
   it("should be defined", function() {
     expect(typeof base.ajax).to.equal('function');
   });
-  
+
+  it("works even if empty", function() {
+
+    // This is needed to make sure that the previous one is cleared
+    setTimeout(function(){
+      u('form.login').ajax();
+
+      u('form.login').trigger('submit');
+      setTimeout(function(){ u('form.login').off('submit'); }, 100);
+    }, 110);
+  });
+
   it("calls before", function(next) {
-    u('form.login').ajax(function(err, body, xhr){
-      expect(!!xhr).to.equal(true);
-      next();
-    });
-    
-    u('form.login').trigger('submit');
+
+    setTimeout(function(){
+      u('form.login').ajax(function(err, body, xhr){
+        same(this.nodeName, 'FORM');
+        same(!!xhr, true);
+        next();
+      });
+
+      u('form.login').trigger('submit');
+
+      // SetTimeout is needed not to interrupt te current event
+      setTimeout(function(){ u('form.login').off('submit'); }, 100);
+    }, 110);
   });
 });
 
@@ -1463,6 +1481,8 @@ describe('.off()', function() {
   });
 });
 
+// Note: node._e['submit'] and other events will appear as [null] in PhantomJS
+// but they work as expected
 describe(".on(event, fn)", function() {
 
   beforeEach(function(){
@@ -1586,7 +1606,6 @@ describe(".prepend()", function() {
 
   it("can add content inverted with a callback and data", function() {
     base.prepend(callback, ["a", "b"]);
-    //console.log(u('.base').nodes);
     //throw "Error";
     size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
     size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.a:first-child', 1);

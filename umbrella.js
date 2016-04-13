@@ -69,7 +69,7 @@ u.prototype.adjacent = function(html, data, callback) {
     var fragment = document.createDocumentFragment();
 
     // Allow for data to be falsy and still loop once
-    u(data || [""]).join(function(el, i){
+    u(data || {}).join(function(el, i){
 
       // Allow for callbacks that accept some data
       var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
@@ -85,25 +85,6 @@ u.prototype.adjacent = function(html, data, callback) {
 
     callback.call(this, node, fragment);
   });
-
-
-
-
-  // // Loop through all the nodes. It cannot reuse the eacharg() since the data
-  // // we want to do it once even if there's no "data" and we accept a selector
-  // return this.each(function(node) {
-  //
-  //   // Allow for data to be falsy and still loop once
-  //   u(data || [""]).each(function(el){
-  //
-  //     // Allow for callbacks that accept some data
-  //     var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
-  //
-  //     // http://stackoverflow.com/a/23589438
-  //     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-  //     node.insertAdjacentHTML(position, tx);
-  //   });
-  // });
 };
 
 // Add some html as a sibling after each of the matched elements.
@@ -118,14 +99,14 @@ u.prototype.after = function(html, data) {
 u.prototype.ajax = function(done, before) {
   return this.on("submit", function(e) {
     e.preventDefault();   // Stop native request
-    var f = u(this);
-    var opt = {
-      body: f.serialize(),
-      method: f.attr("method")
-    };
-    if (done) done = done.bind(this);
-    if (before) before = before.bind(this);
-    ajax(f.attr("action"), opt, done, before);
+
+    // The arguments required to perform an ajax request
+    ajax(
+      u(this).attr("action"),
+      { body: u(this).serialize(), method: u(this).attr("method") },
+      done && done.bind(this),
+      before && before.bind(this)
+    );
   });
 };
 
@@ -407,13 +388,13 @@ u.prototype.handle = function(events, callback) {
 
 /**
  * .hasClass(name)
- * 
+ *
  * Find out whether the matched elements have a class or not
  * @param String name the class name we want to find
  * @return boolean wether the nodes have the class or not
  */
-u.prototype.hasClass = function(names) {
-  
+u.prototype.hasClass = function() {
+
   // Check if any of them has all of the classes
   return this.is('.' + this.args(arguments).join('.'));
 };
@@ -515,18 +496,9 @@ u.prototype.on = function(events, cb) {
 // Parametize an object: { a: 'b', c: 'd' } => 'a=b&c=d'
 u.prototype.param = function(obj){
 
-  // Note: while this is ~10% slower (~3us/operation) than with a simple for(in)
-  // I find it more legible and more 'logical' (however right now a test fails)
-  // return Object.keys(obj).map(function(key) {
-  //   return this.uri(key) + '=' + this.uri(obj[key]);
-  // }).join('&');
-
-
-  var query = '';
-  for(var key in obj) {
-    query += '&' + this.uri(key) + '=' + this.uri(obj[key]);
-  }
-  return query.slice(1);
+  return Object.keys(obj).map(function(key) {
+    return this.uri(key) + '=' + this.uri(obj[key]);
+  }.bind(this)).join('&');
 };
 
 /**
@@ -788,9 +760,9 @@ u.prototype.toggleClass = function(classes, addOrRemove){
 
 
 // Call an event manually on all the nodes
-u.prototype.trigger = function(events, data) {
+u.prototype.trigger = function(events) {
 
-  data = this.slice(arguments).slice(1);
+  var data = this.slice(arguments).slice(1);
 
   this.eacharg(events, function(node, event){
 
