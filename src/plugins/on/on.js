@@ -11,6 +11,7 @@ u.prototype.on = function(events, cb) {
 
     // Store it so we can dereference it with `.off()` later on
     node._e = node._e || {};
-    node._e[event] = (node._e[event] || []).concat(callback);
+    node._e[event] = node._e[event] || [];
+    node._e[event].push(callback);
   });
 };
