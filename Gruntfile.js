@@ -80,6 +80,7 @@ module.exports = function (grunt) {
         }
       },
     },
+
     bytesize: {
       all: {
         src: [
