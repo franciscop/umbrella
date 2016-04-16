@@ -22,8 +22,7 @@
     "url": "https://github.com/umbrellajs/umbrella/issues"
   },
   "scripts": {
-    "test": "grunt",
-    "postinstall": "git remote set-url --add --push origin git@github.com:umbrellajs/umbrella.git && git remote set-url --add --push origin git@github.com:umbrellajs/umbrellajs.github.io.git"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
