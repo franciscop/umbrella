@@ -539,6 +539,10 @@ describe(".append(html)", function() {
       size('.base > .bla > a', 1);
     });
 
+    it("can append a table row", function() {
+      u('table.tbl').append('<tr><td>Hi</td></tr>');
+    });
+
     it("can add just text", function() {
       var frag = u('<div>').append('Hello world!\n');
       same(frag.html(), 'Hello world!\n');
