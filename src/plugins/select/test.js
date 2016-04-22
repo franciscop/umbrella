@@ -23,6 +23,7 @@ describe(".select(selector)", function() {
 
   it("can select by id", function(){
     expect(u().select('#base')).to.not.equal(null);
+    expect(u().select('#base').nodeName).to.equal('DIV');
   });
 
   it("can select by complex selector", function() {
