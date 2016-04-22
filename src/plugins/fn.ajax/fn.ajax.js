@@ -4,6 +4,7 @@ function ajax(action, opt, done, before) {
   // To avoid repeating it
   done = done || function(){};
 
+  // A bunch of options and defaults
   opt = opt || {};
   opt.body = opt.body || "";
   opt.method = (opt.method || 'GET').toUpperCase();
@@ -28,6 +29,7 @@ function ajax(action, opt, done, before) {
 
     // Also an error if it doesn't start by 2 or 3...
     // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
+    // We don't want to return yet though as there might be some content
     var err = !/^(2|3)/.test(request.status) ? new Error(request.status) : null;
 
     // Attempt to parse the body into JSON
