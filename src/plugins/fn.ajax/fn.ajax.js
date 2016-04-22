@@ -9,7 +9,7 @@ function ajax(action, opt, done, before) {
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
   opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
-  if (!FormData || !(opt.body instanceof FormData)) {
+  if (!FormData || (FormData && !(opt.body instanceof FormData))) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
   }
   opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
