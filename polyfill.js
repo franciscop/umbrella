@@ -23,6 +23,9 @@ DOMTokenList.prototype = {
     push.call(this, token);
     this.el.className = this.toString();
   },
+  contains: function(token) {
+    return this.el.className.indexOf(token) != -1;
+  },
   item: function(index) {
     return this[index] || null;
   },
