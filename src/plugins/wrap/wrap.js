@@ -1,16 +1,21 @@
 u.prototype.wrap = function(selector) {
   selector = /^\s*</.test(selector) ? selector : '<' + selector + '>';
-  var that = this,
-      nodesList = [];
+  var newNodesList = [];
 
-  that.nodes.forEach(function(node) {
-    var wrapperNode = u(selector);
-    var ac = wrapperNode.append(node.cloneNode(true));
-    node.parentNode.replaceChild(ac.nodes[0], node);
-    nodesList.push(ac.nodes[0]);
-    that = ac;
-    that.nodes = nodesList;
-  });
+  this.nodes.forEach(function(node) {
+    var newNode =
+      u(selector)
+      .append(node.cloneNode(true));
 
-  return that;
+    node
+      .parentNode
+      .replaceChild(newNode.nodes[0], node);
+
+    newNodesList
+      .push(newNode.nodes[0]);
+
+    this.nodes = newNodesList;
+  }, this);
+
+  return this;
 };
