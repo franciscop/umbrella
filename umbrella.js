@@ -818,17 +818,17 @@ u.prototype.wrap = function(selector) {
   this.nodes.forEach(function(node) {
     var newNode =
       u(selector)
-      .append(node.cloneNode(true));
+        .append(node.cloneNode(true))
+        .nodes[0];
 
     node
       .parentNode
-      .replaceChild(newNode.nodes[0], node);
+      .replaceChild(newNode, node);
 
     newNodesList
-      .push(newNode.nodes[0]);
-
-    this.nodes = newNodesList;
+      .push(newNode);
   }, this);
 
+  this.nodes = newNodesList;
   return this;
 };
