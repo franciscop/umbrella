@@ -28,13 +28,6 @@ describe(".wrap()", function() {
     size('.example-wrapper > .example', 1);
   });
 
-  it("should wrap multiple matched elements", function() {
-    base.append('<button class="example">Link1</button>');
-
-    u('.example').wrap('<a class="example-wrapper">');
-    size('.example-wrapper', 2);
-  });
-
   it("should wrap multiple elements using a chained umbrella.js function", function() {
     base.append('<button class="example">Link1</button>');
 
