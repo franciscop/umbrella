@@ -51,12 +51,13 @@ u.prototype.nodes = [];
 
 // Add class(es) to the matched nodes
 u.prototype.addClass = function(){
-  
+
   // Loop the combination of each node with each argument
   return this.eacharg(arguments, function(el, name){
     el.classList.add(name);
   });
 };
+
 
 // [INTERNAL USE ONLY]
 // Add text in the specified position. It is used by other functions
@@ -807,4 +808,22 @@ u.prototype.unique = function(){
 // Encode the different strings https://gist.github.com/brettz9/7147458
 u.prototype.uri = function(str){
   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+};
+
+
+u.prototype.wrap = function(selector) {
+  selector = /^\s*</.test(selector) ? selector : '<' + selector + '>';
+  var that = this,
+      nodesList = [];
+
+  that.nodes.forEach(function(node) {
+    var wrapperNode = u(selector);
+    var ac = wrapperNode.append(node.cloneNode(true));
+    node.parentNode.replaceChild(ac.nodes[0], node);
+    nodesList.push(ac.nodes[0]);
+    that = ac;
+    that.nodes = nodesList;
+  });
+
+  return that;
 };

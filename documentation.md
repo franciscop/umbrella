@@ -1941,3 +1941,4 @@ setInterval(function(){
 [.handle()](#off) Same as `.on()`, but it prevents the default action
 
 [.off()](#off) Removes an event from matched nodes
+
