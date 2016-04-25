@@ -35,6 +35,14 @@ describe(".wrap()", function() {
     size('.example-wrapper', 2);
   });
 
+  it("when wrapping  multiple elements it should return a copy of the original node", function() {
+    base.append('<button class="example">Link2</button>');
+
+    var wrappedNodes = u('.example').wrap('<a>').addClass('example-wrapper');
+    expect(wrappedNodes.nodes[0].innerText).to.equal('Link1')
+    expect(wrappedNodes.nodes[1].innerText).to.equal('Link2')
+  });
+
   it("should add all specified attributes to the wrapper element", function() {
     u('.example').wrap('<a>').attr({ href: 'http://google.com/', class: 'example-wrapper' });
     expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
