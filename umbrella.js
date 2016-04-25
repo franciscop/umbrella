@@ -824,7 +824,7 @@ u.prototype.wrap = function(selector) {
     // 3) append cloned dom node to constructed node based on selector
     // 4) assign node to variable by selecting first index since
     //    umbrella.js returns {nodes: [<..dom node..>]} in this instance
-    // Suggest adding u.prototype.getNodes() to return this.
+    // Suggest adding u.prototype.getNodes() to return this instead?
     var newNode =
       u(selector)
         .append(node.cloneNode(true))

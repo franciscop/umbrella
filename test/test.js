@@ -2337,25 +2337,32 @@ describe(".wrap()", function() {
     size('.example-wrapper > .example', 1);
   });
 
-  it("should correctly wrap a single umbrella.js generated element", function() {
+  it("should correctly wrap a single formatted selector", function() {
     u('.example').wrap('<a href="http://google.com/" class="example-wrapper">');
     size('.example-wrapper > .example', 1);
   });
 
-  it("should wrap multiple umbrella.js generated elements", function() {
+  it("should correctly wrap a single unformatted selector", function() {
+    u('.example').wrap('a').addClass('example-wrapper');
+    size('.example-wrapper > .example', 1);
+  });
+
+  it("should wrap multiple matched elements", function() {
     base.append('<button class="example">Link1</button>');
+
     u('.example').wrap('<a class="example-wrapper">');
     size('.example-wrapper', 2);
   });
 
   it("should wrap multiple elements using a chained umbrella.js function", function() {
     base.append('<button class="example">Link1</button>');
+
     u('.example').wrap('<a>').addClass('example-wrapper');
     size('.example-wrapper', 2);
   });
 
   it("should add all specified attributes to the wrapper element", function() {
-    u('.example').wrap('a').attr({ href: 'http://google.com/', class: 'example-wrapper' });
+    u('.example').wrap('<a>').attr({ href: 'http://google.com/', class: 'example-wrapper' });
     expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
   });
 });
