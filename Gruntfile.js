@@ -12,6 +12,7 @@ module.exports = function (grunt) {
         src: ['Gruntfile.js', 'umbrella.js'],
         options: {
           '-W043': true,  // Allow for multiline with \ backslash
+          'debug': true
         }
       }
     },

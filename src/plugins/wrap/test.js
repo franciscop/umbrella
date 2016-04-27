@@ -23,16 +23,11 @@ describe(".wrap()", function() {
     size('.example-wrapper > .example', 1);
   });
 
-  it("should correctly wrap a single unformatted selector", function() {
-    u('.example').wrap('a').addClass('example-wrapper');
-    size('.example-wrapper > .example', 1);
-  });
-
   it("should wrap multiple elements using a chained umbrella.js function", function() {
     base.append('<button class="example">Link1</button>');
 
     u('.example').wrap('<a>').addClass('example-wrapper');
-    size('.example-wrapper', 2);
+    size('.example-wrapper .example', 2);
   });
 
   it("when wrapping  multiple elements it should return a copy of the original node", function() {
