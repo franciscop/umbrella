@@ -1944,7 +1944,7 @@ setInterval(function(){
 
 ## .wrap()
 
-Wraps the matched element(s) with the passed argument. The argument gets processed with the constructor u() and it accepts an html tag like ```.wrap('<div>')``` or ```.wrap('div')```
+Wraps the matched element(s) with the passed argument. The argument gets processed with the constructor u() and it accepts an html tag like ```.wrap('<div>')```
 
 ```js
 .wrap(selector);
@@ -1953,7 +1953,7 @@ Wraps the matched element(s) with the passed argument. The argument gets process
 
 ### Parameters
 
-`selector`: a formatted or unformatted string of the desired selector. For example ```.wrap('<div>')``` or ```.wrap('div')```
+`selector`: a formatted string of the desired selector. For example ```.wrap('<div>')```
 
 
 
@@ -2006,7 +2006,7 @@ Wrap several elements in an html element
 ```
 
 ```js
-u(".example").wrap('a').attr({class: "wrapper", href: "http://google.com"});
+u(".example").wrap('<a>').attr({class: "wrapper", href: "http://google.com"});
 ```
 
 Result:
@@ -2021,3 +2021,5 @@ Result:
   <button class="example">Link3</button>
 </a>
 ```
+
+> Note: Unlike [jQuery wrap](http://api.jquery.com/wrap/), passing nested arguments (e.g. ```wrap('<div><div></div></div>')```) is not supported at this time.
