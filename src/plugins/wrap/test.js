@@ -42,4 +42,9 @@ describe(".wrap()", function() {
     u('.example').wrap('<a>').attr({ href: 'http://google.com/', class: 'example-wrapper' });
     expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
   });
+
+  it("should support nested selector arguments", function() {
+    u('.example').wrap('<div id="one"><div id="two"></div></div>');
+    size('#one #two .example', 1);
+  });
 });
