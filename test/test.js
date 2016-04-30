@@ -2357,8 +2357,13 @@ describe(".wrap()", function() {
     expect(wrappedNodes.nodes[1].innerText).to.equal('Link2')
   });
 
-  it("should add all specified attributes to the wrapper element", function() {
+  it("should add all specified attributes to the wrapper element using a chaing umbrella js function", function() {
     u('.example').wrap('<a>').attr({ href: 'http://google.com/', class: 'example-wrapper' });
+    expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
+  });
+
+  it("should add all specified attributes to the wrapper element using a formatted selector", function() {
+    u('.example').wrap('<a href="http://google.com/" class="example-wrapper">');
     expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
   });
 
@@ -2372,7 +2377,7 @@ describe(".wrap()", function() {
     size('#a1 #b1 #c1 .example', 1);
   });
 
-  it("should only append to last child of first nested selector argument child", function() {
+  it("should only append to the last child of the nested selector argument's first child", function() {
     u('.example').wrap('<div id="a1"><div id="b1"><div id="c1"></div></div><div id="b2"><div id="c2"><div id="d1"></div></div></div></div>');
     size('#a2 #b2 #c2 #d1 .example', 0);
   });
