@@ -38,7 +38,7 @@ describe(".wrap()", function() {
     expect(wrappedNodes.nodes[1].innerText).to.equal('Link2')
   });
 
-  it("should add all specified attributes to the wrapper element using a chaing umbrella js function", function() {
+  it("should add all specified attributes to the wrapper element using a chained umbrella js function", function() {
     u('.example').wrap('<a>').attr({ href: 'http://google.com/', class: 'example-wrapper' });
     expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
   });
