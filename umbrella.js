@@ -291,6 +291,18 @@ u.prototype.find = function(selector) {
 };
 
 
+function findDeepestNode(node) {
+  try {
+    while(node.hasChildNodes()) {
+      node = node.firstElementChild;
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+  return u(node);
+}
+
+
 /**
  * Get the first of the nodes
  * @return htmlnode the first html node in the matched nodes
@@ -817,17 +829,18 @@ u.prototype.wrap = function(selector) {
   // 3) append cloned dom node to constructed node based on selector
   return this.join(function(node) {
     return u(selector).each(function(n) {
-      return findDeepestNode(n).append(node.cloneNode(true));
+      findDeepestNode(n)
+        .append(node.cloneNode(true));
+
+      node.
+        parentNode.
+        replaceChild(n, node);
     })
+    .nodes;
     // Update new nodes list to be passed
     // along to any possible chained functions
     // e.g. .attr, .addClass, etc
     // return this.nodes;
-    .each(function(newNode) {
-      node.
-        parentNode.
-        replaceChild(newNode, node);
-    }).nodes;
   });
 };
 

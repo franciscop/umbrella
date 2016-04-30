@@ -4,17 +4,18 @@ u.prototype.wrap = function(selector) {
   // 3) append cloned dom node to constructed node based on selector
   return this.join(function(node) {
     return u(selector).each(function(n) {
-      return findDeepestNode(n).append(node.cloneNode(true));
+      findDeepestNode(n)
+        .append(node.cloneNode(true));
+
+      node.
+        parentNode.
+        replaceChild(n, node);
     })
+    .nodes;
     // Update new nodes list to be passed
     // along to any possible chained functions
     // e.g. .attr, .addClass, etc
     // return this.nodes;
-    .each(function(newNode) {
-      node.
-        parentNode.
-        replaceChild(newNode, node);
-    }).nodes;
   });
 };
 
