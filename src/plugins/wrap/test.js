@@ -47,4 +47,14 @@ describe(".wrap()", function() {
     u('.example').wrap('<div id="one"><div id="two"></div></div>');
     size('#one #two .example', 1);
   });
+
+  it("should support nested selector arguments with more than one nested child", function() {
+    u('.example').wrap('<div id="a1"><div id="b1"><div id="c1"></div></div><div id="b2"><div id="c2"><div id="d1"></div></div></div></div>');
+    size('#a1 #b1 #c1 .example', 1);
+  });
+
+  it("should only append to last child of first nested selector argument child", function() {
+    u('.example').wrap('<div id="a1"><div id="b1"><div id="c1"></div></div><div id="b2"><div id="c2"><div id="d1"></div></div></div></div>');
+    size('#a2 #b2 #c2 #d1 .example', 0);
+  });
 });
