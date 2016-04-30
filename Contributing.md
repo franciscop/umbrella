@@ -4,9 +4,12 @@
 
 Thanks for contributing! Developing Umbrella is quite easy:
 
-1. Clone the repository `git clone git+https://github.com/umbrellajs/umbrella.git && cd ./umbrellajs`
-1. Install the dependencies `npm install`
-1. Install grunt if you didn't have it
+1. Clone the repository  
+`git clone git://github.com/umbrellajs/umbrella.git/ umbrellajs && cd ./umbrellajs`
+1. Install the dependencies   
+`npm install`
+1. Install grunt if you didn't have it  
+`npm install -g grunt-cli`
 1. Run `grunt watch`
 1. Modify any file within `/src` (code, tests or documentation)
 
