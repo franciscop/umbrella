@@ -31,8 +31,8 @@ u("li").closest('ul');
 
 ### Related
 
-[.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-[.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-[.children(filter)](#children) get the direct children of all of the nodes with an optional filter
+[.children()](#children) get the direct children of all of the nodes with an optional filter

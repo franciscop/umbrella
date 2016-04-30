@@ -42,6 +42,6 @@ u("form").removeClass("toValidate", "ajaxify");
 
 ### Related
 
-[.addClass(name)](#addclass) adds class(es) from the matched elements.
+[.addClass()](#addclass) adds class(es) from the matched elements.
 
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.hasClass()](#hasclass) finds if the matched elements contain the class(es)

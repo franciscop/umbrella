@@ -15,23 +15,23 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {
     return new u(parameter, context);
   }
-  
+
   // No need to further processing it if it's already an instance
   if (parameter instanceof u) {
     return parameter;
   }
-  
+
   // Parse it as a CSS selector if it's a string
-  if (typeof parameter == "string") {
+  if (typeof parameter == 'string') {
     parameter = this.select(parameter, context);
   }
-  
+
   // If we're referring a specific node as in on('click', function(){ u(this) })
   // or the select() function returned a single node such as in '#id'
   if (parameter && parameter.nodeName) {
     parameter = [parameter];
   }
-  
+
   // Convert to an array, since there are many 'array-like' stuff in js-land
   this.nodes = this.slice(parameter);
 };
@@ -62,6 +62,14 @@ u.prototype.addClass = function(){
 // Add text in the specified position. It is used by other functions
 u.prototype.adjacent = function(html, data, callback) {
 
+  if (typeof data === 'number') {
+    if (data === 0) {
+      data = [];
+    } else {
+      data = new Array(data).join().split(',').map(Number.call, Number);
+    }
+  }
+
   // Loop through all the nodes. It cannot reuse the eacharg() since the data
   // we want to do it once even if there's no "data" and we accept a selector
   return this.each(function(node, j) {
@@ -69,7 +77,7 @@ u.prototype.adjacent = function(html, data, callback) {
     var fragment = document.createDocumentFragment();
 
     // Allow for data to be falsy and still loop once
-    u(data || [""]).join(function(el, i){
+    u(data || {}).join(function(el, i){
 
       // Allow for callbacks that accept some data
       var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
@@ -85,25 +93,6 @@ u.prototype.adjacent = function(html, data, callback) {
 
     callback.call(this, node, fragment);
   });
-
-
-
-
-  // // Loop through all the nodes. It cannot reuse the eacharg() since the data
-  // // we want to do it once even if there's no "data" and we accept a selector
-  // return this.each(function(node) {
-  //
-  //   // Allow for data to be falsy and still loop once
-  //   u(data || [""]).each(function(el){
-  //
-  //     // Allow for callbacks that accept some data
-  //     var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
-  //
-  //     // http://stackoverflow.com/a/23589438
-  //     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-  //     node.insertAdjacentHTML(position, tx);
-  //   });
-  // });
 };
 
 // Add some html as a sibling after each of the matched elements.
@@ -118,14 +107,14 @@ u.prototype.after = function(html, data) {
 u.prototype.ajax = function(done, before) {
   return this.on("submit", function(e) {
     e.preventDefault();   // Stop native request
-    var f = u(this);
-    var opt = {
-      body: f.serialize(),
-      method: f.attr("method")
-    };
-    if (done) done = done.bind(this);
-    if (before) before = before.bind(this);
-    ajax(f.attr("action"), opt, done, before);
+
+    // The arguments required to perform an ajax request
+    ajax(
+      u(this).attr("action"),
+      { body: u(this).serialize(), method: u(this).attr("method") },
+      done && done.bind(this),
+      before && before.bind(this)
+    );
   });
 };
 
@@ -293,11 +282,8 @@ u.prototype.filter = function(selector){
 };
 
 
-/**
- * Find all the nodes children of the current ones matched by a selector
- */
+// Find all the nodes children of the current ones matched by a selector
 u.prototype.find = function(selector) {
-  
   return this.join(function(node){
     return u(selector || "*", node).nodes;
   });
@@ -320,12 +306,13 @@ function ajax(action, opt, done, before) {
   // To avoid repeating it
   done = done || function(){};
 
+  // A bunch of options and defaults
   opt = opt || {};
   opt.body = opt.body || "";
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
   opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
-  if (!FormData || !(opt.body instanceof FormData)) {
+  if (typeof FormData == "undefined" || !(opt.body instanceof FormData)) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
   }
   opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
@@ -344,6 +331,7 @@ function ajax(action, opt, done, before) {
 
     // Also an error if it doesn't start by 2 or 3...
     // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
+    // We don't want to return yet though as there might be some content
     var err = !/^(2|3)/.test(request.status) ? new Error(request.status) : null;
 
     // Attempt to parse the body into JSON
@@ -410,13 +398,13 @@ u.prototype.handle = function(events, callback) {
 
 /**
  * .hasClass(name)
- * 
+ *
  * Find out whether the matched elements have a class or not
  * @param String name the class name we want to find
  * @return boolean wether the nodes have the class or not
  */
-u.prototype.hasClass = function(names) {
-  
+u.prototype.hasClass = function() {
+
   // Check if any of them has all of the classes
   return this.is('.' + this.args(arguments).join('.'));
 };
@@ -452,6 +440,7 @@ u.prototype.html = function(text) {
 u.prototype.is = function(selector){
   return this.filter(selector).length > 0;
 };
+
 
 // [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
@@ -495,14 +484,20 @@ u.prototype.off = function(events) {
 
 
 // Attach a callback to the specified events
-u.prototype.on = function(events, callback) {
-  
+u.prototype.on = function(events, cb) {
+
+  // Add the custom data as arguments to the callback
+  var callback = function(e){
+    return cb.apply(this, [e].concat(e.detail || []));
+  };
+
   return this.eacharg(events, function(node, event){
     node.addEventListener(event, callback);
-    
+
     // Store it so we can dereference it with `.off()` later on
     node._e = node._e || {};
-    node._e[event] = (node._e[event] || []).concat(callback);
+    node._e[event] = node._e[event] || [];
+    node._e[event].push(callback);
   });
 };
 
@@ -512,18 +507,9 @@ u.prototype.on = function(events, callback) {
 // Parametize an object: { a: 'b', c: 'd' } => 'a=b&c=d'
 u.prototype.param = function(obj){
 
-  // Note: while this is ~10% slower (~3us/operation) than with a simple for(in)
-  // I find it more legible and more 'logical' (however right now a test fails)
-  // return Object.keys(obj).map(function(key) {
-  //   return this.uri(key) + '=' + this.uri(obj[key]);
-  // }).join('&');
-
-
-  var query = '';
-  for(var key in obj) {
-    query += '&' + this.uri(key) + '=' + this.uri(obj[key]);
-  }
-  return query.slice(1);
+  return Object.keys(obj).map(function(key) {
+    return this.uri(key) + '=' + this.uri(obj[key]);
+  }.bind(this)).join('&');
 };
 
 /**
@@ -706,9 +692,16 @@ u.prototype.size = function(){
 // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
 u.prototype.slice = function(pseudo) {
 
+  // Check that it's not a valid object
+  if (!pseudo ||
+      pseudo.length === 0 ||
+      typeof pseudo === 'string' ||
+      pseudo.toString() == '[object Function]') return [];
+
   // Accept also a u() object (that has .nodes)
-  return pseudo ? [].slice.call(pseudo.nodes || pseudo) : [];
+  return pseudo.length ? [].slice.call(pseudo.nodes || pseudo) : [pseudo];
 };
+
 
 // [INTERNAL USE ONLY]
 
@@ -778,13 +771,15 @@ u.prototype.toggleClass = function(classes, addOrRemove){
 
 
 // Call an event manually on all the nodes
-u.prototype.trigger = function(events, data) {
-  
+u.prototype.trigger = function(events) {
+
+  var data = this.slice(arguments).slice(1);
+
   this.eacharg(events, function(node, event){
-    
+
     // Allow the event to bubble up and to be cancelable (default)
     var ev, opts = { bubbles: true, cancelable: true, detail: data };
-    
+
     try {
       // Accept different types of event names or an event itself
       ev = new CustomEvent(event, opts);
@@ -792,7 +787,7 @@ u.prototype.trigger = function(events, data) {
       ev = document.createEvent('CustomEvent');
       ev.initCustomEvent(event, true, true, data);
     }
-    
+
     node.dispatchEvent(ev);
   });
 };

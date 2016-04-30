@@ -4,8 +4,6 @@ Make all of the matched forms to be submitted by ajax with the same action, meth
 
 > Note: this method does NOT submit the form, it just handles it when it's submitted (from the user or with .trigger())
 
-> Note2: the .serialize() method used internally is slightly buggy; select can only have a single selection and few other bugs as described here: [form serialize javascript](http://stackoverflow.com/a/11661219)
-
 ```js
 .ajax(done, before);
 ```
@@ -86,4 +84,4 @@ u('form').on('submit', function(e){
 
 ### Related
 
-[`ajax()`](#ajaxfn): perform ajax requests
+[ajax()](#ajaxfn): perform ajax requests

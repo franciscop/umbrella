@@ -57,11 +57,14 @@ block content
             th Test 2
             th Test 3
             th Test 4
+        
+        table.tbl
   
   
   script(src="test/vendor/mocha.js")
   script(src="test/vendor/chai.js")
   script(src="test/jquery.js")
+  script(src="polyfill.js")
   script(src="umbrella.js")
   script.
     mocha.setup('bdd');

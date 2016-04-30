@@ -1,6 +1,6 @@
 // Testing the main file
 describe(".is(selector)", function() {
-  
+
   it("should be defined", function() {
     expect(typeof base.is).to.equal('function');
   });

@@ -47,6 +47,8 @@ u('.off-multiple-test').trigger('click'); //No alert
 
 ### Related
 
-[.on(event, callback)](#on) Attaches an event to matched nodes
+[.on()](#on) Attaches an event to matched nodes
 
-[.trigger(event)](#trigger) Triggers an event on all of the matched nodes
+[.handle()](#off) Same as `.on()`, but it prevents the default action
+
+[.trigger()](#trigger) Triggers an event on all of the matched nodes

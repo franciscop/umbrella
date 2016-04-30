@@ -15,23 +15,23 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {
     return new u(parameter, context);
   }
-  
+
   // No need to further processing it if it's already an instance
   if (parameter instanceof u) {
     return parameter;
   }
-  
+
   // Parse it as a CSS selector if it's a string
-  if (typeof parameter == "string") {
+  if (typeof parameter == 'string') {
     parameter = this.select(parameter, context);
   }
-  
+
   // If we're referring a specific node as in on('click', function(){ u(this) })
   // or the select() function returned a single node such as in '#id'
   if (parameter && parameter.nodeName) {
     parameter = [parameter];
   }
-  
+
   // Convert to an array, since there are many 'array-like' stuff in js-land
   this.nodes = this.slice(parameter);
 };

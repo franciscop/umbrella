@@ -66,6 +66,6 @@ Toggle the color of a button depending on the status
 
 ### Related
 
-[.addClass(name)](#addclass) adds html class(es) to each of the matched elements.
+[.addClass()](#addclass) adds html class(es) to each of the matched elements.
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+[.removeClass()](#removeclass) deletes class(es) from the matched elements.

@@ -88,8 +88,8 @@ u("a.main").append(function(){
 
 ### Related
 
-[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+[.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
-[.before(html)](#before) Add some html before each of the matched elements.
+[.before()](#before) Add some html before each of the matched elements.
 
-[.after(html)](#after) Add some html as a sibling after each of the matched elements.
+[.after()](#after) Add some html as a sibling after each of the matched elements.

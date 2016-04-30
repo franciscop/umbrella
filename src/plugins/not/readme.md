@@ -15,7 +15,7 @@ Remove known nodes from nodes
   - css selector that each of the nodes must **not** match to stay
   - instance of umbrella with the element to remove
   - function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
-  
+
 ```js
 .not(function(node){
   // your code
@@ -49,6 +49,6 @@ active_links = u('.menu a').not(nonactive_links);
 
 ### Related
 
-- [.is(filter)](#is) check whether one or more of the nodes is of one type
+[.is()](#is) check whether one or more of the nodes is of one type
 
-- [.filter(filter)](#filter) Remove unwanted nodes
+[.filter()](#filter) Remove unwanted nodes

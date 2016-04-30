@@ -116,8 +116,8 @@ describe("u()", function() {
     expect(u(function(){ return "test"; }).length).to.equal(0);
   });
 
-  it("won't select a random object", function() {
-    expect(u({ a: 'b', c: 'd' }).length).to.equal(0);
+  it("will select a random object", function() {
+    expect(u({ a: 'b', c: 'd' }).length).to.equal(1);
   });
 
   it("can select an Umbrella instance", function() {
@@ -125,6 +125,15 @@ describe("u()", function() {
     expect(u(inst).length).to.equal(1);
     expect(u(inst)).to.equal(inst);
   });
+
+  // it("accepts a function", function() {
+  //   expect(u(function(){}).first()).to.equal(false);
+  // });
+  //
+  // it("generates some html", function() {
+  //   expect(u(function(node, i){
+  //     return "<li></li>"; }, 2).first()).to.equal('<li></li>');
+  // });
 
   it("can use a context", function() {
     var context = u('.demo li').nodes[0];
@@ -421,18 +430,36 @@ describe(".after(html)", function() {
 
 // Testing the main file
 describe(".ajax(done, before)", function() {
-  
+
   it("should be defined", function() {
     expect(typeof base.ajax).to.equal('function');
   });
-  
+
+  it("works even if empty", function() {
+
+    // This is needed to make sure that the previous one is cleared
+    setTimeout(function(){
+      u('form.login').ajax();
+
+      u('form.login').trigger('submit');
+      setTimeout(function(){ u('form.login').off('submit'); }, 100);
+    }, 110);
+  });
+
   it("calls before", function(next) {
-    u('form.login').ajax(function(err, body, xhr){
-      expect(!!xhr).to.equal(true);
-      next();
-    });
-    
-    u('form.login').trigger('submit');
+
+    setTimeout(function(){
+      u('form.login').ajax(function(err, body, xhr){
+        same(this.nodeName, 'FORM');
+        same(!!xhr, true);
+        next();
+      });
+
+      u('form.login').trigger('submit');
+
+      // SetTimeout is needed not to interrupt te current event
+      setTimeout(function(){ u('form.login').off('submit'); }, 100);
+    }, 110);
   });
 });
 
@@ -461,31 +488,150 @@ describe(".append(html)", function() {
     expect(typeof base.append).to.equal('function');
   });
 
-  it("can add content in the right place", function() {
-    base.append('<a class="bla">Link</a>');
-    size('.base > .bla', 1);
+  it("can be called empty", function() {
+    base.append();
   });
 
-  it("can add content with a callback", function() {
-    base.append(callback);
-    size('.base > .bla', 1)('.base > .bla:last-child', 1);
+  it("can be called with empty string", function() {
+    base.append("");
   });
 
-  it("is called as many times as data in the second param", function() {
-    base.append('<a class="bla">Link</a>', ["a", "b"]);
-    size('.base > .bla', 2)('.base > .bla:last-child', 1);
+  it("a function looping data has right footprint", function() {
+    base.append(function(value, index, node, j){
+      if (['a', 'b'].indexOf(value) === -1) throw new Error("Not an element");
+      if (value === 'a') same(index, 0);
+      if (value === 'b') same(index, 1);
+      same(node, base.first());
+      same(j, 0)
+    }, ['a', 'b']);
   });
 
-  it("can add content with a callback and data", function() {
-    base.append(callback, ["a", "b"]);
-    size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
-    size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.b:last-child', 1);
+
+  it("a function looping a number has right footprint", function() {
+    var iterations = 0;
+    base.append(function(value, index, node, j){
+      if ([0, 1].indexOf(value) === -1) throw new Error("Not an element");
+      if (value === 0) same(index, 0);
+      if (value === 1) same(index, 1);
+      same(node, base.first());
+      same(j, 0);
+      iterations++;
+    }, 2);
+    same(iterations, 2);
   });
 
-  it("can append an html node", function() {
-    base.append(u('<div>').addClass('bla').first());
-    size('.bla', 1);
+
+
+  // HTML
+  describe("HTML string", function(){
+    it("can add a link", function() {
+      base.append('<a class="bla">Link</a>');
+      size('.base > .bla', 1);
+    });
+
+    it("can add sibling links", function() {
+      base.append('<a class="bla">Link</a><a class="bla">Link</a>');
+      size('.base > .bla', 2);
+    });
+
+    it("can add nested content", function() {
+      base.append('<strong class="bla"><a>Link</a></strong>');
+      size('.base > .bla > a', 1);
+    });
+
+    it("can append a table row", function() {
+      u('table.tbl').append('<tr><td>Hi</td></tr>');
+    });
+
+    it("can add just text", function() {
+      var frag = u('<div>').append('Hello world!\n');
+      same(frag.html(), 'Hello world!\n');
+    });
   });
+
+  describe("HTML string looped with array", function(){
+
+    it("insert two links", function() {
+      base.append('<a class="bla">Link</a>', ['a', 'b']);
+      size('.base > .bla', 2)('.base > .bla:last-child', 1);
+    });
+
+    it("can add nested content", function() {
+      base.append('<strong class="bla"><a>Link</a></strong>', ['a', 'b']);
+      size('.base > .bla > a', 2);
+    });
+
+    it("can append simple text", function() {
+      var frag = u('<div>').append('Hello!\n', ['a', 'b']);
+      same(frag.html(), 'Hello!\nHello!\n');
+    });
+  });
+
+
+
+  // Callback
+  describe("Callback", function(){
+    it("can add a link", function() {
+      base.append(function(){ return '<a class="bla">Link</a>'; });
+      size('.base > .bla', 1)('.base > .bla:last-child', 1);
+    });
+
+    it("can add sibling links", function() {
+      base.append(function(){ return '<a class="bla">Link</a><a class="bla">Link</a>'; });
+      size('.base > .bla', 2)('.base > .bla:last-child', 1);
+    });
+
+    it("can add nested content", function() {
+      base.append(function(){ return '<strong class="bla"><a>Link</a></strong>'; });
+      size('.base > .bla > a', 1);
+    });
+
+    it("can add just text", function() {
+      var frag = u('<div>').append(function(){ return 'Hello world!\n'; });
+      same(frag.html(), 'Hello world!\n');
+    });
+  });
+
+  describe("Callback looped with array", function(){
+
+    it("can add sibling links", function() {
+      base.append(function(v){ return '<a class="bla">Link</a>'; }, ['a', 'b']);
+      size('.base > .bla', 2)('.base > .bla:last-child', 1);
+    });
+
+    it("can add nested content", function() {
+      base.append(function(){ return '<strong class="bla"><a>Link</a></strong>'; }, ['a', 'b']);
+      size('.base > .bla > a', 2);
+    });
+
+    it("can add just text", function() {
+      var frag = u('<div>').append(function(){ return 'Hello world!\n'; }, ['a', 'b']);
+      same(frag.html(), 'Hello world!\nHello world!\n');
+    });
+
+    it("can add content with a callback and data", function() {
+      base.append(callback, ['a', 'b']);
+      size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
+      size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.b:last-child', 1);
+    });
+  });
+
+
+
+  describe("Umbrella instance", function(){
+    it("Accepts a simple one", function(){
+      base.append(u('<div class="bla"></div>'));
+      size('.base > .bla', 1)('.base > .bla:last-child', 1);
+    });
+
+    it("Keeps the events when appending", function(done){
+      base.append(u('<div class="bla">').on('click', function(){ done(); }));
+      size('.base > .bla', 1)('.base > .bla:last-child', 1);
+      u('.base .bla').trigger('click');
+    });
+  });
+
+
 
   it("can generate some text", function(){
     var list = u("<div>");
@@ -493,6 +639,26 @@ describe(".append(html)", function() {
 
     expect(list.children().length).to.equal(0);
     expect(list.html()).to.equal('a\nb\n');
+  });
+
+  it("can generate some text with number", function(){
+    var list = u("<div>");
+    if (work) list.append(function(n){ return n + "\n" }, 2);
+
+    expect(list.children().length).to.equal(0);
+    expect(list.html()).to.equal('0\n1\n');
+  });
+
+  it("isn't called any time with 0", function(){
+    u('<div>').append(function(n){ throw new Error("Shouldn't be called"); }, 0);
+  });
+
+
+
+  // Node
+  it("can append an html node", function() {
+    base.append(u('<div class="bla">').first());
+    size('.bla', 1);
   });
 });
 
@@ -1223,7 +1389,7 @@ describe(".html(content)", function() {
 });
 // Testing the main file
 describe(".is(selector)", function() {
-  
+
   it("should be defined", function() {
     expect(typeof base.is).to.equal('function');
   });
@@ -1254,6 +1420,7 @@ describe(".is(selector)", function() {
     });
   });
 });
+
 describe(".join(function(){})", function() {
 
   it("should be defined", function() {
@@ -1462,16 +1629,18 @@ describe('.off()', function() {
   });
 });
 
+// Note: node._e['submit'] and other events will appear as [null] in PhantomJS
+// but they work as expected
 describe(".on(event, fn)", function() {
-  
+
   beforeEach(function(){
     base.append('<div class="clickable"></div>');
   });
-  
+
   afterEach(function(){
     u('.clickable').remove();
   });
-  
+
   it("should be defined", function() {
     expect(typeof base.on).to.equal('function');
   });
@@ -1496,7 +1665,39 @@ describe(".on(event, fn)", function() {
     base.find('.clickable').trigger('click');
     base.find('.clickable').trigger('submit');
   });
+
+  it("triggers the event with custom data", function(done) {
+    base.find('.clickable').on('click', function(e, a){
+      same(!!e, true);
+      same(e.detail, ['a']);
+      same(a, 'a');
+      done();
+    });
+    base.find('.clickable').trigger('click', 'a');
+  });
+
+  it("triggers the event with custom data object", function(done) {
+    base.find('.clickable').on('click', function(e, a){
+      same(!!e, true);
+      same(e.detail, [{ a: 'b' }]);
+      same(a, { a: 'b' });
+      done();
+    });
+    base.find('.clickable').trigger('click', { a: 'b' });
+  });
+
+  it("triggers the event with custom data values", function(done) {
+    base.find('.clickable').on('click', function(e, a, b){
+      same(!!e, true);
+      same(e.detail, ['a', 'b']);
+      same(a, 'a');
+      same(b, 'b');
+      done();
+    });
+    base.find('.clickable').trigger('click', 'a', 'b');
+  });
 });
+
 describe('.parent()', function() {
 
   it('should be defined', function() {
@@ -1553,7 +1754,6 @@ describe(".prepend()", function() {
 
   it("can add content inverted with a callback and data", function() {
     base.prepend(callback, ["a", "b"]);
-    //console.log(u('.base').nodes);
     //throw "Error";
     size('.base > .bla', 2)('.base > .bla.a', 1)('.base > .bla.b', 1);
     size('.bla.a + .bla.b', 1)('.bla.b + .bla.a', 0)('.base > .bla.a:first-child', 1);
@@ -1726,7 +1926,7 @@ describe('.scroll()', function() {
       u('#scrollTest').remove();
       u('body').scroll();
       done();
-    }, 50);
+    }, 100);
   });
 });
 
@@ -1755,6 +1955,7 @@ describe(".select(selector)", function() {
 
   it("can select by id", function(){
     expect(u().select('#base')).to.not.equal(null);
+    expect(u().select('#base').nodeName).to.equal('DIV');
   });
 
   it("can select by complex selector", function() {
@@ -1898,23 +2099,74 @@ describe('.size()', function() {
   });
 });
 
+describe(".slice()", function() {
+
+  it("should be a function", function() {
+    expect(typeof base.slice).to.equal('function');
+  });
+
+  it("can be called empty", function() {
+    same(base.slice(), []);
+    same(base.slice(''), []);
+    same(base.slice(null), []);
+    same(base.slice(undefined), []);
+    same(base.slice(false), []);
+  });
+
+  it("can slice an array", function() {
+    same(base.slice(['a', 'b']), ['a', 'b']);
+  });
+
+  it("ignores a string", function() {
+    same(base.slice('Hello world'), []);
+  });
+
+  it("ignores a function", function() {
+    same(base.slice(function(){}), []);
+  });
+
+  it("accepts a simple number", function() {
+    same(base.slice(5), [5]);
+  });
+
+  it("converts a simple object to array", function() {
+    same(base.slice({ a: 'b' }), [{ a: 'b' }]);
+  });
+
+  it("accepts an XMLRequest", function() {
+    var request = new XMLHttpRequest;
+    same(base.slice(request), [request]);
+  });
+
+  it("accepts the document", function() {
+    same(base.slice(document), [document]);
+  });
+
+  it("accepts an argument list", function() {
+    (function(){
+      same(base.slice(arguments), ['a', 'b']);
+    })('a', 'b');
+  });
+});
+
 // Testing the main file
 describe(".text(content)", function() {
-  
+
   it("should be a function", function() {
     expect(typeof base.hasClass).to.equal('function');
   });
-  
+
   it("can get the text content", function() {
     expect(base.find('#world').text()).to.equal('Hello world');
   });
-  
+
   it("can set the text content", function() {
     expect(base.find('#world').text()).not.to.equal('hello!');
     base.find('#world').text('hello!');
     expect(base.find('#world').text()).to.equal('hello!');
   });
 });
+
 // Testing the main file
 describe(".toggleClass(name1, name2, ...)", function() {
   
@@ -2016,36 +2268,36 @@ describe(".toggleClass(name1, name2, ...)", function() {
 
 // Testing the main file
 describe(".trigger()", function() {
-  
+
   afterEach(function(){
     base.off('click bla');
   });
-  
+
   it("should be a function", function() {
     expect(typeof base.trigger).to.equal('function');
   });
-  
+
   it("can trigger a click", function() {
     base.on('click', function(e){
       expect(!!e).to.equal(true);
     });
     base.trigger('click');
   });
-  
+
   it("can trigger an event in the wrong element", function() {
     base.on('click', function(e){
       expect(!!e).to.equal(true);
     });
     base.trigger('click');
   });
-  
+
   it("doesn't trigger all events", function() {
     base.on('click', function(e){
       throw "Shouldn't be called";
     });
     base.trigger('submit');
   });
-  
+
   it("triggers custom event", function(done) {
     base.on('bla', function(e){
       expect(!!e).to.equal(true);
@@ -2053,11 +2305,12 @@ describe(".trigger()", function() {
     });
     base.trigger('bla');
   });
-  
+
   it("passes data", function(done) {
-    base.on('click', function(e){
+    base.on('click', function(e, go){
       expect(!!e).to.equal(true);
-      expect(e.detail).to.equal("good");
+      same(e.detail, ["good"]);
+      same(go, "good");
       done();
     });
     base.trigger('click', 'good');
