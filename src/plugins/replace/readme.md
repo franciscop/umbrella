@@ -21,13 +21,13 @@ The newly created element.
 
 ### Examples
 
-Retrieve the first element of a list:
+Replace elements with class 'save' by a button with class 'update':
 
 ```js
-// Replace elements with class 'save' by a button with class 'update'
 u('.save').replace('<button class="update">Update<button>');
 
-// Replace element button by a link with class 'button'
+Replace element button by a link with class 'button':
+
 u('button').replace(function(btn){
   return '<a class="button">' + btn.innerHTML + '</a>';
 });
