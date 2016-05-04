@@ -14,7 +14,7 @@ describe(".replace(newValue)", function() {
     base.find('button.update').remove();
  });
     
- it("replace the multi node string case", function() { 
+ it("replace multi nodes string case", function() { 
     base.append('<a class="save">Save</a><a class="save">Save</a>');
 
     base.find('a.save').replace('<button class="update">Update<button>');
@@ -34,7 +34,7 @@ describe(".replace(newValue)", function() {
     base.find('button.update').remove();
  });
     
- it("replace the single node function case", function() { 
+ it("replace multi nodes function case", function() { 
     base.append('<a class="save">Save</a><a class="save">Save</a>');
 
     base.find('a.save').replace(function(link){
