@@ -279,19 +279,17 @@ u("a.main").after(function(){
 
 ### Related
 
-[.before(html)](#before) Add some html before each of the matched elements.
+[.before()](#before) Add some html before each of the matched elements.
 
-[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+[.append()](#append) Add some html as a child at the end of each of the matched elements
 
-[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+[.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
 ## .ajax()
 
 Make all of the matched forms to be submitted by ajax with the same action, method and values when the user submits the form.
 
 > Note: this method does NOT submit the form, it just handles it when it's submitted (from the user or with .trigger())
-
-> Note2: the .serialize() method used internally is slightly buggy; select can only have a single selection and few other bugs as described here: [form serialize javascript](http://stackoverflow.com/a/11661219)
 
 ```js
 .ajax(done, before);
@@ -373,7 +371,7 @@ u('form').on('submit', function(e){
 
 ### Related
 
-[`ajax()`](#ajaxfn): perform ajax requests
+[ajax()](#ajaxfn): perform ajax requests
 
 ## .append()
 
@@ -465,11 +463,11 @@ u("a.main").append(function(){
 
 ### Related
 
-[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+[.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
-[.before(html)](#before) Add some html before each of the matched elements.
+[.before()](#before) Add some html before each of the matched elements.
 
-[.after(html)](#after) Add some html as a sibling after each of the matched elements.
+[.after()](#after) Add some html as a sibling after each of the matched elements.
 
 ## .array()
 
@@ -675,11 +673,11 @@ u("a.main").before(function(){
 
 ### Related
 
-[.after(html)](#after) Add some html as a sibling after each of the matched elements.
+[.after()](#after) Add some html as a sibling after each of the matched elements.
 
-[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+[.append()](#append) Add some html as a child at the end of each of the matched elements
 
-[.prepend(html)](#prepend) Add some html as a child at the beginning of each of the matched elements.
+[.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
 
 ## .children()
 
@@ -714,11 +712,12 @@ u("ul").children('li:first-child');
 
 ### Related
 
-[.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-[.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-[.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
+
 ## .closest()
 
 Find the first ancestor that matches the selector for each node
@@ -752,11 +751,11 @@ u("li").closest('ul');
 
 ### Related
 
-[.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-[.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-[.children(filter)](#children) get the direct children of all of the nodes with an optional filter
+[.children()](#children) get the direct children of all of the nodes with an optional filter
 
 ## .data()
 
@@ -954,11 +953,11 @@ u('form').on('submit', function(e){
 
 ### Related
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-- [.children(filter)](#find) get the direct child of the matched nodes
+[.children()](#find) get the direct child of the matched nodes
 
 ## .first()
 
@@ -1053,6 +1052,14 @@ u('form.login').handle('submit', function(e){
 });
 ```
 
+### Related
+
+[.on()](#off) Calls a function when an event is triggered
+
+[.trigger()](#trigger) calls an event on all of the matched nodes
+
+[.off()](#off) Removes an event from  matched nodes
+
 ## .hasClass()
 
 Find if any of the matched elements contains the class passed:
@@ -1121,9 +1128,9 @@ Toggle the color of a button depending on the status
 
 ### Related
 
-[.addClass(name)](#addclass) adds html class(es) to each of the matched elements.
+[.addClass()](#addclass) adds html class(es) to each of the matched elements.
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+[.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
 ## .html()
 
@@ -1176,7 +1183,9 @@ u('h1').html('Hello world');
 
 ### Related
 
-[.attr(html)](#attr) Handle attributes for the matched elements
+[.text()](#attr) Retrieve or set the textContent of the elements
+
+[.attr()](#attr) Handle attributes for the matched elements
 
 ## .is()
 
@@ -1277,7 +1286,7 @@ Remove known nodes from nodes
   - css selector that each of the nodes must **not** match to stay
   - instance of umbrella with the element to remove
   - function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
-  
+
 ```js
 .not(function(node){
   // your code
@@ -1311,9 +1320,9 @@ active_links = u('.menu a').not(nonactive_links);
 
 ### Related
 
-- [.is(filter)](#is) check whether one or more of the nodes is of one type
+[.is()](#is) check whether one or more of the nodes is of one type
 
-- [.filter(filter)](#filter) Remove unwanted nodes
+[.filter()](#filter) Remove unwanted nodes
 
 ## .off()
 
@@ -1364,9 +1373,11 @@ u('.off-multiple-test').trigger('click'); //No alert
 
 ### Related
 
-[.on(event, callback)](#on) Attaches an event to matched nodes
+[.on()](#on) Attaches an event to matched nodes
 
-[.trigger(event)](#trigger) Triggers an event on all of the matched nodes
+[.handle()](#off) Same as `.on()`, but it prevents the default action
+
+[.trigger()](#trigger) Triggers an event on all of the matched nodes
 
 ## .on()
 
@@ -1385,7 +1396,15 @@ Calls a function when an event is triggered
 
 `event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
 
-`callback`: function that will be called when the event is triggered. It accepts a single parameter, the event itself.
+`callback`: function that will be called when the event is triggered. The parameters it accepts are `function(e, data1, data2, ..., dataN)`:
+
+  - `e`: the event that was triggered. It has some interesting properties:
+
+    - `e.currentTarget`: Contains the element that triggered the event.
+    - `e.preventDefault()`: Avoids the browser from performing the default action.
+    - `e.details`: an array of the argument data passed to `trigger()` if it was passed with that function. See other arguments:
+
+  - `data1`, `data2`, `dataN`: the arguments that were passed to `trigger()` if it was called with that function.
 
 
 
@@ -1425,9 +1444,11 @@ u('input').on('change click blur paste', function(){
 
 ### Related
 
+[.handle()](#off) Same as `.on()`, but it prevents the default action
+
 [.trigger()](#trigger) calls an event on all of the matched nodes
 
-[.off(event, callback)](#off) Removes an event from  matched nodes
+[.off()](#off) Removes an event from  matched nodes
 
 ## .parent()
 
@@ -1559,11 +1580,11 @@ u("a.main").prepend(function(){
 
 ### Related
 
-[.append(html)](#append) Add some html as a child at the end of each of the matched elements
+[.append()](#append) Add some html as a child at the end of each of the matched elements
 
-[.before(html)](#before) Add some html before each of the matched elements.
+[.before()](#before) Add some html before each of the matched elements.
 
-[.after(html)](#after) Add some html as a sibling after each of the matched elements.
+[.after()](#after) Add some html as a sibling after each of the matched elements.
 
 ## .remove()
 
@@ -1636,9 +1657,9 @@ u("form").removeClass("toValidate", "ajaxify");
 
 ### Related
 
-[.addClass(name)](#addclass) adds class(es) from the matched elements.
+[.addClass()](#addclass) adds class(es) from the matched elements.
 
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.hasClass()](#hasclass) finds if the matched elements contain the class(es)
 
 ## .scroll()
 
@@ -1665,6 +1686,16 @@ u('a.team').on('click', function(e){
   u('section.team').scroll();
 });
 ```
+
+## .serialize()
+
+Converts a form into a string to be sent:
+
+```js
+.serialize()
+```
+
+> Note: multiple-select are not supported in Internet Explorer, [similarly to jQuery](https://github.com/jquery/jquery-mobile/issues/3947)
 
 ## .siblings()
 
@@ -1705,13 +1736,13 @@ u("li").siblings();
 
 ### Related
 
-- [.parent(filter)](#parent) get all of the direct parents
+[.parent()](#parent) get all of the direct parents
 
-- [.find(filter)](#find) get all of the descendants of the matched nodes
+[.find()](#find) get all of the descendants of the matched nodes
 
-- [.closest(filter)](#closest) get the first ascendant that matches the selector
+[.closest()](#closest) get the first ascendant that matches the selector
 
-- [.children(filter)](#closest) get the direct children of all of the nodes with an optional filter
+[.children()](#closest) get the direct children of all of the nodes with an optional filter
 
 ## .size()
 
@@ -1798,7 +1829,7 @@ u('h1').text('Hello world');
 
 ### Related
 
-[.html(html)](#html) Retrieve or set the HTML of matched elements
+[.html()](#html) Retrieve or set the HTML of matched elements
 
 ## .toggleClass()
 
@@ -1856,11 +1887,11 @@ u("h2").toggleClass("main", u('.accept').is(':checked'));
 
 ### Related
 
-[.addClass(name)](#addclass) adds class(es) from the matched elements.
+[.addClass()](#addclass) adds class(es) from the matched elements.
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+[.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.hasClass()](#hasclass) finds if the matched elements contain the class(es)
 
 ## .trigger()
 
@@ -1868,9 +1899,9 @@ Calls an event on all of the matched nodes
 
 ```js
 .trigger('event1', data)
-.trigger('event1 event2 eventN', data)
-.trigger('event1,event2,eventN', data)
-.trigger(['event1', 'event2', 'eventN'], data)
+.trigger('event1 event2 eventN', data1, data2, dataN)
+.trigger('event1,event2,eventN', data1, data2, dataN)
+.trigger(['event1', 'event2', 'eventN'], data1, data2, dataN)
 ```
 
 
@@ -1879,7 +1910,7 @@ Calls an event on all of the matched nodes
 
 `event1`, `event2`, `eventN`: the name(s) of the events to listen for actions, such as `click`, `submit`, `change`, etc.
 
-`data` optional: the data that will be passed to the event listener in the `e.details` variable.
+`data1`, `data2`, `dataN` (optional): the data that will be passed to the event listener in the `e.details` variable and as arguments.
 
 
 ### Return
@@ -1906,5 +1937,7 @@ setInterval(function(){
 ### Related
 
 [.on()](#on) add an event listener to the matched nodes
+
+[.handle()](#off) Same as `.on()`, but it prevents the default action
 
 [.off()](#off) Removes an event from matched nodes

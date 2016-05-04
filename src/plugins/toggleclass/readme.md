@@ -54,8 +54,8 @@ u("h2").toggleClass("main", u('.accept').is(':checked'));
 
 ### Related
 
-[.addClass(name)](#addclass) adds class(es) from the matched elements.
+[.addClass()](#addclass) adds class(es) from the matched elements.
 
-[.removeClass(name)](#removeclass) deletes class(es) from the matched elements.
+[.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
-[.hasClass(name)](#hasclass) finds if the matched elements contain the class(es)
+[.hasClass()](#hasclass) finds if the matched elements contain the class(es)

@@ -14,3 +14,11 @@ u('form.login').handle('submit', function(e){
   // logic
 });
 ```
+
+### Related
+
+[.on()](#off) Calls a function when an event is triggered
+
+[.trigger()](#trigger) calls an event on all of the matched nodes
+
+[.off()](#off) Removes an event from  matched nodes
