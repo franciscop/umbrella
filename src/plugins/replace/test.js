@@ -5,15 +5,6 @@ describe(".replace(newValue)", function() {
     expect(typeof base.replace).to.equal('function');
   });
     
- it("does nothing when argument is invalid", function() {
-    base.append('<a class="save">Save</a>');
-
-    base.find('a.save').replace();
-    size('.base > a.save', 1);
- 
-    base.find('a.save').remove();
-  });
-    
  it("replace the single node string case", function() { 
     base.append('<a class="save">Save</a>');
 
