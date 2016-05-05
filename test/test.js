@@ -1308,7 +1308,6 @@ describe(".find(selector)", function() {
     expect(u("*").find('.brand a').nodes.length).to.equal(1);
   });
 });
-
 // Testing the main file
 describe(".first()", function() {
   
