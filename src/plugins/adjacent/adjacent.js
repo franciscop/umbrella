@@ -28,7 +28,7 @@ u.prototype.adjacent = function(html, data, callback) {
 
       return u(part).nodes;
     }).each(function(n){
-      fragment.appendChild(n);
+      fragment.appendChild(n.cloneNode(true));
     });
 
     callback.call(this, node, fragment);

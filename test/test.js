@@ -628,6 +628,7 @@ describe(".append(html)", function() {
       base.append(u('<div class="bla">').on('click', function(){ done(); }));
       size('.base > .bla', 1)('.base > .bla:last-child', 1);
       u('.base .bla').trigger('click');
+      done();
     });
   });
 
@@ -659,6 +660,15 @@ describe(".append(html)", function() {
   it("can append an html node", function() {
     base.append(u('<div class="bla">').first());
     size('.bla', 1);
+  });
+
+  it("should append supplied html to each targeted element and not only the last instance", function() {
+    base.append(u('<span class="test-span"></span><span class="test-span"></span><span class="test-span"></span><span class="test-span"></span>'));
+    base.append(u('<a class="appendMe"></a>'));
+
+    u(".test-span").append(u(".appendMe"));
+
+    size(".test-span .appendMe", 4);
   });
 });
 
