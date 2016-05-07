@@ -1,6 +1,6 @@
 u.prototype.wrap = function(selector) {
   function findDeepestNode(node) {
-    while(node.hasChildNodes()) {
+    while(node.firstElementChild) {
       node = node.firstElementChild;
     }
 
