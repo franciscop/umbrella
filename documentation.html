@@ -1123,6 +1123,89 @@ setInterval(function(){
 <p><a href="#on">.on()</a> add an event listener to the matched nodes</p>
 <p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#off">.off()</a> Removes an event from matched nodes</p>
+<h2 id="-wrap-">.wrap()</h2>
+<p>Wraps the matched element(s) with the passed argument. The argument gets processed with the constructor u() and it accepts an html tag like <code>.wrap(&#39;&lt;div&gt;&#39;)</code></p>
+<pre><code class="lang-js">.wrap(selector);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>selector</code>: a formatted string of the desired selector. For example <code>.wrap(&#39;&lt;div&gt;&#39;)</code>. Nested selectors are supported in a similar way to <a href="http://api.jquery.com/wrap/">jQuery wrap</a>. For example <code>.wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;)</code>. Matched element(s) will be wrapped with innermost node of the first child of a nested argument. See examples below.</p>
+<h3 id="return">Return</h3>
+<p><code>u</code>: returns an instance of Umbrella JS with the wrapped node(s)</p>
+<h3 id="examples">Examples</h3>
+<p>Wrap an element in an html element:</p>
+<p>Original element:</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a class=&quot;wrapper&quot;&gt;&#39;);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;a class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;/a&gt;
+</code></pre>
+<p>Wrap an element in an html element and chain umbrella.js methods:</p>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;/a&gt;
+</code></pre>
+<p>Wrap several elements in an html element</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;button class=&quot;example&quot;&gt;Link2&lt;/button&gt;
+&lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;/a&gt;
+&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link2&lt;/button&gt;
+&lt;/a&gt;
+&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
+&lt;/a&gt;
+</code></pre>
+<p>Nested selector arguments:</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;div class=&quot;a1&quot;&gt;
+    &lt;div class=&quot;b1&quot;&gt;
+        &lt;div class=&quot;c1&quot;&gt;
+            &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+              &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Nested selector arguments with multiple child nodes:</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;b2&quot;&gt;&lt;div class=&quot;c2&quot;&gt;&lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;div class=&quot;a1&quot;&gt;
+    &lt;div class=&quot;b1&quot;&gt;
+        &lt;div class=&quot;c1&quot;&gt;
+            &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+              &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;b2&quot;&gt;
+        &lt;div class=&quot;c2&quot;&gt;
+            &lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 </article></section></main><script src="umbrella.min.js"></script><script>u('h2[id]').each(function(node){
   u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
 });

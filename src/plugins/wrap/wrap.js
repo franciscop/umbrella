@@ -1,0 +1,27 @@
+u.prototype.wrap = function(selector) {
+  function findDeepestNode(node) {
+    while(node.hasChildNodes()) {
+      node = node.firstElementChild;
+    }
+
+    return u(node);
+  }
+  // 1) Construct dom node e.g. u('<a>'),
+  // 2) clone the currently matched node
+  // 3) append cloned dom node to constructed node based on selector
+  return this.join(function(node) {
+    return u(selector).each(function(n) {
+      findDeepestNode(n)
+        .append(node.cloneNode(true));
+
+      node
+        .parentNode
+        .replaceChild(n, node);
+    })
+    .nodes;
+    // Update new nodes list to be passed
+    // along to any possible chained functions
+    // e.g. .attr, .addClass, etc
+    // return this.nodes;
+  });
+};
