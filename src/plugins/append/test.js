@@ -163,7 +163,6 @@ describe(".append(html)", function() {
       base.append(u('<div class="bla">').on('click', function(){ done(); }));
       size('.base > .bla', 1)('.base > .bla:last-child', 1);
       u('.base .bla').trigger('click');
-      done();
     });
   });
 
