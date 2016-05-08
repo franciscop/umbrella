@@ -88,7 +88,19 @@ u.prototype.adjacent = function(html, data, callback) {
 
       return u(part).nodes;
     }).each(function(n){
-      fragment.appendChild(n.cloneNode(true));
+      var cloneWithEvents = n.cloneNode(true),
+          event, i;
+      // Copy any existing events
+      if (n._e) {
+        var nodeEventsObject = n._e;
+        for (event in nodeEventsObject) {
+          for (i = 0; i < nodeEventsObject[event].length; ++i) {
+            u(cloneWithEvents).on(event, nodeEventsObject[event][i]);
+          }
+        }  
+      }
+
+      fragment.appendChild(cloneWithEvents);
     });
 
     callback.call(this, node, fragment);
