@@ -164,6 +164,12 @@ describe(".append(html)", function() {
       size('.base > .bla', 1)('.base > .bla:last-child', 1);
       u('.base .bla').trigger('click');
     });
+
+    it("Clones multiple events when appending", function(done){
+      base.append(u('<div class="bla">').on('click touch', function(){ done(); }));
+      size('.base > .bla', 1)('.base > .bla:last-child', 1);
+      u('.base .bla').trigger('touch');
+    });
   });
 
 
