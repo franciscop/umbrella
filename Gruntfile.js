@@ -108,6 +108,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bytesize');
 
   grunt.registerTask('build', ['concat', 'uglify', 'jade']);
-  grunt.registerTask('test', ['mocha_phantomjs']);
-  grunt.registerTask('default', ['semistandard', 'build', 'test', 'bytesize']);
+  grunt.registerTask('test', ['semistandard', 'mocha_phantomjs']);
+  grunt.registerTask('default', ['build', 'test', 'bytesize']);
 };

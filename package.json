@@ -22,7 +22,7 @@
     "url": "https://github.com/umbrellajs/umbrella/issues"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
