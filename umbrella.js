@@ -87,7 +87,7 @@ u.prototype.adjacent = function(html, data, callback) {
         return this.generate(part);
       }
 
-      return u(part).nodes;
+      return u(part);
     }).each(function(n){
       fragment.appendChild(n);
     });
@@ -293,7 +293,7 @@ u.prototype.filter = function(selector){
 // Find all the nodes children of the current ones matched by a selector
 u.prototype.find = function(selector) {
   return this.map(function(node){
-    return u(selector || "*", node).nodes;
+    return u(selector || "*", node);
   });
 };
 
@@ -854,11 +854,6 @@ u.prototype.wrap = function(selector) {
       node
         .parentNode
         .replaceChild(n, node);
-    })
-    .nodes;
-    // Update new nodes list to be passed
-    // along to any possible chained functions
-    // e.g. .attr, .addClass, etc
-    // return this.nodes;
+    });
   });
 };

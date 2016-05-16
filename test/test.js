@@ -949,20 +949,21 @@ describe(".children(selector)", function() {
 });
 // Testing the main file
 describe(".closest(selector)", function() {
-  
+
   afterEach(function(){
     // A previous bug that would change the inner of the original reference
-    expect(base.nodes.length).to.equal(1);
+    expect(base.length).to.equal(1);
   });
-  
+
   it("should be a function", function() {
     expect(typeof base.closest).to.equal('function');
   });
-  
+
   it("can select the children of ul", function() {
-    expect(base.find('li').closest('ul').nodes.length).to.equal(1);
+    expect(base.find('li').closest('ul').length).to.equal(1);
   });
 });
+
 // Testing the main file
 describe(".data(name, value)", function() {
   it("should be a function", function() {
@@ -1287,27 +1288,28 @@ describe(".filter(selector)", function() {
 });
 // Testing the main file
 describe(".find(selector)", function() {
-  
+
   it("should be a function", function() {
     expect(typeof base.find).to.equal('function');
   });
-  
+
   it("can be empty and it selects all", function() {
-    expect(base.find().nodes.length).to.equal(base.find('*').nodes.length);
+    expect(base.find().length).to.equal(base.find('*').length);
   });
-  
+
   it("can select the list ul", function() {
-    expect(base.find('ul').nodes.length).to.equal(1);
+    expect(base.find('ul').length).to.equal(1);
   });
-  
+
   it("cannot select body", function() {
-    expect(base.find('body').nodes.length).to.equal(0);
+    expect(base.find('body').length).to.equal(0);
   });
-  
+
   it("doesn't select duplicates", function(){
-    expect(u("*").find('.brand a').nodes.length).to.equal(1);
+    expect(u("*").find('.brand a').length).to.equal(1);
   });
 });
+
 // Testing the main file
 describe(".first()", function() {
   
@@ -1583,15 +1585,15 @@ describe(".not(elems)", function() {
         <li></li> \
       </ul>');
 
-    expect(u('.not-test').nodes.length).to.equal(1);
-    expect(u('.not-test li').nodes.length).to.equal(3);
+    expect(u('.not-test').length).to.equal(1);
+    expect(u('.not-test li').length).to.equal(3);
   });
 
   afterEach(function() {
     u('.not-test').remove();
-    expect(u('.not-test').nodes.length).to.equal(0);
+    expect(u('.not-test').length).to.equal(0);
   });
-  
+
   it("should be a function", function() {
     expect(typeof base.not).to.equal('function');
   });
@@ -1605,26 +1607,27 @@ describe(".not(elems)", function() {
   });
 
   it("returns same if called empty", function() {
-    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not('').nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(null).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(undefined).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(false).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not().length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not('').length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(null).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(undefined).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(false).length).to.equal(base.find('.not-test li').length);
   });
 
   it("filter single element", function() {
-    expect(base.find('.not-test li').not(u(u('.not-test li').first())).nodes.length).to.equal(2);
+    expect(base.find('.not-test li').not(u(u('.not-test li').first())).length).to.equal(2);
   });
 
   it("filter multiple elements", function() {
-    expect(base.find('.not-test li').not(u('.not-test li.filter')).nodes.length).to.equal(1);
+    expect(base.find('.not-test li').not(u('.not-test li.filter')).length).to.equal(1);
   });
 
   it("filter selector elements", function() {
-    expect(base.find('.not-test li').not('.filter').nodes.length).to.equal(1);
+    expect(base.find('.not-test li').not('.filter').length).to.equal(1);
   });
 
 });
+
 describe('.off()', function() {
 
   var listener = function() {

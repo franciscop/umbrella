@@ -55,12 +55,12 @@ block content
             // Find the nodes matched by a selector
             u.prototype.find = function(selector) {
               return this.map(function(node){
-                return u(selector || "*", node).nodes;
+                return u(selector || "*", node);
               });
             };
             // Check if any node matches the selector
             u.prototype.is = function(selector){
-              return this.filter(selector).nodes.length > 0;
+              return this.filter(selector).length > 0;
             };
     
     section.row
@@ -75,12 +75,12 @@ block content
         pre
           code.language-javascript.
             it("can select by class", function() {
-              expect(u('.demo').nodes.length).to.equal(1);
+              expect(u('.demo').length).to.equal(1);
             });
 
             it("can select the children of ul", function() {
               var ul = base.find('li').closest('ul');
-              expect(ul.nodes.length).to.equal(1);
+              expect(ul.length).to.equal(1);
             });
     
     section.row

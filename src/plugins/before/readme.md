@@ -8,7 +8,7 @@ Add some html before each of the matched elements.
 .before('<div>')
 .before(u('<div>'))
 .before(u('<div>').first()) // Same as document.createElement('div')
-.before(u('<div></div><div></div>').nodes)
+.before(u('<div></div><div></div>'))
 .before(function(){})
 .before(function(el){}, elements)
 .append(function(el){}, 10)

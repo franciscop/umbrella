@@ -17,11 +17,6 @@ u.prototype.wrap = function(selector) {
       node
         .parentNode
         .replaceChild(n, node);
-    })
-    .nodes;
-    // Update new nodes list to be passed
-    // along to any possible chained functions
-    // e.g. .attr, .addClass, etc
-    // return this.nodes;
+    });
   });
 };

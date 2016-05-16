@@ -8,7 +8,7 @@ Add some html as a sibling after each of the matched elements.
 .after('<div>')
 .after(u('<div>'))
 .after(u('<div>').first()) // Same as document.createElement('div')
-.after(u('<div></div><div></div>').nodes)
+.after(u('<div></div><div></div>'))
 .after(function(){})
 .after(function(el){}, elements)
 .after(function(el){}, 10)
