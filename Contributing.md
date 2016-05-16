@@ -87,5 +87,3 @@ afterEach(function(){
   base.removeClass('bla blu');
 });
 ```
-
-When the variable `work` is set to false `var work = false;` in each function test, all of the inner tests should fail. This is so only the smallest part is correctly tested.
