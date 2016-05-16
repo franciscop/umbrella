@@ -131,24 +131,30 @@ alert(u(&#39;a&#39;).length);
 .after(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .after(function(){})
 .after(function(el){}, elements)
+.after(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -170,7 +176,9 @@ u(&quot;a.main&quot;).after(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&q
 u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 </code></pre>
 <p>They all result in:</p>
-<pre><code class="lang-html">&lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
+<pre><code class="lang-html">&lt;!-- previous data --&gt;
+
+&lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
 &lt;a&gt;One&lt;/a&gt;
 &lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;Three&lt;/a&gt;
@@ -247,24 +255,30 @@ u(&quot;a.main&quot;).after(function(){
 .append(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .append(function(){})
 .append(function(el){}, elements)
+.append(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -375,24 +389,30 @@ u(&quot;a.main&quot;).append(function(){
 .before(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .before(function(){})
 .before(function(el){}, elements)
+.append(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -418,6 +438,8 @@ u(&quot;a.main&quot;).before(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One
 &lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;Three&lt;/a&gt;
 &lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
+
+&lt;!-- previous data --&gt;
 </code></pre>
 <p>You can also add some events to them by creating an html node:</p>
 <pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
@@ -908,24 +930,30 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 .prepend(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .prepend(function(){})
 .prepend(function(el){}, elements)
+.prepend(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
