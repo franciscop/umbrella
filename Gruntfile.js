@@ -24,6 +24,14 @@ module.exports = function (grunt) {
       }
     },
 
+    semistandard: {
+      app: {
+        src: [
+          './plugins/**/!(test).js'
+        ]
+      }
+    },
+
     watch: {
       scripts: {
         files: [
@@ -91,7 +99,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-semistandard');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -99,6 +107,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.loadNpmTasks('grunt-bytesize');
 
-  // 4. Where we tell Grunt what to do when we type 'grunt' into the terminal
-  grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'jade', 'mocha_phantomjs', 'bytesize']);
+  grunt.registerTask('build', ['concat', 'uglify', 'jade']);
+  grunt.registerTask('test', ['mocha_phantomjs']);
+  grunt.registerTask('default', ['semistandard', 'build', 'test', 'bytesize']);
 };

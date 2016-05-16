@@ -203,7 +203,6 @@ u.prototype.closest = function (selector) {
       if (u(node).is(selector)) {
         return node;
       }
-    /*eslint-disable no-unused-vars*/
     } while ((node = node.parentNode));
   });
 };

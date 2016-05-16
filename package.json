@@ -52,6 +52,13 @@
       "**/mocha.js",
       "**/*.min.js"
     ],
-    "globals": [ "u", "ajax", "parseJson" ]
+    "globals": [
+      "u",
+      "ajax",
+      "parseJson"
+    ]
+  },
+  "dependencies": {
+    "grunt-semistandard": "^1.0.6"
   }
 }
