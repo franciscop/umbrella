@@ -4,10 +4,8 @@
 // @author Francisco Presencia Fandos http://francisco.io/
 // @inspiration http://youmightnotneedjquery.com/
 
-
 // Initialize the library
-var u = function(parameter, context) {
-
+var u = function (parameter, context) {
   // Make it an instance of u() to avoid needing 'new' as in 'new u()' and just
   // use 'u().bla();'.
   // @reference http://stackoverflow.com/q/24019863

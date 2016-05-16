@@ -4,10 +4,8 @@
 // @author Francisco Presencia Fandos http://francisco.io/
 // @inspiration http://youmightnotneedjquery.com/
 
-
 // Initialize the library
-var u = function(parameter, context) {
-
+var u = function (parameter, context) {
   // Make it an instance of u() to avoid needing 'new' as in 'new u()' and just
   // use 'u().bla();'.
   // @reference http://stackoverflow.com/q/24019863
@@ -48,10 +46,8 @@ u.prototype = {
 u.prototype.nodes = [];
 
 // Add class(es) to the matched nodes
-u.prototype.addClass = function(){
-
-  // Loop the combination of each node with each argument
-  return this.eacharg(arguments, function(el, name){
+u.prototype.addClass = function () {
+  return this.eacharg(arguments, function (el, name) {
     el.classList.add(name);
   });
 };
@@ -59,8 +55,7 @@ u.prototype.addClass = function(){
 
 // [INTERNAL USE ONLY]
 // Add text in the specified position. It is used by other functions
-u.prototype.adjacent = function(html, data, callback) {
-
+u.prototype.adjacent = function (html, data, callback) {
   if (typeof data === 'number') {
     if (data === 0) {
       data = [];
@@ -71,13 +66,11 @@ u.prototype.adjacent = function(html, data, callback) {
 
   // Loop through all the nodes. It cannot reuse the eacharg() since the data
   // we want to do it once even if there's no "data" and we accept a selector
-  return this.each(function(node, j) {
-
+  return this.each(function (node, j) {
     var fragment = document.createDocumentFragment();
 
     // Allow for data to be falsy and still loop once
-    u(data || {}).map(function(el, i){
-
+    u(data || {}).map(function (el, i) {
       // Allow for callbacks that accept some data
       var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
 
@@ -86,7 +79,7 @@ u.prototype.adjacent = function(html, data, callback) {
       }
 
       return u(part);
-    }).each(function(n){
+    }).each(function (n) {
       fragment.appendChild(n);
     });
 
@@ -95,22 +88,19 @@ u.prototype.adjacent = function(html, data, callback) {
 };
 
 // Add some html as a sibling after each of the matched elements.
-u.prototype.after = function(html, data) {
-  return this.adjacent(html, data, function(node, fragment){
+u.prototype.after = function (html, data) {
+  return this.adjacent(html, data, function (node, fragment) {
     node.parentNode.insertBefore(fragment, node.nextSibling);
   });
 };
 
 
 // Create a HTTP request for whenever the matched form submits
-u.prototype.ajax = function(done, before) {
-  return this.on("submit", function(e) {
-    e.preventDefault();   // Stop native request
-
-    // The arguments required to perform an ajax request
+u.prototype.ajax = function (done, before) {
+  return this.handle('submit', function (e) {
     ajax(
-      u(this).attr("action"),
-      { body: u(this).serialize(), method: u(this).attr("method") },
+      u(this).attr('action'),
+      { body: u(this).serialize(), method: u(this).attr('method') },
       done && done.bind(this),
       before && before.bind(this)
     );
@@ -119,8 +109,8 @@ u.prototype.ajax = function(done, before) {
 
 
 // Add some html as a child at the end of each of the matched elements.
-u.prototype.append = function(html, data) {
-  return this.adjacent(html, data, function(node, fragment){
+u.prototype.append = function (html, data) {
+  return this.adjacent(html, data, function (node, fragment) {
     node.appendChild(fragment);
   });
 };
@@ -130,8 +120,7 @@ u.prototype.append = function(html, data) {
 
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
-u.prototype.args = function(args, node, i){
-
+u.prototype.args = function (args, node, i) {
   if (typeof args === 'function') {
     args = args(node, i);
   }
@@ -143,15 +132,17 @@ u.prototype.args = function(args, node, i){
   }
 
   // Then convert that string to an array of not-null strings
-  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
+  return args.toString().split(/[\s,]+/).filter(function (e) {
+    return e.length;
+  });
 };
 
 
 // Merge all of the nodes that the callback return into a simple array
-u.prototype.array = function(callback){
+u.prototype.array = function (callback) {
   callback = callback;
   var self = this;
-  return this.nodes.reduce(function(list, node, i){
+  return this.nodes.reduce(function (list, node, i) {
     var val;
     if (callback) {
       val = callback.call(self, node, i);
@@ -167,67 +158,65 @@ u.prototype.array = function(callback){
 
 
 // Handle attributes for the matched elements
-u.prototype.attr = function(name, value, data) {
-  
+u.prototype.attr = function (name, value, data) {
   data = data ? 'data-' : '';
-  
-  if (value !== undefined){
+
+  if (value !== undefined) {
     var nm = name;
     name = {};
     name[nm] = value;
   }
-  
+
   if (typeof name === 'object') {
-    return this.each(function(node){
-      for(var key in name) {
+    return this.each(function (node) {
+      for (var key in name) {
         node.setAttribute(data + key, name[key]);
-      } 
+      }
     });
   }
-  
-  return this.length ? this.first().getAttribute(data + name) : "";
+
+  return this.length ? this.first().getAttribute(data + name) : '';
 };
 
 
 // Add some html before each of the matched elements.
-u.prototype.before = function(html, data) {
-  return this.adjacent(html, data, function(node, fragment){
+u.prototype.before = function (html, data) {
+  return this.adjacent(html, data, function (node, fragment) {
     node.parentNode.insertBefore(fragment, node);
   });
 };
 
 
 // Get the direct children of all of the nodes with an optional filter
-u.prototype.children = function(selector) {
-  return this.map(function(node){
+u.prototype.children = function (selector) {
+  return this.map(function (node) {
     return this.slice(node.children);
   }).filter(selector);
 };
 
 
 // Find the first ancestor that matches the selector for each node
-u.prototype.closest = function(selector) {
-  return this.map(function(node) {
-
+u.prototype.closest = function (selector) {
+  return this.map(function (node) {
     // Keep going up and up on the tree. First element is also checked
     do {
       if (u(node).is(selector)) {
         return node;
       }
+    /*eslint-disable no-unused-vars*/
     } while ((node = node.parentNode));
   });
 };
 
 
 // Handle data-* attributes for the matched elements
-u.prototype.data = function(name, value) {
+u.prototype.data = function (name, value) {
   return this.attr(name, value, true);
 };
 
 
 // Loops through every node from the current call
-u.prototype.each = function(callback) {
-
+u.prototype.each = function (callback) {
   // By doing callback.call we allow "this" to be the context for
   // the callback (see http://stackoverflow.com/q/4065353 precisely)
   this.nodes.forEach(callback.bind(this));
@@ -238,12 +227,9 @@ u.prototype.each = function(callback) {
 
 // [INTERNAL USE ONLY]
 // Loop through the combination of every node and every argument passed
-u.prototype.eacharg = function(args, callback) {
-
-  return this.each(function(node, i){
-
-    this.args(args, node, i).forEach(function(arg){
-
+u.prototype.eacharg = function (args, callback) {
+  return this.each(function (node, i) {
+    this.args(args, node, i).forEach(function (arg) {
       // Perform the callback for this node
       // By doing callback.call we allow "this" to be the context for
       // the callback (see http://stackoverflow.com/q/4065353 precisely)
@@ -296,6 +282,7 @@ u.prototype.first = function () {
 
 
 // Perform ajax calls
+/* eslint-disable no-unused-vars*/
 function ajax (action, opt, done, before) {
   // To avoid repeating it
   done = done || function () {};
@@ -347,9 +334,11 @@ function ajax (action, opt, done, before) {
 
   return request;
 }
+/* eslint-enable no-unused-vars*/
 
 // [INTERNAL USE ONLY]
 // Parse JSON without throwing an error
+/* eslint-disable no-unused-vars*/
 function parseJson (jsonString) {
   try {
     var o = JSON.parse(jsonString);
@@ -363,6 +352,7 @@ function parseJson (jsonString) {
 
   return false;
 }
+/* eslint-enable no-unused-vars*/
 
 
 // [INTERNAL USE ONLY]

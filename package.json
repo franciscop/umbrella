@@ -45,6 +45,7 @@
   "semistandard": {
     "ignore": [
       "umbrella.js",
+      "polyfill.js",
       "**/test.js",
       "**/jquery.js",
       "**/chai.js",

@@ -1,4 +1,5 @@
 // Perform ajax calls
+/* eslint-disable no-unused-vars*/
 function ajax (action, opt, done, before) {
   // To avoid repeating it
   done = done || function () {};
@@ -50,3 +51,4 @@ function ajax (action, opt, done, before) {
 
   return request;
 }
+/* eslint-enable no-unused-vars*/

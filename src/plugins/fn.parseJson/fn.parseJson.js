@@ -1,5 +1,6 @@
 // [INTERNAL USE ONLY]
 // Parse JSON without throwing an error
+/* eslint-disable no-unused-vars*/
 function parseJson (jsonString) {
   try {
     var o = JSON.parse(jsonString);
@@ -13,3 +14,4 @@ function parseJson (jsonString) {
 
   return false;
 }
+/* eslint-enable no-unused-vars*/
