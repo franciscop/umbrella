@@ -62,8 +62,8 @@ var link = u('<a>').addClass('main').attr({ href: '/hello' });
 You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):
 
 ```js
-var prods = ['apple', 'strawberry', 'pear', 'banana'];
-var list = u('<ul>').append(prod => `<li>${ prod }</li>`, prods);
+var fruits = ['apple', 'strawberry', 'pear', 'banana'];
+var list = u('<ul>').append(prod => `<li>${ prod }</li>`, fruits);
 
 u('body').append(list);
 ```
