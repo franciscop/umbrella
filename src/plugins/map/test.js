@@ -27,6 +27,30 @@ describe(".map(function(){})", function() {
     });
   });
 
+  it("accepts return of single element", function(){
+    var els = list.find('li').map(function(node){
+      return node;
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("accepts return of array of elements", function(){
+    var els = list.find('li').map(function(node, i){
+      return [node];
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("accepts return of umbrella instance", function(){
+    var els = list.find('li').map(function(node, i){
+      return u(node);
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
   it("can remove an element", function() {
     var final = u([1, 2, 3, 4]).map(function(node, i){
       return i === 0 ? false : node;
