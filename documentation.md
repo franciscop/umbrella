@@ -468,7 +468,7 @@ You can also add some events to them by creating an html node:
 function greeting(){ alert("Hello world"); }
 
 u("a.main").append(function(){
-  return u('<a>').addClass('hi').on('click', greeting).html("Greetings!");
+  return u('<a>').addClass('hi').on('click', greeting).html("Hey!");
 });
 ```
 
