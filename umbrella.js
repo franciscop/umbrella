@@ -225,18 +225,13 @@ u.prototype.data = function(name, value) {
 };
 
 
-/**
- * .each()
- * Loops through every node from the current call
- * it accepts a callback that will be executed on each node
- * The callback has two parameters, the node and the index
- */
+// Loops through every node from the current call
 u.prototype.each = function(callback) {
-  
+
   // By doing callback.call we allow "this" to be the context for
   // the callback (see http://stackoverflow.com/q/4065353 precisely)
   this.nodes.forEach(callback.bind(this));
-  
+
   return this;
 };
 
@@ -260,25 +255,23 @@ u.prototype.eacharg = function(args, callback) {
 
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
-u.prototype.filter = function(selector){
-
+u.prototype.filter = function (selector) {
   // The default function if it's a css selector
   // Cannot change name to 'selector' since it'd mess with it inside this fn
-  var callback = function(node){
-
+  var callback = function (node) {
     // Make it compatible with some other browsers
     node.matches = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
 
     // Check if it's the same element (or any element if no selector was passed)
-    return node.matches(selector || "*");
+    return node.matches(selector || '*');
   };
 
   // filter() receives a function as in .filter(e => u(e).children().length)
-  if (typeof selector == 'function') callback = selector;
+  if (typeof selector === 'function') callback = selector;
 
   // filter() receives an instance of Umbrella as in .filter(u('a'))
   if (selector instanceof u) {
-    callback = function(node){
+    callback = function (node) {
       return (selector.nodes).indexOf(node) !== -1;
     };
   }
@@ -289,52 +282,45 @@ u.prototype.filter = function(selector){
 
 
 // Find all the nodes children of the current ones matched by a selector
-u.prototype.find = function(selector) {
-  return this.map(function(node){
-    return u(selector || "*", node);
+u.prototype.find = function (selector) {
+  return this.map(function (node) {
+    return u(selector || '*', node);
   });
 };
 
 
-/**
- * Get the first of the nodes
- * @return htmlnode the first html node in the matched nodes
- */
-u.prototype.first = function() {
-  
+// Get the first of the nodes
+u.prototype.first = function () {
   return this.nodes[0] || false;
 };
 
 
 // Perform ajax calls
-function ajax(action, opt, done, before) {
-
+function ajax (action, opt, done, before) {
   // To avoid repeating it
-  done = done || function(){};
+  done = done || function () {};
 
   // A bunch of options and defaults
   opt = opt || {};
-  opt.body = opt.body || "";
+  opt.body = opt.body || '';
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
   opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
-  if (typeof FormData == "undefined" || !(opt.body instanceof FormData)) {
+  if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
   }
   opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
 
-
   // Create and send the actual request
-  var request = new XMLHttpRequest();
+  var request = new window.XMLHttpRequest();
 
   // An error is just an error
   // This uses a little hack of passing an array to u() so it handles it as
   // an array of nodes, hence we can use 'on'. However a single element wouldn't
   // work since it a) doesn't have nodeName and b) it will be sliced, failing
-  u([request]).on('error timeout abort', function(){
+  u([request]).on('error timeout abort', function () {
     done(new Error(), null, request);
-  }).on('load', function() {
-
+  }).on('load', function () {
     // Also an error if it doesn't start by 2 or 3...
     // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
     // We don't want to return yet though as there might be some content
@@ -364,13 +350,13 @@ function ajax(action, opt, done, before) {
 
 // [INTERNAL USE ONLY]
 // Parse JSON without throwing an error
-function parseJson(jsonString){
+function parseJson (jsonString) {
   try {
     var o = JSON.parse(jsonString);
     // Handle non-exception-throwing cases:
     // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking
     // so we must check for that, too.
-    if (o && typeof o === "object") {
+    if (o && typeof o === 'object') {
       return o;
     }
   } catch (e) {}
@@ -381,8 +367,7 @@ function parseJson(jsonString){
 
 // [INTERNAL USE ONLY]
 // Generate a fragment of HTML. This irons out the inconsistences
-u.prototype.generate = function(html){
-
+u.prototype.generate = function (html) {
   // Table elements need to be child of <table> for some f***ed up reason
   if (/^\s*<t(h|r|d)/.test(html)) {
     return u(document.createElement('table')).html(html).children().nodes;
@@ -394,95 +379,66 @@ u.prototype.generate = function(html){
 };
 
 // Change the default event for the callback. Simple decorator to preventDefault
-u.prototype.handle = function(events, callback) {
-
-  return this.on(events, function(e){
+u.prototype.handle = function (events, callback) {
+  return this.on(events, function (e) {
     e.preventDefault();
     callback.apply(this, arguments);
   });
 };
 
-/**
- * .hasClass(name)
- *
- * Find out whether the matched elements have a class or not
- * @param String name the class name we want to find
- * @return boolean wether the nodes have the class or not
- */
-u.prototype.hasClass = function() {
-
+// Find out whether the matched elements have a class or not
+u.prototype.hasClass = function () {
   // Check if any of them has all of the classes
   return this.is('.' + this.args(arguments).join('.'));
 };
 
 
-/**
- * .html(text)
- *
- * Set or retrieve the html from the matched node(s)
- * @param text optional some text to set as html
- * @return this|html Umbrella object
- */
-u.prototype.html = function(text) {
-
+// Set or retrieve the html from the matched node(s)
+u.prototype.html = function (text) {
   // Needs to check undefined as it might be ""
   if (text === undefined) {
-    return this.first().innerHTML || "";
+    return this.first().innerHTML || '';
   }
-
 
   // If we're attempting to set some text
   // Loop through all the nodes
-  return this.each(function(node) {
-
+  return this.each(function (node) {
     // Set the inner html to the node
     node.innerHTML = text;
   });
 };
 
 
-// .is(selector)
 // Check whether any of the nodes matches the selector
-u.prototype.is = function(selector){
+u.prototype.is = function (selector) {
   return this.filter(selector).length > 0;
 };
 
 
-/**
- * Get the last of the nodes
- * @return htmlnode the last html node in the matched nodes
- */
-u.prototype.last = function() {
-  
-  return this.nodes[this.length-1] || false;
+  // Get the last of the nodes
+u.prototype.last = function () {
+  return this.nodes[this.length - 1] || false;
 };
 
 
-// [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
-u.prototype.map = function(callback) {
+u.prototype.map = function (callback) {
   return callback ? u(this.array(callback)).unique() : this;
 };
 
 
-// .not(elems)
-// Delete all of the nodes that equals filter
-u.prototype.not = function(filter){
-  return this.filter(function(node){
+// Delete all of the nodes that equals the filter
+u.prototype.not = function (filter) {
+  return this.filter(function (node) {
     return !u(node).is(filter || true);
   });
 };
 
-/**
- * .off(event, callback)
- *
- * Removes the callback to the event listener for each node
- * @param String event(s) the type of event ('click', 'submit', etc)
- * @return this Umbrella object
- */
-u.prototype.off = function(events) {
-  return this.eacharg(events, function(node, event){
-    u(node._e ? node._e[event] : []).each(function(cb) {
+
+// Removes the callback to the event listener for each node
+u.prototype.off = function (events) {
+  return this.eacharg(events, function (node, event) {
+    u(node._e ? node._e[event] : []).each(function (cb) {
       node.removeEventListener(event, cb);
     });
   });
@@ -490,14 +446,13 @@ u.prototype.off = function(events) {
 
 
 // Attach a callback to the specified events
-u.prototype.on = function(events, cb) {
-
+u.prototype.on = function (events, cb) {
   // Add the custom data as arguments to the callback
-  var callback = function(e){
+  var callback = function (e) {
     return cb.apply(this, [e].concat(e.detail || []));
   };
 
-  return this.eacharg(events, function(node, event){
+  return this.eacharg(events, function (node, event) {
     node.addEventListener(event, callback);
 
     // Store it so we can dereference it with `.off()` later on
@@ -511,63 +466,42 @@ u.prototype.on = function(events, cb) {
 // [INTERNAL USE ONLY]
 
 // Parametize an object: { a: 'b', c: 'd' } => 'a=b&c=d'
-u.prototype.param = function(obj){
-
-  return Object.keys(obj).map(function(key) {
+u.prototype.param = function (obj) {
+  return Object.keys(obj).map(function (key) {
     return this.uri(key) + '=' + this.uri(obj[key]);
   }.bind(this)).join('&');
 };
 
-/**
- * .parent()
- *
- * Travel the matched elements one node up
- * @return this Umbrella object
- */
-u.prototype.parent = function(selector) {
-
-  return this.map(function(node){
+// Travel the matched elements one node up
+u.prototype.parent = function (selector) {
+  return this.map(function (node) {
     return node.parentNode;
   }).filter(selector);
 };
 
 
 // Add nodes at the beginning of each node
-u.prototype.prepend = function(html, data) {
-  return this.adjacent(html, data, function(node, fragment){
+u.prototype.prepend = function (html, data) {
+  return this.adjacent(html, data, function (node, fragment) {
     node.insertBefore(fragment, node.firstChild);
   });
 };
 
 
-/**
- * .remove()
- * 
- * Delete the matched nodes from the html tree
- */
-u.prototype.remove = function() {
-  
+// Delete the matched nodes from the DOM
+u.prototype.remove = function () {
   // Loop through all the nodes
-  return this.each(function(node) {
-    
+  return this.each(function (node) {
     // Perform the removal
     node.parentNode.removeChild(node);
   });
 };
 
 
-/**
- * .removeClass(name)
- *
- * Removes a class from all of the matched nodes
- * @param String name the class name we want to remove
- * @return this Umbrella object
- */
-u.prototype.removeClass = function() {
-  
+// Removes a class from all of the matched nodes
+u.prototype.removeClass = function () {
   // Loop the combination of each node with each argument
-  return this.eacharg(arguments, function(el, name){
-    
+  return this.eacharg(arguments, function (el, name) {
     // Remove the class using the native method
     el.classList.remove(name);
   });
@@ -576,9 +510,8 @@ u.prototype.removeClass = function() {
 
 // Replace the matched elements with the passed argument.
 u.prototype.replace = function (html, data) {
-
   var nodes = [];
-  this.adjacent(html, data, function(node, fragment){
+  this.adjacent(html, data, function (node, fragment) {
     nodes = nodes.concat(this.slice(fragment.children));
     node.parentNode.replaceChild(fragment, node);
   });
@@ -586,26 +519,16 @@ u.prototype.replace = function (html, data) {
 };
 
 
-/**
- * .scroll()
- *
- * Scroll to the first matched element
- * @return this Umbrella object
- */
-u.prototype.scroll = function() {
-
-  this.first().scrollIntoView({
-    behavior: 'smooth'
-  });
-
+// Scroll to the first matched element
+u.prototype.scroll = function () {
+  this.first().scrollIntoView({ behavior: 'smooth' });
   return this;
 };
 
 
 // [INTERNAL USE ONLY]
 // Select the adecuate part from the context
-u.prototype.select = function(parameter, context) {
-
+u.prototype.select = function (parameter, context) {
   // Allow for spaces before or after
   parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
 
@@ -625,46 +548,42 @@ u.prototype.select = function(parameter, context) {
 };
 
 // Select some elements using a css Selector
-u.prototype.select.byCss = function(parameter, context) {
-
+u.prototype.select.byCss = function (parameter, context) {
   return (context || document).querySelectorAll(parameter);
 };
-
 
 // Allow for adding/removing regexes and parsing functions
 // It stores a regex: function pair to process the parameter and context
 u.prototype.selectors = {};
 
 // Find some html nodes using an Id
-u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
+u.prototype.selectors[/^\.[\w\-]+$/] = function (param) {
   return document.getElementsByClassName(param.substring(1));
 };
 
-//The tag nodes
-u.prototype.selectors[/^\w+$/] = function(param){
+// The tag nodes
+u.prototype.selectors[/^\w+$/] = function (param) {
   return document.getElementsByTagName(param);
 };
 
 // Find some html nodes using an Id
-u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
+u.prototype.selectors[/^\#[\w\-]+$/] = function (param) {
   return document.getElementById(param.substring(1));
 };
 
 // Create a new element for the DOM
-u.prototype.selectors[/^</] = function(param){
+u.prototype.selectors[/^</] = function (param) {
   return u().generate(param);
 };
 
 
 // Convert forms into a string able to be submitted
 // Original source: http://stackoverflow.com/q/11661187
-u.prototype.serialize = function() {
-
+u.prototype.serialize = function () {
   var self = this;
 
   // Store the class in a variable for manipulation
-  return this.slice(this.first().elements).reduce(function(query, el) {
-
+  return this.slice(this.first().elements).reduce(function (query, el) {
     // We only want to match enabled elements with names, but not files
     if (!el.name || el.disabled || el.type === 'file') return query;
 
@@ -673,8 +592,7 @@ u.prototype.serialize = function() {
 
     // Handle multiple selects
     if (el.type === 'select-multiple') {
-
-      u(el.options).each(function(opt){
+      u(el.options).each(function (opt) {
         if (opt.selected) {
           query += '&' + self.uri(el.name) + '=' + self.uri(opt.value);
         }
@@ -688,18 +606,14 @@ u.prototype.serialize = function() {
 };
 
 
-/**
- * .siblings()
- * 
- * Travel the matched elements at the same level
- * @return this Umbrella object
- */
-u.prototype.siblings = function(selector) {
+// Travel the matched elements at the same level
+u.prototype.siblings = function (selector) {
   return this.parent().children(selector).not(this);
 };
 
+
 // Find the size of the first matched element
-u.prototype.size = function(){
+u.prototype.size = function () {
   return this.first().getBoundingClientRect();
 };
 
@@ -708,13 +622,12 @@ u.prototype.size = function(){
 
 // Force it to be an array AND also it clones them
 // http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-u.prototype.slice = function(pseudo) {
-
+u.prototype.slice = function (pseudo) {
   // Check that it's not a valid object
   if (!pseudo ||
       pseudo.length === 0 ||
       typeof pseudo === 'string' ||
-      pseudo.toString() == '[object Function]') return [];
+      pseudo.toString() === '[object Function]') return [];
 
   // Accept also a u() object (that has .nodes)
   return pseudo.length ? [].slice.call(pseudo.nodes || pseudo) : [pseudo];

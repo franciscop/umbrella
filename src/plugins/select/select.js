@@ -1,7 +1,6 @@
 // [INTERNAL USE ONLY]
 // Select the adecuate part from the context
-u.prototype.select = function(parameter, context) {
-
+u.prototype.select = function (parameter, context) {
   // Allow for spaces before or after
   parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
 
@@ -21,32 +20,30 @@ u.prototype.select = function(parameter, context) {
 };
 
 // Select some elements using a css Selector
-u.prototype.select.byCss = function(parameter, context) {
-
+u.prototype.select.byCss = function (parameter, context) {
   return (context || document).querySelectorAll(parameter);
 };
-
 
 // Allow for adding/removing regexes and parsing functions
 // It stores a regex: function pair to process the parameter and context
 u.prototype.selectors = {};
 
 // Find some html nodes using an Id
-u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
+u.prototype.selectors[/^\.[\w\-]+$/] = function (param) {
   return document.getElementsByClassName(param.substring(1));
 };
 
-//The tag nodes
-u.prototype.selectors[/^\w+$/] = function(param){
+// The tag nodes
+u.prototype.selectors[/^\w+$/] = function (param) {
   return document.getElementsByTagName(param);
 };
 
 // Find some html nodes using an Id
-u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
+u.prototype.selectors[/^\#[\w\-]+$/] = function (param) {
   return document.getElementById(param.substring(1));
 };
 
 // Create a new element for the DOM
-u.prototype.selectors[/^</] = function(param){
+u.prototype.selectors[/^</] = function (param) {
   return u().generate(param);
 };

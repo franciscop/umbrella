@@ -1,5 +1,4 @@
-// [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
-u.prototype.map = function(callback) {
+u.prototype.map = function (callback) {
   return callback ? u(this.array(callback)).unique() : this;
 };
