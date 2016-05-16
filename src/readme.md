@@ -119,6 +119,7 @@ However, there are also some advantages of using Umbrella's methods instead of n
 
 - **error prevention**: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)
 - **cross-browser**: the classList.add() with multiple elements [is not compatible with IE10-11 & Android 4.3-](http://caniuse.com/#search=classList)
+- **chainable**: `u('<div>').each(...).addClass(...);`
 - **more flexibility**: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:
 
 ```js

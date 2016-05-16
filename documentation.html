@@ -81,6 +81,7 @@ var good = u(&#39;h2&#39;).nodes.some();
 <ul>
 <li><strong>error prevention</strong>: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)</li>
 <li><strong>cross-browser</strong>: the classList.add() with multiple elements <a href="http://caniuse.com/#search=classList">is not compatible with IE10-11 &amp; Android 4.3-</a></li>
+<li><strong>chainable</strong>: <code>u(&#39;&lt;div&gt;&#39;).each(...).addClass(...);</code></li>
 <li><strong>more flexibility</strong>: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:</li>
 </ul>
 <pre><code class="lang-js">u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, &#39;test&#39;);     // It accepts multiple parameters
