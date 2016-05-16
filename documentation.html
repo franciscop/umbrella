@@ -1036,20 +1036,19 @@ u(&quot;a.main&quot;).prepend(function(){
 <pre><code class="lang-js">.replace();
 </code></pre>
 <h3 id="parameters">Parameters</h3>
-<p>The parameter can be any of these types: </p>
+<p>The parameter can be any of these types:</p>
 <ul>
-<li>string:  html tag like <code>html &lt;div&gt;</code></li>
-<li>function: a function which returns an html tag. </li>
+<li>string:  html tag like <code>&lt;div&gt;</code></li>
+<li>function: a function which returns an html tag.</li>
 </ul>
 <h3 id="return">Return</h3>
 <p>The newly created element.</p>
 <h3 id="examples">Examples</h3>
 <p>Replace elements with class &#39;save&#39; by a button with class &#39;update&#39;:</p>
-<pre><code class="lang-js">u(&#39;.save&#39;).replace(&#39;&lt;button class=&quot;update&quot;&gt;Update&lt;button&gt;&#39;);
-
-Replace element button by a link with class &#39;button&#39;:
-
-u(&#39;button&#39;).replace(function(btn){
+<pre><code class="lang-js">u(&#39;.save&#39;).replace(&#39;&lt;button class=&quot;update&quot;&gt;Update&lt;/button&gt;&#39;);
+</code></pre>
+<p>Replace element button by a link with class &#39;button&#39;:</p>
+<pre><code class="lang-js">u(&#39;button&#39;).replace(function(btn){
   return &#39;&lt;a class=&quot;button&quot;&gt;&#39; + btn.innerHTML + &#39;&lt;/a&gt;&#39;;
 });
 </code></pre>

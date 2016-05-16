@@ -1,9 +1,4 @@
-/**
- * .replace()
- *
- * Replace the matched elements with the passed argument.
- * @return this Umbrella object
- */
+// Replace the matched elements with the passed argument.
 u.prototype.replace = function (html, data) {
 
   var nodes = [];
