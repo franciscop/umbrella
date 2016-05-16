@@ -22,7 +22,7 @@ var u = function(parameter, context) {
   }
 
   // Parse it as a CSS selector if it's a string
-  if (typeof parameter == 'string') {
+  if (typeof parameter === 'string') {
     parameter = this.select(parameter, context);
   }
 
@@ -36,14 +36,12 @@ var u = function(parameter, context) {
   this.nodes = this.slice(parameter);
 };
 
-
 // Map u(...).length to u(...).nodes.length
 u.prototype = {
-  get length(){
+  get length () {
     return this.nodes.length;
   }
 };
-
 
 // This made the code faster, read "Initializing instance variables" in
 // https://developers.google.com/speed/articles/optimizing-javascript
@@ -731,9 +729,8 @@ u.prototype.slice = function(pseudo) {
 // [INTERNAL USE ONLY]
 
 // Create a string from different things
-u.prototype.str = function(node, i){
-  return function(arg){
-
+u.prototype.str = function (node, i) {
+  return function (arg) {
     // Call the function with the corresponding nodes
     if (typeof arg === 'function') {
       return arg.call(this, node, i);
@@ -745,70 +742,52 @@ u.prototype.str = function(node, i){
 };
 
 
-/**
- * .text(text)
- * 
- * Set or retrieve the text content from the matched node(s)
- * @param text optional some text to set as the node's content
- * @return this|String
- */
-u.prototype.text = function(text) {
-  
+// Set or retrieve the text content from the matched node(s)
+u.prototype.text = function (text) {
   // Needs to check undefined as it might be ""
   if (text === undefined) {
-    return this.first().textContent || "";
+    return this.first().textContent || '';
   }
-  
-  
-  // If we're attempting to set some text  
+
+  // If we're attempting to set some text
   // Loop through all the nodes
-  return this.each(function(node) {
-    
+  return this.each(function (node) {
     // Set the text content to the node
     node.textContent = text;
   });
 };
 
 
-/**
- * .toggleClass('name1, name2, nameN' ...[, addOrRemove])
- *
- * Toggles classes on the matched nodes
- * Possible polyfill: https://github.com/eligrey/classList.js
- * @return this Umbrella object
- */
-u.prototype.toggleClass = function(classes, addOrRemove){
-
-  /*jshint -W018 */
-  //check if addOrRemove was passed as a boolean
+// Activate/deactivate classes in the elements
+u.prototype.toggleClass = function (classes, addOrRemove) {
+  /* jshint -W018 */
+  // Check if addOrRemove was passed as a boolean
   if (!!addOrRemove === addOrRemove) {
-
-    // return the corresponding Umbrella method
     return this[addOrRemove ? 'addClass' : 'removeClass'](classes);
   }
-  /*jshint +W018 */
+  /* jshint +W018 */
 
   // Loop through all the nodes and classes combinations
-  return this.eacharg(classes, function(el, name){
+  return this.eacharg(classes, function (el, name) {
     el.classList.toggle(name);
   });
 };
 
 
 // Call an event manually on all the nodes
-u.prototype.trigger = function(events) {
-
+u.prototype.trigger = function (events) {
   var data = this.slice(arguments).slice(1);
 
-  this.eacharg(events, function(node, event){
+  this.eacharg(events, function (node, event) {
+    var ev;
 
-    // Allow the event to bubble up and to be cancelable (default)
-    var ev, opts = { bubbles: true, cancelable: true, detail: data };
+    // Allow the event to bubble up and to be cancelable (as default)
+    var opts = { bubbles: true, cancelable: true, detail: data };
 
     try {
       // Accept different types of event names or an event itself
-      ev = new CustomEvent(event, opts);
-    } catch(e) {
+      ev = new window.CustomEvent(event, opts);
+    } catch (e) {
       ev = document.createEvent('CustomEvent');
       ev.initCustomEvent(event, true, true, data);
     }
@@ -820,8 +799,8 @@ u.prototype.trigger = function(events) {
 // [INTERNAL USE ONLY]
 
 // Removed duplicated nodes, used for some specific methods
-u.prototype.unique = function(){
-  return u(this.nodes.reduce(function(clean, node){
+u.prototype.unique = function () {
+  return u(this.nodes.reduce(function (clean, node) {
     var istruthy = node !== null && node !== undefined && node !== false;
     return (istruthy && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
   }, []));
@@ -830,14 +809,14 @@ u.prototype.unique = function(){
 // [INTERNAL USE ONLY]
 
 // Encode the different strings https://gist.github.com/brettz9/7147458
-u.prototype.uri = function(str){
+u.prototype.uri = function (str) {
   return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
 };
 
 
-u.prototype.wrap = function(selector) {
-  function findDeepestNode(node) {
-    while(node.firstElementChild) {
+u.prototype.wrap = function (selector) {
+  function findDeepestNode (node) {
+    while (node.firstElementChild) {
       node = node.firstElementChild;
     }
 
@@ -846,8 +825,8 @@ u.prototype.wrap = function(selector) {
   // 1) Construct dom node e.g. u('<a>'),
   // 2) clone the currently matched node
   // 3) append cloned dom node to constructed node based on selector
-  return this.map(function(node) {
-    return u(selector).each(function(n) {
+  return this.map(function (node) {
+    return u(selector).each(function (n) {
       findDeepestNode(n)
         .append(node.cloneNode(true));
 

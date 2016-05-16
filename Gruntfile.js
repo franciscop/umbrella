@@ -1,7 +1,5 @@
-fs = require('fs');
-
 // This builds the library itself
-module.exports = function (grunt) {
+module.exports = function (grunt){
 
   // Configuration
   grunt.initConfig({

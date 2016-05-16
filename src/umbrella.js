@@ -22,7 +22,7 @@ var u = function(parameter, context) {
   }
 
   // Parse it as a CSS selector if it's a string
-  if (typeof parameter == 'string') {
+  if (typeof parameter === 'string') {
     parameter = this.select(parameter, context);
   }
 
@@ -36,14 +36,12 @@ var u = function(parameter, context) {
   this.nodes = this.slice(parameter);
 };
 
-
 // Map u(...).length to u(...).nodes.length
 u.prototype = {
-  get length(){
+  get length () {
     return this.nodes.length;
   }
 };
-
 
 // This made the code faster, read "Initializing instance variables" in
 // https://developers.google.com/speed/articles/optimizing-javascript

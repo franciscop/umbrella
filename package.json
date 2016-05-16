@@ -41,5 +41,16 @@
     "grunt-mocha-phantomjs": "^2.0.1",
     "marked": "^0.3.5",
     "mocha-phantomjs": "^4.0.2"
+  },
+  "semistandard": {
+    "ignore": [
+      "umbrella.js",
+      "**/test.js",
+      "**/jquery.js",
+      "**/chai.js",
+      "**/mocha.js",
+      "**/*.min.js"
+    ],
+    "globals": [ "u", "ajax", "parseJson" ]
   }
 }
