@@ -4,6 +4,7 @@ u.prototype.array = function(callback){
   var self = this;
   return this.nodes.reduce(function(list, node, i){
     var val = callback.call(self, node, i);
+    if (val instanceof u) val = val.nodes;
     return list.concat(val !== undefined && val !== null ? val : []);
   }, []);
 };

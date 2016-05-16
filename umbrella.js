@@ -78,7 +78,7 @@ u.prototype.adjacent = function(html, data, callback) {
     var fragment = document.createDocumentFragment();
 
     // Allow for data to be falsy and still loop once
-    u(data || {}).join(function(el, i){
+    u(data || {}).map(function(el, i){
 
       // Allow for callbacks that accept some data
       var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
@@ -155,6 +155,7 @@ u.prototype.array = function(callback){
   var self = this;
   return this.nodes.reduce(function(list, node, i){
     var val = callback.call(self, node, i);
+    if (val instanceof u) val = val.nodes;
     return list.concat(val !== undefined && val !== null ? val : []);
   }, []);
 };
@@ -193,16 +194,15 @@ u.prototype.before = function(html, data) {
 
 // Get the direct children of all of the nodes with an optional filter
 u.prototype.children = function(selector) {
-  return this.join(function(node){
+  return this.map(function(node){
     return this.slice(node.children);
   }).filter(selector);
 };
 
 
-
 // Find the first ancestor that matches the selector for each node
 u.prototype.closest = function(selector) {
-  return this.join(function(node) {
+  return this.map(function(node) {
 
     // Keep going up and up on the tree. First element is also checked
     do {
@@ -285,7 +285,7 @@ u.prototype.filter = function(selector){
 
 // Find all the nodes children of the current ones matched by a selector
 u.prototype.find = function(selector) {
-  return this.join(function(node){
+  return this.map(function(node){
     return u(selector || "*", node).nodes;
   });
 };
@@ -443,13 +443,6 @@ u.prototype.is = function(selector){
 };
 
 
-// [INTERNAL USE ONLY]
-// Merge all of the nodes that the callback returns
-u.prototype.join = function(callback) {
-  return callback ? u(this.array(callback)).unique() : this;
-};
-
-
 /**
  * Get the last of the nodes
  * @return htmlnode the last html node in the matched nodes
@@ -457,6 +450,13 @@ u.prototype.join = function(callback) {
 u.prototype.last = function() {
   
   return this.nodes[this.length-1] || false;
+};
+
+
+// [INTERNAL USE ONLY]
+// Merge all of the nodes that the callback returns
+u.prototype.map = function(callback) {
+  return callback ? u(this.array(callback)).unique() : this;
 };
 
 
@@ -515,13 +515,13 @@ u.prototype.param = function(obj){
 
 /**
  * .parent()
- * 
+ *
  * Travel the matched elements one node up
  * @return this Umbrella object
  */
 u.prototype.parent = function(selector) {
-  
-  return this.join(function(node){
+
+  return this.map(function(node){
     return node.parentNode;
   }).filter(selector);
 };
@@ -839,7 +839,7 @@ u.prototype.wrap = function(selector) {
   // 1) Construct dom node e.g. u('<a>'),
   // 2) clone the currently matched node
   // 3) append cloned dom node to constructed node based on selector
-  return this.join(function(node) {
+  return this.map(function(node) {
     return u(selector).each(function(n) {
       findDeepestNode(n)
         .append(node.cloneNode(true));

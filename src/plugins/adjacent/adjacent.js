@@ -17,7 +17,7 @@ u.prototype.adjacent = function(html, data, callback) {
     var fragment = document.createDocumentFragment();
 
     // Allow for data to be falsy and still loop once
-    u(data || {}).join(function(el, i){
+    u(data || {}).map(function(el, i){
 
       // Allow for callbacks that accept some data
       var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;

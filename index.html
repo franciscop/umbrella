@@ -15,7 +15,7 @@ u('form.login').ajax(function(err, res){
 <p>You can see two features of Umbrella JS source code on the right, or check it all on github:</p>
 <a href="https://github.com/umbrellajs/umbrella" target="_blank" class="button icon-g">Source on Github</a></div><div><pre><code class="language-javascript">// Find the nodes matched by a selector
 u.prototype.find = function(selector) {
-  return this.join(function(node){
+  return this.map(function(node){
     return u(selector || "*", node).nodes;
   });
 };

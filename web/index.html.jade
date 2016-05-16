@@ -54,7 +54,7 @@ block content
           code.language-javascript.
             // Find the nodes matched by a selector
             u.prototype.find = function(selector) {
-              return this.join(function(node){
+              return this.map(function(node){
                 return u(selector || "*", node).nodes;
               });
             };
