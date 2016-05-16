@@ -38,7 +38,7 @@ u(&#39;li&#39;, context)
 </code></pre>
 <p>You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):</p>
 <pre><code class="lang-js">var prods = [&#39;apple&#39;, &#39;strawberry&#39;, &#39;pear&#39;, &#39;banana&#39;];
-var list = u(&#39;&lt;ul&gt;&#39;).append(product =&gt; `&lt;li&gt;${ product }&lt;/li&gt;`, prods);
+var list = u(&#39;&lt;ul&gt;&#39;).append(prod =&gt; `&lt;li&gt;${ prod }&lt;/li&gt;`, prods);
 
 u(&#39;body&#39;).append(list);
 </code></pre>
