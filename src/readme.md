@@ -100,7 +100,7 @@ u('h1').nodes[0].classList.add('vanilla');
 // Single element
 u('h1').first().classList.add('vanilla', 'test');
 
-// Multiple elements. Note that the order of arguments is different from jquery (it's standard order)
+// Multiple elements. Note that the order is different from jquery
 u('h2').each(function(el){
   el.classList.add('vanilla', 'test');
 });
