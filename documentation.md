@@ -148,14 +148,14 @@ alert(u('a').length);
 Add html class(es) to all of the matched elements.
 
 ```js
-.addClass('name1');
-.addClass('name1 name2 nameN');
-.addClass('name1,name2,nameN');
-.addClass('name1', 'name2', 'nameN');
-.addClass(['name1', 'name2', 'nameN']);
-.addClass(['name1', 'name2'], ['name3'], ['nameN']);
-.addClass(function(){ return 'name1'; });
-.addClass(function(){return 'name1';}, function(){return 'name2';});
+.addClass('name1')
+.addClass('name1 name2 nameN')
+.addClass('name1,name2,nameN')
+.addClass('name1', 'name2', 'nameN')
+.addClass(['name1', 'name2', 'nameN'])
+.addClass(['name1', 'name2'], ['name3'], ['nameN'])
+.addClass(function(){ return 'name1'; })
+.addClass(function(){ return 'name1'; }, function(){ return 'name2'; })
 ```
 
 ### Parameters
