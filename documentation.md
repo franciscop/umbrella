@@ -6,7 +6,7 @@ Find nodes from the HTML with a CSS selector:
 u('ul#demo li')
 u(document.getElementById('demo'))
 u(document.getElementsByClassName('demo'))
-u([ document.getElementById('demo'), document.getElementById('test') ])
+u([ document.getElementById('demo') ])
 u( u('ul li') )
 u('<a>')
 u('li', context)
