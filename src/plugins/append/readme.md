@@ -81,10 +81,10 @@ They all result in:
 You can also add some events to them by creating an html node:
 
 ```js
-function greeting(){ alert("Hello world"); }
+function greet(){ alert("Hello world"); }
 
 u("a.main").append(function(){
-  return u('<a>').addClass('hi').on('click', greeting).html("Hey!");
+  return u('<a>').addClass('hi').on('click', greet).html("Hey!");
 });
 ```
 

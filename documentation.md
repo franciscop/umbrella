@@ -465,10 +465,10 @@ They all result in:
 You can also add some events to them by creating an html node:
 
 ```js
-function greeting(){ alert("Hello world"); }
+function greet(){ alert("Hello world"); }
 
 u("a.main").append(function(){
-  return u('<a>').addClass('hi').on('click', greeting).html("Hey!");
+  return u('<a>').addClass('hi').on('click', greet).html("Hey!");
 });
 ```
 
@@ -1310,7 +1310,7 @@ var links = u('.special li').map(function(node, i){
 }).addClass('expensive');
 ```
 
-It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will remove any duplicated node from the result.
+It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will **remove duplicated nodes** from the result.
 
 > Note: Umbrella JS is made to manipulate HTML nodes so it will consider the string "" and 0 as false and remove them. Return an HTML node or an HTML string to keep the elements.
 
@@ -1318,16 +1318,16 @@ It can return a value that evaluates to false, a single element, an string, an a
 
 ### Return
 
-The last html node or false if there is none.
+An instance of Umbrella with the nodes passed
 
 
 
 ### Examples
 
-Retrieve the last element of a list:
+Get the parent elements (see [.parent()](#parent)):
 
 ```js
-var next = u("ul.demo li").last();
+var lists = u('li').map(function(node){ return node.parentNode });
 ```
 
 

@@ -310,10 +310,10 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
 &lt;/ul&gt;
 </code></pre>
 <p>You can also add some events to them by creating an html node:</p>
-<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+<pre><code class="lang-js">function greet(){ alert(&quot;Hello world&quot;); }
 
 u(&quot;a.main&quot;).append(function(){
-  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Hey!&quot;);
+  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greet).html(&quot;Hey!&quot;);
 });
 </code></pre>
 <h3 id="related">Related</h3>
@@ -771,15 +771,15 @@ should pass no parameter so it retrieves the html.</p>
   }
 }).addClass(&#39;expensive&#39;);
 </code></pre>
-<p>It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will remove any duplicated node from the result.</p>
+<p>It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will <strong>remove duplicated nodes</strong> from the result.</p>
 <blockquote>
 <p>Note: Umbrella JS is made to manipulate HTML nodes so it will consider the string &quot;&quot; and 0 as false and remove them. Return an HTML node or an HTML string to keep the elements.</p>
 </blockquote>
 <h3 id="return">Return</h3>
-<p>The last html node or false if there is none.</p>
+<p>An instance of Umbrella with the nodes passed</p>
 <h3 id="examples">Examples</h3>
-<p>Retrieve the last element of a list:</p>
-<pre><code class="lang-js">var next = u(&quot;ul.demo li&quot;).last();
+<p>Get the parent elements (see <a href="#parent">.parent()</a>):</p>
+<pre><code class="lang-js">var lists = u(&#39;li&#39;).map(function(node){ return node.parentNode });
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#first">.first()</a> retrieve the first matched element</p>
