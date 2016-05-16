@@ -63,7 +63,7 @@ You can use this to generate many kind of elements on the fly. For example, for 
 
 ```js
 var fruits = ['apple', 'strawberry', 'pear', 'banana'];
-var list = u('<ul>').append(prod => `<li>${ prod }</li>`, fruits);
+var list = u('<ul>').append(fruit => `<li>${ fruit }</li>`, fruits);
 
 u('body').append(list);
 ```
