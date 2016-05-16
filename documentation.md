@@ -1334,7 +1334,7 @@ var lists = u('li').map(function(node){ return node.parentNode });
 
 ### Related
 
-[.first()](#first) retrieve the first matched element
+[.each()](#each) retrieve the first matched element
 
 ## .not()
 
