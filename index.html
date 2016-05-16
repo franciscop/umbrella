@@ -30,7 +30,7 @@ u.prototype.is = function(selector){
   expect(u('.demo').length).to.equal(1);
 });
 
-it("can select the children of ul", function() {
+it("can select li inside ul", function() {
   var ul = base.find('li').closest('ul');
   expect(ul.length).to.equal(1);
 });
