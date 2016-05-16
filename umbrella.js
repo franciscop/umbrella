@@ -151,12 +151,19 @@ u.prototype.args = function(args, node, i){
 
 // Merge all of the nodes that the callback return into a simple array
 u.prototype.array = function(callback){
-  callback = callback || function(node) { return node.innerHTML; };
+  callback = callback;
   var self = this;
   return this.nodes.reduce(function(list, node, i){
-    var val = callback.call(self, node, i);
-    if (val instanceof u) val = val.nodes;
-    return list.concat(val !== undefined && val !== null ? val : []);
+    var val;
+    if (callback) {
+      val = callback.call(self, node, i);
+      if (!val) val = false;
+      if (typeof val === 'string') val = u(val);
+      if (val instanceof u) val = val.nodes;
+    } else {
+      val = node.innerHTML;
+    }
+    return list.concat(val !== false ? val : []);
   }, []);
 };
 
@@ -814,9 +821,9 @@ u.prototype.trigger = function(events) {
 
 // Removed duplicated nodes, used for some specific methods
 u.prototype.unique = function(){
-
   return u(this.nodes.reduce(function(clean, node){
-    return (node && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
+    var istruthy = node !== null && node !== undefined && node !== false;
+    return (istruthy && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
   }, []));
 };
 

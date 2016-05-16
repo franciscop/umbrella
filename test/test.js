@@ -1447,7 +1447,7 @@ describe(".last()", function() {
 
 });
 
-var list = u('<ul>').append(function(i){ return '<li>'+i+'</li>'; }, 10);
+var list = u('<ul>').append(function(i){ return '<li>'+i+'</li>'; }, 10).find('li');
 
 describe(".map(function(){})", function() {
 
@@ -1477,30 +1477,63 @@ describe(".map(function(){})", function() {
   });
 
   it("accepts return of single element", function(){
-    var els = list.find('li').map(function(node){
+    var els = list.map(function(node){
       return node;
     }).each(function(node, i){
       expect(i).to.equal(parseInt(node.innerHTML));
     });
   });
 
+  it("accepts return of string and parses it", function(){
+    list.map(function(node){
+      return '<li>' + node.innerHTML + '</li>';
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("accepts return of two elements string", function(){
+    list.map(function(node, i){
+      return '<span>' + (i * 2) + '</span>' +
+        '<span>' + (i * 2 + 1) + '</span>';
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
   it("accepts return of array of elements", function(){
-    var els = list.find('li').map(function(node, i){
+    var els = list.map(function(node, i){
       return [node];
     }).each(function(node, i){
       expect(i).to.equal(parseInt(node.innerHTML));
     });
   });
 
+  it("accepts return of array of two elements", function(){
+    same(list.map(function(node, i){
+      var newNode = u('<li>').html('a').first();
+      return [node, newNode];
+    }).length, 20);
+  });
+
   it("accepts return of umbrella instance", function(){
-    var els = list.find('li').map(function(node, i){
+    var els = list.map(function(node, i){
       return u(node);
     }).each(function(node, i){
       expect(i).to.equal(parseInt(node.innerHTML));
     });
   });
 
-  it("can remove an element", function() {
+  it("falsy removes them", function(){
+    expect(list.map(function(){ return false; }).length).to.equal(0);
+    expect(list.map(function(){ return null; }).length).to.equal(0);
+    expect(list.map(function(){ return undefined; }).length).to.equal(0);
+    expect(list.map(function(){ return ''; }).length).to.equal(0);
+    expect(list.map(function(){ return 0; }).length).to.equal(0);
+    expect(list.map(function(){}).length).to.equal(0);
+  });
+
+  it("can remove a single element", function() {
     var final = u([1, 2, 3, 4]).map(function(node, i){
       return i === 0 ? false : node;
     });

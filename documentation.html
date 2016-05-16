@@ -736,6 +736,30 @@ should pass no parameter so it retrieves the html.</p>
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#first">.first()</a> retrieve the first matched element</p>
+<h2 id="-map-">.map()</h2>
+<p>Change the content of the current instance by looping each element</p>
+<pre><code class="lang-js">.map(function(){});
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>A single callback that returns the element(s) that are going to be kept:</p>
+<pre><code class="lang-js">var links = u(&#39;.special li&#39;).map(function(node, i){
+  if (parseInt(node.innerHTML) &gt; 10) {
+    return &#39;&lt;a&gt;&#39; + u(node).data(&#39;id&#39;) + &#39;&lt;/a&gt;&#39;;
+  }
+}).addClass(&#39;expensive&#39;);
+</code></pre>
+<p>It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will remove any duplicated node from the result.</p>
+<blockquote>
+<p>Note: Umbrella JS is made to manipulate HTML nodes so it will consider the string &quot;&quot; and 0 as false and remove them. Return an HTML node or an HTML string to keep the elements.</p>
+</blockquote>
+<h3 id="return">Return</h3>
+<p>The last html node or false if there is none.</p>
+<h3 id="examples">Examples</h3>
+<p>Retrieve the last element of a list:</p>
+<pre><code class="lang-js">var next = u(&quot;ul.demo li&quot;).last();
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#first">.first()</a> retrieve the first matched element</p>
 <h2 id="-not-">.not()</h2>
 <p>Remove known nodes from nodes</p>
 <pre><code class="lang-js">.not(&#39;a&#39;)
