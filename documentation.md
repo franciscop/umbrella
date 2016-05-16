@@ -155,7 +155,7 @@ Add html class(es) to all of the matched elements.
 .addClass(['name1', 'name2', 'nameN']);
 .addClass(['name1', 'name2'], ['name3'], ['nameN']);
 .addClass(function(){ return 'name1'; });
-.addClass(function(){ return 'name1'; }, function(){ return 'name2'; });
+.addClass(function(){ return 'nm1'; }, function(){ return 'nm2'; });
 ```
 
 ### Parameters
@@ -193,6 +193,7 @@ u("form").addClass("toValidate", "ajaxify");
 [.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
 [.toggleClass()](#toggleclass) adds or removes the class
+
 ## .after()
 
 Add some html as a sibling after each of the matched elements.
