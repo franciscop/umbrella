@@ -22,7 +22,7 @@ The first parameter can be:
 - A NodeList or other similar objects that can be converted to an array
 - An array of nodes*
 - Another Umbrella instance
-- An HTML fragment
+- An HTML fragment as a string
 - Nothing
 
 The second parameter is only for the CSS selector, which indicates a portion of the DOM where the selector is applied. For example, with `u('li', u('ul').first())` it will find all of the `li` from the first `ul`.
@@ -62,8 +62,8 @@ var link = u('<a>').addClass('main').attr({ href: '/hello' });
 You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):
 
 ```js
-var products = ['apple', 'strawberry', 'pear', 'banana'];
-var list = u('<ul>').append(product => `<li>${ product }</li>`, products);
+var prods = ['apple', 'strawberry', 'pear', 'banana'];
+var list = u('<ul>').append(product => `<li>${ product }</li>`, prods);
 
 u('body').append(list);
 ```
