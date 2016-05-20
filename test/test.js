@@ -1701,6 +1701,7 @@ describe(".on(event, fn)", function() {
 
   afterEach(function(){
     u('.clickable').remove();
+    base.off('click');
   });
 
   it("should be defined", function() {
@@ -1728,6 +1729,15 @@ describe(".on(event, fn)", function() {
     base.find('.clickable').trigger('submit');
   });
 
+  it("can do event delegation", function(done) {
+    base.on('click', '.clickable', function(e){
+      expect(e.target.className).to.equal('clickable');
+      done();
+    });
+    base.find('.clickable').trigger('click');
+    base.off('click');
+  });
+
   it("triggers the event with custom data", function(done) {
     base.find('.clickable').on('click', function(e, a){
       same(!!e, true);
@@ -1737,6 +1747,15 @@ describe(".on(event, fn)", function() {
     });
     base.find('.clickable').trigger('click', 'a');
   });
+    it("triggers the delegated event with custom data", function(done) {
+      base.on('click', '.clickable', function(e, a){
+        same(!!e, true);
+        same(e.detail, ['a']);
+        same(a, 'a');
+        done();
+      });
+      base.find('.clickable').trigger('click', 'a');
+    });
 
   it("triggers the event with custom data object", function(done) {
     base.find('.clickable').on('click', function(e, a){
@@ -1748,8 +1767,29 @@ describe(".on(event, fn)", function() {
     base.find('.clickable').trigger('click', { a: 'b' });
   });
 
+  it("triggers the event with custom data object", function(done) {
+    base.on('click', '.clickable', function(e, a){
+      same(!!e, true);
+      same(e.detail, [{ a: 'b' }]);
+      same(a, { a: 'b' });
+      done();
+    });
+    base.find('.clickable').trigger('click', { a: 'b' });
+  });
+
   it("triggers the event with custom data values", function(done) {
     base.find('.clickable').on('click', function(e, a, b){
+      same(!!e, true);
+      same(e.detail, ['a', 'b']);
+      same(a, 'a');
+      same(b, 'b');
+      done();
+    });
+    base.find('.clickable').trigger('click', 'a', 'b');
+  });
+
+  it("triggers the event with custom data values", function(done) {
+    base.on('click', '.clickable', function(e, a, b){
       same(!!e, true);
       same(e.detail, ['a', 'b']);
       same(a, 'a');

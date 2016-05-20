@@ -435,7 +435,16 @@ u.prototype.off = function (events) {
 
 
 // Attach a callback to the specified events
-u.prototype.on = function (events, cb) {
+u.prototype.on = function (events, cb, cb2) {
+  if (typeof cb === 'string') {
+    return this.on(events, function (e) {
+      var args = arguments;
+      u(cb, e.currentTarget).each(function (node) {
+        cb2.apply(node, args);
+      });
+    });
+  }
+
   // Add the custom data as arguments to the callback
   var callback = function (e) {
     return cb.apply(this, [e].concat(e.detail || []));
