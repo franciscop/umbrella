@@ -858,6 +858,7 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 .on(&#39;event1 event2 eventN&#39;, callback)
 .on(&#39;event1,event2,eventN&#39;, callback)
 .on([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], callback)
+.on(&#39;event1&#39;, &#39;selector&#39;, callback)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
@@ -873,6 +874,10 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 <li><p><code>data1</code>, <code>data2</code>, <code>dataN</code>: the arguments that were passed to <code>trigger()</code> if it was called with that function.</p>
 </li>
 </ul>
+<p>Another way is doing event delegation, for which the parameters are:</p>
+<p><code>event1</code>, <code>event2</code>, <code>eventN</code>: same as before</p>
+<p><code>selector</code>: a css selector that matches the nodes that will trigger it</p>
+<p><code>callback</code>: same as before</p>
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>

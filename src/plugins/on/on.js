@@ -1,12 +1,15 @@
 // Attach a callback to the specified events
 u.prototype.on = function (events, cb, cb2) {
   if (typeof cb === 'string') {
-    return this.on(events, function (e) {
+    var sel = cb;
+    cb = function (e) {
       var args = arguments;
-      u(cb, e.currentTarget).each(function (node) {
-        cb2.apply(node, args);
+      u(e.currentTarget).find(sel).each(function (target) {
+        if (target === e.target) {
+          cb2.apply(target, args);
+        }
       });
-    });
+    };
   }
 
   // Add the custom data as arguments to the callback

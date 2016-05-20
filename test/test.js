@@ -1738,6 +1738,14 @@ describe(".on(event, fn)", function() {
     base.off('click');
   });
 
+  it("event delegation not triggered by others", function() {
+    base.on('click', '.clickable', function(e){
+      throw new Error("Should never get here");
+    });
+    base.find('ul').not('.clickable').trigger('click');
+    base.off('click');
+  });
+
   it("triggers the event with custom data", function(done) {
     base.find('.clickable').on('click', function(e, a){
       same(!!e, true);
