@@ -738,6 +738,7 @@ u("ul").children('li:first-child');
 
 [.closest()](#closest) get the first ascendant that matches the selector
 
+
 ## .closest()
 
 Find the first ancestor that matches the selector for each node
