@@ -208,31 +208,33 @@ u.prototype.clone = function clone () {
 
     return cloneWithEvents;
   });
-};
 
-function getAll (context, tag) {
-  var ret = typeof context.getElementsByTagName !== 'undefined'
-    ? context.getElementsByTagName(tag || '*')
-    : [];
+  // These should probably be moved elsewhere
+  // TODO: form input support. data attr support?
+  function getAll (context, tag) {
+    var ret = typeof context.getElementsByTagName !== 'undefined'
+      ? context.getElementsByTagName(tag || '*')
+      : [];
 
-  return ret.length ? ret : [context];
-}
+    return ret.length ? ret : [context];
+  }
 
-function cloneCopyEvent (source, destination) {
-  var i;
-  var l;
-  var type;
-  var events;
+  function cloneCopyEvent (source, destination) {
+    var i;
+    var l;
+    var type;
+    var events;
 
-  if (source._e) {
-    events = source._e;
-    for (type in events) {
-      for (i = 0, l = events[type].length; i < l; i++) {
-        u(destination).on(type, events[type][i]);
+    if (source._e) {
+      events = source._e;
+      for (type in events) {
+        for (i = 0, l = events[type].length; i < l; i++) {
+          u(destination).on(type, events[type][i]);
+        }
       }
     }
   }
-}
+};
 
 
 // Find the first ancestor that matches the selector for each node
