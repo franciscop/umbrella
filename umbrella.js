@@ -195,24 +195,46 @@ u.prototype.children = function (selector) {
 };
 
 
-u.prototype.clone = function clone (deepDataAndEvents) {
+u.prototype.clone = function clone () {
   return this.map(function (node, i) {
     var cloneWithEvents = node.cloneNode(true);
-    var event;
-    var j;
+    // var event;
+    // var j;
+    var l;
+    var srcElements = getAll(node);
+    var destElements = getAll(cloneWithEvents);
 
-    // Copy any existing events
-    if (node._e) {
-      var nodeEventsObject = node._e;
-      for (event in nodeEventsObject) {
-        for (j = 0; j < nodeEventsObject[event].length; ++j) {
-          u(cloneWithEvents).on(event, nodeEventsObject[event][j]);
-        }
-      }
+    for (i = 0, l = srcElements.length; i < l; i++) {
+      cloneCopyEvent(srcElements[ i ], destElements[ i ]);
     }
+
     return cloneWithEvents;
   });
 };
+
+function getAll (context, tag) {
+  var ret = typeof context.getElementsByTagName !== 'undefined'
+    ? context.getElementsByTagName(tag || '*')
+    : [];
+
+  return ret.length ? ret : [context];
+}
+
+function cloneCopyEvent (source, destination) {
+  var i;
+  var l;
+  var type;
+  var events;
+
+  if (source._e) {
+    events = source._e;
+    for (type in events) {
+      for (i = 0, l = events[type].length; i < l; i++) {
+        u(destination).on(events[type], i);
+      }
+    }
+  }
+}
 
 
 // Find the first ancestor that matches the selector for each node
