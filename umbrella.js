@@ -198,8 +198,6 @@ u.prototype.children = function (selector) {
 u.prototype.clone = function clone () {
   return this.map(function (node, i) {
     var cloneWithEvents = node.cloneNode(true);
-    // var event;
-    // var j;
     var l;
     var srcElements = getAll(node);
     var destElements = getAll(cloneWithEvents);
