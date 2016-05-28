@@ -228,7 +228,7 @@ function cloneCopyEvent (source, destination) {
     events = source._e;
     for (type in events) {
       for (i = 0, l = events[type].length; i < l; i++) {
-        u(destination).on(events[type], i);
+        u(destination).on(type, events[type][i]);
       }
     }
   }
