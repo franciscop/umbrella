@@ -28,14 +28,15 @@ u.prototype.clone = function clone () {
     var l;
     var srcElements = this.getAll(node);
     var destElements = this.getAll(clone);
+    var mirrorObject = this.mirror;
 
     for (i = 0, l = srcElements.length; i < l; i++) {
-      this.mirror.events(srcElements[ i ], destElements[ i ]);
+      mirrorObject.events(srcElements[ i ], destElements[ i ]);
     }
 
-    for (var key in this.mirror) {
-      if (this.mirror[key].name !== 'events') {
-        this.mirror[key](srcElements[ i ], destElements[ i ]);
+    for (var key in mirrorObject) {
+      if (mirrorObject[key].name !== 'events') {
+        mirrorObject[key](srcElements[ i ], destElements[ i ]);
       }
     }
 
