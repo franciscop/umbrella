@@ -252,6 +252,13 @@ u.prototype.mirror.select = function (src, dest) {
   }
 };
 
+// Copy select input value to its clone
+u.prototype.mirror.textarea = function (src, dest) {
+  if (src.nodeName === 'TEXTAREA') {
+    dest.value = src.value;
+  }
+};
+
 
 // Find the first ancestor that matches the selector for each node
 u.prototype.closest = function (selector) {

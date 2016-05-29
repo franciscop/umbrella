@@ -1088,6 +1088,15 @@ describe("clone() input elements", function() {
     expect(u('.destination #textareaInput').first().value).to.eq('');
   });
 
+  it ("should clone a textarea input and its value when using textarea extension", function() {
+    var textareaInput = u('#textareaInput');
+    textareaInput.first().value = 'test';
+
+    u('.destination').append(textareaInput.clone({textarea: true}));
+
+    expect(u('.destination #textareaInput').first().value).to.eq('test');
+  });
+
   it ("should clone a select input and NOT its value by default", function() {
     var selectInput = u('#selectInput');
     selectInput.first().value = 'b';

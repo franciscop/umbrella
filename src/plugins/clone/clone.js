@@ -54,3 +54,10 @@ u.prototype.mirror.select = function (src, dest) {
     dest.value = src.value;
   }
 };
+
+// Copy select input value to its clone
+u.prototype.mirror.textarea = function (src, dest) {
+  if (src.nodeName === 'TEXTAREA') {
+    dest.value = src.value;
+  }
+};
