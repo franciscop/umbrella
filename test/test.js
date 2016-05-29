@@ -1026,6 +1026,78 @@ describe("clone() nodes with events", function() {
   });
 });
 
+describe("clone() input elements", function() {
+  beforeEach(function() {
+    base.append('<div class="container"><div class="test"><input id="checkboxInput" type="checkbox"><input id="radioInput" type="radio"><select id="selectInput" name="options"><option value="a">A</option><option value="b">B</option><option value="c">C</option></select><textarea id="textareaInput"></textarea><input id="textInput" type="text"></div><div class="destination"></div></div>');
+
+    {/*<div class="container">
+      <div class="test">
+        <input id="checkboxInput" type="checkbox">
+        <input id="radioInput" type="radio">
+        <select id="selectInput" name="options">
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+        </select>
+        <textarea id="textareaInput"></textarea>
+        <input id="textInput" type="text">
+      </div>
+      <div class="destination">
+        
+      </div>
+    </div>*/}
+  });
+
+  afterEach(function() {
+    u('.container').remove();
+  });
+
+  it ("should clone a text input and its value by default", function() {
+    var textInput = u('#textInput');
+    textInput.first().value = 'test';
+
+    u('.destination').append(textInput.clone());
+
+    expect(u('.destination #textInput').first().value).to.eq('test');
+  });
+
+  it ("should clone a checkbox input and its value by default", function() {
+    var checkboxInput = u('#checkboxInput');
+    checkboxInput.first().checked = true;
+
+    u('.destination').append(checkboxInput.clone());
+
+    expect(u('.destination #checkboxInput').first().checked).to.eq(true);
+  });
+
+  it ("should clone a radio input and its value by default", function() {
+    var radioInput = u('#radioInput');
+    radioInput.first().checked = true;
+
+    u('.destination').append(radioInput.clone());
+
+    expect(u('.destination #radioInput').first().checked).to.eq(true);
+  });
+
+  it ("should clone a textarea input and NOT its value by default", function() {
+    var textareaInput = u('#textareaInput');
+    textareaInput.first().value = 'test';
+
+    u('.destination').append(textareaInput.clone());
+
+    expect(u('.destination #textareaInput').first().value).to.eq('');
+  });
+
+  it ("should clone a select input and NOT its value by default", function() {
+    var selectInput = u('#selectInput');
+    selectInput.first().value = 'b';
+
+    u('.destination').append(selectInput.clone());
+
+    expect(u('.destination #selectInput').first().value).to.eq('a');
+  });
+});
+
 // Testing the main file
 describe(".closest(selector)", function() {
 
