@@ -16,11 +16,8 @@ u.prototype.clone = function clone () {
   // These should probably be moved elsewhere
   // TODO: form input support. data attr support?
   function getAll (context, tag) {
-    var ret = typeof context.getElementsByTagName !== 'undefined'
-      ? context.getElementsByTagName(tag || '*')
-      : [];
-
-    return ret.length ? ret : [context];
+    var rtn = u(tag || '*', context);
+    return rtn.length ? rtn.nodes : [context];
   }
 
   function cloneCopyEvent (source, destination) {
