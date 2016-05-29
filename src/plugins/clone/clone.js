@@ -36,7 +36,7 @@ u.prototype.clone = function clone (options /* {select: false} */) {
 
     if (options) {
       for (var key in options) {
-        if (options.hasOwnProperty(key) && options[key].name !== 'events') {
+        if (options.hasOwnProperty(key) && options[key] !== 'events') {
           this.mirror[key](node, clone);
         }
       }
