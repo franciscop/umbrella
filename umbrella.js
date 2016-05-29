@@ -219,7 +219,7 @@ u.prototype.getAll = function getAll (context, tag) {
   return rtn.length ? rtn.nodes : [context];
 };
 
-u.prototype.clone = function clone () {
+u.prototype.clone = function clone (options /* {select: false} */) {
   return this.map(function (node, i) {
     var clone = node.cloneNode(true);
     var l;
@@ -231,14 +231,25 @@ u.prototype.clone = function clone () {
       mirrorObject.events(srcElements[ i ], destElements[ i ]);
     }
 
-    for (var key in mirrorObject) {
-      if (mirrorObject[key].name !== 'events') {
-        mirrorObject[key](srcElements[ i ], destElements[ i ]);
+    if (options) {
+      for (var key in options) {
+        if (options.hasOwnProperty(key) && options[key].name !== 'events') {
+          this.mirror[key](node, clone);
+        }
       }
     }
 
     return clone;
   });
+};
+
+/* Clone method extensions */
+
+// Copy select input value to its clone
+u.prototype.mirror.select = function (src, dest) {
+  if (src.nodeName === 'SELECT') {
+    dest.value = src.value;
+  }
 };
 
 

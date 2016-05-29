@@ -1096,6 +1096,15 @@ describe("clone() input elements", function() {
 
     expect(u('.destination #selectInput').first().value).to.eq('a');
   });
+
+  it ("should clone a select input and its value when using the select clone method extension", function() {
+    var selectInput = u('#selectInput');
+    selectInput.first().value = 'b';
+
+    u('.destination').append(selectInput.clone({select: true}));
+
+    expect(u('.destination #selectInput').first().value).to.eq('b');
+  });
 });
 
 // Testing the main file
