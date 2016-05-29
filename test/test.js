@@ -952,8 +952,8 @@ describe("clone() nodes without events", function() {
   beforeEach(function() {
     base.append('<div class="container"><div class="testClone1">Hello</div><div class="cloneDestination">Goodbye</div></div>');
     /*<div class="container">
-        <div class="hello">Hello</div>
-        <div class="goodbye">Goodbye</div>
+        <div class="testClone1">Hello</div>
+        <div class="cloneDestination">Goodbye</div>
       </div>*/
   });
 
