@@ -80,8 +80,8 @@ u.prototype.adjacent = function (html, data, callback) {
 
       return u(part);
     }).each(function (n) {
-      // NOTE: if an extension func is used with clone
-      // it will only apply to first clone and not subsequent
+      // NOTE: if an extension func is used with clone and then that element is appended
+      // in multiple places, the extension options will only apply to first clone and not subsequent
       // ones unless we enable all options here e.g. .clone({select: true, textarea: true}).
       // Is this acceptable? Solution ideas?
       this.isInPage(n) ? fragment.appendChild(u(n).clone({select: true, textarea: true}).first()) : fragment.appendChild(n);
