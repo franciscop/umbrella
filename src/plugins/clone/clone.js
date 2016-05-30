@@ -18,8 +18,7 @@ u.prototype.mirror.events = function events (source, destination) {
 
 u.prototype.getAll = function getAll (context, tag) {
   // Mostly code borrowed from jQuery: https://github.com/jquery/jquery/blob/305f193aa57014dc7d8fa0739a3fefd47166cd44/src/manipulation.js
-  var rtn = u(tag || '*', context);
-  return rtn.length ? rtn.nodes : [context];
+  return [context].concat(u(tag || '*', context).nodes);
 };
 
 u.prototype.clone = function clone (options /* {select: false} */) {

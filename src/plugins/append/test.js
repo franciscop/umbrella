@@ -164,6 +164,12 @@ describe(".append(html)", function() {
       size('.base > .bla', 1)('.base > .bla:last-child', 1);
       u('.base .bla').trigger('click');
     });
+
+    it("Clones multiple events when appending", function(done){
+      base.append(u('<div class="bla">').on('click touch', function(){ done(); }));
+      size('.base > .bla', 1)('.base > .bla:last-child', 1);
+      u('.base .bla').trigger('touch');
+    });
   });
 
 
@@ -194,5 +200,14 @@ describe(".append(html)", function() {
   it("can append an html node", function() {
     base.append(u('<div class="bla">').first());
     size('.bla', 1);
+  });
+
+  it("should append supplied html to each targeted element and not only the last instance", function() {
+    base.append(u('<span class="test-span"></span><span class="test-span"></span><span class="test-span"></span><span class="test-span"></span>'));
+    base.append(u('<a class="append-me"></a>'));
+
+    u(".test-span").append(u(".append-me"));
+
+    size(".test-span .append-me", 4);
   });
 });

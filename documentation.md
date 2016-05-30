@@ -740,7 +740,7 @@ u("ul").children('li:first-child');
 
 ## .clone()
 
-Create a deep copy of the set of matched elements. Includes matched element node and **all of its events** as well as its children **and all of their events by default**.
+Create a deep copy of the set of matched elements. Includes matched element node and **all of its events** as well as its children **and all of their events** by **default**.
 
 ```js
 u('.elementToClone').clone()
