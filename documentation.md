@@ -782,7 +782,7 @@ u(".cloneDestination").append(clone);
 Result:
 ```html
 <div class="container">
-  <div class="testClone1"></div>
+  <div class="testClone1">Hello</div>
   <div class="cloneDestination">
     <div class="testClone1">Hello</div>
   </div>
