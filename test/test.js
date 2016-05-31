@@ -949,6 +949,10 @@ describe(".children(selector)", function() {
 });
   // Testing the main file
 describe(".clone(options)", function() {
+  afterEach(function(){
+    u('.container').remove();
+  });
+
   describe("clone() nodes without events", function() {
     beforeEach(function() {
       base.append('<div class="container"><div class="testClone1">Hello</div><div class="cloneDestination">Goodbye</div></div>');
@@ -956,10 +960,6 @@ describe(".clone(options)", function() {
           <div class="testClone1">Hello</div>
           <div class="cloneDestination">Goodbye</div>
         </div>*/
-    });
-
-    afterEach(function(){
-      u('.container').remove();
     });
 
     it("should be a function", function() {
@@ -999,11 +999,6 @@ describe(".clone(options)", function() {
           <div class="cloneDestination"></div>
         </div>*/
     });
-
-    afterEach(function(){
-      u('.container').remove();
-    });
-
 
     it("should clone a node and its events by default", function(done) {
       u('.testClone1').on('click', function() { done(); });
@@ -1047,10 +1042,6 @@ describe(".clone(options)", function() {
           
         </div>
       </div>*/}
-    });
-
-    afterEach(function() {
-      u('.container').remove();
     });
 
     it ("should clone a text input and its value by default", function() {
@@ -1114,6 +1105,19 @@ describe(".clone(options)", function() {
       u('.destination').append(selectInput.clone({select: true}));
 
       expect(u('.destination #selectInput').first().value).to.eq('b');
+    });
+  });
+
+  describe(".clone() and node data attributes", function() {
+    beforeEach(function() {
+      base.append('<div class="container"><div class="testCloneData" data-foo="bar"></div><div class="destination"></div></div>');
+    });
+
+    it("should clone node data attributes", function() {
+      var clone = u('.testCloneData').clone();
+      u('.destination').append(clone);
+
+      expect(u('.destination .testCloneData').data('foo')).to.eq('foo');
     });
   });
 });
