@@ -168,7 +168,7 @@ describe(".clone(options)", function() {
       var clone = u('.testCloneData').clone();
       u('.destination').append(clone);
 
-      expect(u('.destination .testCloneData').data('foo')).to.eq('foo');
+      expect(u('.destination .testCloneData').data('foo')).to.eq('bar');
     });
   });
 });
