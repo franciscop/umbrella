@@ -80,11 +80,7 @@ u.prototype.adjacent = function (html, data, callback) {
 
       return u(part);
     }).each(function (n) {
-      // NOTE: if an extension func is used with clone and then that element is appended
-      // in multiple places, the extension options will only apply to first clone and not subsequent
-      // ones unless we enable all options here e.g. .clone({select: true, textarea: true}).
-      // Is this acceptable? Solution ideas?
-      this.isInPage(n) ? fragment.appendChild(u(n).clone({select: true, textarea: true}).first()) : fragment.appendChild(n);
+      this.isInPage(n) ? fragment.appendChild(u(n).clone().first()) : fragment.appendChild(n);
     });
 
     callback.call(this, node, fragment);
@@ -235,7 +231,7 @@ u.prototype.getAll = function getAll (context, tag) {
 };
 
 /**
- * Deep clone a DOM node and its descendants. Applies extension functions, if provided.
+ * Deep clone a DOM node and its descendants.
  * @return {[Object]}         Returns an Umbrella.js instance.
  */
 u.prototype.clone = function clone () {
