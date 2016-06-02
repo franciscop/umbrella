@@ -232,10 +232,9 @@ u.prototype.getAll = function getAll (context, tag) {
 
 /**
  * Deep clone a DOM node and its descendants. Applies extension functions, if provided.
- * @param  {[Object]} options Optional extensions object. Example use: u(...).clone({select: true});
  * @return {[Object]}         Returns an Umbrella.js instance.
  */
-u.prototype.clone = function clone (options) {
+u.prototype.clone = function clone () {
   return this.map(function (node, i) {
     var clone = node.cloneNode(true);
     var l;
@@ -247,11 +246,9 @@ u.prototype.clone = function clone (options) {
       mirrorObject.events(srcElements[ i ], destElements[ i ]);
     }
 
-    if (options) {
-      for (var key in options) {
-        if (options.hasOwnProperty(key) && options[key] !== 'events') {
-          this.mirror[key](node, clone);
-        }
+    for (var key in mirrorObject) {
+      if (mirrorObject.hasOwnProperty(key) && mirrorObject[key].name !== 'events') {
+        this.mirror[key](node, clone);
       }
     }
 

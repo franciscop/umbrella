@@ -1071,16 +1071,8 @@ describe(".clone(options)", function() {
       expect(u('.destination #radioInput').first().checked).to.eq(true);
     });
 
-    it ("should clone a textarea input and NOT its value by default", function() {
-      var textareaInput = u('#textareaInput');
-      textareaInput.first().value = 'test';
 
-      u('.destination').append(textareaInput.clone());
-
-      expect(u('.destination #textareaInput').first().value).to.eq('');
-    });
-
-    it ("should clone a textarea input and its value when using textarea extension", function() {
+    it ("should clone a textarea input and its value by default", function() {
       var textareaInput = u('#textareaInput');
       textareaInput.first().value = 'test';
 
@@ -1089,16 +1081,7 @@ describe(".clone(options)", function() {
       expect(u('.destination #textareaInput').first().value).to.eq('test');
     });
 
-    it ("should clone a select input and NOT its value by default", function() {
-      var selectInput = u('#selectInput');
-      selectInput.first().value = 'b';
-
-      u('.destination').append(selectInput.clone());
-
-      expect(u('.destination #selectInput').first().value).to.eq('a');
-    });
-
-    it ("should clone a select input and its value when using the select clone method extension", function() {
+    it ("should clone a select input and its value by default", function() {
       var selectInput = u('#selectInput');
       selectInput.first().value = 'b';
 
