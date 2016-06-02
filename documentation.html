@@ -469,6 +469,40 @@ u(&quot;a.main&quot;).before(function(){
 <p><a href="#parent">.parent()</a> get all of the direct parents</p>
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
 <p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
+<h2 id="-clone-">.clone()</h2>
+<p>Create a deep copy of the set of matched elements. Includes matched element node and <strong>all of its events</strong> as well as its children <strong>and all of their events</strong> by <strong>default</strong>.</p>
+<pre><code class="lang-js">u(&#39;.elementToClone&#39;).clone()
+</code></pre>
+<h3 id="extensions">Extensions</h3>
+<ul>
+<li>The following extensions are enabled by default:<ul>
+<li><strong>select</strong> select input node values are copied to all cloned nodes. To disable globally, add <code>u.prototype.mirror.select = false;</code> to your code.</li>
+<li><strong>textarea</strong> textarea input node values are copied to all cloned nodes. To disable globally, add <code>u.prototype.mirror.select = false;</code> to your code.</li>
+</ul>
+</li>
+</ul>
+<h3 id="return">Return</h3>
+<p><code>u</code>: returns the same instance of Umbrella JS</p>
+<h3 id="examples">Examples</h3>
+<p>Clone a node and append to another.</p>
+<pre><code class="lang-html">&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
+  &lt;div class=&quot;cloneDestination&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-js">var clone = u(&quot;testClone1&quot;).clone();
+u(&quot;.cloneDestination&quot;).append(clone);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
+  &lt;div class=&quot;cloneDestination&quot;&gt;
+    &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#append">.append()</a> add some html as a child at the end of each of the matched elements.</p>
 <h2 id="-closest-">.closest()</h2>
 <p>Find the first ancestor that matches the selector for each node</p>
 <pre><code class="lang-js">.closest(filter);
