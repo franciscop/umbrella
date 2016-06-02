@@ -34,7 +34,7 @@ u.prototype.getAll = function getAll (context, tag) {
 };
 
 /**
- * Deep clone a DOM node and its descendants. Applies extension functions, if provided.
+ * Deep clone a DOM node and its descendants.
  * @return {[Object]}         Returns an Umbrella.js instance.
  */
 u.prototype.clone = function clone () {
