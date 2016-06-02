@@ -80,7 +80,9 @@ u.prototype.adjacent = function (html, data, callback) {
 
       return u(part);
     }).each(function (n) {
-      fragment.appendChild(n);
+      this.isInPage(n)
+        ? fragment.appendChild(u(n).clone().first())
+        : fragment.appendChild(n);
     });
 
     callback.call(this, node, fragment);
@@ -231,7 +233,7 @@ u.prototype.getAll = function getAll (context, tag) {
 };
 
 /**
- * Deep clone a DOM node and its descendants. Applies extension functions, if provided.
+ * Deep clone a DOM node and its descendants.
  * @return {[Object]}         Returns an Umbrella.js instance.
  */
 u.prototype.clone = function clone () {
@@ -491,6 +493,16 @@ u.prototype.is = function (selector) {
   return this.filter(selector).length > 0;
 };
 
+
+/**
+ * Internal use only. This function checks to see if an element is in the page's body. As contains is inclusive and determining if the body contains itself isn't the intention of isInPage this case explicitly returns false.
+https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
+ * @param  {[Object]}  node DOM node
+ * @return {Boolean}        The Node.contains() method returns a Boolean value indicating whether a node is a descendant of a given node or not.
+ */
+u.prototype.isInPage = function isInPage (node) {
+  return (node === document.body) ? false : document.body.contains(node);
+};
 
   // Get the last of the nodes
 u.prototype.last = function () {
