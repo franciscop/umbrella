@@ -472,14 +472,12 @@ u(&quot;a.main&quot;).before(function(){
 <h2 id="-clone-">.clone()</h2>
 <p>Create a deep copy of the set of matched elements. Includes matched element node and <strong>all of its events</strong> as well as its children <strong>and all of their events</strong> by <strong>default</strong>.</p>
 <pre><code class="lang-js">u(&#39;.elementToClone&#39;).clone()
-u(&#39;.elementToClone&#39;).clone({select: true})
 </code></pre>
-<h3 id="parameters">Parameters</h3>
-<p><code>options = Object {option: true|false}</code>:</p>
+<h3 id="extensions">Extensions</h3>
 <ul>
-<li>The following extensions are available for use as options:<ul>
-<li><strong>select</strong> set this option to true to copy the value of the source select input.</li>
-<li><strong>textarea</strong> set this option to true to copy the value of the source textarea input.</li>
+<li>The following extensions are enabled by default:<ul>
+<li><strong>select</strong> select input node values are copied to all cloned nodes. To disable globally, add <code>u.prototype.mirror.select = false;</code> to your code.</li>
+<li><strong>textarea</strong> textarea input node values are copied to all cloned nodes. To disable globally, add <code>u.prototype.mirror.select = false;</code> to your code.</li>
 </ul>
 </li>
 </ul>
@@ -497,13 +495,14 @@ u(&quot;.cloneDestination&quot;).append(clone);
 </code></pre>
 <p>Result:</p>
 <pre><code class="lang-html">&lt;div class=&quot;container&quot;&gt;
-  &lt;div class=&quot;testClone1&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
   &lt;div class=&quot;cloneDestination&quot;&gt;
     &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 <h3 id="related">Related</h3>
+<p><a href="#append">.append()</a> add some html as a child at the end of each of the matched elements.</p>
 <h2 id="-closest-">.closest()</h2>
 <p>Find the first ancestor that matches the selector for each node</p>
 <pre><code class="lang-js">.closest(filter);

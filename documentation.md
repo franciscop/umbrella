@@ -744,17 +744,14 @@ Create a deep copy of the set of matched elements. Includes matched element node
 
 ```js
 u('.elementToClone').clone()
-u('.elementToClone').clone({select: true})
 ```
 
 
 
-### Parameters
-
-`options = Object {option: true|false}`:
-  - The following extensions are available for use as options:
-    - **select** set this option to true to copy the value of the source select input.
-    - **textarea** set this option to true to copy the value of the source textarea input.
+### Extensions
+  - The following extensions are enabled by default:
+    - **select** select input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
+    - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
 
 
 ### Return
@@ -782,7 +779,7 @@ u(".cloneDestination").append(clone);
 Result:
 ```html
 <div class="container">
-  <div class="testClone1"></div>
+  <div class="testClone1">Hello</div>
   <div class="cloneDestination">
     <div class="testClone1">Hello</div>
   </div>
@@ -790,6 +787,8 @@ Result:
 ```
 
 ### Related
+[.append()](#append) add some html as a child at the end of each of the matched elements.
+
 
 ## .closest()
 
