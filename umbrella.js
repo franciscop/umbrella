@@ -80,7 +80,9 @@ u.prototype.adjacent = function (html, data, callback) {
 
       return u(part);
     }).each(function (n) {
-      this.isInPage(n) ? fragment.appendChild(u(n).clone().first()) : fragment.appendChild(n);
+      this.isInPage(n)
+        ? fragment.appendChild(u(n).clone().first())
+        : fragment.appendChild(n);
     });
 
     callback.call(this, node, fragment);
