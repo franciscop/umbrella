@@ -80,7 +80,11 @@ u.prototype.adjacent = function (html, data, callback) {
 
       return u(part);
     }).each(function (n) {
-      fragment.appendChild(n);
+      // NOTE: if an extension func is used with clone and then that element is appended
+      // in multiple places, the extension options will only apply to first clone and not subsequent
+      // ones unless we enable all options here e.g. .clone({select: true, textarea: true}).
+      // Is this acceptable? Solution ideas?
+      this.isInPage(n) ? fragment.appendChild(u(n).clone({select: true, textarea: true}).first()) : fragment.appendChild(n);
     });
 
     callback.call(this, node, fragment);
@@ -491,6 +495,16 @@ u.prototype.is = function (selector) {
   return this.filter(selector).length > 0;
 };
 
+
+/**
+ * Internal use only. This function checks to see if an element is in the page's body. As contains is inclusive and determining if the body contains itself isn't the intention of isInPage this case explicitly returns false.
+https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
+ * @param  {[Object]}  node DOM node
+ * @return {Boolean}        The Node.contains() method returns a Boolean value indicating whether a node is a descendant of a given node or not.
+ */
+u.prototype.isInPage = function isInPage (node) {
+  return (node === document.body) ? false : document.body.contains(node);
+};
 
   // Get the last of the nodes
 u.prototype.last = function () {
