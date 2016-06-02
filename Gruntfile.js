@@ -1,8 +1,5 @@
-fs = require('fs');
-
 // This builds the library itself
 module.exports = function (grunt) {
-
   // Configuration
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -11,17 +8,27 @@ module.exports = function (grunt) {
       ignore_warning: {
         src: ['Gruntfile.js', 'umbrella.js'],
         options: {
-          '-W043': true,  // Allow for multiline with \ backslash
+          '-W043': true  // Allow for multiline with \ backslash
         }
       }
     },
 
     uglify: {
-      options: { banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'},
+      options: {
+        banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'
+      },
       my_target: {
         files: {
           'umbrella.min.js': 'umbrella.js'
         }
+      }
+    },
+
+    semistandard: {
+      app: {
+        src: [
+          './plugins/**/!(test).js'
+        ]
       }
     },
 
@@ -39,8 +46,8 @@ module.exports = function (grunt) {
         tasks: ['default'],
         options: {
           spawn: false,
-          livereload: true,
-        },
+          livereload: true
+        }
       }
     },
 
@@ -50,11 +57,11 @@ module.exports = function (grunt) {
           client: false
         },
         files: [ {
-          cwd: "web",
-          src: "**/*.html.jade",
-          dest: ".",
+          cwd: 'web',
+          src: '**/*.html.jade',
+          dest: '.',
           expand: true,
-          ext: ".html"
+          ext: '.html'
         } ]
       }
     },
@@ -67,7 +74,9 @@ module.exports = function (grunt) {
       main: {
         // No test files
         options: {
-          process: function(src, file){ return /test\.js/.test(file) ? "" : src; }
+          process: function (src, file) {
+            return /test\.js/.test(file) ? '' : src;
+          }
         },
         files: {
           'umbrella.js': ['src/umbrella.js', 'src/plugins/**/*.js'],
@@ -78,7 +87,7 @@ module.exports = function (grunt) {
         files: {
           'test/test.js': ['src/test.js', 'src/plugins/**/test.js']
         }
-      },
+      }
     },
 
     bytesize: {
@@ -90,7 +99,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-semistandard');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -98,6 +107,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.loadNpmTasks('grunt-bytesize');
 
-  // 4. Where we tell Grunt what to do when we type "grunt" into the terminal
-  grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'jade', 'mocha_phantomjs', 'bytesize']);
+  grunt.registerTask('build', ['concat', 'uglify', 'jade']);
+  grunt.registerTask('test', ['semistandard', 'mocha_phantomjs']);
+  grunt.registerTask('default', ['build', 'test', 'bytesize']);
 };

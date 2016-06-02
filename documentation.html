@@ -3,7 +3,7 @@
 <pre><code class="lang-js">u(&#39;ul#demo li&#39;)
 u(document.getElementById(&#39;demo&#39;))
 u(document.getElementsByClassName(&#39;demo&#39;))
-u([ document.getElementById(&#39;demo&#39;), document.getElementById(&#39;test&#39;) ])
+u([ document.getElementById(&#39;demo&#39;) ])
 u( u(&#39;ul li&#39;) )
 u(&#39;&lt;a&gt;&#39;)
 u(&#39;li&#39;, context)
@@ -16,7 +16,7 @@ u(&#39;li&#39;, context)
 <li>A NodeList or other similar objects that can be converted to an array</li>
 <li>An array of nodes*</li>
 <li>Another Umbrella instance</li>
-<li>An HTML fragment</li>
+<li>An HTML fragment as a string</li>
 <li>Nothing</li>
 </ul>
 <p>The second parameter is only for the CSS selector, which indicates a portion of the DOM where the selector is applied. For example, with <code>u(&#39;li&#39;, u(&#39;ul&#39;).first())</code> it will find all of the <code>li</code> from the first <code>ul</code>.</p>
@@ -37,8 +37,8 @@ u(&#39;li&#39;, context)
 <pre><code class="lang-js">var link = u(&#39;&lt;a&gt;&#39;).addClass(&#39;main&#39;).attr({ href: &#39;/hello&#39; });
 </code></pre>
 <p>You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):</p>
-<pre><code class="lang-js">var products = [&#39;apple&#39;, &#39;strawberry&#39;, &#39;pear&#39;, &#39;banana&#39;];
-var list = u(&#39;&lt;ul&gt;&#39;).append(product =&gt; `&lt;li&gt;${ product }&lt;/li&gt;`, products);
+<pre><code class="lang-js">var fruits = [&#39;apple&#39;, &#39;strawberry&#39;, &#39;pear&#39;, &#39;banana&#39;];
+var list = u(&#39;&lt;ul&gt;&#39;).append(fruit =&gt; `&lt;li&gt;${ fruit }&lt;/li&gt;`, fruits);
 
 u(&#39;body&#39;).append(list);
 </code></pre>
@@ -66,7 +66,7 @@ u(&#39;h1&#39;).nodes[0].classList.add(&#39;vanilla&#39;);
 // Single element
 u(&#39;h1&#39;).first().classList.add(&#39;vanilla&#39;, &#39;test&#39;);
 
-// Multiple elements. Note that the order of arguments is different from jquery (it&#39;s standard order)
+// Multiple elements. Note that the order is different from jquery
 u(&#39;h2&#39;).each(function(el){
   el.classList.add(&#39;vanilla&#39;, &#39;test&#39;);
 });
@@ -81,6 +81,7 @@ var good = u(&#39;h2&#39;).nodes.some();
 <ul>
 <li><strong>error prevention</strong>: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)</li>
 <li><strong>cross-browser</strong>: the classList.add() with multiple elements <a href="http://caniuse.com/#search=classList">is not compatible with IE10-11 &amp; Android 4.3-</a></li>
+<li><strong>chainable</strong>: <code>u(&#39;&lt;div&gt;&#39;).each(...).addClass(...);</code></li>
 <li><strong>more flexibility</strong>: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:</li>
 </ul>
 <pre><code class="lang-js">u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, &#39;test&#39;);     // It accepts multiple parameters
@@ -89,22 +90,22 @@ u(&#39;h2&#39;).addClass([&#39;vanilla&#39;], [&#39;test&#39;]); // Or multiple 
 u(&#39;h2&#39;).addClass(&#39;vanilla, test&#39;);       // Strings with space and/or comma
 u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, [&#39;test&#39;], &#39;one, more&#39; ); // Or just whatever
 </code></pre>
-<p>So it&#39;s convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella&#39;s methods where it&#39;s better suited or then crete your own methods when you need it.</p>
-<h3 id="-length">.length</h3>
+<p>So it&#39;s convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella&#39;s methods where it&#39;s better suited or then create your own methods when you need it.</p>
+<h2 id="-length">.length</h2>
 <p>You can check how many elements are matched with <code>.length</code>:</p>
 <pre><code class="lang-js">// Check how many &lt;a&gt; are in the page
 alert(u(&#39;a&#39;).length);
 </code></pre>
 <h2 id="-addclass-">.addClass()</h2>
 <p>Add html class(es) to all of the matched elements.</p>
-<pre><code class="lang-js">.addClass(&#39;name1&#39;);
-.addClass(&#39;name1 name2 nameN&#39;);
-.addClass(&#39;name1,name2,nameN&#39;);
-.addClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;);
-.addClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
-.addClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;]);
-.addClass(function(){ return &#39;name1&#39;; });
-.addClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });
+<pre><code class="lang-js">.addClass(&#39;name1&#39;)
+.addClass(&#39;name1 name2 nameN&#39;)
+.addClass(&#39;name1,name2,nameN&#39;)
+.addClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;)
+.addClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;])
+.addClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;])
+.addClass(function(){ return &#39;name1&#39;; })
+.addClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; })
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).</p>
@@ -128,27 +129,33 @@ alert(u(&#39;a&#39;).length);
 .after(&#39;&lt;div&gt;&#39;)
 .after(u(&#39;&lt;div&gt;&#39;))
 .after(u(&#39;&lt;div&gt;&#39;).first()) // Same as document.createElement(&#39;div&#39;)
-.after(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
+.after(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;))
 .after(function(){})
 .after(function(el){}, elements)
+.after(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -170,7 +177,9 @@ u(&quot;a.main&quot;).after(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&q
 u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 </code></pre>
 <p>They all result in:</p>
-<pre><code class="lang-html">&lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
+<pre><code class="lang-html">&lt;!-- previous data --&gt;
+
+&lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
 &lt;a&gt;One&lt;/a&gt;
 &lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;Three&lt;/a&gt;
@@ -244,27 +253,33 @@ u(&quot;a.main&quot;).after(function(){
 .append(&#39;&lt;div&gt;&#39;)
 .append(u(&#39;&lt;div&gt;&#39;))
 .append(u(&#39;&lt;div&gt;&#39;).first()) // Same as document.createElement(&#39;div&#39;)
-.append(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
+.append(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;))
 .append(function(){})
 .append(function(el){}, elements)
+.append(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -295,10 +310,10 @@ u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&q
 &lt;/ul&gt;
 </code></pre>
 <p>You can also add some events to them by creating an html node:</p>
-<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+<pre><code class="lang-js">function greet(){ alert(&quot;Hello world&quot;); }
 
 u(&quot;a.main&quot;).append(function(){
-  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
+  return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greet).html(&quot;Hey!&quot;);
 });
 </code></pre>
 <h3 id="related">Related</h3>
@@ -372,27 +387,33 @@ u(&quot;a.main&quot;).append(function(){
 .before(&#39;&lt;div&gt;&#39;)
 .before(u(&#39;&lt;div&gt;&#39;))
 .before(u(&#39;&lt;div&gt;&#39;).first()) // Same as document.createElement(&#39;div&#39;)
-.before(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
+.before(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;))
 .before(function(){})
 .before(function(el){}, elements)
+.append(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -418,6 +439,8 @@ u(&quot;a.main&quot;).before(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One
 &lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;Three&lt;/a&gt;
 &lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
+
+&lt;!-- previous data --&gt;
 </code></pre>
 <p>You can also add some events to them by creating an html node:</p>
 <pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
@@ -446,6 +469,40 @@ u(&quot;a.main&quot;).before(function(){
 <p><a href="#parent">.parent()</a> get all of the direct parents</p>
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
 <p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
+<h2 id="-clone-">.clone()</h2>
+<p>Create a deep copy of the set of matched elements. Includes matched element node and <strong>all of its events</strong> as well as its children <strong>and all of their events</strong> by <strong>default</strong>.</p>
+<pre><code class="lang-js">u(&#39;.elementToClone&#39;).clone()
+</code></pre>
+<h3 id="extensions">Extensions</h3>
+<ul>
+<li>The following extensions are enabled by default:<ul>
+<li><strong>select</strong> select input node values are copied to all cloned nodes. To disable globally, add <code>u.prototype.mirror.select = false;</code> to your code.</li>
+<li><strong>textarea</strong> textarea input node values are copied to all cloned nodes. To disable globally, add <code>u.prototype.mirror.select = false;</code> to your code.</li>
+</ul>
+</li>
+</ul>
+<h3 id="return">Return</h3>
+<p><code>u</code>: returns the same instance of Umbrella JS</p>
+<h3 id="examples">Examples</h3>
+<p>Clone a node and append to another.</p>
+<pre><code class="lang-html">&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
+  &lt;div class=&quot;cloneDestination&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-js">var clone = u(&quot;testClone1&quot;).clone();
+u(&quot;.cloneDestination&quot;).append(clone);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
+  &lt;div class=&quot;cloneDestination&quot;&gt;
+    &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#append">.append()</a> add some html as a child at the end of each of the matched elements.</p>
 <h2 id="-closest-">.closest()</h2>
 <p>Find the first ancestor that matches the selector for each node</p>
 <pre><code class="lang-js">.closest(filter);
@@ -736,6 +793,30 @@ should pass no parameter so it retrieves the html.</p>
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#first">.first()</a> retrieve the first matched element</p>
+<h2 id="-map-">.map()</h2>
+<p>Change the content of the current instance by looping each element</p>
+<pre><code class="lang-js">.map(function(){});
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>A single callback that returns the element(s) that are going to be kept:</p>
+<pre><code class="lang-js">var links = u(&#39;.special li&#39;).map(function(node, i){
+  if (parseInt(node.innerHTML) &gt; 10) {
+    return &#39;&lt;a&gt;&#39; + u(node).data(&#39;id&#39;) + &#39;&lt;/a&gt;&#39;;
+  }
+}).addClass(&#39;expensive&#39;);
+</code></pre>
+<p>It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will <strong>remove duplicated nodes</strong> from the result.</p>
+<blockquote>
+<p>Note: Umbrella JS is made to manipulate HTML nodes so it will consider the string &quot;&quot; and 0 as false and remove them. Return an HTML node or an HTML string to keep the elements.</p>
+</blockquote>
+<h3 id="return">Return</h3>
+<p>An instance of Umbrella with the nodes passed</p>
+<h3 id="examples">Examples</h3>
+<p>Get the parent elements (see <a href="#parent">.parent()</a>):</p>
+<pre><code class="lang-js">var lists = u(&#39;li&#39;).map(function(node){ return node.parentNode });
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#each">.each()</a> loop all the elements without changing them</p>
 <h2 id="-not-">.not()</h2>
 <p>Remove known nodes from nodes</p>
 <pre><code class="lang-js">.not(&#39;a&#39;)
@@ -803,7 +884,7 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#on">.on()</a> Attaches an event to matched nodes</p>
-<p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
+<p><a href="#handle">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#trigger">.trigger()</a> Triggers an event on all of the matched nodes</p>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
@@ -811,6 +892,7 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 .on(&#39;event1 event2 eventN&#39;, callback)
 .on(&#39;event1,event2,eventN&#39;, callback)
 .on([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], callback)
+.on(&#39;event1&#39;, &#39;selector&#39;, callback)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
@@ -826,6 +908,10 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 <li><p><code>data1</code>, <code>data2</code>, <code>dataN</code>: the arguments that were passed to <code>trigger()</code> if it was called with that function.</p>
 </li>
 </ul>
+<p>Another way is doing event delegation, for which the parameters are:</p>
+<p><code>event1</code>, <code>event2</code>, <code>eventN</code>: same as before</p>
+<p><code>selector</code>: a css selector that matches the nodes that will trigger it</p>
+<p><code>callback</code>: same as before</p>
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
@@ -884,24 +970,30 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 .prepend(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .prepend(function(){})
 .prepend(function(el){}, elements)
+.prepend(function(el){}, 10)
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
 <li>Any of these elements:<ul>
-<li>a string containing the html that is going to be inserted</li>
-<li>an instance of Umbrella</li>
-<li>an HTML node</li>
-<li>an array containing HTML nodes</li>
+<li><strong>string</strong> containing the html that is going to be inserted</li>
+<li><strong>instance of Umbrella</strong></li>
+<li><strong>HTML node</strong></li>
+<li><strong>array</strong> containing HTML nodes</li>
 </ul>
 </li>
 <li>A callback that returns any of the previous. It gets passed these parameters:<ul>
-<li>el: the current element from the [elements] array (or &quot;&quot; if none)</li>
-<li>i: the index of the current element</li>
+<li><strong>el</strong>: the current element from the elements parameter, {} if none is specified and i if elements is number</li>
+<li><strong>i</strong>: the index of the current element</li>
 </ul>
 </li>
 </ul>
-<p><code>elements = [&quot;&quot;]</code>: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.</p>
+<p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
+<ul>
+<li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
+<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A number, in which case the function will be executed that number of times</li>
+</ul>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
@@ -979,6 +1071,27 @@ u(&quot;a.main&quot;).prepend(function(){
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass()</a> adds class(es) from the matched elements.</p>
 <p><a href="#hasclass">.hasClass()</a> finds if the matched elements contain the class(es)</p>
+<h2 id="-replace-">.replace()</h2>
+<p>Replace the matched elements with the passed argument.</p>
+<pre><code class="lang-js">.replace();
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>The parameter can be any of these types:</p>
+<ul>
+<li>string:  html tag like <code>&lt;div&gt;</code></li>
+<li>function: a function which returns an html tag.</li>
+</ul>
+<h3 id="return">Return</h3>
+<p>The newly created element.</p>
+<h3 id="examples">Examples</h3>
+<p>Replace elements with class &#39;save&#39; by a button with class &#39;update&#39;:</p>
+<pre><code class="lang-js">u(&#39;.save&#39;).replace(&#39;&lt;button class=&quot;update&quot;&gt;Update&lt;/button&gt;&#39;);
+</code></pre>
+<p>Replace element button by a link with class &#39;button&#39;:</p>
+<pre><code class="lang-js">u(&#39;button&#39;).replace(function(btn){
+  return &#39;&lt;a class=&quot;button&quot;&gt;&#39; + btn.innerHTML + &#39;&lt;/a&gt;&#39;;
+});
+</code></pre>
 <h2 id="-scroll-">.scroll()</h2>
 <p>Scroll to the first matched element, smoothly if supported.</p>
 <pre><code class="lang-js">.scroll()
@@ -1123,6 +1236,89 @@ setInterval(function(){
 <p><a href="#on">.on()</a> add an event listener to the matched nodes</p>
 <p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#off">.off()</a> Removes an event from matched nodes</p>
+<h2 id="-wrap-">.wrap()</h2>
+<p>Wraps the matched element(s) with the passed argument. The argument gets processed with the constructor u() and it accepts an html tag like <code>.wrap(&#39;&lt;div&gt;&#39;)</code></p>
+<pre><code class="lang-js">.wrap(selector);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>selector</code>: a formatted string of the desired selector. For example <code>.wrap(&#39;&lt;div&gt;&#39;)</code>. Nested selectors are supported in a similar way to <a href="http://api.jquery.com/wrap/">jQuery wrap</a>. For example <code>.wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;)</code>. Matched element(s) will be wrapped with innermost node of the first child of a nested argument. See examples below.</p>
+<h3 id="return">Return</h3>
+<p><code>u</code>: returns an instance of Umbrella JS with the wrapped node(s)</p>
+<h3 id="examples">Examples</h3>
+<p>Wrap an element in an html element:</p>
+<p>Original element:</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a class=&quot;wrapper&quot;&gt;&#39;);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;a class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;/a&gt;
+</code></pre>
+<p>Wrap an element in an html element and chain umbrella.js methods:</p>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;/a&gt;
+</code></pre>
+<p>Wrap several elements in an html element</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;button class=&quot;example&quot;&gt;Link2&lt;/button&gt;
+&lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+&lt;/a&gt;
+&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link2&lt;/button&gt;
+&lt;/a&gt;
+&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+  &lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
+&lt;/a&gt;
+</code></pre>
+<p>Nested selector arguments:</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;div class=&quot;a1&quot;&gt;
+    &lt;div class=&quot;b1&quot;&gt;
+        &lt;div class=&quot;c1&quot;&gt;
+            &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+              &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Nested selector arguments with multiple child nodes:</p>
+<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+</code></pre>
+<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;b2&quot;&gt;&lt;div class=&quot;c2&quot;&gt;&lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);
+</code></pre>
+<p>Result:</p>
+<pre><code class="lang-html">&lt;div class=&quot;a1&quot;&gt;
+    &lt;div class=&quot;b1&quot;&gt;
+        &lt;div class=&quot;c1&quot;&gt;
+            &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+              &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;b2&quot;&gt;
+        &lt;div class=&quot;c2&quot;&gt;
+            &lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 </article></section></main><script src="umbrella.min.js"></script><script>u('h2[id]').each(function(node){
   u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
 });

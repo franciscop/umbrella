@@ -1,32 +1,30 @@
 // Perform ajax calls
-function ajax(action, opt, done, before) {
-
+/* eslint-disable no-unused-vars*/
+function ajax (action, opt, done, before) {
   // To avoid repeating it
-  done = done || function(){};
+  done = done || function () {};
 
   // A bunch of options and defaults
   opt = opt || {};
-  opt.body = opt.body || "";
+  opt.body = opt.body || '';
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
   opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
-  if (typeof FormData == "undefined" || !(opt.body instanceof FormData)) {
+  if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
   }
   opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
 
-
   // Create and send the actual request
-  var request = new XMLHttpRequest();
+  var request = new window.XMLHttpRequest();
 
   // An error is just an error
   // This uses a little hack of passing an array to u() so it handles it as
   // an array of nodes, hence we can use 'on'. However a single element wouldn't
   // work since it a) doesn't have nodeName and b) it will be sliced, failing
-  u([request]).on('error timeout abort', function(){
+  u([request]).on('error timeout abort', function () {
     done(new Error(), null, request);
-  }).on('load', function() {
-
+  }).on('load', function () {
     // Also an error if it doesn't start by 2 or 3...
     // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
     // We don't want to return yet though as there might be some content
@@ -53,3 +51,4 @@ function ajax(action, opt, done, before) {
 
   return request;
 }
+/* eslint-enable no-unused-vars*/

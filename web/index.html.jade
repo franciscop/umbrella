@@ -24,9 +24,9 @@ block content
       div
         :markdown
           ## Intuitive and Documented
-          It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at ease developing with Umbrella.
+          It is **strongly influenced by jquery** with many similar methods so you'll feel at ease developing with Umbrella.
           
-          However there are also some improvements to make your code intuitive such as ajax(). It's all detailed here:
+          However there are also some improvements such as with `.ajax()`, `.append()`, etc. It's all detailed here:
         a.button.icon-doc(href="documentation" target="_blank") Documentation
       div
         pre
@@ -54,13 +54,13 @@ block content
           code.language-javascript.
             // Find the nodes matched by a selector
             u.prototype.find = function(selector) {
-              return this.join(function(node){
-                return u(selector || "*", node).nodes;
+              return this.map(function(node){
+                return u(selector || "*", node);
               });
             };
             // Check if any node matches the selector
             u.prototype.is = function(selector){
-              return this.filter(selector).nodes.length > 0;
+              return this.filter(selector).length > 0;
             };
     
     section.row
@@ -75,12 +75,12 @@ block content
         pre
           code.language-javascript.
             it("can select by class", function() {
-              expect(u('.demo').nodes.length).to.equal(1);
+              expect(u('.demo').length).to.equal(1);
             });
 
-            it("can select the children of ul", function() {
+            it("can select li inside ul", function() {
               var ul = base.find('li').closest('ul');
-              expect(ul.nodes.length).to.equal(1);
+              expect(ul.length).to.equal(1);
             });
     
     section.row

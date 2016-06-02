@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><title>Umbrella JS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="javascript, js, library, umbrella, html, html5, light"><meta name="description" content=" Lightweight and intuitive javascript library"><meta property="og:url" content="http://umbrellajs.com/"><meta property="og:title" content="Umbrella JS"><meta property="og:image" content="http://umbrellajs.com/web/umbrella.png?1"><meta property="og:description" content="Lightweight and intuitive javascript library to speed up your web development"><link href="web/fontello.css" rel="stylesheet"><link href="web/picnic.css" rel="stylesheet"><link href="web/style.css" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" type="text/css"><link rel="icon" href="web/umbrella.svg" type="image/svg+xml"></head><body><nav><div class="brand"><img src="web/umbrella.svg" alt="Logo" class="logo"><a href="/">Umbrella JS</a></div><div class="menu"><a href="tests" class="pseudo button icon-ok"><span class="text">Tests</span></a><a href="https://github.com/umbrellajs/umbrella" class="pseudo button icon-g"><span class="text">Github</span></a><a href="documentation" class="button icon-doc"><span class="text">Documentation</span></a></div></nav><header class="hero"><div class="cover color"></div><div class="cover cloud"></div><div class="cover city"></div><div class="cover rain"></div><div class="wrap"><div class="content"><h1>Umbrella JS</h1><p class="slogan">Tiny library for DOM manipulation, events and AJAX</p><pre class="install">bower install umbrella</pre><a href="http://www.jsdelivr.com/projects/umbrella" target="_blank" class="button icon-link">CDN</a> <a href="umbrella.min.js" target="_blank" download="umbrella.min.js" class="button icon-download">Download</a> <a href="https://jsfiddle.net/franciscop/mwpcqddj/" target="_blank" class="button icon-jsfiddle">Try it</a></div><a href="#go" class="keepgoing">▼</a></div></header><main><section id="go" class="row"><div><h2 id="intuitive-and-documented">Intuitive and Documented</h2>
-<p>It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you&#39;ll feel at ease developing with Umbrella.</p>
-<p>However there are also some improvements to make your code intuitive such as ajax(). It&#39;s all detailed here:</p>
+<p>It is <strong>strongly influenced by jquery</strong> with many similar methods so you&#39;ll feel at ease developing with Umbrella.</p>
+<p>However there are also some improvements such as with <code>.ajax()</code>, <code>.append()</code>, etc. It&#39;s all detailed here:</p>
 <a href="documentation" target="_blank" class="button icon-doc">Documentation</a></div><div><pre><code class="language-javascript">// Simple events like jquery
 u("button").on('click', function(){
   alert("Hello world");
@@ -15,24 +15,24 @@ u('form.login').ajax(function(err, res){
 <p>You can see two features of Umbrella JS source code on the right, or check it all on github:</p>
 <a href="https://github.com/umbrellajs/umbrella" target="_blank" class="button icon-g">Source on Github</a></div><div><pre><code class="language-javascript">// Find the nodes matched by a selector
 u.prototype.find = function(selector) {
-  return this.join(function(node){
-    return u(selector || "*", node).nodes;
+  return this.map(function(node){
+    return u(selector || "*", node);
   });
 };
 // Check if any node matches the selector
 u.prototype.is = function(selector){
-  return this.filter(selector).nodes.length > 0;
+  return this.filter(selector).length > 0;
 };
 </code></pre></div></section><section class="row"><div><h2 id="tested-and-performant">Tested and Performant</h2>
 <p>The speed is similar to jquery and there are many tests, including performance ones.</p>
 <p>They run on development, on deploy and live in different browsers so you know everything will work as expected:</p>
 <a href="tests" target="_blank" class="button icon-ok">Tests</a></div><div><pre><code class="language-javascript">it("can select by class", function() {
-  expect(u('.demo').nodes.length).to.equal(1);
+  expect(u('.demo').length).to.equal(1);
 });
 
-it("can select the children of ul", function() {
+it("can select li inside ul", function() {
   var ul = base.find('li').closest('ul');
-  expect(ul.nodes.length).to.equal(1);
+  expect(ul.length).to.equal(1);
 });
 </code></pre></div></section><section class="row"><div><h2 id="mit-license">MIT License</h2>
 <p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>

@@ -1,12 +1,10 @@
 // Convert forms into a string able to be submitted
 // Original source: http://stackoverflow.com/q/11661187
-u.prototype.serialize = function() {
-
+u.prototype.serialize = function () {
   var self = this;
 
   // Store the class in a variable for manipulation
-  return this.slice(this.first().elements).reduce(function(query, el) {
-
+  return this.slice(this.first().elements).reduce(function (query, el) {
     // We only want to match enabled elements with names, but not files
     if (!el.name || el.disabled || el.type === 'file') return query;
 
@@ -15,8 +13,7 @@ u.prototype.serialize = function() {
 
     // Handle multiple selects
     if (el.type === 'select-multiple') {
-
-      u(el.options).each(function(opt){
+      u(el.options).each(function (opt) {
         if (opt.selected) {
           query += '&' + self.uri(el.name) + '=' + self.uri(opt.value);
         }

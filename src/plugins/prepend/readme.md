@@ -11,6 +11,7 @@ Add some html as a child at the beginning of each of the matched elements.
 .prepend(u('<div></div><div></div>').nodes)
 .prepend(function(){})
 .prepend(function(el){}, elements)
+.prepend(function(el){}, 10)
 ```
 
 
@@ -19,15 +20,18 @@ Add some html as a child at the beginning of each of the matched elements.
 
 `html = ""`:
   - Any of these elements:
-    - a string containing the html that is going to be inserted
-    - an instance of Umbrella
-    - an HTML node
-    - an array containing HTML nodes
+    - **string** containing the html that is going to be inserted
+    - **instance of Umbrella**
+    - **HTML node**
+    - **array** containing HTML nodes
   - A callback that returns any of the previous. It gets passed these parameters:
-    - el: the current element from the [elements] array (or "" if none)
-    - i: the index of the current element
+    - **el**: the current element from the elements parameter, {} if none is specified and i if elements is number
+    - **i**: the index of the current element
 
-`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
+`elements = [{}]` (optional): It can be any of the following:
+  - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
+  - A css selector, so the function will be executed once per matched element.
+  - A number, in which case the function will be executed that number of times
 
 
 

@@ -8,15 +8,15 @@ describe(".not(elems)", function() {
         <li></li> \
       </ul>');
 
-    expect(u('.not-test').nodes.length).to.equal(1);
-    expect(u('.not-test li').nodes.length).to.equal(3);
+    expect(u('.not-test').length).to.equal(1);
+    expect(u('.not-test li').length).to.equal(3);
   });
 
   afterEach(function() {
     u('.not-test').remove();
-    expect(u('.not-test').nodes.length).to.equal(0);
+    expect(u('.not-test').length).to.equal(0);
   });
-  
+
   it("should be a function", function() {
     expect(typeof base.not).to.equal('function');
   });
@@ -30,23 +30,23 @@ describe(".not(elems)", function() {
   });
 
   it("returns same if called empty", function() {
-    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not('').nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(null).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(undefined).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(false).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not().length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not('').length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(null).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(undefined).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(false).length).to.equal(base.find('.not-test li').length);
   });
 
   it("filter single element", function() {
-    expect(base.find('.not-test li').not(u(u('.not-test li').first())).nodes.length).to.equal(2);
+    expect(base.find('.not-test li').not(u(u('.not-test li').first())).length).to.equal(2);
   });
 
   it("filter multiple elements", function() {
-    expect(base.find('.not-test li').not(u('.not-test li.filter')).nodes.length).to.equal(1);
+    expect(base.find('.not-test li').not(u('.not-test li.filter')).length).to.equal(1);
   });
 
   it("filter selector elements", function() {
-    expect(base.find('.not-test li').not('.filter').nodes.length).to.equal(1);
+    expect(base.find('.not-test li').not('.filter').length).to.equal(1);
   });
 
 });

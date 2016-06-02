@@ -2,8 +2,7 @@
 
 // Normalize the arguments to an array of strings
 // Allow for several class names like "a b, c" and several parameters
-u.prototype.args = function(args, node, i){
-
+u.prototype.args = function (args, node, i) {
   if (typeof args === 'function') {
     args = args(node, i);
   }
@@ -15,5 +14,7 @@ u.prototype.args = function(args, node, i){
   }
 
   // Then convert that string to an array of not-null strings
-  return args.toString().split(/[\s,]+/).filter(function(e){ return e.length; });
+  return args.toString().split(/[\s,]+/).filter(function (e) {
+    return e.length;
+  });
 };

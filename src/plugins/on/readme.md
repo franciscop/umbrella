@@ -7,6 +7,7 @@ Calls a function when an event is triggered
 .on('event1 event2 eventN', callback)
 .on('event1,event2,eventN', callback)
 .on(['event1', 'event2', 'eventN'], callback)
+.on('event1', 'selector', callback)
 ```
 
 
@@ -25,6 +26,13 @@ Calls a function when an event is triggered
 
   - `data1`, `data2`, `dataN`: the arguments that were passed to `trigger()` if it was called with that function.
 
+Another way is doing event delegation, for which the parameters are:
+
+`event1`, `event2`, `eventN`: same as before
+
+`selector`: a css selector that matches the nodes that will trigger it
+
+`callback`: same as before
 
 
 ### Return

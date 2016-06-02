@@ -962,22 +962,180 @@ describe(".children(selector)", function() {
     expect(base.find('ul').children('.nonexist').length).to.equal(0);
   });
 });
+  // Testing the main file
+describe(".clone(options)", function() {
+  afterEach(function(){
+    u('.container').remove();
+  });
+
+  describe("clone() nodes without events", function() {
+    beforeEach(function() {
+      base.append('<div class="container"><div class="testClone1">Hello</div><div class="cloneDestination">Goodbye</div></div>');
+      /*<div class="container">
+          <div class="testClone1">Hello</div>
+          <div class="cloneDestination">Goodbye</div>
+        </div>*/
+    });
+
+    it("should be a function", function() {
+      expect(typeof base.clone).to.equal('function');
+    });
+
+    it("should clone a single simple node", function() {
+      var clone = u('.testClone1').clone();
+
+      u('.cloneDestination').append(clone);
+
+      size('.container > .testClone1', 1);
+      size('.cloneDestination > .testClone1', 1);
+      size('.testClone1', 2);
+      expect(u('.cloneDestination > .testClone1').text()).to.eq('Hello');
+    });
+
+    it("should clone nested nodes", function() {
+      u('.testClone1').append('<div class="testClone2">Hi</div>');
+
+      size('.container > .testClone1 > .testClone2', 1);
+      expect(u('.testClone2').text()).to.eq('Hi');
+    });
+  });
+
+
+  describe("clone() nodes with events", function() {
+    beforeEach(function() {
+      base.append('<div class="container"><div class="testClone1">Hello</div><div class="testClone2"><div class="testCloneWithEvents1">Hello</div></div><div class="cloneDestination"></div></div>');
+      /*<div class="container">
+          <div class="testClone1">Hello</div>
+          <div class="testClone2">
+            <div class="testCloneWithEvents1">
+              click, touch, etc
+            </div>
+          </div>
+          <div class="cloneDestination"></div>
+        </div>*/
+    });
+
+    it("should clone a node and its events by default", function(done) {
+      u('.testClone1').on('click', function() { done(); });
+
+      var clone = u('.testClone1').clone();
+
+      u('.cloneDestination').append(clone);
+
+      u('.cloneDestination > .testClone1').trigger('click');
+    });
+
+    it("should clone nested nodes and their events by default", function(done) {
+      u('.testCloneWithEvents1').on('click', function() { done(); });
+
+      var clone = u('.testClone2').clone();
+
+      u('.cloneDestination').append(clone);
+
+      // expect(u('.cloneDestination > .testClone2 > .testCloneWithEvents1').text()).to.eq('Hello');
+      u('.cloneDestination > .testClone2 > .testCloneWithEvents1').trigger('click');
+    });
+  });
+
+  describe("clone() input elements", function() {
+    beforeEach(function() {
+      base.append('<div class="container"><div class="test"><input id="checkboxInput" type="checkbox"><input id="radioInput" type="radio"><select id="selectInput" name="options"><option value="a">A</option><option value="b">B</option><option value="c">C</option></select><textarea id="textareaInput"></textarea><input id="textInput" type="text"></div><div class="destination"></div></div>');
+
+      {/*<div class="container">
+        <div class="test">
+          <input id="checkboxInput" type="checkbox">
+          <input id="radioInput" type="radio">
+          <select id="selectInput" name="options">
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+          </select>
+          <textarea id="textareaInput"></textarea>
+          <input id="textInput" type="text">
+        </div>
+        <div class="destination">
+          
+        </div>
+      </div>*/}
+    });
+
+    it ("should clone a text input and its value by default", function() {
+      var textInput = u('#textInput');
+      textInput.first().value = 'test';
+
+      u('.destination').append(textInput.clone());
+
+      expect(u('.destination #textInput').first().value).to.eq('test');
+    });
+
+    it ("should clone a checkbox input and its value by default", function() {
+      var checkboxInput = u('#checkboxInput');
+      checkboxInput.first().checked = true;
+
+      u('.destination').append(checkboxInput.clone());
+
+      expect(u('.destination #checkboxInput').first().checked).to.eq(true);
+    });
+
+    it ("should clone a radio input and its value by default", function() {
+      var radioInput = u('#radioInput');
+      radioInput.first().checked = true;
+
+      u('.destination').append(radioInput.clone());
+
+      expect(u('.destination #radioInput').first().checked).to.eq(true);
+    });
+
+
+    it ("should clone a textarea input and its value by default", function() {
+      var textareaInput = u('#textareaInput');
+      textareaInput.first().value = 'test';
+
+      u('.destination').append(textareaInput.clone({textarea: true}));
+
+      expect(u('.destination #textareaInput').first().value).to.eq('test');
+    });
+
+    it ("should clone a select input and its value by default", function() {
+      var selectInput = u('#selectInput');
+      selectInput.first().value = 'b';
+
+      u('.destination').append(selectInput.clone({select: true}));
+
+      expect(u('.destination #selectInput').first().value).to.eq('b');
+    });
+  });
+
+  describe(".clone() and node data attributes", function() {
+    beforeEach(function() {
+      base.append('<div class="container"><div class="testCloneData" data-foo="bar"></div><div class="destination"></div></div>');
+    });
+
+    it("should clone node data attributes", function() {
+      var clone = u('.testCloneData').clone();
+      u('.destination').append(clone);
+
+      expect(u('.destination .testCloneData').data('foo')).to.eq('bar');
+    });
+  });
+});
 // Testing the main file
 describe(".closest(selector)", function() {
-  
+
   afterEach(function(){
     // A previous bug that would change the inner of the original reference
-    expect(base.nodes.length).to.equal(1);
+    expect(base.length).to.equal(1);
   });
-  
+
   it("should be a function", function() {
     expect(typeof base.closest).to.equal('function');
   });
-  
+
   it("can select the children of ul", function() {
-    expect(base.find('li').closest('ul').nodes.length).to.equal(1);
+    expect(base.find('li').closest('ul').length).to.equal(1);
   });
 });
+
 // Testing the main file
 describe(".data(name, value)", function() {
   it("should be a function", function() {
@@ -1302,27 +1460,28 @@ describe(".filter(selector)", function() {
 });
 // Testing the main file
 describe(".find(selector)", function() {
-  
+
   it("should be a function", function() {
     expect(typeof base.find).to.equal('function');
   });
-  
+
   it("can be empty and it selects all", function() {
-    expect(base.find().nodes.length).to.equal(base.find('*').nodes.length);
+    expect(base.find().length).to.equal(base.find('*').length);
   });
-  
+
   it("can select the list ul", function() {
-    expect(base.find('ul').nodes.length).to.equal(1);
+    expect(base.find('ul').length).to.equal(1);
   });
-  
+
   it("cannot select body", function() {
-    expect(base.find('body').nodes.length).to.equal(0);
+    expect(base.find('body').length).to.equal(0);
   });
-  
+
   it("doesn't select duplicates", function(){
-    expect(u("*").find('.brand a').nodes.length).to.equal(1);
+    expect(u("*").find('.brand a').length).to.equal(1);
   });
 });
+
 // Testing the main file
 describe(".first()", function() {
   
@@ -1436,73 +1595,6 @@ describe(".is(selector)", function() {
   });
 });
 
-describe(".join(function(){})", function() {
-
-  it("should be defined", function() {
-    expect(typeof base.join).to.equal('function');
-  });
-
-  it("empty gives an error", function(){
-    same(u([0, 1, 2]).join(), u([0, 1, 2]));
-  });
-
-  it("can loop as each()", function() {
-    u([0, 1, 2, 3]).join(function(node, i){
-      expect(node).to.equal(i);
-    });
-
-    u([3, 4, 5, 6]).join(function(node, i){
-      expect(node).to.equal(i + 3);
-    });
-  });
-
-  it("can loop a real element", function() {
-    base.join(function(node, i){
-      expect(u(node).hasClass('base')).to.equal(true);
-      expect(i).to.equal(0);
-    });
-  });
-
-  it("can remove an element", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
-      return i === 0 ? false : node;
-    });
-    expect(final.length).to.equal(3);
-  });
-
-  it("can remove several elements", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
-      return i < 3 ? false : node;
-    });
-    expect(final.length).to.equal(1);
-  });
-
-  it("can add an element", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
-      return i === 0 ? [node, 'a'] : node;
-    });
-    expect(final.length).to.equal(5);
-  });
-
-  it("can add an many elements", function() {
-    var final = u([1, 2, 3, 4]).join(function(node, i){
-      return [node + 'a', node + 'b', node + 'c'];
-    });
-    expect(final.length).to.equal(12);
-  });
-
-  it("has the right this", function(){
-    u(['a', 'b']).join(function(node, i){
-      expect(this instanceof u).to.equal(true);
-    });
-  });
-
-  it("returns an umbrella object", function(){
-    var ret = u(['a', 'b']).join(function(){});
-    expect(ret instanceof u).to.equal(true);
-  });
-});
-
 // Testing the main file
 describe(".last()", function() {
 
@@ -1529,6 +1621,132 @@ describe(".last()", function() {
 
 });
 
+var list = u('<ul>').append(function(i){ return '<li>'+i+'</li>'; }, 10).find('li');
+
+describe(".map(function(){})", function() {
+
+  it("should be defined", function() {
+    expect(typeof base.map).to.equal('function');
+  });
+
+  it("empty gives an error", function(){
+    same(u([0, 1, 2]).map(), u([0, 1, 2]));
+  });
+
+  it("can loop as each()", function() {
+    u([0, 1, 2, 3]).map(function(node, i){
+      expect(node).to.equal(i);
+    });
+
+    u([3, 4, 5, 6]).map(function(node, i){
+      expect(node).to.equal(i + 3);
+    });
+  });
+
+  it("can loop a real element", function() {
+    base.map(function(node, i){
+      expect(u(node).hasClass('base')).to.equal(true);
+      expect(i).to.equal(0);
+    });
+  });
+
+  it("accepts return of single element", function(){
+    var els = list.map(function(node){
+      return node;
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("accepts return of string and parses it", function(){
+    list.map(function(node){
+      return '<li>' + node.innerHTML + '</li>';
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("accepts return of two elements string", function(){
+    list.map(function(node, i){
+      return '<span>' + (i * 2) + '</span>' +
+        '<span>' + (i * 2 + 1) + '</span>';
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("accepts return of array of elements", function(){
+    var els = list.map(function(node, i){
+      return [node];
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("accepts return of array of two elements", function(){
+    same(list.map(function(node, i){
+      var newNode = u('<li>').html('a').first();
+      return [node, newNode];
+    }).length, 20);
+  });
+
+  it("accepts return of umbrella instance", function(){
+    var els = list.map(function(node, i){
+      return u(node);
+    }).each(function(node, i){
+      expect(i).to.equal(parseInt(node.innerHTML));
+    });
+  });
+
+  it("falsy removes them", function(){
+    expect(list.map(function(){ return false; }).length).to.equal(0);
+    expect(list.map(function(){ return null; }).length).to.equal(0);
+    expect(list.map(function(){ return undefined; }).length).to.equal(0);
+    expect(list.map(function(){ return ''; }).length).to.equal(0);
+    expect(list.map(function(){ return 0; }).length).to.equal(0);
+    expect(list.map(function(){}).length).to.equal(0);
+  });
+
+  it("can remove a single element", function() {
+    var final = u([1, 2, 3, 4]).map(function(node, i){
+      return i === 0 ? false : node;
+    });
+    expect(final.length).to.equal(3);
+  });
+
+  it("can remove several elements", function() {
+    var final = u([1, 2, 3, 4]).map(function(node, i){
+      return i < 3 ? false : node;
+    });
+    expect(final.length).to.equal(1);
+  });
+
+  it("can add an element", function() {
+    var final = u([1, 2, 3, 4]).map(function(node, i){
+      return i === 0 ? [node, 'a'] : node;
+    });
+    expect(final.length).to.equal(5);
+  });
+
+  it("can add an many elements", function() {
+    var final = u([1, 2, 3, 4]).map(function(node, i){
+      return [node + 'a', node + 'b', node + 'c'];
+    });
+    expect(final.length).to.equal(12);
+  });
+
+  it("has the right this", function(){
+    u(['a', 'b']).map(function(node, i){
+      expect(this instanceof u).to.equal(true);
+    });
+  });
+
+  it("returns an umbrella object", function(){
+    var ret = u(['a', 'b']).map(function(){});
+    expect(ret instanceof u).to.equal(true);
+  });
+});
+
 describe(".not(elems)", function() {
 
   beforeEach(function() {
@@ -1539,15 +1757,15 @@ describe(".not(elems)", function() {
         <li></li> \
       </ul>');
 
-    expect(u('.not-test').nodes.length).to.equal(1);
-    expect(u('.not-test li').nodes.length).to.equal(3);
+    expect(u('.not-test').length).to.equal(1);
+    expect(u('.not-test li').length).to.equal(3);
   });
 
   afterEach(function() {
     u('.not-test').remove();
-    expect(u('.not-test').nodes.length).to.equal(0);
+    expect(u('.not-test').length).to.equal(0);
   });
-  
+
   it("should be a function", function() {
     expect(typeof base.not).to.equal('function');
   });
@@ -1561,26 +1779,27 @@ describe(".not(elems)", function() {
   });
 
   it("returns same if called empty", function() {
-    expect(base.find('.not-test li').not().nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not('').nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(null).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(undefined).nodes.length).to.equal(base.find('.not-test li').nodes.length);
-    expect(base.find('.not-test li').not(false).nodes.length).to.equal(base.find('.not-test li').nodes.length);
+    expect(base.find('.not-test li').not().length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not('').length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(null).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(undefined).length).to.equal(base.find('.not-test li').length);
+    expect(base.find('.not-test li').not(false).length).to.equal(base.find('.not-test li').length);
   });
 
   it("filter single element", function() {
-    expect(base.find('.not-test li').not(u(u('.not-test li').first())).nodes.length).to.equal(2);
+    expect(base.find('.not-test li').not(u(u('.not-test li').first())).length).to.equal(2);
   });
 
   it("filter multiple elements", function() {
-    expect(base.find('.not-test li').not(u('.not-test li.filter')).nodes.length).to.equal(1);
+    expect(base.find('.not-test li').not(u('.not-test li.filter')).length).to.equal(1);
   });
 
   it("filter selector elements", function() {
-    expect(base.find('.not-test li').not('.filter').nodes.length).to.equal(1);
+    expect(base.find('.not-test li').not('.filter').length).to.equal(1);
   });
 
 });
+
 describe('.off()', function() {
 
   var listener = function() {
@@ -1654,6 +1873,7 @@ describe(".on(event, fn)", function() {
 
   afterEach(function(){
     u('.clickable').remove();
+    base.off('click');
   });
 
   it("should be defined", function() {
@@ -1681,6 +1901,23 @@ describe(".on(event, fn)", function() {
     base.find('.clickable').trigger('submit');
   });
 
+  it("can do event delegation", function(done) {
+    base.on('click', '.clickable', function(e){
+      expect(e.target.className).to.equal('clickable');
+      done();
+    });
+    base.find('.clickable').trigger('click');
+    base.off('click');
+  });
+
+  it("event delegation not triggered by others", function() {
+    base.on('click', '.clickable', function(e){
+      throw new Error("Should never get here");
+    });
+    base.find('ul').not('.clickable').trigger('click');
+    base.off('click');
+  });
+
   it("triggers the event with custom data", function(done) {
     base.find('.clickable').on('click', function(e, a){
       same(!!e, true);
@@ -1690,6 +1927,15 @@ describe(".on(event, fn)", function() {
     });
     base.find('.clickable').trigger('click', 'a');
   });
+    it("triggers the delegated event with custom data", function(done) {
+      base.on('click', '.clickable', function(e, a){
+        same(!!e, true);
+        same(e.detail, ['a']);
+        same(a, 'a');
+        done();
+      });
+      base.find('.clickable').trigger('click', 'a');
+    });
 
   it("triggers the event with custom data object", function(done) {
     base.find('.clickable').on('click', function(e, a){
@@ -1701,8 +1947,29 @@ describe(".on(event, fn)", function() {
     base.find('.clickable').trigger('click', { a: 'b' });
   });
 
+  it("triggers the event with custom data object", function(done) {
+    base.on('click', '.clickable', function(e, a){
+      same(!!e, true);
+      same(e.detail, [{ a: 'b' }]);
+      same(a, { a: 'b' });
+      done();
+    });
+    base.find('.clickable').trigger('click', { a: 'b' });
+  });
+
   it("triggers the event with custom data values", function(done) {
     base.find('.clickable').on('click', function(e, a, b){
+      same(!!e, true);
+      same(e.detail, ['a', 'b']);
+      same(a, 'a');
+      same(b, 'b');
+      done();
+    });
+    base.find('.clickable').trigger('click', 'a', 'b');
+  });
+
+  it("triggers the event with custom data values", function(done) {
+    base.on('click', '.clickable', function(e, a, b){
       same(!!e, true);
       same(e.detail, ['a', 'b']);
       same(a, 'a');
@@ -1913,6 +2180,84 @@ describe(".removeClass()", function() {
         hasClass('bla blu blo', true);
       });
     });
+  });
+});
+
+// Based on
+if(u(document.createDocumentFragment()).append('<div>').children().length == 0) {
+  Object.defineProperty(DocumentFragment.prototype, "children", {"get" : function() {
+    var arr = [],
+      child = this.firstChild;
+
+    while (child) {
+      if (child.nodeType == 1) arr.push(child);
+      child = child.nextSibling;
+    }
+
+    return arr;
+  }});
+};
+
+
+// Testing the replace plugin main file
+describe(".replace(newValue)", function() {
+
+  afterEach(function(){
+    base.find('button.update').remove();
+  });
+
+  it("should be a function", function() {
+    expect(typeof base.replace).to.equal('function');
+  });
+
+  it("replace the single node string case", function() {
+    base.append('<a class="save">Save</a>');
+
+    base.find('a.save').replace('<button class="update">Update</button>');
+    size('.base > button.update', 1);
+
+    base.find('button.update').remove();
+  });
+
+  it("returns the correct values", function(){
+    base.append('<a class="save">Save</a>');
+    var button = base.find('a.save').replace('<button class="update">Update</button>').first();
+    expect(button.nodeName).to.equal('BUTTON');
+    expect(u(button).closest('body').length).to.equal(1);
+
+
+    base.find('button.update').remove();
+  });
+
+  it("replace multi nodes string case", function() {
+    base.append('<a class="save">Save</a><a class="save">Save</a>');
+
+    base.find('a.save').replace('<button class="update">Update</button>');
+    size('.base > button.update', 2);
+
+    base.find('button.update').remove();
+  });
+
+  it("replace the single node function case", function() {
+    base.append('<a class="save">Save</a>');
+
+    base.find('a.save').replace(function(link){
+      return '<button class="update">' + link.innerHTML  + '</button>';
+    });
+    size('.base > button.update', 1);
+
+    base.find('button.update').remove();
+  });
+
+  it("replace multi nodes function case", function() {
+    base.append('<a class="save">Save</a><a class="save">Save</a>');
+
+    base.find('a.save').replace(function(link){
+      return '<button class="update">' + link.innerHTML  + '</button>';
+    });
+    size('.base > button.update', 2);
+
+    base.find('button.update').remove();
   });
 });
 
@@ -2329,5 +2674,71 @@ describe(".trigger()", function() {
       done();
     });
     base.trigger('click', 'good');
+  });
+});
+
+// Testing the main file
+describe(".wrap()", function() {
+  beforeEach(function(){
+    base.append('<button class="example">Link1</button>');
+    size('.base > .example', 1);
+  });
+
+  afterEach(function(){
+    u('.example, .example-wrapper').remove();
+  });
+
+  it("should be a function", function() {
+    expect(typeof base.wrap).to.equal('function');
+  });
+
+  it("should correctly wrap a single element using a chained umbrella.js function", function() {
+    u('.example').wrap('<a>').attr({ href: 'http://google.com/', class: 'example-wrapper' });
+    size('.example-wrapper > .example', 1);
+  });
+
+  it("should correctly wrap a single formatted selector", function() {
+    u('.example').wrap('<a href="http://google.com/" class="example-wrapper">');
+    size('.example-wrapper > .example', 1);
+  });
+
+  it("should wrap multiple elements using a chained umbrella.js function", function() {
+    base.append('<button class="example">Link1</button>');
+
+    u('.example').wrap('<a>').addClass('example-wrapper');
+    size('.example-wrapper .example', 2);
+  });
+
+  it("when wrapping  multiple elements it should return a copy of the original node", function() {
+    base.append('<button class="example">Link2</button>');
+
+    var wrappedNodes = u('.example').wrap('<a>').addClass('example-wrapper');
+    expect(wrappedNodes.nodes[0].innerText).to.equal('Link1')
+    expect(wrappedNodes.nodes[1].innerText).to.equal('Link2')
+  });
+
+  it("should add all specified attributes to the wrapper element using a chained umbrella js function", function() {
+    u('.example').wrap('<a>').attr({ href: 'http://google.com/', class: 'example-wrapper' });
+    expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
+  });
+
+  it("should add all specified attributes to the wrapper element using a formatted selector", function() {
+    u('.example').wrap('<a href="http://google.com/" class="example-wrapper">');
+    expect(u('.example-wrapper').attr('href')).to.equal('http://google.com/');
+  });
+
+  it("should support nested selector arguments", function() {
+    u('.example').wrap('<div id="one"><div id="two"></div></div>');
+    size('#one #two .example', 1);
+  });
+
+  it("should support nested selector arguments with more than one nested child", function() {
+    u('.example').wrap('<div id="a1"><div id="b1"><div id="c1"></div></div><div id="b2"><div id="c2"><div id="d1"></div></div></div></div>');
+    size('#a1 #b1 #c1 .example', 1);
+  });
+
+  it("should only append to the last child of the nested selector argument's first child", function() {
+    u('.example').wrap('<div id="a1"><div id="b1"><div id="c1"></div></div><div id="b2"><div id="c2"><div id="d1"></div></div></div></div>');
+    size('#a2 #b2 #c2 #d1 .example', 0);
   });
 });

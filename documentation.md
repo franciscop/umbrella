@@ -6,7 +6,7 @@ Find nodes from the HTML with a CSS selector:
 u('ul#demo li')
 u(document.getElementById('demo'))
 u(document.getElementsByClassName('demo'))
-u([ document.getElementById('demo'), document.getElementById('test') ])
+u([ document.getElementById('demo') ])
 u( u('ul li') )
 u('<a>')
 u('li', context)
@@ -22,7 +22,7 @@ The first parameter can be:
 - A NodeList or other similar objects that can be converted to an array
 - An array of nodes*
 - Another Umbrella instance
-- An HTML fragment
+- An HTML fragment as a string
 - Nothing
 
 The second parameter is only for the CSS selector, which indicates a portion of the DOM where the selector is applied. For example, with `u('li', u('ul').first())` it will find all of the `li` from the first `ul`.
@@ -62,8 +62,8 @@ var link = u('<a>').addClass('main').attr({ href: '/hello' });
 You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):
 
 ```js
-var products = ['apple', 'strawberry', 'pear', 'banana'];
-var list = u('<ul>').append(product => `<li>${ product }</li>`, products);
+var fruits = ['apple', 'strawberry', 'pear', 'banana'];
+var list = u('<ul>').append(fruit => `<li>${ fruit }</li>`, fruits);
 
 u('body').append(list);
 ```
@@ -100,7 +100,7 @@ u('h1').nodes[0].classList.add('vanilla');
 // Single element
 u('h1').first().classList.add('vanilla', 'test');
 
-// Multiple elements. Note that the order of arguments is different from jquery (it's standard order)
+// Multiple elements. Note that the order is different from jquery
 u('h2').each(function(el){
   el.classList.add('vanilla', 'test');
 });
@@ -119,6 +119,7 @@ However, there are also some advantages of using Umbrella's methods instead of n
 
 - **error prevention**: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)
 - **cross-browser**: the classList.add() with multiple elements [is not compatible with IE10-11 & Android 4.3-](http://caniuse.com/#search=classList)
+- **chainable**: `u('<div>').each(...).addClass(...);`
 - **more flexibility**: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:
 
 ```js
@@ -129,11 +130,11 @@ u('h2').addClass('vanilla, test');       // Strings with space and/or comma
 u('h2').addClass('vanilla', ['test'], 'one, more' ); // Or just whatever
 ```
 
-So it's convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella's methods where it's better suited or then crete your own methods when you need it.
+So it's convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella's methods where it's better suited or then create your own methods when you need it.
 
 
 
-### .length
+## .length
 
 You can check how many elements are matched with `.length`:
 
@@ -147,14 +148,14 @@ alert(u('a').length);
 Add html class(es) to all of the matched elements.
 
 ```js
-.addClass('name1');
-.addClass('name1 name2 nameN');
-.addClass('name1,name2,nameN');
-.addClass('name1', 'name2', 'nameN');
-.addClass(['name1', 'name2', 'nameN']);
-.addClass(['name1', 'name2'], ['name3'], ['nameN']);
-.addClass(function(){ return 'name1'; });
-.addClass(function(){ return 'name1'; }, function(){ return 'name2'; });
+.addClass('name1')
+.addClass('name1 name2 nameN')
+.addClass('name1,name2,nameN')
+.addClass('name1', 'name2', 'nameN')
+.addClass(['name1', 'name2', 'nameN'])
+.addClass(['name1', 'name2'], ['name3'], ['nameN'])
+.addClass(function(){ return 'name1'; })
+.addClass(function(){ return 'name1'; }, function(){ return 'name2'; })
 ```
 
 ### Parameters
@@ -192,6 +193,7 @@ u("form").addClass("toValidate", "ajaxify");
 [.removeClass()](#removeclass) deletes class(es) from the matched elements.
 
 [.toggleClass()](#toggleclass) adds or removes the class
+
 ## .after()
 
 Add some html as a sibling after each of the matched elements.
@@ -202,9 +204,10 @@ Add some html as a sibling after each of the matched elements.
 .after('<div>')
 .after(u('<div>'))
 .after(u('<div>').first()) // Same as document.createElement('div')
-.after(u('<div></div><div></div>').nodes)
+.after(u('<div></div><div></div>'))
 .after(function(){})
 .after(function(el){}, elements)
+.after(function(el){}, 10)
 ```
 
 
@@ -213,15 +216,18 @@ Add some html as a sibling after each of the matched elements.
 
 `html = ""`:
   - Any of these elements:
-    - a string containing the html that is going to be inserted
-    - an instance of Umbrella
-    - an HTML node
-    - an array containing HTML nodes
+    - **string** containing the html that is going to be inserted
+    - **instance of Umbrella**
+    - **HTML node**
+    - **array** containing HTML nodes
   - A callback that returns any of the previous. It gets passed these parameters:
-    - el: the current element from the [elements] array (or "" if none)
-    - i: the index of the current element
+    - **el**: the current element from the elements parameter, {} if none is specified and i if elements is number
+    - **i**: the index of the current element
 
-`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
+`elements = [{}]` (optional): It can be any of the following:
+  - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
+  - A css selector, so the function will be executed once per matched element.
+  - A number, in which case the function will be executed that number of times
 
 
 
@@ -259,11 +265,14 @@ u("a.main").after(txt => `<a>${ txt }</a>`, ["One", "Two", "Three"]);
 They all result in:
 
 ```html
+<!-- previous data -->
+
 <a class="main"></a>
 <a>One</a>
 <a>Two</a>
 <a>Three</a>
 ```
+
 
 You can also add some events to them by creating an html node:
 
@@ -383,9 +392,10 @@ Add some html as a child at the end of each of the matched elements
 .append('<div>')
 .append(u('<div>'))
 .append(u('<div>').first()) // Same as document.createElement('div')
-.append(u('<div></div><div></div>').nodes)
+.append(u('<div></div><div></div>'))
 .append(function(){})
 .append(function(el){}, elements)
+.append(function(el){}, 10)
 ```
 
 
@@ -394,15 +404,18 @@ Add some html as a child at the end of each of the matched elements
 
 `html = ""`:
   - Any of these elements:
-    - a string containing the html that is going to be inserted
-    - an instance of Umbrella
-    - an HTML node
-    - an array containing HTML nodes
+    - **string** containing the html that is going to be inserted
+    - **instance of Umbrella**
+    - **HTML node**
+    - **array** containing HTML nodes
   - A callback that returns any of the previous. It gets passed these parameters:
-    - el: the current element from the [elements] array (or "" if none)
-    - i: the index of the current element
+    - **el**: the current element from the elements parameter, {} if none is specified and i if elements is number
+    - **i**: the index of the current element
 
-`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
+`elements = [{}]` (optional): It can be any of the following:
+  - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
+  - A css selector, so the function will be executed once per matched element.
+  - A number, in which case the function will be executed that number of times
 
 
 
@@ -452,10 +465,10 @@ They all result in:
 You can also add some events to them by creating an html node:
 
 ```js
-function greeting(){ alert("Hello world"); }
+function greet(){ alert("Hello world"); }
 
 u("a.main").append(function(){
-  return u('<a>').addClass('hi').on('click', greeting).html("Greetings!");
+  return u('<a>').addClass('hi').on('click', greet).html("Hey!");
 });
 ```
 
@@ -596,9 +609,10 @@ Add some html before each of the matched elements.
 .before('<div>')
 .before(u('<div>'))
 .before(u('<div>').first()) // Same as document.createElement('div')
-.before(u('<div></div><div></div>').nodes)
+.before(u('<div></div><div></div>'))
 .before(function(){})
 .before(function(el){}, elements)
+.append(function(el){}, 10)
 ```
 
 
@@ -607,15 +621,18 @@ Add some html before each of the matched elements.
 
 `html = ""`:
   - Any of these elements:
-    - a string containing the html that is going to be inserted
-    - an instance of Umbrella
-    - an HTML node
-    - an array containing HTML nodes
+    - **string** containing the html that is going to be inserted
+    - **instance of Umbrella**
+    - **HTML node**
+    - **array** containing HTML nodes
   - A callback that returns any of the previous. It gets passed these parameters:
-    - el: the current element from the [elements] array (or "" if none)
-    - i: the index of the current element
+    - **el**: the current element from the elements parameter, {} if none is specified and i if elements is number
+    - **i**: the index of the current element
 
-`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
+`elements = [{}]` (optional): It can be any of the following:
+  - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
+  - A css selector, so the function will be executed once per matched element.
+  - A number, in which case the function will be executed that number of times
 
 
 
@@ -657,7 +674,10 @@ They all result in:
 <a>Two</a>
 <a>Three</a>
 <a class="main"></a>
+
+<!-- previous data -->
 ```
+
 
 You can also add some events to them by creating an html node:
 
@@ -717,6 +737,58 @@ u("ul").children('li:first-child');
 [.find()](#find) get all of the descendants of the matched nodes
 
 [.closest()](#closest) get the first ascendant that matches the selector
+
+## .clone()
+
+Create a deep copy of the set of matched elements. Includes matched element node and **all of its events** as well as its children **and all of their events** by **default**.
+
+```js
+u('.elementToClone').clone()
+```
+
+
+
+### Extensions
+  - The following extensions are enabled by default:
+    - **select** select input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
+    - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
+
+
+### Return
+
+`u`: returns the same instance of Umbrella JS
+
+
+
+### Examples
+
+Clone a node and append to another.
+
+```html
+<div class="container">
+  <div class="testClone1">Hello</div>
+  <div class="cloneDestination"></div>
+</div>
+```
+
+```js
+var clone = u("testClone1").clone();
+u(".cloneDestination").append(clone);
+
+```
+Result:
+```html
+<div class="container">
+  <div class="testClone1">Hello</div>
+  <div class="cloneDestination">
+    <div class="testClone1">Hello</div>
+  </div>
+</div>
+```
+
+### Related
+[.append()](#append) add some html as a child at the end of each of the matched elements.
+
 
 ## .closest()
 
@@ -1269,6 +1341,53 @@ var next = u("ul.demo li").last();
 
 [.first()](#first) retrieve the first matched element
 
+## .map()
+
+Change the content of the current instance by looping each element
+
+```js
+.map(function(){});
+```
+
+
+### Parameters
+
+A single callback that returns the element(s) that are going to be kept:
+
+```js
+var links = u('.special li').map(function(node, i){
+  if (parseInt(node.innerHTML) > 10) {
+    return '<a>' + u(node).data('id') + '</a>';
+  }
+}).addClass('expensive');
+```
+
+It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will **remove duplicated nodes** from the result.
+
+> Note: Umbrella JS is made to manipulate HTML nodes so it will consider the string "" and 0 as false and remove them. Return an HTML node or an HTML string to keep the elements.
+
+
+
+### Return
+
+An instance of Umbrella with the nodes passed
+
+
+
+### Examples
+
+Get the parent elements (see [.parent()](#parent)):
+
+```js
+var lists = u('li').map(function(node){ return node.parentNode });
+```
+
+
+
+### Related
+
+[.each()](#each) loop all the elements without changing them
+
 ## .not()
 
 Remove known nodes from nodes
@@ -1375,7 +1494,7 @@ u('.off-multiple-test').trigger('click'); //No alert
 
 [.on()](#on) Attaches an event to matched nodes
 
-[.handle()](#off) Same as `.on()`, but it prevents the default action
+[.handle()](#handle) Same as `.on()`, but it prevents the default action
 
 [.trigger()](#trigger) Triggers an event on all of the matched nodes
 
@@ -1388,6 +1507,7 @@ Calls a function when an event is triggered
 .on('event1 event2 eventN', callback)
 .on('event1,event2,eventN', callback)
 .on(['event1', 'event2', 'eventN'], callback)
+.on('event1', 'selector', callback)
 ```
 
 
@@ -1406,6 +1526,13 @@ Calls a function when an event is triggered
 
   - `data1`, `data2`, `dataN`: the arguments that were passed to `trigger()` if it was called with that function.
 
+Another way is doing event delegation, for which the parameters are:
+
+`event1`, `event2`, `eventN`: same as before
+
+`selector`: a css selector that matches the nodes that will trigger it
+
+`callback`: same as before
 
 
 ### Return
@@ -1503,6 +1630,7 @@ Add some html as a child at the beginning of each of the matched elements.
 .prepend(u('<div></div><div></div>').nodes)
 .prepend(function(){})
 .prepend(function(el){}, elements)
+.prepend(function(el){}, 10)
 ```
 
 
@@ -1511,15 +1639,18 @@ Add some html as a child at the beginning of each of the matched elements.
 
 `html = ""`:
   - Any of these elements:
-    - a string containing the html that is going to be inserted
-    - an instance of Umbrella
-    - an HTML node
-    - an array containing HTML nodes
+    - **string** containing the html that is going to be inserted
+    - **instance of Umbrella**
+    - **HTML node**
+    - **array** containing HTML nodes
   - A callback that returns any of the previous. It gets passed these parameters:
-    - el: the current element from the [elements] array (or "" if none)
-    - i: the index of the current element
+    - **el**: the current element from the elements parameter, {} if none is specified and i if elements is number
+    - **i**: the index of the current element
 
-`elements = [""]`: an array of elements that will be passed to the callback. The callback is executed once per element, and all of them are appended consecutively. It can also be a css selector, so the function will be executed once per matched element.
+`elements = [{}]` (optional): It can be any of the following:
+  - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
+  - A css selector, so the function will be executed once per matched element.
+  - A number, in which case the function will be executed that number of times
 
 
 
@@ -1660,6 +1791,43 @@ u("form").removeClass("toValidate", "ajaxify");
 [.addClass()](#addclass) adds class(es) from the matched elements.
 
 [.hasClass()](#hasclass) finds if the matched elements contain the class(es)
+
+## .replace()
+
+Replace the matched elements with the passed argument.
+
+```js
+.replace();
+```
+
+### Parameters
+
+The parameter can be any of these types:
+  - string:  html tag like `<div>`
+  - function: a function which returns an html tag.
+
+
+### Return
+
+The newly created element.
+
+
+
+### Examples
+
+Replace elements with class 'save' by a button with class 'update':
+
+```js
+u('.save').replace('<button class="update">Update</button>');
+```
+
+Replace element button by a link with class 'button':
+
+```js
+u('button').replace(function(btn){
+  return '<a class="button">' + btn.innerHTML + '</a>';
+});
+```
 
 ## .scroll()
 
@@ -1941,3 +2109,134 @@ setInterval(function(){
 [.handle()](#off) Same as `.on()`, but it prevents the default action
 
 [.off()](#off) Removes an event from matched nodes
+
+## .wrap()
+
+Wraps the matched element(s) with the passed argument. The argument gets processed with the constructor u() and it accepts an html tag like ```.wrap('<div>')```
+
+```js
+.wrap(selector);
+```
+
+
+### Parameters
+
+`selector`: a formatted string of the desired selector. For example ```.wrap('<div>')```. Nested selectors are supported in a similar way to [jQuery wrap](http://api.jquery.com/wrap/). For example ```.wrap('<div class="a1"><div class="b1"><div class="c1"></div></div></div>')```. Matched element(s) will be wrapped with innermost node of the first child of a nested argument. See examples below.
+
+
+
+### Return
+
+`u`: returns an instance of Umbrella JS with the wrapped node(s)
+
+
+
+### Examples
+
+Wrap an element in an html element:
+
+Original element:
+```html
+<button class="example">Link1</button>
+```
+
+```js
+u(".example").wrap('<a class="wrapper">');
+```
+
+Result:
+```html
+<a class="wrapper">
+  <button class="example">Link1</button>
+</a>
+```
+
+Wrap an element in an html element and chain umbrella.js methods:
+
+```js
+u(".example").wrap('<a>').attr({class: "wrapper", href: "http://google.com"});
+```
+
+Result:
+```html
+<a href="http://google.com" class="wrapper">
+  <button class="example">Link1</button>
+</a>
+```
+
+Wrap several elements in an html element
+
+```html
+<button class="example">Link1</button>
+<button class="example">Link2</button>
+<button class="example">Link3</button>
+
+```
+
+```js
+u(".example").wrap('<a>').attr({class: "wrapper", href: "http://google.com"});
+```
+
+Result:
+```html
+<a href="http://google.com" class="wrapper">
+  <button class="example">Link1</button>
+</a>
+<a href="http://google.com" class="wrapper">
+  <button class="example">Link2</button>
+</a>
+<a href="http://google.com" class="wrapper">
+  <button class="example">Link3</button>
+</a>
+```
+
+Nested selector arguments:
+
+```html
+<button class="example">Link1</button>
+```
+
+```js
+u(".example").wrap('<div class="a1"><div class="b1"><div class="c1"></div></div></div>');
+```
+
+Result:
+```html
+<div class="a1">
+	<div class="b1">
+		<div class="c1">
+			<a href="http://google.com" class="wrapper">
+			  <button class="example">Link1</button>
+			</a>
+		</div>
+	</div>
+</div>
+```
+
+Nested selector arguments with multiple child nodes:
+
+```html
+<button class="example">Link1</button>
+```
+
+```js
+u(".example").wrap('<div class="a1"><div class="b1"><div class="c1"></div></div><div class="b2"><div class="c2"><div class="d1"></div></div></div></div>');
+```
+
+Result:
+```html
+<div class="a1">
+	<div class="b1">
+		<div class="c1">
+			<a href="http://google.com" class="wrapper">
+			  <button class="example">Link1</button>
+			</a>
+		</div>
+	</div>
+	<div class="b2">
+		<div class="c2">
+			<div class="d1"></div>
+		</div>
+	</div>
+</div>
+```
