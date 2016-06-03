@@ -197,28 +197,23 @@ u.prototype.children = function (selector) {
 };
 
 
-u.prototype.mirror = {};
-
 /**
- * Copy all JavaScript events of source node to destination node.
- * @param  {[Object]} source      DOM node
- * @param  {[Object]} destination DOM node
- * @return {[undefined]]}
+ * Deep clone a DOM node and its descendants.
+ * @return {[Object]}         Returns an Umbrella.js instance.
  */
-u.prototype.mirror.events = function events (source, destination) {
-  var i;
-  var l;
-  var type;
-  var events;
+u.prototype.clone = function () {
+  return this.map(function (node, i) {
+    var clone = node.cloneNode(true);
+    var dest = this.getAll(clone);
 
-  if (source._e) {
-    events = source._e;
-    for (type in events) {
-      for (i = 0, l = events[type].length; i < l; i++) {
-        u(destination).on(type, events[type][i]);
+    this.getAll(node).each(function (src, i) {
+      for (var key in this.mirror) {
+        this.mirror[key](src, dest.nodes[i]);
       }
-    }
-  }
+    });
+
+    return clone;
+  });
 };
 
 /**
@@ -227,38 +222,28 @@ u.prototype.mirror.events = function events (source, destination) {
  * @param  {[String]} tag     DOM node tagName.
  * @return {[Array]}          Array containing queried DOM nodes.
  */
-u.prototype.getAll = function getAll (context, tag) {
-  // Mostly code borrowed from jQuery: https://github.com/jquery/jquery/blob/305f193aa57014dc7d8fa0739a3fefd47166cd44/src/manipulation.js
-  return [context].concat(u(tag || '*', context).nodes);
+u.prototype.getAll = function getAll (context) {
+  return u([context].concat(u('*', context).nodes));
 };
+
+// Store all of the operations to perform when cloning elements
+u.prototype.mirror = {};
 
 /**
- * Deep clone a DOM node and its descendants.
- * @return {[Object]}         Returns an Umbrella.js instance.
+ * Copy all JavaScript events of source node to destination node.
+ * @param  {[Object]} source      DOM node
+ * @param  {[Object]} destination DOM node
+ * @return {[undefined]]}
  */
-u.prototype.clone = function clone () {
-  return this.map(function (node, i) {
-    var clone = node.cloneNode(true);
-    var l;
-    var srcElements = this.getAll(node);
-    var destElements = this.getAll(clone);
-    var mirrorObject = this.mirror;
+u.prototype.mirror.events = function (src, dest) {
+  if (!src._e) return;
 
-    for (i = 0, l = srcElements.length; i < l; i++) {
-      mirrorObject.events(srcElements[ i ], destElements[ i ]);
-    }
-
-    for (var key in mirrorObject) {
-      if (mirrorObject.hasOwnProperty(key) && mirrorObject[key].name !== 'events') {
-        this.mirror[key](node, clone);
-      }
-    }
-
-    return clone;
-  });
+  for (var type in src._e) {
+    src._e[type].forEach(function (event) {
+      u(dest).on(type, event);
+    });
+  }
 };
-
-/* Clone method extensions */
 
 /**
  * Copy select input value to its clone.
@@ -267,7 +252,7 @@ u.prototype.clone = function clone () {
  * @return {[undefined]}
  */
 u.prototype.mirror.select = function (src, dest) {
-  if (src.nodeName === 'SELECT') {
+  if (u(src).is('select')) {
     dest.value = src.value;
   }
 };
@@ -279,7 +264,7 @@ u.prototype.mirror.select = function (src, dest) {
  * @return {[undefined]}
  */
 u.prototype.mirror.textarea = function (src, dest) {
-  if (src.nodeName === 'TEXTAREA') {
+  if (u(src).is('textarea')) {
     dest.value = src.value;
   }
 };
