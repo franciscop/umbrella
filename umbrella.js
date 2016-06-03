@@ -45,14 +45,6 @@ u.prototype = {
 // https://developers.google.com/speed/articles/optimizing-javascript
 u.prototype.nodes = [];
 
-// Export it for
-if (typeof module === 'object' && module.exports) {
-  module.exports = {
-    u: u,
-    ajax: ajax
-  };
-}
-
 // Add class(es) to the matched nodes
 u.prototype.addClass = function () {
   return this.eacharg(arguments, function (el, name) {
@@ -838,3 +830,11 @@ u.prototype.wrap = function (selector) {
     });
   });
 };
+
+// Export it for webpack
+if (typeof module === 'object' && module.exports) {
+  module.exports = {
+    u: u,
+    ajax: ajax
+  };
+}
