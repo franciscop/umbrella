@@ -772,7 +772,7 @@ u.prototype.toggleClass = function (classes, addOrRemove) {
 u.prototype.trigger = function (events) {
   var data = this.slice(arguments).slice(1);
 
-  this.eacharg(events, function (node, event) {
+  return this.eacharg(events, function (node, event) {
     var ev;
 
     // Allow the event to bubble up and to be cancelable (as default)

@@ -13,7 +13,7 @@ describe(".clone(options)", function() {
     });
 
     it("should be a function", function() {
-      expect(typeof base.clone).to.equal('function');
+      isFn(base.clone);
     });
 
     it("should clone a single simple node", function() {
@@ -48,9 +48,10 @@ describe(".clone(options)", function() {
     });
 
     it("should clone a node and its events by default", function(done) {
-      u('.testClone1').on('click', function() { done(); });
-      u('.cloneDestination').append(u('.testClone1'));
-      u('.cloneDestination > .testClone1').trigger('click');
+      u('<div>').on('click', function(e){
+        u(e.target).off('click');
+        done();
+      }).clone().trigger('click').trigger('click');
     });
 
     it("should clone nested nodes and their events by default", function(done) {

@@ -4,6 +4,10 @@ var expect = chai.expect;
 // the tests for this function should fail
 var work = true;
 
+var wrap = function(cb){
+  cb();
+}
+
 // Check whether or not the element has a class
 // - cls: the classes that should be checked
 // - negate: whether or not the class should be present

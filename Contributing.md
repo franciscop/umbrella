@@ -5,14 +5,14 @@ Thanks for contributing! Developing Umbrella is quite easy:
 
 1. Clone the repository  
 `git clone git://github.com/umbrellajs/umbrella.git && cd ./umbrella`
-1. Install the dependencies   
+1. Install Phantom JS 1.9.7. For Linux ([based on this](https://gist.github.com/julionc/7476620)):
+`npm run installphantom`
+1. Install the dependencies
 `npm install`
-1. Install grunt if you didn't have it  
-`npm install -g grunt-cli`
 1. Run `grunt watch`
 1. Modify any file within `/src` (code, tests or documentation)
 
-After these steps, the library, tests and documentation will be automatically joined. To see the tests open `/test/index.html` in your browser. Please try not to make a PR with broken tests.
+After these steps, the library, tests and documentation will be automatically built. To see the tests open `/test/index.html` in your browser. Please try not to make a PR with broken tests.
 
 ## New plugins
 

@@ -4,6 +4,10 @@ var expect = chai.expect;
 // the tests for this function should fail
 var work = true;
 
+var wrap = function(cb){
+  cb();
+}
+
 // Check whether or not the element has a class
 // - cls: the classes that should be checked
 // - negate: whether or not the class should be present
@@ -977,7 +981,7 @@ describe(".clone(options)", function() {
     });
 
     it("should be a function", function() {
-      expect(typeof base.clone).to.equal('function');
+      isFn(base.clone);
     });
 
     it("should clone a single simple node", function() {
@@ -1012,9 +1016,10 @@ describe(".clone(options)", function() {
     });
 
     it("should clone a node and its events by default", function(done) {
-      u('.testClone1').on('click', function() { done(); });
-      u('.cloneDestination').append(u('.testClone1'));
-      u('.cloneDestination > .testClone1').trigger('click');
+      u('<div>').on('click', function(e){
+        u(e.target).off('click');
+        done();
+      }).clone().trigger('click').trigger('click');
     });
 
     it("should clone nested nodes and their events by default", function(done) {
@@ -2623,6 +2628,13 @@ describe(".trigger()", function() {
       expect(!!e).to.equal(true);
     });
     base.trigger('click');
+  });
+
+  it("can be concatenated", function() {
+    base.on('click', function(e){
+      expect(!!e).to.equal(true);
+    });
+    base.trigger('click').trigger('click');
   });
 
   it("can trigger an event in the wrong element", function() {

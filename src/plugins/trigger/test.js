@@ -16,6 +16,13 @@ describe(".trigger()", function() {
     base.trigger('click');
   });
 
+  it("can be concatenated", function() {
+    base.on('click', function(e){
+      expect(!!e).to.equal(true);
+    });
+    base.trigger('click').trigger('click');
+  });
+
   it("can trigger an event in the wrong element", function() {
     base.on('click', function(e){
       expect(!!e).to.equal(true);
