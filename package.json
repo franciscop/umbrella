@@ -33,7 +33,7 @@
     "url": "git+https://github.com/umbrellajs/umbrella.git"
   },
   "dependencies": {
-    "grunt": "^1.0.1",
+    "grunt": "^0.4.5",
     "grunt-bytesize": "^0.1.1",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-jade": "^0.15.0",
