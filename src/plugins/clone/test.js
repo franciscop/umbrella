@@ -111,7 +111,6 @@ describe(".clone(options)", function() {
 
 
     it ("should clone a textarea input and its value by default", function() {
-      console.log("TEST", u('form.clone textarea').first().value);
       u('.destination').append(u('form.clone textarea'));
       expect(u('.destination textarea').first().value).to.eq('test textarea');
     });

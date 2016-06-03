@@ -44,3 +44,11 @@ u.prototype = {
 // This made the code faster, read "Initializing instance variables" in
 // https://developers.google.com/speed/articles/optimizing-javascript
 u.prototype.nodes = [];
+
+// Export it for
+if (typeof module === 'object' && module.exports) {
+  module.exports = {
+    u: u,
+    ajax: ajax
+  };
+}
