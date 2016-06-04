@@ -53,6 +53,15 @@ Bower is a front-end package manager that makes it super-easy to add a new packa
 bower install umbrella
 ```
 
+### Module support
+
+If you use a front-end module bundler like Webpack or Browserify, `u` and `ajax` are exposed as CommonJS exports. You can pull them in like so:
+
+```
+var u = require('path/to/umbrella').u;
+// or ES-style modules
+import { u } from 'path/to/umbrella';
+```
 
 ### Download it
 
