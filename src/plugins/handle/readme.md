@@ -17,7 +17,7 @@ u('form.login').handle('submit', function(e){
 
 ### Related
 
-[.on()](#off) Calls a function when an event is triggered
+[.on()](#on) Calls a function when an event is triggered
 
 [.trigger()](#trigger) calls an event on all of the matched nodes
 
