@@ -22,7 +22,7 @@ ajax(action, options, after, before);
 - `body = ''`: a string on the `a=b&c=d` format or a simple object that will be converted
 - `headers = {}`: an object with `{ key: value }` headers to be manually set
 
-`after`: the callback to be called when the request has ben sent and parsed. The first parameter is an error that can be null, and the second one the parsed data in JSON or the unparsed data as an string.
+`after`: the callback to be called when the request has been sent and parsed. The first parameter is an error that can be null, and the second one the parsed data in JSON or the unparsed data as an string.
 
 `before`: a callback that can be called just before sending the request. It receives the XHR object as the first parameter.
 

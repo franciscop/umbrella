@@ -2,8 +2,6 @@
 module.exports = function (grunt) {
   // Configuration
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-
     jshint: {
       ignore_warning: {
         src: ['Gruntfile.js', 'umbrella.js'],
@@ -67,7 +65,10 @@ module.exports = function (grunt) {
     },
 
     mocha_phantomjs: {
-      all: './tests.html'
+      all: './tests.html',
+      options: {
+        'web-security': false
+      }
     },
 
     concat: {

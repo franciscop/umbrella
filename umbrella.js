@@ -367,10 +367,19 @@ function ajax (action, opt, done, before) {
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
   opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
-  if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
-    opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
+  opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/json;charset=UTF-8';
+
+  this.encode = function (data) {
+    return u().param(opt.body);
+  };
+
+  if (/json/.test(opt.headers['Content-Type'])) {
+    this.encode = function (data) {
+      return JSON.stringify(opt.body || {});
+    };
   }
-  opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
+
+  opt.body = typeof opt.body === 'object' ? this.encode(opt.body) : opt.body;
 
   // Create and send the actual request
   var request = new window.XMLHttpRequest();
@@ -409,6 +418,7 @@ function ajax (action, opt, done, before) {
   return request;
 }
 /* eslint-enable no-unused-vars*/
+
 
 // [INTERNAL USE ONLY]
 // Parse JSON without throwing an error
