@@ -278,7 +278,7 @@ u.prototype.closest = function (selector) {
       if (u(node).is(selector)) {
         return node;
       }
-    } while ((node = node.parentNode));
+    } while ((node = node.parentNode) && node !== document);
   });
 };
 
