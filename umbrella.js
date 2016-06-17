@@ -370,7 +370,10 @@ function ajax (action, opt, done, before) {
   if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
   }
-  opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
+
+  if ((typeof opt.body === 'object') && !(opt.body instanceof window.FormData)) {
+    opt.body = u().param(opt.body);
+  }
 
   // Create and send the actual request
   var request = new window.XMLHttpRequest();
@@ -409,6 +412,7 @@ function ajax (action, opt, done, before) {
   return request;
 }
 /* eslint-enable no-unused-vars*/
+
 
 // [INTERNAL USE ONLY]
 // Parse JSON without throwing an error

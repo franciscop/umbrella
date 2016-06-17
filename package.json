@@ -54,6 +54,7 @@
       "**/test.js",
       "**/jquery.js",
       "**/chai.js",
+      "**/sinon.js",
       "**/mocha.js",
       "**/*.min.js"
     ],
