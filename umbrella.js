@@ -367,11 +367,10 @@ function ajax (action, opt, done, before) {
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
   opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
-  opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/json;charset=UTF-8';
 
-  this.encode = function (data) {
-    return u().param(opt.body);
-  };
+  if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
+    opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
+  }
 
   if (/json/.test(opt.headers['Content-Type'])) {
     this.encode = function (data) {
@@ -379,7 +378,9 @@ function ajax (action, opt, done, before) {
     };
   }
 
-  opt.body = typeof opt.body === 'object' ? this.encode(opt.body) : opt.body;
+  if ((typeof opt.body === 'object') && !(opt.body instanceof window.FormData)) {
+    opt.body = u().param(opt.body);
+  }
 
   // Create and send the actual request
   var request = new window.XMLHttpRequest();
@@ -536,8 +537,8 @@ u.prototype.on = function (events, cb, cb2) {
     cb = function (e) {
       var args = arguments;
       u(e.currentTarget).find(sel).each(function (target) {
-        if (target === e.target) {
-          cb2.apply(target, args);
+        if (target === e.target || target.contains(e.target)) {
+          cb2.apply(e.target, args);
         }
       });
     };

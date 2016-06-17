@@ -3,7 +3,7 @@
 describe(".on(event, fn)", function() {
 
   beforeEach(function(){
-    base.append('<div class="clickable"></div>');
+    base.append('<div class="clickable"><a>Hi</a></div>');
   });
 
   afterEach(function(){
@@ -51,6 +51,16 @@ describe(".on(event, fn)", function() {
     });
     base.find('ul').not('.clickable').trigger('click');
     base.off('click');
+  });
+  
+  it("triggers the delegated event when child element is target", function(done) {
+    base.on('click', '.clickable', function(e) {
+      expect(e.target).to.equal(this);
+      expect(e.target.tagName).to.equal('A');
+      expect(e.target.className).to.not.equal('clickable');
+      done();
+    });
+    base.find('.clickable a').trigger('click');
   });
 
   it("triggers the event with custom data", function(done) {
