@@ -13,4 +13,8 @@ describe(".closest(selector)", function() {
   it("can select the children of ul", function() {
     expect(base.find('li').closest('ul').length).to.equal(1);
   });
+
+  it("is okay with no ancestors", function() {
+    expect(base.closest('.nonexist').length).to.equal(0);
+  });
 });
