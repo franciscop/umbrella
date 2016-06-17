@@ -5,7 +5,7 @@ u.prototype.on = function (events, cb, cb2) {
     cb = function (e) {
       var args = arguments;
       u(e.currentTarget).find(sel).each(function (target) {
-        if (target === e.target) {
+        if (target === e.target || target.contains(e.target)) {
           cb2.apply(target, args);
         }
       });
