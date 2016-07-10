@@ -92,7 +92,8 @@ body {
   list-style-type: circle;
 }
 
-section.row {
+main section,
+main section.flex {
   background: #fff;
   text-align: left;
   width: 90%;
@@ -101,8 +102,9 @@ section.row {
   padding: 80px 0 0;
 }
 
-section.row:last-child {
+#index section.flex:last-child {
   padding-bottom: 120px;
+  text-align: center;
 }
 
 .hero + section.row {
@@ -112,10 +114,6 @@ section.row:last-child {
 section.row .love {
   text-align: center;
   font-weight: bold;
-}
-
-section.row aside {
-  width: 200px;
 }
 
 nav.transparent {
@@ -185,6 +183,7 @@ h2 {
 
 .documentation h2 {
   padding-top: 3em;
+  text-align: left;
 }
 
 .documentation pre + h2 {
@@ -203,6 +202,7 @@ h2 {
 
 aside a.button {
   display: block;
+  text-align: left;
 }
 
 aside a.top {
@@ -210,12 +210,13 @@ aside a.top {
   position: fixed;
   bottom: 0;
   font-weight: bold;
-  width: 200px;
+  width: 180px;
   padding: .6em 0;
   margin-bottom: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   transition: all .3s ease;
+  text-align: center;
 }
 
 aside a.top.visible {
@@ -289,10 +290,6 @@ pre code {
 
   .documentation {
     margin: 1em 0;
-  }
-
-  .documentation aside {
-    display: none;
   }
 }
 

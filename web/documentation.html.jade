@@ -1,12 +1,16 @@
 extends layout
 
+block title
+  title Documentation - Umbrella JS
+
 block content
   main.documentation#home
-    section.row
-      aside
-        a.top.pseudo.button(href="#home" tabindex="-1") ▲ Up you go ▲
+    section.flex.five
+      aside.full.fifth-1000
         h2 Contents
-      article
+        div.links.flex.two.three-500.five-800.one-1000
+        a.top.pseudo.button(href="#home" tabindex="-1") ▲ Up you go ▲
+      article.full.four-fifth-1000
         include:markdown ../documentation.md
   
   script(src="umbrella.min.js")
@@ -14,13 +18,13 @@ block content
     u('h2[id]').each(function(node){
       u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
     });
-  
-    u('article h2').each(function(node){
-      var href = 'href="#' + u(node).attr('id') + '" ';
-      var classes = 'class="pseudo button stack" ';
-      var html = u(node).html();
-      u('aside').append('<a ' + classes + href + '>' + html + '</a>');
-    });
+    
+    u('aside .links').append(function(node){
+      return u('<div>').append(u('<a>')
+        .addClass('pseudo button')
+        .attr('href', '#' + node.id)
+        .html(node.innerHTML));
+    }, u('article h2'));
     
     u('aside a').on('click', function(e){
       try {

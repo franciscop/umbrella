@@ -19,8 +19,8 @@ block content
       
       a.keepgoing(href="#go") ▼
   
-  main
-    section.row#go
+  main#index
+    section.flex.two#go
       div
         :markdown
           ## Intuitive and Documented
@@ -41,7 +41,7 @@ block content
               window.href = '/user/' + res.id;
             });
     
-    section.row
+    section.flex.two
       div
         :markdown
           ## Tiny and Clear
@@ -63,7 +63,7 @@ block content
               return this.filter(selector).length > 0;
             };
     
-    section.row
+    section.flex.two
       div
         :markdown
           ## Tested and Performant
@@ -83,7 +83,7 @@ block content
               expect(ul.length).to.equal(1);
             });
     
-    section.row
+    section.flex.two
       div
         :markdown
           ## MIT License
@@ -98,7 +98,7 @@ block content
           - [Browser Stack](http://browserstack.com/) for cross-browser checks
           - [Can I use?](http://caniuse.com/) for compatibility checks
           
-    section.row
+    section.flex.one
       div.love
         div With love,
         a(href="http://francisco.io/" target="_blank") Francisco Presencia
