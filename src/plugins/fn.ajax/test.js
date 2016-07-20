@@ -12,12 +12,12 @@ describe("Function ajax(done, before)", function() {
     if (/tests(\/)?$/.test(url)) {
       url = url.replace(/tests(\/)?/, '');
     }
-    return url.replace(/\/$/, '') + '/' + frag;
+    return url.replace(/\/$/, '') + '/' + frag.replace(/^\//, '');
   }
 
   function ifActive(cb){
     return function(done){
-      ajax(url('active'), {}, function(error, data){
+      ajax(url('/active'), {}, function(error, data){
         if (!error && data === 'active') {
           cb(done);
         } else {
@@ -34,7 +34,7 @@ describe("Function ajax(done, before)", function() {
   });
 
   it("can make a simple get", ifActive(function(done) {
-    ajax(url('plain'), {}, function(error, data, xhr){
+    ajax(url('/plain'), {}, function(error, data, xhr){
       expect(error).to.equal(null);
       expect(data).to.equal('GET');
       expect(xhr instanceof XMLHttpRequest).to.equal(true, 'XMLHttpRequest');
@@ -45,7 +45,7 @@ describe("Function ajax(done, before)", function() {
   }));
 
   it("can make a simple get", ifActive(function(done) {
-    ajax(url('plain'), {}, function(error, data, xhr){
+    ajax(url('/plain'), {}, function(error, data, xhr){
       expect(data).to.equal('GET');
       expect(xhr instanceof XMLHttpRequest).to.equal(true, 'XMLHttpRequest');
       done();
@@ -55,7 +55,7 @@ describe("Function ajax(done, before)", function() {
   it("can send GET but data is lost", ifActive(function(done) {
     var body = { send: '123' };
     var options = { method: 'GET', body: body };
-    ajax(url('json'), options, function(error, data){
+    ajax(url('/json'), options, function(error, data){
       expect(data.method).to.equal('GET');
       expect(data.body).to.deep.equal({});
       done();
@@ -65,7 +65,7 @@ describe("Function ajax(done, before)", function() {
   it("can send POST with data", ifActive(function(done) {
     var body = { send: '123' };
     var options = { method: 'POST', body: body };
-    ajax(url('json'), options, function(error, data){
+    ajax(url('/json'), options, function(error, data){
       expect(data.method).to.equal('POST');
       expect(data.body).to.deep.equal(body);
       done();
@@ -75,7 +75,7 @@ describe("Function ajax(done, before)", function() {
   it("can send PUT with data", ifActive(function(done) {
     var body = { send: '123' };
     var options = { method: 'PUT', body: body };
-    ajax(url('json'), options, function(error, data){
+    ajax(url('/json'), options, function(error, data){
       expect(data.method).to.equal('PUT');
       expect(data.body).to.deep.equal(body);
       done();
@@ -84,7 +84,7 @@ describe("Function ajax(done, before)", function() {
 
   it("can send DELETE", ifActive(function(done) {
     var options = { method: 'DELETE' };
-    ajax(url('json'), options, function(error, data){
+    ajax(url('/json'), options, function(error, data){
       expect(data.method).to.equal('DELETE');
       if (!window.mochaPhantomJS) {
         expect(data.body).to.deep.equal({}, "Body should be ignored");

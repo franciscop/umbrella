@@ -358,24 +358,24 @@ u.prototype.first = function () {
 // Perform ajax calls
 /* eslint-disable no-unused-vars*/
 function ajax (action, opt, done, before) {
-  // To avoid repeating it
   done = done || function () {};
 
   // A bunch of options and defaults
   opt = opt || {};
-  opt.body = opt.body || '';
+  opt.body = opt.body || {};
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
-  opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
+
+  // Tell the back-end it's an AJAX request
+  // opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
 
   if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
   }
 
+  // If it's of type JSON, encode it as such
   if (/json/.test(opt.headers['Content-Type'])) {
-    this.encode = function (data) {
-      return JSON.stringify(opt.body || {});
-    };
+    opt.body = JSON.stringify(opt.body);
   }
 
   if ((typeof opt.body === 'object') && !(opt.body instanceof window.FormData)) {
@@ -395,7 +395,7 @@ function ajax (action, opt, done, before) {
     // Also an error if it doesn't start by 2 or 3...
     // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
     // We don't want to return yet though as there might be some content
-    var err = !/^(2|3)/.test(request.status) ? new Error(request.status) : null;
+    var err = /^(4|5)/.test(request.status) ? new Error(request.status) : null;
 
     // Attempt to parse the body into JSON
     var body = parseJson(request.response) || request.response;
@@ -404,6 +404,7 @@ function ajax (action, opt, done, before) {
   });
 
   // Create a request of the specified type to the URL and ASYNC
+  console.log(opt, opt.method, action);
   request.open(opt.method, action);
 
   // Set the corresponding headers
@@ -411,7 +412,7 @@ function ajax (action, opt, done, before) {
     request.setRequestHeader(name, opt.headers[name]);
   }
 
-  // Load the callback before sending the data
+  // Load the before callback before sending the data
   if (before) before(request);
 
   request.send(opt.body);
