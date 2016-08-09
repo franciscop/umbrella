@@ -198,6 +198,7 @@ h2 {
 
 .documentation aside a.pseudo {
   color: #0074D9;
+  margin: 0;
 }
 
 aside a.button {
