@@ -52,6 +52,8 @@ describe(".on(event, fn)", function() {
       // This fails on circleci and local because phantomjs's webkit is too old
       if (!mocha || !mocha.env) {
         expect(e.currentTarget.tagName).to.equal('LI');
+      } else {
+        console.log("Test not run. currentTarget:", e.currentTarget.tagName);
       }
       expect(this.tagName).to.equal('LI');
       done();
