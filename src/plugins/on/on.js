@@ -6,11 +6,13 @@ u.prototype.on = function (events, cb, cb2) {
       var args = arguments;
       u(e.currentTarget).find(sel).each(function (target) {
         if (target === e.target || target.contains(e.target)) {
-          Object.defineProperty(e, 'currentTarget', {
-            get: function () {
-              return target;
-            }
-          });
+          try {
+            Object.defineProperty(e, 'currentTarget', {
+              get: function () {
+                return target;
+              }
+            });
+          } catch (err) {}
           cb2.apply(target, args);
         }
       });
