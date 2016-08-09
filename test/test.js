@@ -2152,7 +2152,7 @@ describe(".on(event, fn)", function() {
     base.off('click');
   });
 
-  it("event delegation has proper stuff", function(done) {
+  it("event delegation has proper parameters", function(done) {
     base.on('click', 'li', function(e){
       expect(e.target.tagName).to.equal('A');
 
