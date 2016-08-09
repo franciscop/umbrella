@@ -47,7 +47,6 @@ function ajax (action, opt, done, before) {
   });
 
   // Create a request of the specified type to the URL and ASYNC
-  console.log(opt, opt.method, action);
   request.open(opt.method, action);
 
   // Set the corresponding headers

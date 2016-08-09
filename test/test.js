@@ -2153,12 +2153,11 @@ describe(".on(event, fn)", function() {
   });
 
   it("event delegation has proper stuff", function(done) {
-    // div#base.base
-    //   ul
-    //     li
-    //       a#world.hello.world Hello world
+    console.log("ENV:", mocha.env);
     base.on('click', 'li', function(e){
       expect(e.target.tagName).to.equal('A');
+
+      // This fails on circleci
       expect(e.currentTarget.tagName).to.equal('LI');
       expect(this.tagName).to.equal('LI');
       done();
