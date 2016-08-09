@@ -547,7 +547,12 @@ u.prototype.on = function (events, cb, cb2) {
       var args = arguments;
       u(e.currentTarget).find(sel).each(function (target) {
         if (target === e.target || target.contains(e.target)) {
-          cb2.apply(e.target, args);
+          Object.defineProperty(e, 'currentTarget', {
+            get: function () {
+              return target;
+            }
+          });
+          cb2.apply(target, args);
         }
       });
     };

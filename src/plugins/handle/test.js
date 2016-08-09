@@ -55,7 +55,6 @@ describe(".handle(event, fn)", function() {
 
   it("triggers the delegated event when child element is target", function(done) {
     base.handle('click', '.clickable', function(e) {
-      expect(e.target).to.equal(this);
       expect(e.target.tagName).to.equal('A');
       expect(e.target.className).to.not.equal('clickable');
       done();

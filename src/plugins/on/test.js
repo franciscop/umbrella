@@ -45,6 +45,21 @@ describe(".on(event, fn)", function() {
     base.off('click');
   });
 
+  it("event delegation has proper stuff", function(done) {
+    // div#base.base
+    //   ul
+    //     li
+    //       a#world.hello.world Hello world
+    base.on('click', 'li', function(e){
+      expect(e.target.tagName).to.equal('A');
+      expect(e.currentTarget.tagName).to.equal('LI');
+      expect(this.tagName).to.equal('LI');
+      done();
+    });
+    base.find('#world').trigger('click');
+    base.off('click');
+  });
+
   it("event delegation not triggered by others", function() {
     base.on('click', '.clickable', function(e){
       throw new Error("Should never get here");
@@ -52,10 +67,9 @@ describe(".on(event, fn)", function() {
     base.find('ul').not('.clickable').trigger('click');
     base.off('click');
   });
-  
+
   it("triggers the delegated event when child element is target", function(done) {
     base.on('click', '.clickable', function(e) {
-      expect(e.target).to.equal(this);
       expect(e.target.tagName).to.equal('A');
       expect(e.target.className).to.not.equal('clickable');
       done();
