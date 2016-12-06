@@ -1,4 +1,4 @@
-# Umbrella JS - Documentation
+# Documentation
 
 Find nodes from the HTML with a CSS selector:
 
