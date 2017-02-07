@@ -5,7 +5,7 @@ Thanks for contributing! Developing Umbrella is quite easy:
 > If you want to modify any of the ajax() methods, please read on the ajax section below
 
 1. Clone the repository  
-`git clone git://github.com/umbrellajs/umbrella.git && cd ./umbrella`
+`git clone git://github.com/franciscop/umbrella.git && cd ./umbrella`
 1. Install Phantom JS 1.9.7. For Linux ([based on this](https://gist.github.com/julionc/7476620)):
 `npm run installphantom`
 1. Install the dependencies

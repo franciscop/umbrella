@@ -1,4 +1,4 @@
-# Umbrella JS [![Circle CI](https://circleci.com/gh/umbrellajs/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/umbrellajs/umbrella/tree/master) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/Flet/semistandard) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/umbrellajs/umbrella/blob/master/LICENSE)
+# Umbrella JS [![Circle CI](https://circleci.com/gh/franciscop/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/franciscop/umbrella/tree/master) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/Flet/semistandard) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/franciscop/umbrella/blob/master/LICENSE)
 
 > [**Library Documentation**](http://umbrellajs.com/documentation)
 
@@ -67,7 +67,7 @@ import { u } from 'path/to/umbrella';
 
 If you like it or prefer to try it locally, just download `umbrella.min.js`:
 
-[**Download Umbrella JS**](https://raw.githubusercontent.com/umbrellajs/umbrella/master/umbrella.min.js)
+[**Download Umbrella JS**](https://raw.githubusercontent.com/franciscop/umbrella/master/umbrella.min.js)
 
 Add it to your project:
 
@@ -80,7 +80,7 @@ Add it to your project:
 
 For beginners in Javascript or contributing to an Open Source project, there are few issues that are made on purpose so you can help out. Check them out:
 
-> [**Up For Grabs issues**](https://github.com/umbrellajs/umbrella/labels/up-for-grabs)
+> [**Up For Grabs issues**](https://github.com/franciscop/umbrella/labels/up-for-grabs)
 
 
 
