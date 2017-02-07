@@ -38,8 +38,7 @@ module.exports = function (grunt) {
           'src/*.js',
           'src/*.md',
           'src/**/*.*',
-          'web/*.jade',
-          'web/*'
+          'docs/**.*'
         ],
         tasks: ['default'],
         options: {
@@ -55,7 +54,7 @@ module.exports = function (grunt) {
           client: false
         },
         files: [ {
-          cwd: 'web',
+          cwd: '.',
           src: '**/*.html.jade',
           dest: '.',
           expand: true,

@@ -143,20 +143,20 @@ main {
 }
 
 .city {
-  background: url("../web/city.svg") repeat top left;
+  background: url("img/city.svg") repeat top left;
   background-size: cover;
   background-position: center center;
 }
 
 .cloud {
-  background: url("../web/cloud.svg") repeat top left;
+  background: url("img/cloud.svg") repeat top left;
   background-size: 480px 320px;
   animation: cloud 30s linear infinite;
   opacity: .7;
 }
 
 .rain {
-  background: url("../web/drop.svg") repeat top left;
+  background: url("img/drop.svg") repeat top left;
   background-size: 60px 60px;
   animation: rain .5s linear infinite;
   opacity: .4;

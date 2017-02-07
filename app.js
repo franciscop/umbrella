@@ -7,8 +7,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('.'));
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/tests.html');
+  res.sendFile(__dirname + '/docs/tests.html');
 });
+
+app.use(express.static('./docs'));
 
 app.get('/active', (req, res) => res.send('active'));
 
@@ -21,5 +23,5 @@ app.get('/:url', (req, res) =>
 );
 
 app.listen(3000, function () {
-  console.log('Open your browser on http://localhost:3000/tests for testing Umbrella');
+  console.log('Open your browser on http://localhost:3000/ for testing Umbrella');
 });
