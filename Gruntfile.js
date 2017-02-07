@@ -80,7 +80,8 @@ module.exports = function (grunt) {
         },
         files: {
           'umbrella.js': ['src/umbrella.js', 'src/plugins/**/*.js', 'src/export.js'],
-          'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
+          'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md'],
+          'tests.html': './docs/tests.html'
         }
       },
       test: {
