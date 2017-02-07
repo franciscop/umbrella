@@ -64,7 +64,7 @@ module.exports = function (grunt) {
     },
 
     mocha_phantomjs: {
-      all: './tests.html',
+      all: './docs/tests.html',
       options: {
         'web-security': false
       }
@@ -80,8 +80,7 @@ module.exports = function (grunt) {
         },
         files: {
           'umbrella.js': ['src/umbrella.js', 'src/plugins/**/*.js', 'src/export.js'],
-          'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md'],
-          'tests.html': './docs/tests.html'
+          'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
         }
       },
       test: {

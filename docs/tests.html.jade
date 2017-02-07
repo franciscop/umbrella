@@ -2,7 +2,7 @@ extends layout
 
 block content
   block style
-    link(rel="stylesheet" media="all" href="test/vendor/mocha.css")
+    link(rel="stylesheet" media="all" href="../test/vendor/mocha.css")
     
     style.
       #demo { display: none; }
@@ -75,16 +75,16 @@ block content
         table.tbl
   
   
-  script(src="test/vendor/mocha.js")
-  script(src="test/vendor/chai.js")
-  script(src="test/vendor/sinon.js")
-  script(src="test/jquery.js")
-  script(src="polyfill.js")
-  script(src="umbrella.js")
+  script(src="../test/vendor/mocha.js")
+  script(src="../test/vendor/chai.js")
+  script(src="../test/vendor/sinon.js")
+  script(src="../test/jquery.js")
+  script(src="../polyfill.js")
+  script(src="../umbrella.js")
   script.
     mocha.setup('bdd');
     var base = u("#base");
-  script(src="test/test.js")
+  script(src="../test/test.js")
   script.
     if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
     else { mocha.run(); }
