@@ -125,3 +125,13 @@ Known, wontfix IE10- bugs:
 ## Author and License
 
 Created and maintained by [Francisco Presencia](https://github.com/franciscop) under the MIT license.
+
+
+## References
+
+- http://www.tutsplanet.com/umbrella-js-alternative-jquery-288/
+- http://www.hongkiat.com/blog/umbrella-js/
+- http://www.catswhocode.com/blog/umbrella-js-a-tiny-yet-powerful-alternative-to-jquery
+- https://webmaster.kitchen/jquery-kutuphanesine-alternatif-umbrellajs-kimdir/
+- https://wmaraci.com/blog/umbrellajs-jquery-alternatifiniz-olmaya-aday-533
+- http://qiita.com/kt3k/items/0da4c0b36c402b96122b

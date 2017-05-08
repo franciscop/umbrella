@@ -323,7 +323,6 @@ u.prototype.empty = function () {
 };
 
 
-
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function (selector) {
