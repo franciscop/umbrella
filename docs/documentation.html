@@ -519,6 +519,42 @@ u(&quot;.cloneDestination&quot;).append(clone);
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
 <p><a href="#parent">.parent()</a> get all of the direct parents</p>
 <p><a href="#children">.children()</a> get the direct children of all of the nodes with an optional filter</p>
+<h2 id="-css-">.css()</h2>
+<p>Get the value of a computed style property for the first node of matched elements or set one or more CSS properties for every matched nodes:</p>
+<pre><code class="lang-js">// GET
+.css(propertyName);
+
+// SET
+.css(propertyName, value);
+.css(properties);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><em>GET</em>
+<code>propertyName</code>: CSS property of computed style to retrieve from the first matched element. Possible formats: camelCase (&quot;backgroundColor&quot;) or kebab-case (&quot;background-color&quot;).</p>
+<p><em>SET</em>
+<code>value</code>: the new value of computed style that you want to set for all of the matched elements. Value without unit is interpreted as pixels. To remove it, pass an empty string: <code>&quot;&quot;</code>
+<code>properties</code>: a plain object of property-value pairs to set.</p>
+<h3 id="return">Return</h3>
+<p><em>GET</em>
+<code>string</code>: the computed style of the first matched element</p>
+<p><em>SET</em>
+<code>u</code>: returns the same instance of Umbrella JS</p>
+<h3 id="examples">Examples</h3>
+<p>Set main title styles</p>
+<pre><code class="lang-js">u(&#39;h1&#39;).css(&#39;color&#39;, &#39;red&#39;).css(&#39;font-size&#39;, 50);
+</code></pre>
+<p>Multiple properties passed as a plain object</p>
+<pre><code class="lang-js">u(&#39;h1&#39;).css({
+    color: &#39;red&#39;,
+    fontSize: 50
+});
+</code></pre>
+<p>Get main title style</p>
+<pre><code class="lang-js">u(&#39;h1&#39;).css(&#39;font-size&#39;);
+// 50px
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#html">.html()</a> Retrieve or set the HTML of matched elements</p>
 <h2 id="-data-">.data()</h2>
 <p>Handle data-* attributes for the matched elements</p>
 <pre><code class="lang-js">// GET
