@@ -570,6 +570,20 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
   u(node).attr({ target: &#39;_blank&#39; });
 });
 </code></pre>
+<h2 id="-empty-">.empty()</h2>
+<p>Remove all child nodes of the matched elements.</p>
+<pre><code class="lang-js">.empty();
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>This method doesn&#39;t accept any parameters</p>
+<h3 id="return">Return</h3>
+<p><code>u</code>: Returns an instance of Umbrella JS with the empty nodes.</p>
+<h3 id="examples">Examples</h3>
+<p>Removes all child nodes from all containers:</p>
+<pre><code class="lang-js">u(&quot;div.container&quot;).empty();
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#remove">.remove()</a> Removes the matched elements.</p>
 <h2 id="-filter-">.filter()</h2>
 <p>Remove all the nodes that doesn&#39;t match the criteria</p>
 <pre><code class="lang-js">.filter(&#39;a&#39;)
