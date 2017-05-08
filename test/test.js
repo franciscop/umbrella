@@ -1439,6 +1439,19 @@ describe(".empty()", function() {
     u('.empty-test div').empty();
   });
 
+  it("will clean text-only nodes", function() {
+    u('.empty-test').html('Hello world');
+    expect(u('.empty-test').html()).to.equal('Hello world');
+    u('.empty-test').empty();
+    expect(u('.empty-test').html()).to.equal('');
+  });
+
+  it("will clean mixed nodes", function() {
+    u('.empty-test').html('Hello world!<p>How <strong>are you</strong>?</p>');
+    u('.empty-test').empty();
+    expect(u('.empty-test').html()).to.equal('');
+  });
+
   it("should return an instance of umbrella with the empty nodes", function() {
     var result = u('.empty-test').empty();
 

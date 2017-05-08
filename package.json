@@ -1,9 +1,9 @@
 {
   "name": "umbrellajs",
-  "version": "2.6.7",
+  "version": "2.7.0",
   "homepage": "http://umbrellajs.com/",
   "authors": [
-    "Francisco Presencia <developerfrancisco@hotmail.com>"
+    "Francisco Presencia <public@francisco.io>"
   ],
   "description": "Lightweight and intuitive javascript library",
   "main": "umbrella.min.js",
