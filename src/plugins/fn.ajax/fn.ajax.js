@@ -49,6 +49,8 @@ function ajax (action, opt, done, before) {
   // Create a request of the specified type to the URL and ASYNC
   request.open(opt.method, action);
 
+  request.withCredentials = true;
+
   // Set the corresponding headers
   for (var name in opt.headers) {
     request.setRequestHeader(name, opt.headers[name]);
