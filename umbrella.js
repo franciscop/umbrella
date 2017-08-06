@@ -616,8 +616,10 @@ u.prototype.prepend = function (html, data) {
 u.prototype.remove = function () {
   // Loop through all the nodes
   return this.each(function (node) {
-    // Perform the removal
-    node.parentNode.removeChild(node);
+    // Perform the removal only if the node has a parent
+    if (node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
   });
 };
 
