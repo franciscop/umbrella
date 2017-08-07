@@ -2,15 +2,6 @@
 module.exports = function (grunt) {
   // Configuration
   grunt.initConfig({
-    jshint: {
-      ignore_warning: {
-        src: ['Gruntfile.js', 'umbrella.js'],
-        options: {
-          '-W043': true  // Allow for multiline with \ backslash
-        }
-      }
-    },
-
     uglify: {
       options: {
         banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'

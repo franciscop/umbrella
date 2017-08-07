@@ -1,6 +1,6 @@
 {
   "name": "umbrellajs",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "homepage": "http://umbrellajs.com/",
   "authors": [
     "Francisco Presencia <public@francisco.io>"
@@ -40,7 +40,6 @@
     "grunt-bytesize": "^0.1.1",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-jade": "^0.15.0",
-    "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-uglify": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-markdown": "^0.7.0",
