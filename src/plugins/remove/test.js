@@ -27,6 +27,13 @@ describe(".remove()", function() {
     u('.remove-test div').remove();
   });
 
+  it("can be called even without parentNode", function() {
+    var children = u('.remove-test li');
+    children.remove();
+    expect(children.first().parentNode).to.be.null;
+    children.remove(); // Remove them again
+  });
+
   it("should return an instance of umbrella with the removed nodes", function() {
     var result = u('.remove-test').remove();
 
