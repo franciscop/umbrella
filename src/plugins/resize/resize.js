@@ -3,4 +3,6 @@ u.prototype.resize = function (fn) {
   if (fn) {
     window.addEventListener('resize', fn);
   }
+
+  return this;
 };

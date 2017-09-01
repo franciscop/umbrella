@@ -1106,6 +1106,21 @@ u(&quot;a.main&quot;).prepend(function(){
   return &#39;&lt;a class=&quot;button&quot;&gt;&#39; + btn.innerHTML + &#39;&lt;/a&gt;&#39;;
 });
 </code></pre>
+<h2 id="-resize-">.resize()</h2>
+<p>Calls a function when the window is resized</p>
+<pre><code class="lang-js">.resize(callback);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>callback</code>: function that will be called when the event is triggered. This function doesn&#39;t take any parameters</p>
+<h3 id="return">Return</h3>
+<p>Umbrella instance</p>
+<h3 id="examples">Examples</h3>
+<p>An auto-save feature that submits the form through ajax every 10 seconds</p>
+<pre><code class="lang-js">// Show &#39;test&#39; when the button test is clicked
+u().resize(function () {
+  console.log(&#39;window has been resized&#39;);
+});
+</code></pre>
 <h2 id="-scroll-">.scroll()</h2>
 <p>Scroll to the first matched element, smoothly if supported.</p>
 <pre><code class="lang-js">.scroll()
