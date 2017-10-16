@@ -864,6 +864,21 @@ should pass no parameter so it retrieves the html.</p>
 <h3 id="related">Related</h3>
 <p><a href="#is">.is()</a> check whether one or more of the nodes is of one type</p>
 <p><a href="#filter">.filter()</a> Remove unwanted nodes</p>
+<h2 id="-nth-">.nth()</h2>
+<p>Retrieve the nth of the matched nodes</p>
+<pre><code class="lang-js">.nth(1);
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p><code>index</code>: The element number in the list starting at 1 index (like css)</p>
+<h3 id="return">Return</h3>
+<p>The nth html node or false if it doesnt exist.</p>
+<h3 id="examples">Examples</h3>
+<p>Retrieve the second element of a list:</p>
+<pre><code class="lang-js">var secondElement = u(&quot;ul.demo li&quot;).nth(2);
+</code></pre>
+<h3 id="related">Related</h3>
+<p><a href="#first">.first()</a> retrieve the first matched element
+<a href="#last">.last()</a> retrieve the last matched element</p>
 <h2 id="-off-">.off()</h2>
 <p>Remove event handler from matched nodes</p>
 <pre><code class="lang-js">.off(&#39;event1&#39;)
