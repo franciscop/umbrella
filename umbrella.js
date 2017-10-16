@@ -540,6 +540,13 @@ u.prototype.not = function (filter) {
 };
 
 
+// Get the first of the nodes
+u.prototype.nth = function (index) {
+  index = index || 1;
+  return this.nodes[--index] || false;
+};
+
+
 // Removes the callback to the event listener for each node
 u.prototype.off = function (events) {
   return this.eacharg(events, function (node, event) {
