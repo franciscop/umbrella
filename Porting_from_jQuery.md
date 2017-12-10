@@ -3,18 +3,18 @@
 "*Why should I port from jQuery to umbrellaJS?*"
 Simply because [you might not need jQuery](http://youmightnotneedjquery.com/) to do all these fancy things.
 
-But if you like the easy and readable syntax, **but** don't like how fat and slow jQuery is, you hould
+But if you like the easy and readable syntax, **but** don't like how fat and slow jQuery is, you should
 
 - use **zepto.js** as [drop in replacement](http://zeptojs.com/)
 - port to **umbrellaJS**
 
-**umbrellaJS** is small (3kb gzipped), has a similar syntax as jQuery. I usees native DOM elements instead of objects, this makes it fast. you can simply replace `$(...)` with `u(...)` in most cases.
+**umbrellaJS** is small (3kb gzipped) and has a similar syntax as jQuery. it use native DOM elements instead of objects, this makes it fast. you can simply replace `$(...)` with `u(...)` in most cases.
 
 ## Before porting to umbrellaJS
 
 zepto.js, umbreallyJS does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
 
-before porting an existing script to an jQuery alternative I strongly recommend to check your jQuery code to be correct.
+before porting an existing script to a jQuery alternative I strongly recommend to check your jQuery code to be correct.
 
 **Check for usage of `$('.subclass', $('myclass'))`**
 
@@ -30,13 +30,13 @@ even if your script work, there are some pitfalls where jQuery works when you ar
 
 ### First steps
 
-umbrellaJS can be used in parallel with jQuery. you can port to umbrellaJs step by step. simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL page or `// @require https://unpkg.com/umbrellajs` if you are writing a userscript.
+umbrellaJS can be used in parallel with jQuery, so you can start porting to umbrellaJs step by step. simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/umbrellajs` in your script, if you are writing a userscript.
 
-now start with changeing a simple function or jQuery statement to umbrella by replacing `$(...)` with `u(...)`, it simply works!
+now start with changing a simple function or statement from jQuery to umbrella by replacing `$(...)` with `u(...)`, it so simple!
 
 ## Porting tips
 
-while porting my enstlyer script from jQuery (more precise from zepto.js) to umbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy to port and its always helpfull to have the excellent [umbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
+while porting my [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to umbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [umbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
 
 **Why does `.replaceWith()` not exist in umbrella?**
 
