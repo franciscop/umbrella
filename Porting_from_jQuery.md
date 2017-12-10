@@ -53,9 +53,9 @@ u.prototype.replaceWith = function(replace){
 
 **Why does `.css()` not exist in umbrella?**
 
-I general I avoid using `.css()` to set CSS properties because it's better and faster handled by CSS rules, but a valid use case for `.css()` is to read the effective CSS properties of an element. 
+I general I avoid using `.css()` to set CSS properties because it's better and faster handled by CSS rules. a valid use case for `.css()` is to read the effective CSS properties of an element. 
 
-How ca I do this with umbrella? my solutionis the `getStyle()` function:
+How ca I do this with umbrellaJS? my solution is a `getStyle()` function:
 ```
 // alternative for jquery .css() get method
 function getStyle(oElm, css3Prop){
