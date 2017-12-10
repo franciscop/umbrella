@@ -3,40 +3,40 @@
 "*Why should I port from jQuery to umbrellaJS?*"
 Simply because [you might not need jQuery](http://youmightnotneedjquery.com/) to do all these fancy things.
 
-But if you like the easy, readable syntax **but** don't like how fat and slow jQuery is, you have two choices (IMHO):
+But if you like the easy and readable syntax, **but** don't like how fat and slow jQuery is, you have two choices (IMHO):
 
 - use **zepto.js** as [drop in replacement](http://zeptojs.com/)
 - port to **umbrellaJS**
 
-**umbrellaJS** is small (3kb gzipped), has a similar syntax as jQuery but use native DOM elements instead of objects. this makes it fast and you can simply replace `$(...)` with `u(...)` in most cases.
+**umbrellaJS** is small (3kb gzipped), has a similar syntax as jQuery. I usees native DOM elements instead of objects, this makes it fast. you can simply replace `$(...)` with `u(...)` in most cases.
 
 ## Before porting to umbrellaJS
 
-zepto.js, umbreallyJS and all other replacements does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
+zepto.js, umbreallyJS does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
 
-before porting an existing script to an jQuery alternative you should think about cleaning up your jQuery code to be correct.
+before porting an existing script to an jQuery alternative I strongly recommend to check your jQuery code to be correct.
 
 **Check for usage of `$('.subclass', $('myclass'))`**
 
-even if `$('.subclass', $('myclass'))` and `$('myclass').find('.subclass')` are mostly equivalent, you should only use the latter. its more readable and easyer to port.
+even if `$('.subclass', $('myclass'))` and `$('myclass').find('.subclass')` are equivalent, you should use the latter. it's more readable and easyer to port.
 
 **Check for correct `$(element)` selection**
 
-even if your script works, there are some pitfalls where jQuery works even you are using it in the wrong way.
+even if your script work, there are some pitfalls where jQuery works when you are using it in the wrong way.
 
-**example:** select one element by class
+**example:** you need excatly one element by class
 
-`$('#myID')` always returns one element, more exactly the first matching element. all other selectors return ALL elements. if you try to select the first element of `$('.myclass')` you should use `$('.myclass').first()` or `$('.myclass').eq(0)`. avoid using of `$('.myclass')[0]`
+`$('#myID')` always returns one element, more exactly the first matching element. all other selectors return ALL elements. if you want to select the first element of `$('.myclass')` you must use `$('.myclass').first()` or `$('.myclass').eq(0)`. avoid using of `$('.myclass')[0]`
 
 ### First steps
 
-you can use umbrellaJS in parallel with jQuery, so you can try/port umbrellaJs step by step. to use umbrella simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL page or `// @require https://unpkg.com/umbrellajs` i you are writing a userscript.
+umbrellaJS can be used in parallel with jQuery. you can port to umbrellaJs step by step. simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL page or `// @require https://unpkg.com/umbrellajs` if you are writing a userscript.
 
-now change change a simple function or jQuery statement to umbrella by replacing `$(...)` with `u(...)`, it simply works!
+now start with changeing a simple function or jQuery statement to umbrella by replacing `$(...)` with `u(...)`, it simply works!
 
 ## Porting tips
 
-while porting my enstlyer script from jQuery (or more precise from zepto.js) to umbrellaJS I discoverd some differences I want to share with you. nevertheless it was easy and its helpfull to the excellent [umbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
+while porting my enstlyer script from jQuery (more precise from zepto.js) to umbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy to port and its always helpfull to have the excellent [umbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
 
 **Why does `.replaceWith()` not exist in umbrella?**
 
