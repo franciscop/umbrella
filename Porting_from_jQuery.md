@@ -3,7 +3,7 @@
 "*Why should I port from jQuery to umbrellaJS?*"
 Simply because [you might not need jQuery](http://youmightnotneedjquery.com/) to do all these fancy things.
 
-But if you like the easy and readable syntax, **but** don't like how fat and slow jQuery is, you have two choices (IMHO):
+But if you like the easy and readable syntax, **but** don't like how fat and slow jQuery is, you hould
 
 - use **zepto.js** as [drop in replacement](http://zeptojs.com/)
 - port to **umbrellaJS**
@@ -50,6 +50,41 @@ u.prototype.replaceWith = function(replace){
   return this.replace(replace);
 };
 ```
+
+**Why does `.css()` not exist in umbrella?**
+
+I general I avoid using `.css()` to set CSS properties because it's better and faster handled by CSS rules, but a valid use case for `.css()` is to read the effective CSS properties of an element. 
+
+How ca I do this with umbrella? my solutionis the `getStyle()` function:
+```
+// alternative for jquery .css() get method
+function getStyle(oElm, css3Prop){
+    // FF, Chrome etc.
+    if(window.getComputedStyle){
+        try { return getComputedStyle(oElm).getPropertyValue(css3Prop); }
+        catch (e) {}
+    } else {
+        // IE
+        if (oElm.currentStyle){
+            try { return oElm.currentStyle[css3Prop]; }
+            catch (e) {}
+        }
+    }
+    return "";
+}
+```
+``` 
+//usage examples
+// umbrella
+getStyle(u('.myClass').nodes[n], "border-radius");
+
+// native DOM
+getStyle(getElementsByClassName('.myClass')[n], "border-radius");
+getStyle(getElementById('myID'), "border-radius");
+
+```
+see: https://www.htmlgoodies.com/html5/css/referencing-css3-properties-using-javascript.html#fbid=b2-TgWC-yGY
+
 
 **`u(this)` works different like in jquery**
 
