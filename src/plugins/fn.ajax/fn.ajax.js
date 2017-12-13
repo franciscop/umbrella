@@ -14,11 +14,6 @@ function ajax (action, opt, done, before) {
 
   if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
-
-    // If it's a GET request, the serialized body should turn into query params
-    if (opt.method === 'GET') {
-      action = action + (action.includes('?') ? '&' : '?') + opt.body;
-    }
   }
 
   // If it's of type JSON, encode it as such
