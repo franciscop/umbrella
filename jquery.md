@@ -3,7 +3,7 @@
 Umbrella offers some advantages over jQuery:
 
 - Speed: using native methods makes it faster.
-- Size: umbrella.js is 3kb in total.
+- Size: umbrellaJS is 3kb in total.
 - Clean: making new plugins and reading the code base is easy.
 
 But it has some tradeoffs, mainly the lack of support for IE10- and SVG on IE11.
@@ -36,9 +36,9 @@ Even if your script work, there are some pitfalls where jQuery works when you ar
 
 ### First steps
 
-UmbrellaJS can be used in parallel with jQuery, so you can start porting to umbrellaJs step by step. simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/umbrellajs` in your script, if you are writing a userscript.
+UmbrellaJS can be used in parallel with jQuery, so you can start porting to UmbrellaJs step by step. simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/umbrellajs` in your script, if you are writing a userscript.
 
-Now start with changing a simple function or statement from jQuery to umbrella by replacing `$(...)` with `u(...)`, it so simple!
+Now start with changing a simple function or statement from jQuery to UmbrellaJS by replacing `$(...)` with `u(...)`, it so simple!
 
 
 ## Porting tips
@@ -46,11 +46,11 @@ Now start with changing a simple function or statement from jQuery to umbrella b
 While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
 
 
-#### Why does `.replaceWith()` not exist in umbrella?
+#### Why does `.replaceWith()` not exist in UmbrellaJS?
 
-This should be very simple, use the umbrella `.replace()` method instead. It has nothing to do with the native javascript .replace() method for arrays though, so make sure not to mix them up.
+This should be very simple, use the UmbrellaJS `.replace()` method instead. It has nothing to do with the native javascript .replace() method for arrays though, so make sure not to mix them up.
 
-If you wants to stay with` .replaceWith` like in jquery and does not care about an extra function call, adding this to your script may help:
+If you wants to stay with` .replaceWith` like in jQuery and does not care about an extra function call, adding this to your script may help:
 
 ```
 u.prototype.replaceWith = function(replace){
@@ -59,12 +59,12 @@ u.prototype.replaceWith = function(replace){
 ```
 
 
-#### Why does `.css()` not exist in umbrella?
+#### Why does `.css()` not exist in UmbrellaJS?
 
 I general I avoid to set CSS properties with JavaScript, because it's better and faster handled by CSS rules. To do something similar as jQuery `.css()` get method with UmbrellaJS you can use this `getStyle()` function:
 
 ```js
-// alternative for jquery .css() get method
+// alternative for jQuery .css() get method
 function getStyle(oElm, css3Prop){
   // FF, Chrome etc.
   if(window.getComputedStyle){
@@ -95,11 +95,11 @@ see: https://www.htmlgoodies.com/html5/css/referencing-css3-properties-using-jav
 
 
 
-#### `u(this)` works different like in jquery
+#### `u(this)` works different like in jQuery
 
-Umbrella follows the native Javascript array structure, so it won't change the scope of the javascript `this` property in `each().` But its easy to fix it.
+UmbrellaJS follows the native Javascript array structure, so it won't change the scope of the javascript `this` property in `each().` But its easy to fix it.
 
-Your jquery `.each()` loops might look like this now:
+Your jQuery `.each()` loops might look like this now:
 
 ```js
 $('.myclass').each(function () {
@@ -119,7 +119,7 @@ u('.myclass').each(function (el) {
 });
 ```
 
-Umbrella provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://umbrellajs.com/documentation#each).
+UmbrellaJS provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://umbrellajs.com/documentation#each).
 
 As a bonus you get the node count as second argument, so you don't have count it yourself in case you need to know:
 
@@ -147,22 +147,22 @@ u('.myClass').each(el => alert(el.innerHTML));
 ```
 
 
-#### using umbrella `.first()/.last()/.eq()` give strange results or errors
+#### using UmbrellaJS `.first()/.last()/.eq()` give strange results or errors
 
-in jquery `.first()/.last()/.eq()` returns a jquery object, but umbrella returns a native DOM element. this has pro and con:
+in jQuery `.first()/.last()/.eq()` returns a jQuery object, but UmbrellaJS returns a native DOM element. this has pro and con:
 
 - pro: you can use faster native javascript DOM manipulation
-- con: you can't chain an other umbrella method like in jquery
+- con: you can't chain an other UmbrellaJS method like in jQuery
 - con: be careful to select the correct DOM property/method!
 
-**Wait,** there is no `.eq()` in umbrellaJS, but you can use `.nodes[n]` as a functional replacment.
+**Wait,** there is no `.eq()` in UmbrellaJS, but you can use `.nodes[n]` as a functional replacment.
 
-**power tip from umbrealla creator:** You can wrap the whole thing into another `u(...)` and use umbrella functions conveniently.
+**power tip from UmbrellaJS creator:** You can wrap the whole thing into another `u(...)` and use UmbrellaJS functions conveniently.
 
 **example:** how to get inner html of first element:
 
 ```js
-// jquery:
+// jQuery:
 $('.myclass').first().html();
 
 // umbrella: direct access to DOM property innerHTML
@@ -175,7 +175,7 @@ u( u('.myclass').first() ).html();
 **example:** how to add html before last element:
 
 ```js
-// jquery:
+// jQuery:
 $('.myclass').last().before('<div>this is inserted before</div>');
 
 // umbrella: direct use of .insertAdjacentHTML() method
@@ -205,7 +205,7 @@ myButton.value = 'Config ';
 u('.subNavMenu').nodes[n].after(enMenuButton);
 ```
 
-If you wants to have an umbrella `.eq()` method and don't care about an extra function call, adding this to your script may help:
+If you wants to have an UmbrellaJS `.eq()` method and don't care about an extra function call, adding this to your script may help:
 
 ```
 // get the nth of the nodes
@@ -214,14 +214,14 @@ u.prototype.eq = function (index) {
 }
 ```
 
-#### How to break out of umbrella `.each()` loop?
+#### How to break out of UmbrellaJS `.each()` loop?
 
 In jQuery you can `return false;` to stop the iteration of an `.each()` loop.
-this is diffrent in umbrella, the loop always processes all given elememnts!
+this is diffrent in UmbrellaJS, the loop always processes all given elememnts!
 
 Depending on your use case you can mimic jQuery logic in different ways.
 
-**Exmaple**: stop after 5'th iterration
+**Example**: stop after 5'th iterration
 
 ```js
 u('article').each(function (el,i) {
@@ -230,7 +230,7 @@ u('article').each(function (el,i) {
 })
 ```
 
-**Exmaple**: abort after something failed
+**Example**: abort after something failed
 
 ```js
 var abort=false;
@@ -240,12 +240,12 @@ u('article').each(function (el,i) {
 })
 ```
 
-#### You miss some jQuery methods in umbrellaJS?
+#### You miss some jQuery methods in UmbrellaJS?
 
 A good source of inspiraiton is [You Might Not Need jQuery](http://youmightnotneedjquery.com/).
 You cann also search on [stackoverflow](https://stackoverflow.com/search?q=jquery%20pure%20javascript) for jQuery alternatives in pure JavaScript
 
-You can apply most tips from there to single umbrella node like this:
+You can apply most tips from there to single UmbrellaJS node like this:
 
 ```js
 // jQuery
@@ -257,7 +257,7 @@ $(#hide).nodes[0].style.display = 'none';
 $(.myclass).nodes[n].style.display = 'none';
 ```
 
-if you have to apply to all elements returned by umbrella, you can use umbrealla's `.each()` to apply to every node
+if you have to apply to all elements returned by UmbrellaJS, you can use umbrella's `.each()` to apply to every node
 
 ```js
 // jQuery
