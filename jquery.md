@@ -149,7 +149,7 @@ u('.myClass').each(el => alert(el.innerHTML));
 
 #### using umbrella `.first()/.last()/.eq()` give strange results or errors
 
-in jquery `.first()/.last()/.eq()` returns a jquery object, but umbrella it returns a native DOM element. this has pro and con:
+in jquery `.first()/.last()/.eq()` returns a jquery object, but umbrella returns a native DOM element. this has pro and con:
 
 - pro: you can use faster native javascript DOM manipulation
 - con: you can't chain an other umbrella method like in jquery
@@ -158,7 +158,6 @@ in jquery `.first()/.last()/.eq()` returns a jquery object, but umbrella it retu
 **Wait,** there is no `.eq()` in umbrellaJS, but you can use `.nodes[n]` as a functional replacment.
 
 **power tip from umbrealla creator:** You can wrap the whole thing into another `u(...)` and use umbrella functions conveniently.
-
 
 **example:** how to get inner html of frist element:
 
@@ -172,7 +171,6 @@ u('.myclass').first().innerHTML;
 // umbrella: wrapping it in u(...) again
 u( u('.myclass').first() ).html();
 ```
-
 
 **example:** how to add html before last element:
 
@@ -193,7 +191,7 @@ $('.myclass').last().before('<div>this is inserted before</div>');
 
 See also documentation of  [.insertAdjacentHTML() ](https://developer.mozilla.org/docs/Web/API/Element/insertAdjacentHTML)
 
-**example:** add a DOM node before n'th element:
+**example:** add a DOM node after n'th element:
 
 ```js
 // create a native DOM node
@@ -204,10 +202,10 @@ myButton.onclick = showConfig;
 myButton.value = 'Config ';
 
 // append native DOM node befre n'th element
-u('.subNavMenu').nodes[n].before(enMenuButton);
+u('.subNavMenu').nodes[n].after(enMenuButton);
 ```
 
-If you wants to have an umbrella `.eq()` method by and does not care about an extra function call, adding this to your script may help:
+If you wants to have an umbrella `.eq()` method and don't care about an extra function call, adding this to your script may help:
 
 ```
 // get the nth of the nodes
@@ -232,7 +230,7 @@ u('article').each(function (el,i) {
 })
 ```
 
-**Exmaple**: stop after something failed
+**Exmaple**: abort after something failed
 
 ```js
 var abort=false;
