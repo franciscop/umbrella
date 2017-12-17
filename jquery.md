@@ -15,15 +15,16 @@ If you like the easy and readable syntax, **but** don't like how fat and slow jQ
 
 **UmbrellaJS** is small (3kb gzipped) and has a similar syntax as jQuery. it use native DOM elements instead of objects, this makes it fast. you can simply replace `$(...)` with `u(...)` in most cases.
 
+
 ## Before porting to UmbrellaJS
 
-zepto.js, umbreallyJS does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
+zepto.js and umbreallyJS does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
 
 before porting an existing script to a jQuery alternative I strongly recommend to check your jQuery code to be correct.
 
 **Check for usage of `$('.subclass', $('.myclass'))`**
 
-Even if `$('.subclass', $('.myclass'))` and `$('.myclass').find('.subclass')` are equivalent, you should use the latter. it's more readable and easier to port.
+Even `$('.subclass', $('.myclass'))` and `$('.myclass').find('.subclass')` are equivalent, you should use the latter. it's more readable and easier to port.
 
 **Check for correct `$(element)` selection**
 
@@ -31,7 +32,7 @@ Even if your script work, there are some pitfalls where jQuery works when you ar
 
 **example:** you need excatly one element by class
 
-`$('#myID')` always returns one element, more exactly the first matching element. all other selectors return ALL elements. if you want to select the first element of `$('.myclass')` you must use `$('.myclass').first()` or `$('.myclass').eq(0)`. avoid using of `$('.myclass')[0]`
+`$('#myID')` always returns one element, more exactly the first matching element. all other selectors return ALL elements. if you want to select ONE element of `$('.myclass')` you must use `$('.myclass').first()`, `$('.myclass').last()` or `$('.myclass').eq(n)`. You must not use of `$('.myclass')[0]`
 
 ### First steps
 
@@ -40,16 +41,16 @@ UmbrellaJS can be used in parallel with jQuery, so you can start porting to umbr
 Now start with changing a simple function or statement from jQuery to umbrella by replacing `$(...)` with `u(...)`, it so simple!
 
 
-
 ## Porting tips
 
-while porting my [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
+While porting my [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
 
-**Why does `.replaceWith()` not exist in umbrella?**
+
+#### Why does `.replaceWith()` not exist in umbrella?
 
 This should be very simple, use the umbrella `.replace()` method instead. It has nothing to do with the native javascript .replace() method for arrays though, so make sure not to mix them up.
 
-If someone wants to stay with` .replaceWith` like in jquery and does not care about an extra function call, adding this to your script may help:
+If you wants to stay with` .replaceWith` like in jquery and does not care about an extra function call, adding this to your script may help:
 
 ```
 u.prototype.replaceWith = function(replace){
@@ -58,9 +59,9 @@ u.prototype.replaceWith = function(replace){
 ```
 
 
-**Why does `.css()` not exist in umbrella?**
+#### Why does `.css()` not exist in umbrella?
 
-I general I avoid using `.css()` to set CSS properties because it's better and faster handled by CSS rules. To do something similar with UmbrellaJS use this `getStyle()` function:
+I general I avoid using `.css()` to set CSS properties because it's better and faster handled by CSS rules. To do something similar as jQuery `.css()` get method with UmbrellaJS you can use this `getStyle()` function:
 
 ```js
 // alternative for jquery .css() get method
@@ -82,10 +83,10 @@ function getStyle(oElm, css3Prop){
 
 ```js
 // usage examples
-// umbrella
+// umbrella: use use one node
 getStyle(u('.myClass').nodes[n], "border-radius");
 
-// native DOM
+// use one native DOM node
 getStyle(getElementsByClassName('myClass')[n], "border-radius");
 getStyle(getElementById('myID'), "border-radius");
 ```
@@ -94,21 +95,21 @@ see: https://www.htmlgoodies.com/html5/css/referencing-css3-properties-using-jav
 
 
 
-**`u(this)` works different like in jquery**
+#### `u(this)` works different like in jquery
 
 Umbrella follows the native Javascript array structure, so it won't change the scope of the javascript `this` property in `each().` But its easy to fix it.
 
 Your jquery `.each()` loops might look like this now:
 
 ```js
-$('.myremove').each(function () {
+$('.myclass').each(function () {
     ...
     $(this).dosomething();
     ...
 });
 ```
 
-Then change them to something like this:
+you should change them to look like this:
 
 ```js
 u('.myclass').each(function (el) {
@@ -146,15 +147,20 @@ u('.myClass').each(el => alert(el.innerHTML));
 ```
 
 
-**umbrella `.first()` returns native DOM element**
+#### using umbrella `.first()/.last()/.eq()` give strange results or errors
 
-in jquery `.first()` returns a jquery object, but umbrella it returns a native DOM object. this has pro and con:
+in jquery `.first()/.last()/.eq()` returns a jquery object, but umbrella it returns a native DOM element. this has pro and con:
 
 - pro: you can use faster native javascript DOM manipulation
 - con: you can't chain an other umbrella method like in jquery
 - con: be careful to select the correct DOM property/method!
 
-**example:** how to get inner html:
+**Wait,** there is no `.eq()` in umbrellaJS, but you can use `.nodes[n]` as a functional replacment.
+
+**power tip from umbrealla creator:** You can wrap the whole thing into another `u(...)` and use umbrella functions conveniently.
+
+
+**example:** how to get inner html of frist element:
 
 ```js
 // jquery:
@@ -163,50 +169,75 @@ $('.myclass').first().html();
 // umbrella: direct access to DOM property innerHTML
 u('.myclass').first().innerHTML;
 
-// umbrella: wrapping it again
-u(u('.myclass').first()).html();
+// umbrella: wrapping it in u(...) again
+u( u('.myclass').first() ).html();
 ```
 
-**power tip from umbrealla creator:** For the .first() example you can just wrap the whole thing into another u() and use .before() conveniently.
 
-**example:** how to add html before element:
+**example:** how to add html before last element:
 
 ```js
 // jquery:
-$('.myclass').first().before('<div>this is inserted before</div>');
+$('.myclass').last().before('<div>this is inserted before</div>');
 
-// umbrella: use of .insertAdjacentHTML() method, DOM method  .before() requires DOM node!
-u(u('.myclass').first()).before('<div>this is inserted before</div>');
-u('.myclass').first().insertAdjacentHTML('beforebegin', '<div>this is inserted before</div>');
+// umbrella: direct use of .insertAdjacentHTML() method
+u('.myclass').last().insertAdjacentHTML('beforebegin', '<div>this is inserted before</div>');
 
-// wrong: works not as you may expect!
+// umbrella wrapping it in u(...) again
+u( u('.myclass').last() ).before('<div>this is inserted before</div>');
+
+// wrong: do not mix it up with DOM method .before()!
 // insert TEXT => "&lt;div&gt,this is inserted before&lt;/div&gt,"
-$('.myclass').first().before('<div>this is inserted before</div>');
+$('.myclass').last().before('<div>this is inserted before</div>');
 ```
 
-For more information see  [.insertAdjacentHTML() ](https://developer.mozilla.org/docs/Web/API/Element/insertAdjacentHTML)
+See also documentation of  [.insertAdjacentHTML() ](https://developer.mozilla.org/docs/Web/API/Element/insertAdjacentHTML)
 
-**example:** how to add DOM before element:
+**example:** add a DOM node before n'th element:
 
 ```js
-// correct use of .first().before(): create native DOM element
-var enMenuButton = document.createElement('input');
-enMenuButton.type = 'button';
-enMenuButton.setAttribute(enID, 'myID');
-enMenuButton.onclick = showmyConfig;
-enMenuButton.value = 'Config ';
-// append native DOM
-u('.subNavMenu').first().before(enMenuButton);
+// create a native DOM node
+var myBbutton = document.createElement('input');
+myButton.type = 'button';
+myButton.setAttribute(enID, 'myID');
+myButton.onclick = showConfig;
+myButton.value = 'Config ';
+
+// append native DOM node befre n'th element
+u('.subNavMenu').nodes[n].before(enMenuButton);
 ```
 
-**`return false`; does not stop iterations in umbrella `.each()` loop**
+If you wants to have an umbrella `.eq()` method by and does not care about an extra function call, adding this to your script may help:
 
-In jquery you can `return false;` to stop the iteration of an `.each()` loop
-this seems to work different in umbrella, the remaining iterations are done instead of skipped
+```
+// get the nth of the nodes
+u.prototype.eq = function (index) {
+  return this.nodes[index||0] || false;
+}
+```
+
+#### How to break out of umbrella `.each()` loop?
+
+In jquery you can `return false;` to stop the iteration of an `.each()` loop.
+this is diffrent in umbrella, the loop always process all given elememnts!
+
+Depending on your use case you can mimic jQuery logic in different ways.
+
+**Exmaple**: stop after 5'th iterration
 
 ```js
-u('article').each(function (that,i) {
-  dosometing(that);
-  if (i==5) return false;
+u('article').each(function (el,i) {
+  if (i>5) return;
+  dosometing(el);
+})
+```
+
+**Exmaple**: stop after something failed
+
+```js
+var abort=false;
+u('article').each(function (el,i) {
+  if(abort) return;
+  if (! dosometing_ok(el)) abort=true; ;
 })
 ```
