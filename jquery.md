@@ -43,7 +43,7 @@ Now start with changing a simple function or statement from jQuery to umbrella b
 
 ## Porting tips
 
-While porting my [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
+While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
 
 
 #### Why does `.replaceWith()` not exist in umbrella?
@@ -61,7 +61,7 @@ u.prototype.replaceWith = function(replace){
 
 #### Why does `.css()` not exist in umbrella?
 
-I general I avoid using `.css()` to set CSS properties because it's better and faster handled by CSS rules. To do something similar as jQuery `.css()` get method with UmbrellaJS you can use this `getStyle()` function:
+I general I avoid to set CSS properties with JavaScript, because it's better and faster handled by CSS rules. To do something similar as jQuery `.css()` get method with UmbrellaJS you can use this `getStyle()` function:
 
 ```js
 // alternative for jquery .css() get method
@@ -119,7 +119,7 @@ u('.myclass').each(function (el) {
 });
 ```
 
-UmbrellaJS provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://umbrellajs.com/documentation#each).
+Umbrella provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://umbrellajs.com/documentation#each).
 
 As a bonus you get the node count as second argument, so you don't have count it yourself in case you need to know:
 
@@ -159,7 +159,7 @@ in jquery `.first()/.last()/.eq()` returns a jquery object, but umbrella returns
 
 **power tip from umbrealla creator:** You can wrap the whole thing into another `u(...)` and use umbrella functions conveniently.
 
-**example:** how to get inner html of frist element:
+**example:** how to get inner html of first element:
 
 ```js
 // jquery:
@@ -216,8 +216,8 @@ u.prototype.eq = function (index) {
 
 #### How to break out of umbrella `.each()` loop?
 
-In jquery you can `return false;` to stop the iteration of an `.each()` loop.
-this is diffrent in umbrella, the loop always process all given elememnts!
+In jQuery you can `return false;` to stop the iteration of an `.each()` loop.
+this is diffrent in umbrella, the loop always processes all given elememnts!
 
 Depending on your use case you can mimic jQuery logic in different ways.
 
@@ -257,7 +257,7 @@ $(#hide).nodes[0].style.display = 'none';
 $(.myclass).nodes[n].style.display = 'none';
 ```
 
-if you want to apply to all elements returned by umbrella you can use umbrealla `.each()` to apply to every node
+if you have to apply to all elements returned by umbrella, you can use umbrealla's `.each()` to apply to every node
 
 ```js
 // jQuery
