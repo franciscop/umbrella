@@ -239,3 +239,32 @@ u('article').each(function (el,i) {
   if (! dosometing_ok(el)) abort=true; ;
 })
 ```
+
+#### You miss some jQuery methods in umbrellaJS?
+
+A good source of inspiraiton is [You Might Not Need jQuery](http://youmightnotneedjquery.com/).
+You cann also search on [stackoverflow](https://stackoverflow.com/search?q=jquery%20pure%20javascript) for jQuery alternatives in pure JavaScript
+
+You can apply most tips from there to single umbrella node like this:
+
+```js
+// jQuery
+$(#hide).hide();
+$(.myclass).hide();
+
+// umbrella: apply "you don't nned jQuery" tips to umbrella nodes[n]
+$(#hide).nodes[0].style.display = 'none';
+$(.myclass).nodes[n].style.display = 'none';
+```
+
+if you want to apply to all elements returned by umbrella you can use umbrealla `.each()` to apply to every node
+
+```js
+// jQuery
+$(.myclass).empty();
+
+// umbrella: apply "you don't nned jQuery" tips to all umbrella nodes
+$(.myclass).each(el) {
+    el.innerHTML = '';
+}
+```
