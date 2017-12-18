@@ -1,6 +1,6 @@
 # Porting from jQuery
 
-Umbrella offers some advantages over jQuery:
+UmbrellaJS offers some advantages over jQuery:
 
 - Speed: using native methods makes it faster.
 - Size: UmbrellaJS is 3kb in total.
@@ -95,9 +95,9 @@ see: https://www.htmlgoodies.com/html5/css/referencing-css3-properties-using-jav
 
 
 
-#### `u(this)` works different like in jQuery
+#### `u(this)` works not like in jQuery
 
-UmbrellaJS follows the native Javascript array structure, so it won't change the scope of the javascript `this` property in `each().` But its easy to fix it.
+UmbrellaJS follows the native Javascript array structure, so it won't change the scope of the javascript `this` property in `.each()` But it's easy to fix it.
 
 Your jQuery `.each()` loops might look like this now:
 
@@ -117,6 +117,8 @@ u('.myclass').each(function (el) {
     ...
 });
 ```
+
+**Note:** Search for occurences of `u(this)` while/after porting, in almost all cases it's not correct!
 
 UmbrellaJS provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://umbrellajs.com/documentation#each).
 
@@ -220,7 +222,7 @@ this is diffrent in UmbrellaJS, the loop always processes all given elememnts!
 
 Depending on your use case you can mimic the jQuery logic in different ways:
 
-**Example**: stop after 5'th iterration
+**example**: stop after 5'th iterration
 
 ```js
 u('article').each(function (el,i) {
@@ -229,7 +231,7 @@ u('article').each(function (el,i) {
 })
 ```
 
-**Example**: abort after something failed
+**example**: abort after something failed
 
 ```js
 var abort=false;
@@ -251,7 +253,7 @@ You can apply most tips from there to single UmbrellaJS node directly:
 $(#hide).hide();
 $(.myclass).hide();
 
-// umbrella: apply "you don't nned jQuery" tips to umbrella nodes[n]
+// umbrella: apply "You Might Not Need jQuery" tips to one umbrella nodes[n]
 $(#hide).nodes[0].style.display = 'none';
 $(.myclass).nodes[n].style.display = 'none';
 ```
@@ -262,7 +264,7 @@ If you have to apply to all nodes returned from UmbrellaJS, you can use an `.eac
 // jQuery
 $(.myclass).empty();
 
-// umbrella: apply "you don't nned jQuery" tips to all umbrella nodes
+// umbrella: apply "You Might Not Need jQuery" tips to all umbrella nodes
 $(.myclass).each(el) {
     el.innerHTML = '';
 }
