@@ -1,6 +1,6 @@
 # Umbrella JS [![Circle CI](https://circleci.com/gh/franciscop/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/franciscop/umbrella/tree/master) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/Flet/semistandard) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/franciscop/umbrella/blob/master/LICENSE)
 
-> [**Library Documentation**](http://umbrellajs.com/documentation) [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
+> [**Library Documentation**](http://umbrellajs.com/documentation) | [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
 
 Covers your javascript needs for those rainy days. A <3kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/), then what do you need?
 
