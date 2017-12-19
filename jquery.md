@@ -34,6 +34,13 @@ Even if your script work, there are some pitfalls where jQuery works when you ar
 
 `$('#myID')` always returns one element, more exactly the first matching element. all other selectors return ALL elements. if you want to select ONE element of `$('.myclass')` you must use `$('.myclass').first()`, `$('.myclass').last()` or `$('.myclass').eq(n)`. You must not use of `$('.myclass')[0]`
 
+**Avoid the usage of `:not()` in selectors**
+
+Instead of `$('.myclass:not(div, a)')` I strongly suggest to use `$('.myclass').not('div, a')` instead.  it's more readable, faster and works with all CSS standard selectors.
+
+jQuery **extends the `:not()` selector** such that you can pass any selector to it, no matter how complex it may be. the `:not()` pseudo-class in CSS only accepts a _single simple selector_ as an argument to `:not()`.
+for more Information [see explanation on Stackoverflow](https://stackoverflow.com/questions/10711730/why-is-my-jquery-not-selector-not-working-in-css#answer-10711731)
+
 ### First steps
 
 UmbrellaJS can be used in parallel with jQuery, so you can start porting to UmbrellaJs step by step. simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/umbrellajs` in your script, if you are writing a userscript.
