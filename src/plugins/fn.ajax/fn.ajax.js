@@ -5,12 +5,15 @@ function ajax (action, opt, done, before) {
 
   // A bunch of options and defaults
   opt = opt || {};
+  var bodyProvided = !!opt.body;
   opt.body = opt.body || {};
   opt.method = (opt.method || 'GET').toUpperCase();
   opt.headers = opt.headers || {};
 
   // Tell the back-end it's an AJAX request
-  opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
+  if (bodyProvided) {
+    opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
+  }
 
   if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
     opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
