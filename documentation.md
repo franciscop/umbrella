@@ -1897,6 +1897,8 @@ Converts a form into a string to be sent:
 
 > Note: multiple-select are not supported in Internet Explorer, [similarly to jQuery](https://github.com/jquery/jquery-mobile/issues/3947)
 
+> Note: file inputs are not supported. Instead, use [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData), e.g. - `new FormData(u('form').first())`
+
 ## .siblings()
 
 Get the siblings of all of the nodes with an optional filter
