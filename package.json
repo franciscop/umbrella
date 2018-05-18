@@ -1,6 +1,6 @@
 {
   "name": "umbrellajs",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "homepage": "http://umbrellajs.com/",
   "authors": [
     "Francisco Presencia <public@francisco.io>"
@@ -22,6 +22,7 @@
     "url": "https://github.com/franciscop/umbrella/issues"
   },
   "scripts": {
+    "build": "grunt build",
     "start": "node app.js",
     "test": "grunt test",
     "installphantom": "npm run phantomlib && npm run phantominst && npm run phantommove",

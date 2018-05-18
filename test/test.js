@@ -544,7 +544,9 @@ describe(".append(html)", function() {
     });
 
     it("can append a table row", function() {
-      u('table.tbl').append('<tr><td>Hi</td></tr>');
+      var table = u('table.tbl').append('<tr><td>Hi</td></tr>');
+      var result = '<table class="tbl"><tr><td>Hi</td></tr></table>';
+      expect(table.nodes[0].outerHTML).to.equal(result);
     });
 
     it("can add just text", function() {

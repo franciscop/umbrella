@@ -40,18 +40,21 @@ Instead of installing it, you can just play with it in JSFiddle:
 
 ### Use a CDN
 
-JSDelivr is an awesome service that hosts many open source projects so you don't need to even download the code:
+unpkg.com is an awesome service that hosts many open source projects so you don't need to even download the code:
 
-[**JSDelivr CDN**](http://www.jsdelivr.com/projects/umbrella)
+```js
+<script src="https://unpkg.com/umbrellajs"></script>
+```
 
 
-### Use bower
+### Install with `npm`
 
-Bower is a front-end package manager that makes it super-easy to add a new package:
+Using npm is a front-end package manager that makes it super-easy to add a new package:
 
 ```
-bower install umbrella
+npm install umbrellajs
 ```
+
 
 ### Module support
 
