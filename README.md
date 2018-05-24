@@ -6,8 +6,8 @@ Covers your javascript needs for those rainy days. A <3kb performant jquery-like
 
 You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a lightweight, modern and performant javascript library. This does:
 
-- DOM tranversal (selector, filter, find, each, etc)
-- DOM editing (classes & attributes, html, before, etc)
+- DOM traversal (selector, filter, find, each, etc.)
+- DOM editing (classes & attributes, html, before, etc.)
 - Event handling
 - Ajax
 
