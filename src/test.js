@@ -150,14 +150,20 @@ describe("u()", function() {
 
   it("can generate a <tr>", function() {
     expect(u('<tr>').nodes[0].tagName).to.equal('TR');
+    expect(u('<tr >').nodes[0].tagName).to.equal('TR');
+    expect(u('<tr class="hello">').nodes[0].tagName).to.equal('TR');
   });
 
   it("can generate a <td>", function() {
     expect(u('<td>').nodes[0].tagName).to.equal('TD');
+    expect(u('<td >').nodes[0].tagName).to.equal('TD');
+    expect(u('<td class="hello">').nodes[0].tagName).to.equal('TD');
   });
 
   it("can generate a <th>", function() {
     expect(u('<th>').nodes[0].tagName).to.equal('TH');
+    expect(u('<th >').nodes[0].tagName).to.equal('TH');
+    expect(u('<th class="hello">').nodes[0].tagName).to.equal('TH');
   });
 
 
