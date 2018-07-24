@@ -148,6 +148,18 @@ describe("u()", function() {
     expect(u('a').nodes.length).to.equal(u('a').length);
   });
 
+  it("can generate a <tr>", function() {
+    expect(u('<tr>').nodes[0].tagName).to.equal('TR');
+  });
+
+  it("can generate a <td>", function() {
+    expect(u('<td>').nodes[0].tagName).to.equal('TD');
+  });
+
+  it("can generate a <th>", function() {
+    expect(u('<th>').nodes[0].tagName).to.equal('TH');
+  });
+
 
 
 
