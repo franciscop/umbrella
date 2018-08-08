@@ -116,6 +116,10 @@ section.row .love {
   font-weight: bold;
 }
 
+nav {
+  padding: 0 calc(50% - 480px);
+}
+
 nav.transparent {
   background: transparent;
   box-shadow: none;
