@@ -42,19 +42,6 @@ var list = u(&#39;&lt;ul&gt;&#39;).append(fruit =&gt; `&lt;li&gt;${ fruit }&lt;/
 
 u(&#39;body&#39;).append(list);
 </code></pre>
-<p>It plays well with other libraries, including jquery. For example, with <a href="http://github.com/franciscop/pagex">pagex.js</a>:</p>
-<pre><code class="lang-js">// When we are on the page &quot;/login&quot;
-page(/^login/, function(){
-
-  function done(err, res){
-    if (err) return alert(&quot;There was an error&quot;);
-    window.location.href = &quot;/user/&quot; + res.id;
-  };
-
-  // Find the form and handle it through ajax when it&#39;s submitted
-  u(&quot;form.login&quot;).ajax(done);
-});
-</code></pre>
 <h3 id="native-methods">Native methods</h3>
 <blockquote>
 <p>This section is inspired by <a href="http://blissfuljs.com/docs.html#vanilla">Bliss.js&#39; vanilla methods</a></p>
@@ -195,57 +182,6 @@ u(&quot;a.main&quot;).after(function(){
 <p><a href="#before">.before()</a> Add some html before each of the matched elements.</p>
 <p><a href="#append">.append()</a> Add some html as a child at the end of each of the matched elements</p>
 <p><a href="#prepend">.prepend()</a> Add some html as a child at the beginning of each of the matched elements.</p>
-<h2 id="-ajax-">.ajax()</h2>
-<p>Make all of the matched forms to be submitted by ajax with the same action, method and values when the user submits the form.</p>
-<blockquote>
-<p>Note: this method does NOT submit the form, it just handles it when it&#39;s submitted (from the user or with .trigger())</p>
-</blockquote>
-<pre><code class="lang-js">.ajax(done, before);
-</code></pre>
-<h3 id="parameters">Parameters</h3>
-<p><code>done</code> [optional]: A function to be called when the request ends. The first argument is the error, if any. The second is the body, which is parsed to JSON if it&#39;s a JSON string or just the body as a string if it&#39;s not JSON. The third is the request object itself.</p>
-<pre><code class="lang-js">var done = function(err, body, xhr){};
-</code></pre>
-<p><code>before</code> [optional]: A function to be called before the request is sent. Useful to manipulate some data in real-time.</p>
-<pre><code class="lang-js">var before = function(xhr){};
-</code></pre>
-<h3 id="return">Return</h3>
-<p><strong>Undefined</strong>. Please don&#39;t use the returned value for anything (it might be a promise in the future).</p>
-<h3 id="examples">Examples</h3>
-<p>Handle the newsletter through ajax</p>
-<pre><code class="lang-js">u(&#39;.newsletter&#39;).ajax(function(err){
-  if (err) return alert(&quot;Error&quot;);
-  alert(&quot;Thank you for subscribing, awesome!&quot;);
-});
-</code></pre>
-<p>Actually send a form through ajax:</p>
-<pre><code class="lang-js">u(&#39;form.edit&#39;).ajax(function(){ console.log(&#39;Sent!&#39;); }).trigger(&#39;submit&#39;);
-</code></pre>
-<h3 id="why-not-jquery-">Why not jquery?</h3>
-<p>This was created because this pattern is quite common in jquery:</p>
-<pre><code class="lang-js">$(&#39;form&#39;).on(&#39;submit&#39;, function(e){
-  e.preventDefault();
-  $.post($(this).attr(&#39;action&#39;), $(this).serialize(), function(data){
-    alert(&quot;Done! Thanks, &quot; + data.name);
-  }, &#39;json&#39;);
-});
-</code></pre>
-<p>After repeating that many times, I found out that it&#39;s better if we just make that the default. The same code on Umbrella JS:</p>
-<pre><code class="lang-js">u(&#39;form&#39;).ajax(function(err, data){
-  if (!err) alert(&#39;Done! Thanks, &#39; + data.name);
-});
-</code></pre>
-<p>Of course you have freedom and you can use a similar method to jquery, but I think it&#39;s a bit pointless for this specific situation:</p>
-<pre><code class="lang-js">u(&#39;form&#39;).on(&#39;submit&#39;, function(e){
-  e.preventDefault();
-  var options = { method: u(this).attr(&#39;method&#39;), body: u(this).serialize() };
-  ajax(u(this).attr(&#39;action&#39;), options, function(err, data){
-    if (!err) alert(&quot;Done! Thanks, &quot; + data.name);
-  });
-});
-</code></pre>
-<h3 id="related">Related</h3>
-<p><a href="#ajaxfn">ajax()</a>: perform ajax requests</p>
 <h2 id="-append-">.append()</h2>
 <p>Add some html as a child at the end of each of the matched elements</p>
 <pre><code class="lang-js">.append(html)
@@ -654,33 +590,6 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 </code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#last">.last()</a> retrieve the last matched element</p>
-<h2 id="ajax-fn">ajax() fn</h2>
-<p>Function (not method) that allows performing ajax requests. The implementation is somewhat similar to <a href="https://github.com/yanatan16/nanoajax">nanoajax</a>:</p>
-<pre><code class="lang-js">var action = &#39;/save&#39;;
-var options = { body: &#39;a=b&#39; };
-var after = function(err, data){ console.log(data); };
-var before = function(xhr){};
-
-ajax(action, options, after, before);
-</code></pre>
-<h3 id="parameters">Parameters</h3>
-<p><code>action</code>: the place where to send the ajax request</p>
-<p><code>options</code>: an object that sets the options to be passed. These are:</p>
-<ul>
-<li><code>method = &#39;GET&#39;</code>: the way to send the request. It can be GET or POST</li>
-<li><code>body = &#39;&#39;</code>: a string on the <code>a=b&amp;c=d</code> format or a simple object that will be converted</li>
-<li><code>headers = {}</code>: an object with <code>{ key: value }</code> headers to be manually set</li>
-</ul>
-<p><code>after</code>: the callback to be called when the request has been sent and parsed. The first parameter is an error that can be null, and the second one the parsed data in JSON or the unparsed data as an string.</p>
-<p><code>before</code>: a callback that can be called just before sending the request. It receives the XHR object as the first parameter.</p>
-<h3 id="return">Return</h3>
-<p>Returns the already sent XHR object.</p>
-<h3 id="tips">Tips</h3>
-<p>You can modify the XHR object straight by using the <em>before</em> callback. It is called just before sending the request, after setting all its parameters:</p>
-<pre><code class="lang-js">ajax(&#39;/save&#39;, {}, after, function(xhr){
-  xhr.responseType = &#39;json&#39;;
-});
-</code></pre>
 <h2 id="-handle-">.handle()</h2>
 <p>This function is the same as <a href="#on"><code>on()</code></a>, but it executes the <code>e.preventDefault()</code> so you don&#39;t need to do it. So these two are exactly the same:</p>
 <pre><code class="lang-js">u(&#39;form.login&#39;).on(&#39;submit&#39;, function(e){
@@ -783,12 +692,14 @@ should pass no parameter so it retrieves the html.</p>
 <p><em>boolean</em>: <em>true</em> if any of the nodes matches the selector or the function returns true, false otherwise.</p>
 <h3 id="examples">Examples</h3>
 <p>Check if the current form needs to be valdated</p>
-<pre><code class="lang-js">u(&#39;form.subscribe&#39;).ajax(false, function() {
+<pre><code class="lang-js">u(&#39;form.subscribe&#39;).on(&#39;submit&#39;, function(e) {
 
   // Same as u(&#39;form.subscribe&#39;).hasClass(&#39;validate&#39;)
-  if (u(&#39;form.subscribe&#39;).is(&#39;.validate&#39;)) {
+  if (u(e.target).is(&#39;.validate&#39;)) {
     validate();
   }
+
+  // ...
 });
 </code></pre>
 <h3 id="related">Related</h3>
@@ -936,14 +847,14 @@ u(&#39;button.test&#39;).on(&#39;click&#39;, function(e) {
   alert(&quot;Test&quot;);
 });
 
-// This example is very similar to .ajax() implementation
+// Submit a form through Ajax
 u(&#39;form.test&#39;).on(&#39;submit&#39;, function(e){
 
   // Avoid submitting the form normally
   e.preventDefault();
 
   // Submit the form through ajax
-  ajax(u(this).attr(&#39;action&#39;), u(this).serialize());
+  fetch(u(this).attr(&#39;action&#39;), { body: u(this).serialize(), ... });
 });
 
 // Better &#39;onchange&#39;:
@@ -1128,6 +1039,27 @@ u(&quot;a.main&quot;).prepend(function(){
 <blockquote>
 <p>Note: multiple-select are not supported in Internet Explorer, <a href="https://github.com/jquery/jquery-mobile/issues/3947">similarly to jQuery</a></p>
 </blockquote>
+<h3 id="example">Example</h3>
+<p>For this form:</p>
+<pre><code class="lang-html">&lt;form action=&quot;/contact&quot; method=&quot;POST&quot;&gt;
+  Email:
+  &lt;input type=&quot;email&quot; name=&quot;email&quot; value=&quot;test@example.com&quot; /&gt;
+  Message:
+  &lt;textarea type=&quot;email&quot; name=&quot;message&quot;&gt;Hello world&lt;/textarea&gt;
+
+  &lt;button&gt;Send&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>When the user clicks on the &quot;Send&quot; button, the following handler can be used to send the data through Ajax:</p>
+<pre><code class="lang-js">// .handle() == .on() + preventDefault()
+u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
+  const body = u(e.target).serialize();
+  console.log(body);  // email=test@example.com&amp;message=Hello+world
+  const res = await fetch(&#39;/contact&#39;, { method: &#39;POST&#39;, body });
+  const data = await res.json();
+  console.log(&#39;Response data:&#39;, data);
+});
+</code></pre>
 <h2 id="-siblings-">.siblings()</h2>
 <p>Get the siblings of all of the nodes with an optional filter</p>
 <pre><code class="lang-js">.siblings(selector);
@@ -1239,12 +1171,9 @@ should pass no parameter so it retrieves the text from the first matched element
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
 <p>An auto-save feature that submits the form through ajax every 10 seconds</p>
-<pre><code class="lang-js">// Make the form to submit through ajax
-u(&#39;form.edit&#39;).ajax();
-
-// Submit it every 10s
+<pre><code class="lang-js">// Submit it every 10s
 setInterval(function(){
-  u(&#39;form.edit&#39;).trigger(&#39;submit&#39;);
+  u(&#39;button.save&#39;).trigger(&#39;click&#39;);
 }, 10000);
 </code></pre>
 <h3 id="related">Related</h3>

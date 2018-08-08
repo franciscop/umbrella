@@ -30,12 +30,14 @@ Check whether any of the nodes matches the selector
 Check if the current form needs to be valdated
 
 ```js
-u('form.subscribe').ajax(false, function() {
-  
+u('form.subscribe').on('submit', function(e) {
+
   // Same as u('form.subscribe').hasClass('validate')
-  if (u('form.subscribe').is('.validate')) {
+  if (u(e.target).is('.validate')) {
     validate();
   }
+
+  // ...
 });
 ```
 

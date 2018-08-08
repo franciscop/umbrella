@@ -1,5 +1,47 @@
+# Upgrade to 3.x
+
+There are two removals:
+
+- The top level function `ajax()`
+- The method `.ajax()`, attached to forms
+
+See detailed explanation and justification in https://github.com/franciscop/umbrella/issues/124
+
+Besides that, some internal selectors based on Regex were removed since modern browsers implement this automatically.
+
+## Top level function ajax()
+
+The API was already very similar to the native `fetch()`, so migration should be trivial:
+
+```js
+// With Umbrella's ajax()
+ajax(URL, OPTIONS, AFTER, BEFORE);
+
+// With the native function
+BEFORE;
+fetch(URL, OPTIONS).then(AFTER)
+```
+
+Furthermore, Umbrella's `ajax()` options are a *subset* of `fetch()`'s options, so that doesn't need to change at all.
+
+Example:
+
+```js
+ajax('/users', { method: 'GET' }, function(err, data) {
+  u('.results').text(data);
+});
+
+fetch('/users', { method: 'GET' }).then(function(data) {
+  u('.results').text(data);
+});
+```
+
+If rewriting this is too much work, you can always define your own function `ajax()` that follows the old specification with its bugs and all:
+
+```js
+// Umbrella's old ajax() function:
+
 // Perform ajax calls
-/* eslint-disable no-unused-vars*/
 function ajax (action, opt, done, before) {
   done = done || function () {};
 
@@ -63,4 +105,19 @@ function ajax (action, opt, done, before) {
 
   return request;
 }
-/* eslint-enable no-unused-vars*/
+```
+
+If you didn't use `before` or the third parameter `request` you can just match it to the newer `fetch()`:
+
+```js
+function ajax(url, options, after) {
+  return fetch(url, options).then(function(data){
+    after(null, data);
+  }).catch(after);
+};
+```
+
+
+## Method .ajax()
+
+This method was a handler for submitting forms automatically with AJAX.

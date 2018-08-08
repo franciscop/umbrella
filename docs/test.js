@@ -169,115 +169,115 @@ describe("u()", function() {
 
 
 
-  describe("performance tests", function(){
-
-    function performance(callback, times){
-      var init = new Date().getTime();
-      for (var i = 0; i < times; i++) {
-        callback(i);
-      }
-      return new Date().getTime() - init;
-    }
-
-    // Generate a big and varied 100 element table
-    before(function(){
-      performance(function(i){
-        u('.performance').append('<tr class="ro"><td id="idn' + i + '"></td><td class="tabletest"></td><td></td><td></td></tr>');
-      }, 1000);
-    });
-
-    after(function(){
-      u('.performance').remove();
-    });
-
-
-
-    it("simple select by class 10.000/second", function() {
-
-      uTime = performance(function(){
-        u('.demo');
-      }, 1000);
-
-      console.log('      - u: ' + uTime + 'ms');
-      expect(uTime).to.be.below(100, uTime + ' ms');
-    });
-
-
-
-    it("select by class is comparable to jquery (50% margin)", function() {
-
-      size('.demo', 1);
-
-      var uTime = performance(function(){
-        u('.demo');
-      }, 5000);
-
-      var $Time = performance(function(){
-        $('.demo');
-      }, 5000);
-
-      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
-
-      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-    });
-
-
-
-    it("vs jquery: class selector (50% margin)", function() {
-
-      size('.tabletest', 1000);
-
-      var uTime = performance(function(){
-        u('.tabletest');
-      }, 100);
-
-      var $Time = performance(function(){
-        $('.tabletest');
-      }, 100);
-
-      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
-
-      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-    });
-
-
-
-    it("vs jquery: complex selector (50% margin)", function() {
-
-      size('table td:first-child', 1000);
-
-      var uTime = performance(function(){
-        u('table td:first-child');
-      }, 50);
-
-      var $Time = performance(function(){
-        $('table td:first-child');
-      }, 50);
-
-      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
-
-      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-    });
-
-
-
-    it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
-
-      size(".ro > *", 4000);
-
-      var uTime = performance(function(){
-        u(".ro > *");
-      }, 50);
-
-      var $Time = performance(function(){
-        $(".ro > *");
-      }, 50);
-
-      console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
-
-      expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
-    });
-  });
+  // describe("performance tests", function(){
+  //
+  //   function performance(callback, times){
+  //     var init = new Date().getTime();
+  //     for (var i = 0; i < times; i++) {
+  //       callback(i);
+  //     }
+  //     return new Date().getTime() - init;
+  //   }
+  //
+  //   // Generate a big and varied 100 element table
+  //   before(function(){
+  //     performance(function(i){
+  //       u('.performance').append('<tr class="ro"><td id="idn' + i + '"></td><td class="tabletest"></td><td></td><td></td></tr>');
+  //     }, 1000);
+  //   });
+  //
+  //   after(function(){
+  //     u('.performance').remove();
+  //   });
+  //
+  //
+  //
+  //   it("simple select by class 10.000/second", function() {
+  //
+  //     uTime = performance(function(){
+  //       u('.demo');
+  //     }, 1000);
+  //
+  //     console.log('      - u: ' + uTime + 'ms');
+  //     expect(uTime).to.be.below(100, uTime + ' ms');
+  //   });
+  //
+  //
+  //
+  //   it("select by class is comparable to jquery (50% margin)", function() {
+  //
+  //     size('.demo', 1);
+  //
+  //     var uTime = performance(function(){
+  //       u('.demo');
+  //     }, 5000);
+  //
+  //     var $Time = performance(function(){
+  //       $('.demo');
+  //     }, 5000);
+  //
+  //     console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
+  //
+  //     expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+  //   });
+  //
+  //
+  //
+  //   it("vs jquery: class selector (50% margin)", function() {
+  //
+  //     size('.tabletest', 1000);
+  //
+  //     var uTime = performance(function(){
+  //       u('.tabletest');
+  //     }, 100);
+  //
+  //     var $Time = performance(function(){
+  //       $('.tabletest');
+  //     }, 100);
+  //
+  //     console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
+  //
+  //     expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+  //   });
+  //
+  //
+  //
+  //   it("vs jquery: complex selector (50% margin)", function() {
+  //
+  //     size('table td:first-child', 1000);
+  //
+  //     var uTime = performance(function(){
+  //       u('table td:first-child');
+  //     }, 50);
+  //
+  //     var $Time = performance(function(){
+  //       $('table td:first-child');
+  //     }, 50);
+  //
+  //     console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
+  //
+  //     expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+  //   });
+  //
+  //
+  //
+  //   it("vs jquery: jquery optimized vs raw umbrella (50% margin)", function() {
+  //
+  //     size(".ro > *", 4000);
+  //
+  //     var uTime = performance(function(){
+  //       u(".ro > *");
+  //     }, 50);
+  //
+  //     var $Time = performance(function(){
+  //       $(".ro > *");
+  //     }, 50);
+  //
+  //     console.log('      - u: ' + uTime + 'ms $: ' + $Time + 'ms');
+  //
+  //     expect(uTime).to.be.below($Time * 1.5, uTime + ' ms');
+  //   });
+  // });
 });
 
 var listOfClasses = getListOfClasses();
@@ -447,41 +447,6 @@ describe(".after(html)", function() {
     expect(base.html().match('function')).to.equal(null);
     size('.base ~ .bla', 2)('.base ~ .bla.a', 1)('.base ~ .bla.b', 1);
     size('.base + .bla.a + .bla.b', 1);
-  });
-});
-
-// Testing the main file
-describe(".ajax(done, before)", function() {
-
-  it("should be defined", function() {
-    expect(typeof base.ajax).to.equal('function');
-  });
-
-  it("works even if empty", function() {
-
-    // This is needed to make sure that the previous one is cleared
-    setTimeout(function(){
-      u('form.login').ajax();
-
-      u('form.login').trigger('submit');
-      setTimeout(function(){ u('form.login').off('submit'); }, 100);
-    }, 110);
-  });
-
-  it("calls before", function(next) {
-
-    setTimeout(function(){
-      u('form.login').ajax(function(err, body, xhr){
-        same(this.nodeName, 'FORM');
-        same(!!xhr, true);
-        next();
-      });
-
-      u('form.login').trigger('submit');
-
-      // SetTimeout is needed not to interrupt te current event
-      setTimeout(function(){ u('form.login').off('submit'); }, 100);
-    }, 110);
   });
 });
 
@@ -1563,151 +1528,6 @@ describe(".first()", function() {
     expect(base.find("li").first().nodeName).to.equal('LI');
   });
 });
-// Testing the main file
-describe("Function ajax(done, before)", function() {
-
-  // Generate the url (allow for testing locally)
-  function url(frag){
-    frag = frag || '';
-    var url = window.location.href;
-    if (!/^http/.test(window.location.href)) {
-      url = 'http://localhost:3000';
-    }
-
-    if (/tests(\/)?$/.test(url)) {
-      url = url.replace(/tests(\/)?/, '');
-    }
-    return url.replace(/\/$/, '') + '/' + frag.replace(/^\//, '');
-  }
-
-  function ifActive(cb){
-    return function(done){
-      ajax(url('/active'), {}, function(error, data){
-        if (!error && data === 'active') {
-          cb(done);
-        } else {
-          u('.noserver').html("Note: there is no server running, so AJAX methods are not being tested");
-          console.log("- Server not active");
-          done();
-        }
-      });
-    }
-  };
-
-  it("should be a function", function() {
-    isFn(ajax);
-  });
-
-  it("can make a simple get", ifActive(function(done) {
-    ajax(url('/plain'), {}, function(error, data, xhr){
-      expect(error).to.equal(null);
-      expect(data).to.equal('GET');
-      expect(xhr instanceof XMLHttpRequest).to.equal(true, 'XMLHttpRequest');
-      done();
-    }, function(xhr){
-      expect(xhr instanceof XMLHttpRequest).to.equal(true, 'XMLHttpRequest');
-    });
-  }));
-
-  it("can make a simple get", ifActive(function(done) {
-    ajax(url('/plain'), {}, function(error, data, xhr){
-      expect(data).to.equal('GET');
-      expect(xhr instanceof XMLHttpRequest).to.equal(true, 'XMLHttpRequest');
-      done();
-    });
-  }));
-
-  it("can send GET but data is lost", ifActive(function(done) {
-    var body = { send: '123' };
-    var options = { method: 'GET', body: body };
-    ajax(url('/json'), options, function(error, data){
-      expect(data.method).to.equal('GET');
-      expect(data.body).to.deep.equal({});
-      done();
-    });
-  }));
-
-  it("can send POST with data", ifActive(function(done) {
-    var body = { send: '123' };
-    var options = { method: 'POST', body: body };
-    ajax(url('/json'), options, function(error, data){
-      expect(data.method).to.equal('POST');
-      expect(data.body).to.deep.equal(body);
-      done();
-    });
-  }));
-
-  it("can send PUT with data", ifActive(function(done) {
-    var body = { send: '123' };
-    var options = { method: 'PUT', body: body };
-    ajax(url('/json'), options, function(error, data){
-      expect(data.method).to.equal('PUT');
-      expect(data.body).to.deep.equal(body);
-      done();
-    });
-  }));
-
-  it("can send DELETE", ifActive(function(done) {
-    var options = { method: 'DELETE' };
-    ajax(url('/json'), options, function(error, data){
-      expect(data.method).to.equal('DELETE');
-      if (!window.mochaPhantomJS) {
-        expect(data.body).to.deep.equal({}, "Body should be ignored");
-      }
-      done();
-    });
-  }));
-});
-
-describe("fn ajax()", function() {
-  beforeEach(function() {
-    this.xhr = sinon.useFakeXMLHttpRequest();
-    this.requests = [];
-    this.xhr.onCreate = function(xhr) {
-      this.requests.push(xhr);
-    }.bind(this);
-  });
-
-  afterEach(function() {
-    this.xhr.restore();
-  })
-
-  it("should be a function", function() {
-    expect(typeof ajax).to.equal('function');
-  });
-
-  it("should parameterize objects", function() {
-    var body = {hello: 'world'};
-    ajax('#', {body: body, method: 'POST'});
-    expect(this.requests[0].requestBody).to.equal('hello=world');
-  });
-
-  it("should not parameterize FormData", function() {
-    var body = new FormData();
-    ajax('#', {body: body, method: 'POST'});
-    expect(typeof this.requests[0].requestBody).to.equal('object');
-  });
-});
-
-// Testing the main file
-describe("parseJsom(string)", function() {
-  
-  it("should be defined", function() {
-    expect(typeof parseJson).to.equal('function');
-  });
-
-  it("can be called empty", function() {
-    expect(parseJson()).to.equal(false);
-    expect(parseJson("")).to.equal(false);
-    expect(parseJson([])).to.equal(false);
-    expect(parseJson("","")).to.equal(false);
-    expect(parseJson(" ")).to.equal(false);
-  });
-
-  it("parses correctly", function() {
-    expect(parseJson('{"hello": "world"}').hello).to.equal('world');
-  });
-});
 // Note: node._e['submit'] and other events will appear as [null] in PhantomJS
 // but they work as expected
 describe(".handle(event, fn)", function() {
@@ -2648,12 +2468,6 @@ describe(".select(selector)", function() {
     expect(typeof base.select).to.equal('function');
   });
 
-  it("is fine-tuned for context (use css with that)", function() {
-    var withContext = u().select('a', u('.brand').first())[0];
-    var withCss = u().select.byCss('.brand a')[0];
-    expect(withContext).to.equal(withCss);
-  });
-
   it("can select by class", function(){
     expect(u().select('.base').length).to.equal(1);
     expect(u().select('.base')).to.not.equal(null);
@@ -2665,8 +2479,8 @@ describe(".select(selector)", function() {
   });
 
   it("can select by id", function(){
-    expect(u().select('#base')).to.not.equal(null);
-    expect(u().select('#base').nodeName).to.equal('DIV');
+    expect(u().select('#base')[0]).to.not.equal(null);
+    expect(u().select('#base')[0].nodeName).to.equal('DIV');
   });
 
   it("can select by complex selector", function() {

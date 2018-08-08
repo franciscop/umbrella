@@ -1,6 +1,6 @@
-# Umbrella JS [![Circle CI](https://circleci.com/gh/franciscop/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/franciscop/umbrella/tree/master) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/Flet/semistandard) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/franciscop/umbrella/blob/master/LICENSE)
+# Umbrella JS [![Circle CI](https://circleci.com/gh/franciscop/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/franciscop/umbrella/tree/master) [![stats](https://data.jsdelivr.com/v1/package/npm/umbrellajs/badge?style=rounded)](https://www.jsdelivr.com/package/npm/umbrellajs) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/Flet/semistandard) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/franciscop/umbrella/blob/master/LICENSE)
 
-> [**Library Documentation**](http://umbrellajs.com/documentation) | [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
+> [**Library Documentation**](http://umbrellajs.com/documentation) | [**Migrate from 2.0 to 3.0**](https://github.com/franciscop/umbrella/blob/master/migrate-2-to-3.md) | [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
 
 Covers your javascript needs for those rainy days. A <3kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/), then what do you need?
 
@@ -9,18 +9,19 @@ You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a li
 - DOM traversal (selector, filter, find, each, etc.)
 - DOM editing (classes & attributes, html, before, etc.)
 - Event handling
-- Ajax
 
-A simple example:
+A couple of simple examples:
 
 ```js
 // Simple events like jquery
-u("button").on('click', function(){
+u("button").on('click', e => {
   alert("Hello world");
 });
 
-// Send form through ajax when submitted
-u('form.login').ajax(function(err, res){
+// Handle form submissions
+u('form.login').handle('submit', async e => {
+  const body = u(e.target).serialize();
+  const user = await fetch('/login', { method: 'POST', body });
   window.href = '/user/' + res.id;
 });
 ```
