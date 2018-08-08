@@ -23,7 +23,7 @@
   "scripts": {
     "build": "grunt build",
     "start": "node app.js",
-    "test": "grunt test",
+    "test": "node --version && grunt test",
     "installphantom": "npm run phantomlib && npm run phantominst && npm run phantommove",
     "phantomlib": "sudo apt-get update && sudo apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev",
     "phantominst": "cd ~ && export PHANTOM_JS=\"phantomjs-1.9.7-linux-x86_64\" && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 && sudo tar xvjf $PHANTOM_JS.tar.bz2",
