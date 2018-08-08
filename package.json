@@ -1,7 +1,7 @@
 {
   "name": "umbrellajs",
   "version": "3.0.0",
-  "homepage": "http://umbrellajs.com/",
+  "homepage": "https://umbrellajs.com/",
   "authors": [
     "Francisco Presencia <public@francisco.io>"
   ],
@@ -11,7 +11,6 @@
     "umbrella",
     "js",
     "selector",
-    "ajax",
     "small",
     "tiny",
     "jquery",
@@ -38,17 +37,16 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "grunt": "^1.0.3",
-    "grunt-bytesize": "^0.1.1",
-    "grunt-contrib-concat": "^0.5.1",
+    "grunt-bytesize": "^0.2.0",
+    "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-jade": "^1.0.0",
-    "grunt-contrib-uglify": "^0.11.0",
+    "grunt-contrib-uglify": "^3.4.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-markdown": "^0.7.0",
     "grunt-mocha-phantomjs": "^4.0.0",
     "grunt-semistandard": "^1.0.6",
-    "marked": "^0.3.5",
-    "mocha-phantomjs": "^4.0.2",
-    "phantomjs": "^1.9.8"
+    "marked": "^0.4.0",
+    "mocha-phantomjs": "^4.0.2"
   },
   "semistandard": {
     "ignore": [
@@ -63,7 +61,6 @@
     ],
     "globals": [
       "u",
-      "ajax",
       "parseJson"
     ]
   }

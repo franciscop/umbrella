@@ -1,13 +1,12 @@
 <!DOCTYPE html><html><head><title>Documentation - Umbrella JS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="javascript, js, library, umbrella, html, html5, light"><meta name="description" content=" Lightweight and intuitive javascript library"><meta property="og:url" content="http://umbrellajs.com/"><meta property="og:title" content="Umbrella JS"><meta property="og:image" content="http://umbrellajs.com/umbrella.png?1"><meta property="og:description" content="Lightweight and intuitive javascript library to speed up your web development"><link href="fontello.css" rel="stylesheet"><link href="picnic.css" rel="stylesheet"><link href="style.css" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" type="text/css"><link rel="icon" href="umbrella.svg" type="image/svg+xml"></head><body><nav><div class="brand"><img src="umbrella.svg" alt="Logo" class="logo"><a href="/">Umbrella JS</a></div><div class="menu"><a href="https://github.com/franciscop/umbrella" class="pseudo button icon-g"><span class="text">Github</span></a><a href="/tests" class="pseudo button icon-ok"><span class="text">Tests</span></a><a href="documentation" class="button icon-doc"><span class="text">Documentation</span></a></div></nav><main id="home" class="documentation"><section class="flex five"><aside class="full fifth-1000"><h2>Contents</h2><div class="links flex two three-500 five-800 one-1000"></div><a href="#home" tabindex="-1" class="top pseudo button">▲ Up you go ▲</a></aside><article class="full four-fifth-1000"><h1 id="documentation">Documentation</h1>
 <p>Find nodes from the HTML with a CSS selector:</p>
-<pre><code class="lang-js">u(&#39;ul#demo li&#39;)
+<pre><code class="language-js">u(&#39;ul#demo li&#39;)
 u(document.getElementById(&#39;demo&#39;))
 u(document.getElementsByClassName(&#39;demo&#39;))
 u([ document.getElementById(&#39;demo&#39;) ])
 u( u(&#39;ul li&#39;) )
 u(&#39;&lt;a&gt;&#39;)
-u(&#39;li&#39;, context)
-</code></pre>
+u(&#39;li&#39;, context)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>The first parameter can be:</p>
 <ul>
@@ -28,26 +27,22 @@ u(&#39;li&#39;, context)
 <p>An instance of Umbrella JS so you can chain it to any of the other methods.</p>
 <h3 id="examples">Examples</h3>
 <p>Select all of the list elements that are children of <code>ul</code></p>
-<pre><code class="lang-js">var lis = u(&#39;ul &gt; li&#39;);    // Same as u(&#39;ul&#39;).children(&#39;li&#39;);
-</code></pre>
+<pre><code class="language-js">var lis = u(&#39;ul &gt; li&#39;);    // Same as u(&#39;ul&#39;).children(&#39;li&#39;);</code></pre>
 <p>Find all of the headers from the page to create a Table of Contents:</p>
-<pre><code class="lang-js">var headers = u(&#39;h1, h2, h3, h4, h5, h6&#39;);
-</code></pre>
+<pre><code class="language-js">var headers = u(&#39;h1, h2, h3, h4, h5, h6&#39;);</code></pre>
 <p>Generate a link on the fly:</p>
-<pre><code class="lang-js">var link = u(&#39;&lt;a&gt;&#39;).addClass(&#39;main&#39;).attr({ href: &#39;/hello&#39; });
-</code></pre>
+<pre><code class="language-js">var link = u(&#39;&lt;a&gt;&#39;).addClass(&#39;main&#39;).attr({ href: &#39;/hello&#39; });</code></pre>
 <p>You can use this to generate many kind of elements on the fly. For example, for a simple grocery list (using ES6 for simplicity):</p>
-<pre><code class="lang-js">var fruits = [&#39;apple&#39;, &#39;strawberry&#39;, &#39;pear&#39;, &#39;banana&#39;];
+<pre><code class="language-js">var fruits = [&#39;apple&#39;, &#39;strawberry&#39;, &#39;pear&#39;, &#39;banana&#39;];
 var list = u(&#39;&lt;ul&gt;&#39;).append(fruit =&gt; `&lt;li&gt;${ fruit }&lt;/li&gt;`, fruits);
 
-u(&#39;body&#39;).append(list);
-</code></pre>
+u(&#39;body&#39;).append(list);</code></pre>
 <h3 id="native-methods">Native methods</h3>
 <blockquote>
 <p>This section is inspired by <a href="http://blissfuljs.com/docs.html#vanilla">Bliss.js&#39; vanilla methods</a></p>
 </blockquote>
 <p>There are many native methods and properties that you can use. These can be called straight in the <code>.first()</code> or <code>.last()</code> elements, a <code>.nodes</code> element or you can loop every element to call them. For example:</p>
-<pre><code class="lang-js">// Single element from .nodes
+<pre><code class="language-js">// Single element from .nodes
 u(&#39;h1&#39;).nodes[0].classList.add(&#39;vanilla&#39;);
 
 // Single element
@@ -56,14 +51,12 @@ u(&#39;h1&#39;).first().classList.add(&#39;vanilla&#39;, &#39;test&#39;);
 // Multiple elements. Note that the order is different from jquery
 u(&#39;h2&#39;).each(function(el){
   el.classList.add(&#39;vanilla&#39;, &#39;test&#39;);
-});
-</code></pre>
+});</code></pre>
 <p>And for the arrays it&#39;s similar, you can call any array method on <code>u().nodes</code> since this is literally an array:</p>
-<pre><code class="lang-js">u(&#39;h2&#39;).nodes.forEach();
+<pre><code class="language-js">u(&#39;h2&#39;).nodes.forEach();
 var mapped = u(&#39;h2&#39;).nodes.map();
 var filtered = u(&#39;h2&#39;).nodes.filter();
-var good = u(&#39;h2&#39;).nodes.some();
-</code></pre>
+var good = u(&#39;h2&#39;).nodes.some();</code></pre>
 <p>However, there are also some advantages of using Umbrella&#39;s methods instead of native methods. For example, with <code>.addClass()</code> vs native <code>classList.add()</code>:</p>
 <ul>
 <li><strong>error prevention</strong>: if nodes.length = 0, the single-element way will fail in the above implementation (since first() and nodes[0] are null)</li>
@@ -71,47 +64,42 @@ var good = u(&#39;h2&#39;).nodes.some();
 <li><strong>chainable</strong>: <code>u(&#39;&lt;div&gt;&#39;).each(...).addClass(...);</code></li>
 <li><strong>more flexibility</strong>: there are many ways to specify multiple classes with addClass, and only one way to specify them on the native way. Imagine that you have an array of classes, with the native method this becomes a nightmare. This is what it means to be flexible:</li>
 </ul>
-<pre><code class="lang-js">u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, &#39;test&#39;);     // It accepts multiple parameters
+<pre><code class="language-js">u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, &#39;test&#39;);     // It accepts multiple parameters
 u(&#39;h2&#39;).addClass([&#39;vanilla&#39;, &#39;test&#39;]);   // Also accept an array
 u(&#39;h2&#39;).addClass([&#39;vanilla&#39;], [&#39;test&#39;]); // Or multiple arrays
 u(&#39;h2&#39;).addClass(&#39;vanilla, test&#39;);       // Strings with space and/or comma
-u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, [&#39;test&#39;], &#39;one, more&#39; ); // Or just whatever
-</code></pre>
+u(&#39;h2&#39;).addClass(&#39;vanilla&#39;, [&#39;test&#39;], &#39;one, more&#39; ); // Or just whatever</code></pre>
 <p>So it&#39;s convenient that you know these limitations and act accordingly. Try to use native methods where it makes sense, then Umbrella&#39;s methods where it&#39;s better suited or then create your own methods when you need it.</p>
 <h2 id="-length">.length</h2>
 <p>You can check how many elements are matched with <code>.length</code>:</p>
-<pre><code class="lang-js">// Check how many &lt;a&gt; are in the page
-alert(u(&#39;a&#39;).length);
-</code></pre>
+<pre><code class="language-js">// Check how many &lt;a&gt; are in the page
+alert(u(&#39;a&#39;).length);</code></pre>
 <h2 id="-addclass-">.addClass()</h2>
 <p>Add html class(es) to all of the matched elements.</p>
-<pre><code class="lang-js">.addClass(&#39;name1&#39;)
+<pre><code class="language-js">.addClass(&#39;name1&#39;)
 .addClass(&#39;name1 name2 nameN&#39;)
 .addClass(&#39;name1,name2,nameN&#39;)
 .addClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;)
 .addClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;])
 .addClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;])
 .addClass(function(){ return &#39;name1&#39;; })
-.addClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; })
-</code></pre>
+.addClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; })</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be added to all of the matched elements. It accepts many different types of parameters (see above).</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add the class <code>main</code> to all the <code>&lt;h2&gt;</code> from the page:</p>
-<pre><code class="lang-js">u(&quot;h2&quot;).addClass(&quot;main&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;h2&quot;).addClass(&quot;main&quot;);</code></pre>
 <p>Add the class <code>toValidate</code> and <code>ajaxify</code> to all the <code>&lt;form&gt;</code> present in the page:</p>
-<pre><code class="lang-js">u(&quot;form&quot;).addClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;form&quot;).addClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#hasclass">.hasClass()</a> finds if the matched elements contain the class(es).</p>
 <p><a href="#removeclass">.removeClass()</a> deletes class(es) from the matched elements.</p>
 <p><a href="#toggleclass">.toggleClass()</a> adds or removes the class</p>
 <h2 id="-after-">.after()</h2>
 <p>Add some html as a sibling after each of the matched elements.</p>
-<pre><code class="lang-js">.after(html)
+<pre><code class="language-js">.after(html)
 
 .after(&#39;&lt;div&gt;&#39;)
 .after(u(&#39;&lt;div&gt;&#39;))
@@ -119,8 +107,7 @@ alert(u(&#39;a&#39;).length);
 .after(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;))
 .after(function(){})
 .after(function(el){}, elements)
-.after(function(el){}, 10)
-</code></pre>
+.after(function(el){}, 10)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
@@ -147,10 +134,9 @@ alert(u(&#39;a&#39;).length);
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add a separator <code>&lt;hr&gt;</code> after each of the main titles h1:</p>
-<pre><code class="lang-js">u(&quot;h1&quot;).after(&quot;&lt;hr&gt;&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;h1&quot;).after(&quot;&lt;hr&gt;&quot;);</code></pre>
 <p>Add three elements after the link. All of these methods are equivalent:</p>
-<pre><code class="lang-js">// Add them all like a single string
+<pre><code class="language-js">// Add them all like a single string
 u(&quot;a.main&quot;).after(&quot;&lt;a&gt;One&lt;/a&gt;&lt;a&gt;Two&lt;/a&gt;&lt;a&gt;Three&lt;/a&gt;&quot;);
 
 // Add them in a chain
@@ -161,30 +147,27 @@ var cb = function(txt){ return &quot;&lt;a&gt;&quot; + txt + &quot;&lt;/a&gt;&qu
 u(&quot;a.main&quot;).after(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 
 // Same as the previous one but with ES6
-u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
-</code></pre>
+u(&quot;a.main&quot;).after(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);</code></pre>
 <p>They all result in:</p>
-<pre><code class="lang-html">&lt;!-- previous data --&gt;
+<pre><code class="language-html">&lt;!-- previous data --&gt;
 
 &lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
 &lt;a&gt;One&lt;/a&gt;
 &lt;a&gt;Two&lt;/a&gt;
-&lt;a&gt;Three&lt;/a&gt;
-</code></pre>
+&lt;a&gt;Three&lt;/a&gt;</code></pre>
 <p>You can also add some events to them by creating an html node:</p>
-<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+<pre><code class="language-js">function greeting(){ alert(&quot;Hello world&quot;); }
 
 u(&quot;a.main&quot;).after(function(){
   return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#before">.before()</a> Add some html before each of the matched elements.</p>
 <p><a href="#append">.append()</a> Add some html as a child at the end of each of the matched elements</p>
 <p><a href="#prepend">.prepend()</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <h2 id="-append-">.append()</h2>
 <p>Add some html as a child at the end of each of the matched elements</p>
-<pre><code class="lang-js">.append(html)
+<pre><code class="language-js">.append(html)
 
 .append(&#39;&lt;div&gt;&#39;)
 .append(u(&#39;&lt;div&gt;&#39;))
@@ -192,8 +175,7 @@ u(&quot;a.main&quot;).after(function(){
 .append(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;))
 .append(function(){})
 .append(function(el){}, elements)
-.append(function(el){}, 10)
-</code></pre>
+.append(function(el){}, 10)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
@@ -220,10 +202,9 @@ u(&quot;a.main&quot;).after(function(){
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add a footer to each of the articles</p>
-<pre><code class="lang-js">u(&quot;article&quot;).append(&quot;&lt;footer&gt;Hello world&lt;/footer&gt;&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;article&quot;).append(&quot;&lt;footer&gt;Hello world&lt;/footer&gt;&quot;);</code></pre>
 <p>Add three elements to the list. All of these methods are equivalent:</p>
-<pre><code class="lang-js">// Add them all like a single string
+<pre><code class="language-js">// Add them all like a single string
 u(&quot;ul&quot;).append(&quot;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&quot;);
 
 // Add them in a chain
@@ -234,63 +215,55 @@ var cb = function(txt){ return &quot;&lt;li&gt;&quot; + txt + &quot;&lt;/li&gt;&
 u(&quot;ul&quot;).append(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 
 // Same as the previous one but with ES6
-u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
-</code></pre>
+u(&quot;ul&quot;).append(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);</code></pre>
 <p>They all result in:</p>
-<pre><code class="lang-html">&lt;ul&gt;
+<pre><code class="language-html">&lt;ul&gt;
   &lt;!-- previous data --&gt;
 
   &lt;li&gt;One&lt;/li&gt;
   &lt;li&gt;Two&lt;/li&gt;
   &lt;li&gt;Three&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
+&lt;/ul&gt;</code></pre>
 <p>You can also add some events to them by creating an html node:</p>
-<pre><code class="lang-js">function greet(){ alert(&quot;Hello world&quot;); }
+<pre><code class="language-js">function greet(){ alert(&quot;Hello world&quot;); }
 
 u(&quot;a.main&quot;).append(function(){
   return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greet).html(&quot;Hey!&quot;);
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#prepend">.prepend()</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <p><a href="#before">.before()</a> Add some html before each of the matched elements.</p>
 <p><a href="#after">.after()</a> Add some html as a sibling after each of the matched elements.</p>
 <h2 id="-array-">.array()</h2>
 <p>Extract structured data from the DOM.</p>
-<pre><code class="lang-js">.array()
-.array(callback)
-</code></pre>
+<pre><code class="language-js">.array()
+.array(callback)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>callback = function(node, i){ return node.innerHTML }</code>: a callback to be called on each node. The returned value is the one set on the final version. If an array is returned then these elements are added to the set. However, if nothing or null is returned it removes them.</p>
 <h3 id="return">Return</h3>
 <p>A simple javascript array consisting on the elements returned by the callback</p>
 <h3 id="example">Example</h3>
-<pre><code class="lang-html">&lt;ul&gt;
+<pre><code class="language-html">&lt;ul&gt;
   &lt;li&gt;Peter&lt;/li&gt;
   &lt;li&gt;Mery&lt;/li&gt;
   &lt;li&gt;John&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
+&lt;/ul&gt;</code></pre>
 <p>Javascript (by default):</p>
-<pre><code class="lang-js">u(&#39;ul li&#39;).array();
-// [&#39;Peter&#39;, &#39;Mery&#39;, &#39;John&#39;]
-</code></pre>
+<pre><code class="language-js">u(&#39;ul li&#39;).array();
+// [&#39;Peter&#39;, &#39;Mery&#39;, &#39;John&#39;]</code></pre>
 <p>Javascript (with custom callback):</p>
-<pre><code class="lang-js">u(&#39;ul li&#39;).array(function(node){
+<pre><code class="language-js">u(&#39;ul li&#39;).array(function(node){
   return { name: u(node).text() };
 });
-// [{ name: &#39;Peter&#39; }, { name: &#39;Mery&#39; }, { name: &#39;John&#39; }]
-</code></pre>
+// [{ name: &#39;Peter&#39; }, { name: &#39;Mery&#39; }, { name: &#39;John&#39; }]</code></pre>
 <h2 id="-attr-">.attr()</h2>
 <p>Handle attributes for the matched elements</p>
-<pre><code class="lang-js">// GET
+<pre><code class="language-js">// GET
 .attr(&#39;name&#39;);
 
 // SET
 .attr(&#39;name&#39;, &#39;value&#39;);
-.attr({ name1: &#39;value&#39;, name2: &#39;value2&#39; });
-</code></pre>
+.attr({ name1: &#39;value&#39;, name2: &#39;value2&#39; });</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><em>GET</em></p>
 <p><code>name</code>: the attribute that we want to get from the first matched element</p>
@@ -305,20 +278,17 @@ u(&quot;a.main&quot;).append(function(){
 <h3 id="important">Important</h3>
 <p>You must understand that <code>.attr()</code> will only retrieve the attributes, not the properties like <code>checked</code>. To understand it better, check <a href="http://api.jquery.com/prop/">jquery&#39;s attr() vs prop()</a>.</p>
 <p>Each property is different so you should consult each case. For example, if you wanted to get the property <code>checked</code> you could do:</p>
-<pre><code class="lang-js">u(&#39;.terms-os-service&#39;).is(&#39;:checked&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;.terms-os-service&#39;).is(&#39;:checked&#39;);</code></pre>
 <h3 id="examples">Examples</h3>
 <p>Get the alt of an image:</p>
-<pre><code class="lang-js">u(&#39;img.hero&#39;).attr(&#39;alt&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;img.hero&#39;).attr(&#39;alt&#39;);</code></pre>
 <p>Set the src of all of the images:</p>
-<pre><code class="lang-js">u(&#39;img&#39;).attr({ src: &#39;demo.jpg&#39; });
-</code></pre>
+<pre><code class="language-js">u(&#39;img&#39;).attr({ src: &#39;demo.jpg&#39; });</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#data">.data()</a> handle data-* attributes for the matched elements</p>
 <h2 id="-before-">.before()</h2>
 <p>Add some html before each of the matched elements.</p>
-<pre><code class="lang-js">.before(html)
+<pre><code class="language-js">.before(html)
 
 .before(&#39;&lt;div&gt;&#39;)
 .before(u(&#39;&lt;div&gt;&#39;))
@@ -326,8 +296,7 @@ u(&quot;a.main&quot;).append(function(){
 .before(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;))
 .before(function(){})
 .before(function(el){}, elements)
-.append(function(el){}, 10)
-</code></pre>
+.append(function(el){}, 10)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
@@ -354,10 +323,9 @@ u(&quot;a.main&quot;).append(function(){
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add a header to each of the articles</p>
-<pre><code class="lang-js">u(&quot;article&quot;).after(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;article&quot;).after(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);</code></pre>
 <p>Add three elements before the link. All of these methods are equivalent:</p>
-<pre><code class="lang-js">// Add them all like a single string
+<pre><code class="language-js">// Add them all like a single string
 u(&quot;a.main&quot;).before(&quot;&lt;a&gt;One&lt;/a&gt;&lt;a&gt;Two&lt;/a&gt;&lt;a&gt;Three&lt;/a&gt;&quot;);
 
 // Add them in a chain
@@ -368,47 +336,41 @@ var cb = function(txt){ return &quot;&lt;a&gt;&quot; + txt + &quot;&lt;/a&gt;&qu
 u(&quot;a.main&quot;).before(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 
 // Same as the previous one but with ES6
-u(&quot;a.main&quot;).before(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
-</code></pre>
+u(&quot;a.main&quot;).before(txt =&gt; `&lt;a&gt;${ txt }&lt;/a&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);</code></pre>
 <p>They all result in:</p>
-<pre><code class="lang-html">&lt;a&gt;One&lt;/a&gt;
+<pre><code class="language-html">&lt;a&gt;One&lt;/a&gt;
 &lt;a&gt;Two&lt;/a&gt;
 &lt;a&gt;Three&lt;/a&gt;
 &lt;a class=&quot;main&quot;&gt;&lt;/a&gt;
 
-&lt;!-- previous data --&gt;
-</code></pre>
+&lt;!-- previous data --&gt;</code></pre>
 <p>You can also add some events to them by creating an html node:</p>
-<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+<pre><code class="language-js">function greeting(){ alert(&quot;Hello world&quot;); }
 
 u(&quot;a.main&quot;).before(function(){
   return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#after">.after()</a> Add some html as a sibling after each of the matched elements.</p>
 <p><a href="#append">.append()</a> Add some html as a child at the end of each of the matched elements</p>
 <p><a href="#prepend">.prepend()</a> Add some html as a child at the beginning of each of the matched elements.</p>
 <h2 id="-children-">.children()</h2>
 <p>Get the direct children of all of the nodes with an optional filter</p>
-<pre><code class="lang-js">.children(filter);
-</code></pre>
+<pre><code class="language-js">.children(filter);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: a string containing a selector that nodes must pass or a function that return a boolean. See <a href="#filter">.filter()</a> for a better explanation</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns an instance of Umbrella JS with the new children as nodes</p>
 <h3 id="examples">Examples</h3>
 <p>Get the first <code>&lt;li&gt;</code> of every <code>&lt;ul&gt;</code></p>
-<pre><code class="lang-js">u(&quot;ul&quot;).children(&#39;li:first-child&#39;);
-</code></pre>
+<pre><code class="language-js">u(&quot;ul&quot;).children(&#39;li:first-child&#39;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#parent">.parent()</a> get all of the direct parents</p>
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
 <p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
 <h2 id="-clone-">.clone()</h2>
 <p>Create a deep copy of the set of matched elements. Includes matched element node and <strong>all of its events</strong> as well as its children <strong>and all of their events</strong> by <strong>default</strong>.</p>
-<pre><code class="lang-js">u(&#39;.elementToClone&#39;).clone()
-</code></pre>
+<pre><code class="language-js">u(&#39;.elementToClone&#39;).clone()</code></pre>
 <h3 id="extensions">Extensions</h3>
 <ul>
 <li>The following extensions are enabled by default:<ul>
@@ -421,50 +383,44 @@ u(&quot;a.main&quot;).before(function(){
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Clone a node and append to another.</p>
-<pre><code class="lang-html">&lt;div class=&quot;container&quot;&gt;
+<pre><code class="language-html">&lt;div class=&quot;container&quot;&gt;
   &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
   &lt;div class=&quot;cloneDestination&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-<pre><code class="lang-js">var clone = u(&quot;testClone1&quot;).clone();
+&lt;/div&gt;</code></pre>
+<pre><code class="language-js">var clone = u(&quot;testClone1&quot;).clone();
 u(&quot;.cloneDestination&quot;).append(clone);
-
 </code></pre>
 <p>Result:</p>
-<pre><code class="lang-html">&lt;div class=&quot;container&quot;&gt;
+<pre><code class="language-html">&lt;div class=&quot;container&quot;&gt;
   &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
   &lt;div class=&quot;cloneDestination&quot;&gt;
     &lt;div class=&quot;testClone1&quot;&gt;Hello&lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#append">.append()</a> add some html as a child at the end of each of the matched elements.</p>
 <h2 id="-closest-">.closest()</h2>
 <p>Find the first ancestor that matches the selector for each node</p>
-<pre><code class="lang-js">.closest(filter);
-</code></pre>
+<pre><code class="language-js">.closest(filter);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: a string containing a selector that nodes must pass or a function that return a boolean. See <a href="#filter">.filter()</a> for a better explanation</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns an instance of Umbrella JS with the new ancestors as nodes</p>
 <h3 id="examples">Examples</h3>
 <p>Get the ul of every li</p>
-<pre><code class="lang-js">u(&quot;li&quot;).closest(&#39;ul&#39;);
-</code></pre>
+<pre><code class="language-js">u(&quot;li&quot;).closest(&#39;ul&#39;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
 <p><a href="#parent">.parent()</a> get all of the direct parents</p>
 <p><a href="#children">.children()</a> get the direct children of all of the nodes with an optional filter</p>
 <h2 id="-data-">.data()</h2>
 <p>Handle data-* attributes for the matched elements</p>
-<pre><code class="lang-js">// GET
+<pre><code class="language-js">// GET
 .data(&#39;name&#39;);
 
 // SET
 .data(&#39;name&#39;, &#39;value&#39;);
-.data({ name1: &#39;value&#39;, name2: &#39;value2&#39; });
-</code></pre>
+.data({ name1: &#39;value&#39;, name2: &#39;value2&#39; });</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><em>GET</em></p>
 <p><code>name</code>: the data-* attribute that we want to get from the first matched element</p>
@@ -478,55 +434,47 @@ u(&quot;.cloneDestination&quot;).append(clone);
 <p><code>u</code>: data-* returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Get the value for data-id:</p>
-<pre><code class="lang-html">&lt;ul&gt;
+<pre><code class="language-html">&lt;ul&gt;
   &lt;li data-id=&#39;0&#39;&gt;First&lt;/li&gt;
   &lt;li data-id=&#39;1&#39;&gt;Second&lt;/li&gt;
   &lt;li data-id=&#39;2&#39;&gt;Third&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-<pre><code class="lang-js">u(&#39;ul li&#39;).first().data(&#39;id&#39;); // 0
-</code></pre>
+&lt;/ul&gt;</code></pre>
+<pre><code class="language-js">u(&#39;ul li&#39;).first().data(&#39;id&#39;); // 0</code></pre>
 <p>Set the data-id of an element:</p>
-<pre><code class="lang-js">u(&#39;ul li&#39;).first().data({ id: &#39;1&#39; }); // &lt;li data-id=&#39;1&#39;&gt;First&lt;/li&gt;
+<pre><code class="language-js">u(&#39;ul li&#39;).first().data({ id: &#39;1&#39; }); // &lt;li data-id=&#39;1&#39;&gt;First&lt;/li&gt;
 
-u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#39;2&#39;&gt;First&lt;/li&gt;
-</code></pre>
+u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#39;2&#39;&gt;First&lt;/li&gt;</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#attr">.attr()</a> handle attributes for the matched elements</p>
 <h2 id="-each-">.each()</h2>
 <p>Loop through all of the nodes and execute a callback for each</p>
-<pre><code class="lang-js">.each(function(node, i){});
-</code></pre>
+<pre><code class="language-js">.each(function(node, i){});</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>callback</code>: the function that will be called. It accepts two parameters, the node and the index. <code>this</code> is Umbrella&#39;s instance so other methods like <code>this.args()</code> and <code>this.slice()</code> are available.</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns an instance of Umbrella JS with the same nodes</p>
 <h3 id="examples">Examples</h3>
 <p>Loop through all of the links and add them a <code>target=&quot;_blank&quot;</code>:</p>
-<pre><code class="lang-js">u(&#39;a&#39;).each(function(node, i){
+<pre><code class="language-js">u(&#39;a&#39;).each(function(node, i){
   u(node).attr({ target: &#39;_blank&#39; });
-});
-</code></pre>
+});</code></pre>
 <h2 id="-empty-">.empty()</h2>
 <p>Remove all child nodes of the matched elements.</p>
-<pre><code class="lang-js">.empty();
-</code></pre>
+<pre><code class="language-js">.empty();</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>This method doesn&#39;t accept any parameters</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: Returns an instance of Umbrella JS with the empty nodes.</p>
 <h3 id="examples">Examples</h3>
 <p>Removes all child nodes from all containers:</p>
-<pre><code class="lang-js">u(&quot;div.container&quot;).empty();
-</code></pre>
+<pre><code class="language-js">u(&quot;div.container&quot;).empty();</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#remove">.remove()</a> Removes the matched elements.</p>
 <h2 id="-filter-">.filter()</h2>
 <p>Remove all the nodes that doesn&#39;t match the criteria</p>
-<pre><code class="lang-js">.filter(&#39;a&#39;)
+<pre><code class="language-js">.filter(&#39;a&#39;)
 .filter(u(&#39;a&#39;))
-.filter(function(node, i){ return u(node).is(&#39;a&#39;); })
-</code></pre>
+.filter(function(node, i){ return u(node).is(&#39;a&#39;); })</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be:</p>
 <ul>
@@ -538,100 +486,86 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <p>An instance of Umbrella with the nodes that passed the filter.</p>
 <h3 id="examples">Examples</h3>
 <p>Get only the active links</p>
-<pre><code class="lang-js">var links = u(&#39;a&#39;).filter(&#39;.active&#39;);
-</code></pre>
+<pre><code class="language-js">var links = u(&#39;a&#39;).filter(&#39;.active&#39;);</code></pre>
 <p>Get all of the paragraphs with a link:</p>
-<pre><code class="lang-js">var paragraphs = u(&#39;p&#39;).filter(function(node){
+<pre><code class="language-js">var paragraphs = u(&#39;p&#39;).filter(function(node){
   return u(node).find(&#39;a&#39;).length &gt; 0;
-});
-</code></pre>
+});</code></pre>
 <p>Get only the inputs with an answer above 5 and show an error:</p>
-<pre><code class="lang-js">u(&#39;input&#39;).filter(function(node, i){
+<pre><code class="language-js">u(&#39;input&#39;).filter(function(node, i){
   if (parseInt(u(node).first().value) &gt; 5) {
     return true;
   }
-}).addClass(&#39;error&#39;);
-</code></pre>
+}).addClass(&#39;error&#39;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#is">.is()</a> check whether one or more of the nodes is of one type</p>
 <p><a href="#not">.not()</a> remove all the nodes that match the criteria</p>
 <h2 id="-find-">.find()</h2>
 <p>Get all of the descendants of the nodes with an optional filter</p>
-<pre><code class="lang-js">.find(filter);
-</code></pre>
+<pre><code class="language-js">.find(filter);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: a string containing a selector that nodes must pass or a function that return a boolean. See <a href="#filter">.filter()</a> for a better explanation</p>
 <h3 id="return">Return</h3>
 <p>An instance of Umbrella with the new children as nodes</p>
 <h3 id="examples">Examples</h3>
 <p>Get all of the links within all the paragraphs</p>
-<pre><code class="lang-js">u(&quot;p&quot;).find(&#39;a&#39;);
-</code></pre>
+<pre><code class="language-js">u(&quot;p&quot;).find(&#39;a&#39;);</code></pre>
 <p>Get the required fields within a submitting form:</p>
-<pre><code class="lang-js">u(&#39;form&#39;).on(&#39;submit&#39;, function(e){
+<pre><code class="language-js">u(&#39;form&#39;).on(&#39;submit&#39;, function(e){
   var required = u(this).find(&#39;[required]&#39;);
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
 <p><a href="#parent">.parent()</a> get all of the direct parents</p>
 <p><a href="#find">.children()</a> get the direct child of the matched nodes</p>
 <h2 id="-first-">.first()</h2>
 <p>Retrieve the first of the matched nodes</p>
-<pre><code class="lang-js">.first();
-</code></pre>
+<pre><code class="language-js">.first();</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>This method doesn&#39;t accept any parameters</p>
 <h3 id="return">Return</h3>
 <p>The first html node or false if there is none.</p>
 <h3 id="examples">Examples</h3>
 <p>Retrieve the first element of a list:</p>
-<pre><code class="lang-js">var next = u(&quot;ul.demo li&quot;).first();
-</code></pre>
+<pre><code class="language-js">var next = u(&quot;ul.demo li&quot;).first();</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#last">.last()</a> retrieve the last matched element</p>
 <h2 id="-handle-">.handle()</h2>
 <p>This function is the same as <a href="#on"><code>on()</code></a>, but it executes the <code>e.preventDefault()</code> so you don&#39;t need to do it. So these two are exactly the same:</p>
-<pre><code class="lang-js">u(&#39;form.login&#39;).on(&#39;submit&#39;, function(e){
+<pre><code class="language-js">u(&#39;form.login&#39;).on(&#39;submit&#39;, function(e){
   e.preventDefault();
   // logic
-});
-</code></pre>
-<pre><code class="lang-js">u(&#39;form.login&#39;).handle(&#39;submit&#39;, function(e){
+});</code></pre>
+<pre><code class="language-js">u(&#39;form.login&#39;).handle(&#39;submit&#39;, function(e){
   // logic
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#on">.on()</a> Calls a function when an event is triggered</p>
 <p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
 <p><a href="#off">.off()</a> Removes an event from  matched nodes</p>
 <h2 id="-hasclass-">.hasClass()</h2>
 <p>Find if any of the matched elements contains the class passed:</p>
-<pre><code class="lang-js">.hasClass(&#39;name1&#39;);
+<pre><code class="language-js">.hasClass(&#39;name1&#39;);
 .hasClass(&#39;name1 name2 nameN&#39;);
 .hasClass(&#39;name1,name2,nameN&#39;);
 .hasClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;);
 .hasClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
 .hasClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;]);
 .hasClass(function(){ return &#39;name1&#39;; });
-.hasClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });
-</code></pre>
+.hasClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });</code></pre>
 <p>If more than one class is passed, they are checked <strong>with the AND condition</strong> similar to:</p>
-<pre><code class="lang-js">u(&quot;a&quot;).hasClass(&quot;button&quot;) &amp;&amp; u(&quot;a&quot;).hasClass(&quot;primary&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;a&quot;).hasClass(&quot;button&quot;) &amp;&amp; u(&quot;a&quot;).hasClass(&quot;primary&quot;);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be matched to any of the matched elements. It accepts many different types of parameters (see above).</p>
 <h3 id="return">Return</h3>
 <p><strong><code>boolean</code></strong>: returns true if all of the passed classes are found in any of the matched elements and false if they couldn&#39;t be found.</p>
 <h3 id="example">Example</h3>
 <p>You can also check manually if it has several classes with the OR parameter with:</p>
-<pre><code class="lang-js">u(&#39;a&#39;).is(&#39;.button, .primary&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;a&#39;).is(&#39;.button, .primary&#39;);</code></pre>
 <p>And with the AND parameter:</p>
-<pre><code class="lang-js">u(&#39;a&#39;).is(&#39;.button.primary&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;a&#39;).is(&#39;.button.primary&#39;);</code></pre>
 <p>Toggle the color of a button depending on the status</p>
-<pre><code class="lang-html">&lt;a class=&quot;example button&quot;&gt;Click me&lt;/a&gt;
+<pre><code class="language-html">&lt;a class=&quot;example button&quot;&gt;Click me&lt;/a&gt;
 
 &lt;script src=&quot;//umbrellajs.com/umbrella.min.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
@@ -642,19 +576,17 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
       u(this).addClass(&quot;error&quot;).html(&quot;Confirm&quot;);
     }
   });
-&lt;/script&gt;
-</code></pre>
+&lt;/script&gt;</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass()</a> adds html class(es) to each of the matched elements.</p>
 <p><a href="#removeclass">.removeClass()</a> deletes class(es) from the matched elements.</p>
 <h2 id="-html-">.html()</h2>
 <p>Retrieve or set the html of the elements:</p>
-<pre><code class="lang-js">// GET
+<pre><code class="language-js">// GET
 .html();
 
 // SET
-.html(html);
-</code></pre>
+.html(html);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><em>GET</em>
 should pass no parameter so it retrieves the html.</p>
@@ -667,20 +599,17 @@ should pass no parameter so it retrieves the html.</p>
 <code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Get the main title:</p>
-<pre><code class="lang-js">var title = u(&#39;h1&#39;).html();
-</code></pre>
+<pre><code class="language-js">var title = u(&#39;h1&#39;).html();</code></pre>
 <p>Set the main title:</p>
-<pre><code class="lang-js">u(&#39;h1&#39;).html(&#39;Hello world&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;h1&#39;).html(&#39;Hello world&#39;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#attr">.text()</a> Retrieve or set the textContent of the elements</p>
 <p><a href="#attr">.attr()</a> Handle attributes for the matched elements</p>
 <h2 id="-is-">.is()</h2>
 <p>Check whether any of the nodes matches the selector</p>
-<pre><code class="lang-js">.is(&#39;a&#39;)
+<pre><code class="language-js">.is(&#39;a&#39;)
 .is(u(&#39;a&#39;))
-.is(function(){ return Math.random() &gt; 0.5 })
-</code></pre>
+.is(function(){ return Math.random() &gt; 0.5 })</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be two things:</p>
 <ul>
@@ -692,7 +621,7 @@ should pass no parameter so it retrieves the html.</p>
 <p><em>boolean</em>: <em>true</em> if any of the nodes matches the selector or the function returns true, false otherwise.</p>
 <h3 id="examples">Examples</h3>
 <p>Check if the current form needs to be valdated</p>
-<pre><code class="lang-js">u(&#39;form.subscribe&#39;).on(&#39;submit&#39;, function(e) {
+<pre><code class="language-js">u(&#39;form.subscribe&#39;).on(&#39;submit&#39;, function(e) {
 
   // Same as u(&#39;form.subscribe&#39;).hasClass(&#39;validate&#39;)
   if (u(e.target).is(&#39;.validate&#39;)) {
@@ -700,37 +629,32 @@ should pass no parameter so it retrieves the html.</p>
   }
 
   // ...
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#filter">.filter()</a> remove unwanted nodes</p>
 <p><a href="#not">.not()</a> remove all the nodes that match the criteria</p>
 <h2 id="-last-">.last()</h2>
 <p>Get the last element from a list of elements.</p>
-<pre><code class="lang-js">.last();
-</code></pre>
+<pre><code class="language-js">.last();</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>This method doesn&#39;t accept any parameters</p>
 <h3 id="return">Return</h3>
 <p>The last html node or false if there is none.</p>
 <h3 id="examples">Examples</h3>
 <p>Retrieve the last element of a list:</p>
-<pre><code class="lang-js">var next = u(&quot;ul.demo li&quot;).last();
-</code></pre>
+<pre><code class="language-js">var next = u(&quot;ul.demo li&quot;).last();</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#first">.first()</a> retrieve the first matched element</p>
 <h2 id="-map-">.map()</h2>
 <p>Change the content of the current instance by looping each element</p>
-<pre><code class="lang-js">.map(function(){});
-</code></pre>
+<pre><code class="language-js">.map(function(){});</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>A single callback that returns the element(s) that are going to be kept:</p>
-<pre><code class="lang-js">var links = u(&#39;.special li&#39;).map(function(node, i){
+<pre><code class="language-js">var links = u(&#39;.special li&#39;).map(function(node, i){
   if (parseInt(node.innerHTML) &gt; 10) {
     return &#39;&lt;a&gt;&#39; + u(node).data(&#39;id&#39;) + &#39;&lt;/a&gt;&#39;;
   }
-}).addClass(&#39;expensive&#39;);
-</code></pre>
+}).addClass(&#39;expensive&#39;);</code></pre>
 <p>It can return a value that evaluates to false, a single element, an string, an array or an Umbrella instance. It will <strong>remove duplicated nodes</strong> from the result.</p>
 <blockquote>
 <p>Note: Umbrella JS is made to manipulate HTML nodes so it will consider the string &quot;&quot; and 0 as false and remove them. Return an HTML node or an HTML string to keep the elements.</p>
@@ -739,16 +663,14 @@ should pass no parameter so it retrieves the html.</p>
 <p>An instance of Umbrella with the nodes passed</p>
 <h3 id="examples">Examples</h3>
 <p>Get the parent elements (see <a href="#parent">.parent()</a>):</p>
-<pre><code class="lang-js">var lists = u(&#39;li&#39;).map(function(node){ return node.parentNode });
-</code></pre>
+<pre><code class="language-js">var lists = u(&#39;li&#39;).map(function(node){ return node.parentNode });</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#each">.each()</a> loop all the elements without changing them</p>
 <h2 id="-not-">.not()</h2>
 <p>Remove known nodes from nodes</p>
-<pre><code class="lang-js">.not(&#39;a&#39;)
+<pre><code class="language-js">.not(&#39;a&#39;)
 .not(u(&#39;a&#39;))
-.not(function(node){ return Math.random() &gt; 0.5; })
-</code></pre>
+.not(function(node){ return Math.random() &gt; 0.5; })</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>not</code>: it can be two things (in order):</p>
 <ul>
@@ -756,46 +678,40 @@ should pass no parameter so it retrieves the html.</p>
 <li>instance of umbrella with the element to remove</li>
 <li>function that returns <code>true</code> to remove the element. It accepts <strong>one parameter</strong>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available</li>
 </ul>
-<pre><code class="lang-js">.not(function(node){
+<pre><code class="language-js">.not(function(node){
   // your code
-});
-</code></pre>
+});</code></pre>
 <h3 id="examples">Examples</h3>
-<pre><code class="lang-html">&lt;ul class=&quot;menu&quot;&gt;
+<pre><code class="language-html">&lt;ul class=&quot;menu&quot;&gt;
     &lt;li&gt;&lt;a class=&quot;active&quot;&gt;Menu item 1&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a&gt;Menu item 2&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a&gt;Menu item 3&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
+&lt;/ul&gt;</code></pre>
 <p>Get only the non-active links on paragraphs</p>
-<pre><code class="lang-js">var nonactive_links = u(&#39;.menu a&#39;).not(&#39;.active&#39;);
-</code></pre>
+<pre><code class="language-js">var nonactive_links = u(&#39;.menu a&#39;).not(&#39;.active&#39;);</code></pre>
 <p>Get all of the active:</p>
-<pre><code class="lang-js">active_links = u(&#39;.menu a&#39;).not(nonactive_links);
-</code></pre>
+<pre><code class="language-js">active_links = u(&#39;.menu a&#39;).not(nonactive_links);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#is">.is()</a> check whether one or more of the nodes is of one type</p>
 <p><a href="#filter">.filter()</a> Remove unwanted nodes</p>
 <h2 id="-off-">.off()</h2>
 <p>Remove event handler from matched nodes</p>
-<pre><code class="lang-js">.off(&#39;event1&#39;)
+<pre><code class="language-js">.off(&#39;event1&#39;)
 .off(&#39;event1 event2 eventN&#39;)
 .off(&#39;event1,event2,eventN&#39;)
-.off([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;])
-</code></pre>
+.off([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;])</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event</code>:
   Any number of events (such as click, mouseover)</p>
 <p><code>listener</code>:
   Function reference to remove from the events</p>
 <h3 id="examples">Examples</h3>
-<pre><code class="lang-html">&lt;ul&gt;
+<pre><code class="language-html">&lt;ul&gt;
   &lt;li class=&quot;off-single-test&quot;&gt;1&lt;/li&gt;
   &lt;li class=&quot;off-multiple-test&quot;&gt;2&lt;/li&gt;
   &lt;li class=&quot;off-multiple-test&quot;&gt;3&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-<pre><code class="lang-js">const listener = function() {
+&lt;/ul&gt;</code></pre>
+<pre><code class="language-js">const listener = function() {
   alert(&#39;called&#39;);
 }
 
@@ -806,20 +722,18 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //Alert appears
 //Remove listener
 u(&#39;.off-multiple-test&#39;).off(&#39;click&#39;, listener);
 //Trigger event
-u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
-</code></pre>
+u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#on">.on()</a> Attaches an event to matched nodes</p>
 <p><a href="#handle">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#trigger">.trigger()</a> Triggers an event on all of the matched nodes</p>
 <h2 id="-on-">.on()</h2>
 <p>Calls a function when an event is triggered</p>
-<pre><code class="lang-js">.on(&#39;event1&#39;, callback)
+<pre><code class="language-js">.on(&#39;event1&#39;, callback)
 .on(&#39;event1 event2 eventN&#39;, callback)
 .on(&#39;event1,event2,eventN&#39;, callback)
 .on([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], callback)
-.on(&#39;event1&#39;, &#39;selector&#39;, callback)
-</code></pre>
+.on(&#39;event1&#39;, &#39;selector&#39;, callback)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
 <p><code>callback</code>: function that will be called when the event is triggered. The parameters it accepts are <code>function(e, data1, data2, ..., dataN)</code>:</p>
@@ -842,7 +756,7 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
 <p>An auto-save feature that submits the form through ajax every 10 seconds</p>
-<pre><code class="lang-js">// Show &#39;test&#39; when the button test is clicked
+<pre><code class="language-js">// Show &#39;test&#39; when the button test is clicked
 u(&#39;button.test&#39;).on(&#39;click&#39;, function(e) {
   alert(&quot;Test&quot;);
 });
@@ -860,35 +774,31 @@ u(&#39;form.test&#39;).on(&#39;submit&#39;, function(e){
 // Better &#39;onchange&#39;:
 u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
   console.log(&quot;Maybe changed&quot;);
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
 <p><a href="#off">.off()</a> Removes an event from  matched nodes</p>
 <h2 id="-parent-">.parent()</h2>
 <p>Retrieve each parent of the matched nodes, optionally filtered by a selector</p>
-<pre><code class="lang-js">.parent()
+<pre><code class="language-js">.parent()
 .parent(&#39;p&#39;)
 .parent(u(&#39;p&#39;))
-.parent(function(node, i){})
-</code></pre>
+.parent(function(node, i){})</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>selector</code>: Optional filter argument for the parents</p>
 <h3 id="examples">Examples</h3>
 <p>Retrieve all of the parents of <code>&lt;li&gt;</code> in the page:</p>
-<pre><code class="lang-js">u(&#39;li&#39;).parent();
-</code></pre>
+<pre><code class="language-js">u(&#39;li&#39;).parent();</code></pre>
 <p>Retrieve all the paragraphs that have a link as a direct child</p>
-<pre><code class="lang-js">u(&#39;a&#39;).parent(&#39;p&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;a&#39;).parent(&#39;p&#39;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#parent">.children()</a> get all of the direct children</p>
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
 <p><a href="#closest">.closest()</a> get the first ascendant that matches the selector</p>
 <h2 id="-prepend-">.prepend()</h2>
 <p>Add some html as a child at the beginning of each of the matched elements.</p>
-<pre><code class="lang-js">.prepend(html)
+<pre><code class="language-js">.prepend(html)
 
 .prepend(&#39;&lt;div&gt;&#39;)
 .prepend(u(&#39;&lt;div&gt;&#39;))
@@ -896,8 +806,7 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 .prepend(u(&#39;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&#39;).nodes)
 .prepend(function(){})
 .prepend(function(el){}, elements)
-.prepend(function(el){}, 10)
-</code></pre>
+.prepend(function(el){}, 10)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>html = &quot;&quot;</code>:</p>
 <ul>
@@ -924,10 +833,9 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add a header to each of the articles</p>
-<pre><code class="lang-js">u(&quot;article&quot;).prepend(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;article&quot;).prepend(&quot;&lt;header&gt;Hello world&lt;/header&gt;&quot;);</code></pre>
 <p>Add three elements at the beginning of the list. All of these methods are equivalent:</p>
-<pre><code class="lang-js">// Add them all like a single string
+<pre><code class="language-js">// Add them all like a single string
 u(&quot;ul&quot;).prepend(&quot;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&quot;);
 
 // Add them in a chain
@@ -938,69 +846,60 @@ var cb = function(txt){ return &quot;&lt;li&gt;&quot; + txt + &quot;&lt;/li&gt;&
 u(&quot;ul&quot;).prepend(cb, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
 
 // Same as the previous one but with ES6
-u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);
-</code></pre>
+u(&quot;ul&quot;).prepend(txt =&gt; `&lt;li&gt;${ txt }&lt;/li&gt;`, [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]);</code></pre>
 <p>They all result in:</p>
-<pre><code class="lang-html">&lt;ul&gt;
+<pre><code class="language-html">&lt;ul&gt;
   &lt;li&gt;One&lt;/li&gt;
   &lt;li&gt;Two&lt;/li&gt;
   &lt;li&gt;Three&lt;/li&gt;
 
   &lt;!-- previous data --&gt;
-&lt;/ul&gt;
-</code></pre>
+&lt;/ul&gt;</code></pre>
 <p>You can also add some events to them by creating an html node:</p>
-<pre><code class="lang-js">function greeting(){ alert(&quot;Hello world&quot;); }
+<pre><code class="language-js">function greeting(){ alert(&quot;Hello world&quot;); }
 
 u(&quot;a.main&quot;).prepend(function(){
   return u(&#39;&lt;a&gt;&#39;).addClass(&#39;hi&#39;).on(&#39;click&#39;, greeting).html(&quot;Greetings!&quot;);
-});
-</code></pre>
+});</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#append">.append()</a> Add some html as a child at the end of each of the matched elements</p>
 <p><a href="#before">.before()</a> Add some html before each of the matched elements.</p>
 <p><a href="#after">.after()</a> Add some html as a sibling after each of the matched elements.</p>
 <h2 id="-remove-">.remove()</h2>
 <p>Removes the matched elements.</p>
-<pre><code class="lang-js">.remove();
-</code></pre>
+<pre><code class="language-js">.remove();</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>This method doesn&#39;t accept any parameters</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: Returns an instance of Umbrella JS with the removed nodes.</p>
 <h3 id="examples">Examples</h3>
 <p>Remove all the elements of a list:</p>
-<pre><code class="lang-js">u(&quot;ul.demo li&quot;).remove();
-</code></pre>
+<pre><code class="language-js">u(&quot;ul.demo li&quot;).remove();</code></pre>
 <h2 id="-removeclass-">.removeClass()</h2>
 <p>Remove html class(es) to all of the matched elements.</p>
-<pre><code class="lang-js">.removeClass(&#39;name1&#39;);
+<pre><code class="language-js">.removeClass(&#39;name1&#39;);
 .removeClass(&#39;name1 name2 nameN&#39;);
 .removeClass(&#39;name1,name2,nameN&#39;);
 .removeClass(&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;);
 .removeClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
 .removeClass([&#39;name1&#39;, &#39;name2&#39;], [&#39;name3&#39;], [&#39;nameN&#39;]);
 .removeClass(function(){ return &#39;name1&#39;; });
-.removeClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });
-</code></pre>
+.removeClass(function(){ return &#39;name1&#39;; }, function(){ return &#39;name2&#39;; });</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be removed to all of the matched elements. It accepts many different types of parameters (see above).</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Remove the class <code>main</code> to all the <code>&lt;h2&gt;</code> from the page:</p>
-<pre><code class="lang-js">u(&quot;h2&quot;).removeClass(&quot;main&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;h2&quot;).removeClass(&quot;main&quot;);</code></pre>
 <p>Remove the class <code>toValidate</code> and <code>ajaxify</code> to all the <code>&lt;form&gt;</code> present in the page:</p>
-<pre><code class="lang-js">u(&quot;form&quot;).removeClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;form&quot;).removeClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass()</a> adds class(es) from the matched elements.</p>
 <p><a href="#hasclass">.hasClass()</a> finds if the matched elements contain the class(es)</p>
 <h2 id="-replace-">.replace()</h2>
 <p>Replace the matched elements with the passed argument.</p>
-<pre><code class="lang-js">.replace();
-</code></pre>
+<pre><code class="language-js">.replace();</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>The parameter can be any of these types:</p>
 <ul>
@@ -1011,70 +910,59 @@ u(&quot;a.main&quot;).prepend(function(){
 <p>The newly created element.</p>
 <h3 id="examples">Examples</h3>
 <p>Replace elements with class &#39;save&#39; by a button with class &#39;update&#39;:</p>
-<pre><code class="lang-js">u(&#39;.save&#39;).replace(&#39;&lt;button class=&quot;update&quot;&gt;Update&lt;/button&gt;&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;.save&#39;).replace(&#39;&lt;button class=&quot;update&quot;&gt;Update&lt;/button&gt;&#39;);</code></pre>
 <p>Replace element button by a link with class &#39;button&#39;:</p>
-<pre><code class="lang-js">u(&#39;button&#39;).replace(function(btn){
+<pre><code class="language-js">u(&#39;button&#39;).replace(function(btn){
   return &#39;&lt;a class=&quot;button&quot;&gt;&#39; + btn.innerHTML + &#39;&lt;/a&gt;&#39;;
-});
-</code></pre>
+});</code></pre>
 <h2 id="-scroll-">.scroll()</h2>
 <p>Scroll to the first matched element, smoothly if supported.</p>
-<pre><code class="lang-js">.scroll()
-</code></pre>
+<pre><code class="language-js">.scroll()</code></pre>
 <h3 id="examples">Examples</h3>
 <p>Scroll to the first <code>&lt;li&gt;</code> in the page:</p>
-<pre><code class="lang-js">u(&#39;li&#39;).scroll();
-</code></pre>
+<pre><code class="language-js">u(&#39;li&#39;).scroll();</code></pre>
 <p>On click event, scroll the first <code>&lt;section&gt;</code> element with the class &quot;team&quot;:</p>
-<pre><code class="lang-js">u(&#39;a.team&#39;).on(&#39;click&#39;, function(e){
+<pre><code class="language-js">u(&#39;a.team&#39;).on(&#39;click&#39;, function(e){
   e.preventDefault();
   u(&#39;section.team&#39;).scroll();
-});
-</code></pre>
+});</code></pre>
 <h2 id="-serialize-">.serialize()</h2>
 <p>Converts a form into a string to be sent:</p>
-<pre><code class="lang-js">.serialize()
-</code></pre>
+<pre><code class="language-js">.serialize()</code></pre>
 <blockquote>
 <p>Note: multiple-select are not supported in Internet Explorer, <a href="https://github.com/jquery/jquery-mobile/issues/3947">similarly to jQuery</a></p>
 </blockquote>
 <h3 id="example">Example</h3>
 <p>For this form:</p>
-<pre><code class="lang-html">&lt;form action=&quot;/contact&quot; method=&quot;POST&quot;&gt;
+<pre><code class="language-html">&lt;form action=&quot;/contact&quot; method=&quot;POST&quot;&gt;
   Email:
   &lt;input type=&quot;email&quot; name=&quot;email&quot; value=&quot;test@example.com&quot; /&gt;
   Message:
   &lt;textarea type=&quot;email&quot; name=&quot;message&quot;&gt;Hello world&lt;/textarea&gt;
 
   &lt;button&gt;Send&lt;/button&gt;
-&lt;/form&gt;
-</code></pre>
+&lt;/form&gt;</code></pre>
 <p>When the user clicks on the &quot;Send&quot; button, the following handler can be used to send the data through Ajax:</p>
-<pre><code class="lang-js">// .handle() == .on() + preventDefault()
+<pre><code class="language-js">// .handle() == .on() + preventDefault()
 u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
   const body = u(e.target).serialize();
   console.log(body);  // email=test@example.com&amp;message=Hello+world
   const res = await fetch(&#39;/contact&#39;, { method: &#39;POST&#39;, body });
   const data = await res.json();
   console.log(&#39;Response data:&#39;, data);
-});
-</code></pre>
+});</code></pre>
 <h2 id="-siblings-">.siblings()</h2>
 <p>Get the siblings of all of the nodes with an optional filter</p>
-<pre><code class="lang-js">.siblings(selector);
-</code></pre>
+<pre><code class="language-js">.siblings(selector);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>selector</code>: a string containing a selector that nodes must pass or a function that return a boolean. See <a href="#selector">.filter()</a> for a better explanation</p>
 <h3 id="return">Return</h3>
 <p><code>u</code>: returns an instance of Umbrella JS with the new siblings as nodes</p>
 <h3 id="examples">Examples</h3>
 <p>Get the all the siblings of the hovered <code>&lt;li&gt;</code></p>
-<pre><code class="lang-js">u(&quot;li:hover&quot;).siblings(&#39;li:first-child&#39;);
-</code></pre>
+<pre><code class="language-js">u(&quot;li:hover&quot;).siblings(&#39;li:first-child&#39;);</code></pre>
 <p>Get all the siblings</p>
-<pre><code class="lang-js">u(&quot;li&quot;).siblings();
-</code></pre>
+<pre><code class="language-js">u(&quot;li&quot;).siblings();</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#parent">.parent()</a> get all of the direct parents</p>
 <p><a href="#find">.find()</a> get all of the descendants of the matched nodes</p>
@@ -1082,8 +970,7 @@ u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
 <p><a href="#closest">.children()</a> get the direct children of all of the nodes with an optional filter</p>
 <h2 id="-size-">.size()</h2>
 <p>Get the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect">bounding client rect</a> of the first matched element. This has height, width, top, left, right and bottom properties</p>
-<pre><code class="lang-js">.size()
-</code></pre>
+<pre><code class="language-js">.size()</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>None</p>
 <h3 id="return">Return</h3>
@@ -1097,17 +984,15 @@ u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
 <li>width</li>
 </ul>
 <h3 id="examples">Examples</h3>
-<pre><code class="lang-js">u(&#39;body&#39;).size();
-// {&quot;left&quot;:0,&quot;right&quot;:400,&quot;top&quot;:0,&quot;height&quot;:300,&quot;bottom&quot;:300,&quot;width&quot;:400}
-</code></pre>
+<pre><code class="language-js">u(&#39;body&#39;).size();
+// {&quot;left&quot;:0,&quot;right&quot;:400,&quot;top&quot;:0,&quot;height&quot;:300,&quot;bottom&quot;:300,&quot;width&quot;:400}</code></pre>
 <h2 id="-text-">.text()</h2>
 <p>Retrieve or set the text content of matched elements:</p>
-<pre><code class="lang-js">// GET
+<pre><code class="language-js">// GET
 .text();
 
 // SET
-.text(text);
-</code></pre>
+.text(text);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><em>GET</em>
 should pass no parameter so it retrieves the text from the first matched element.</p>
@@ -1120,21 +1005,18 @@ should pass no parameter so it retrieves the text from the first matched element
 <code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Get the main title text:</p>
-<pre><code class="lang-js">var title = u(&#39;h1&#39;).text();
-</code></pre>
+<pre><code class="language-js">var title = u(&#39;h1&#39;).text();</code></pre>
 <p>Set the main title text:</p>
-<pre><code class="lang-js">u(&#39;h1&#39;).text(&#39;Hello world&#39;);
-</code></pre>
+<pre><code class="language-js">u(&#39;h1&#39;).text(&#39;Hello world&#39;);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#html">.html()</a> Retrieve or set the HTML of matched elements</p>
 <h2 id="-toggleclass-">.toggleClass()</h2>
 <p>Toggles html class(es) to all of the matched elements.</p>
-<pre><code class="lang-js">.toggleClass(&#39;name1&#39;);
+<pre><code class="language-js">.toggleClass(&#39;name1&#39;);
 .toggleClass(&#39;name1 name2 nameN&#39;);
 .toggleClass(&#39;name1,name2,nameN&#39;);
 .toggleClass([&#39;name1&#39;, &#39;name2&#39;, &#39;nameN&#39;]);
-.toggleClass(&#39;name1&#39;, forceAdd);
-</code></pre>
+.toggleClass(&#39;name1&#39;, forceAdd);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>name1</code>, <code>name2</code>, <code>nameN</code>: the class name (or variable containing it) to be toggled to all of the matched elements. It accepts many different types of parameters (see above).</p>
 <p><code>forceAdd</code>: boolean telling the method whether to force an <code>.addClass()</code> (true) or <code>.removeClass()</code> (false).</p>
@@ -1142,28 +1024,23 @@ should pass no parameter so it retrieves the text from the first matched element
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="examples">Examples</h3>
 <p>Add the class <code>main</code> to all the <code>&lt;h2&gt;</code> from the page:</p>
-<pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;);</code></pre>
 <p>Add the class <code>toValidate</code> and remove <code>ajaxify</code> from the element <code>&lt;form class=&quot;ajaxify&quot;&gt;</code> present in the page:</p>
-<pre><code class="lang-js">u(&quot;form.ajaxify&quot;).toggleClass(&quot;toValidate ajaxify&quot;);
-</code></pre>
+<pre><code class="language-js">u(&quot;form.ajaxify&quot;).toggleClass(&quot;toValidate ajaxify&quot;);</code></pre>
 <p>Force an <code>.addClass()</code> on the element <code>&lt;h2&gt;</code> from the page:</p>
-<pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, true);
-</code></pre>
+<pre><code class="language-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, true);</code></pre>
 <p>Note however that this last example by itself doesn&#39;t make much sense as you could just use <code>addClass()</code> instead. It makes a lot more sense when the second parameter is checked dynamically:</p>
-<pre><code class="lang-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, u(&#39;.accept&#39;).is(&#39;:checked&#39;));
-</code></pre>
+<pre><code class="language-js">u(&quot;h2&quot;).toggleClass(&quot;main&quot;, u(&#39;.accept&#39;).is(&#39;:checked&#39;));</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#addclass">.addClass()</a> adds class(es) from the matched elements.</p>
 <p><a href="#removeclass">.removeClass()</a> deletes class(es) from the matched elements.</p>
 <p><a href="#hasclass">.hasClass()</a> finds if the matched elements contain the class(es)</p>
 <h2 id="-trigger-">.trigger()</h2>
 <p>Calls an event on all of the matched nodes</p>
-<pre><code class="lang-js">.trigger(&#39;event1&#39;, data)
+<pre><code class="language-js">.trigger(&#39;event1&#39;, data)
 .trigger(&#39;event1 event2 eventN&#39;, data1, data2, dataN)
 .trigger(&#39;event1,event2,eventN&#39;, data1, data2, dataN)
-.trigger([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], data1, data2, dataN)
-</code></pre>
+.trigger([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;], data1, data2, dataN)</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to listen for actions, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
 <p><code>data1</code>, <code>data2</code>, <code>dataN</code> (optional): the data that will be passed to the event listener in the <code>e.details</code> variable and as arguments.</p>
@@ -1171,19 +1048,17 @@ should pass no parameter so it retrieves the text from the first matched element
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
 <p>An auto-save feature that submits the form through ajax every 10 seconds</p>
-<pre><code class="lang-js">// Submit it every 10s
+<pre><code class="language-js">// Submit it every 10s
 setInterval(function(){
   u(&#39;button.save&#39;).trigger(&#39;click&#39;);
-}, 10000);
-</code></pre>
+}, 10000);</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#on">.on()</a> add an event listener to the matched nodes</p>
 <p><a href="#off">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#off">.off()</a> Removes an event from matched nodes</p>
 <h2 id="-wrap-">.wrap()</h2>
 <p>Wraps the matched element(s) with the passed argument. The argument gets processed with the constructor u() and it accepts an html tag like <code>.wrap(&#39;&lt;div&gt;&#39;)</code></p>
-<pre><code class="lang-js">.wrap(selector);
-</code></pre>
+<pre><code class="language-js">.wrap(selector);</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><code>selector</code>: a formatted string of the desired selector. For example <code>.wrap(&#39;&lt;div&gt;&#39;)</code>. Nested selectors are supported in a similar way to <a href="http://api.jquery.com/wrap/">jQuery wrap</a>. For example <code>.wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;)</code>. Matched element(s) will be wrapped with innermost node of the first child of a nested argument. See examples below.</p>
 <h3 id="return">Return</h3>
@@ -1191,33 +1066,26 @@ setInterval(function(){
 <h3 id="examples">Examples</h3>
 <p>Wrap an element in an html element:</p>
 <p>Original element:</p>
-<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
-</code></pre>
-<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a class=&quot;wrapper&quot;&gt;&#39;);
-</code></pre>
+<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;</code></pre>
+<pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;a class=&quot;wrapper&quot;&gt;&#39;);</code></pre>
 <p>Result:</p>
-<pre><code class="lang-html">&lt;a class=&quot;wrapper&quot;&gt;
+<pre><code class="language-html">&lt;a class=&quot;wrapper&quot;&gt;
   &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
-&lt;/a&gt;
-</code></pre>
+&lt;/a&gt;</code></pre>
 <p>Wrap an element in an html element and chain umbrella.js methods:</p>
-<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});
-</code></pre>
+<pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});</code></pre>
 <p>Result:</p>
-<pre><code class="lang-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+<pre><code class="language-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
   &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
-&lt;/a&gt;
-</code></pre>
+&lt;/a&gt;</code></pre>
 <p>Wrap several elements in an html element</p>
-<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
 &lt;button class=&quot;example&quot;&gt;Link2&lt;/button&gt;
 &lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
-
 </code></pre>
-<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});
-</code></pre>
+<pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});</code></pre>
 <p>Result:</p>
-<pre><code class="lang-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
+<pre><code class="language-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
   &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
 &lt;/a&gt;
 &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
@@ -1225,15 +1093,12 @@ setInterval(function(){
 &lt;/a&gt;
 &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
   &lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
-&lt;/a&gt;
-</code></pre>
+&lt;/a&gt;</code></pre>
 <p>Nested selector arguments:</p>
-<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
-</code></pre>
-<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);
-</code></pre>
+<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;</code></pre>
+<pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);</code></pre>
 <p>Result:</p>
-<pre><code class="lang-html">&lt;div class=&quot;a1&quot;&gt;
+<pre><code class="language-html">&lt;div class=&quot;a1&quot;&gt;
     &lt;div class=&quot;b1&quot;&gt;
         &lt;div class=&quot;c1&quot;&gt;
             &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
@@ -1241,15 +1106,12 @@ setInterval(function(){
             &lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
 <p>Nested selector arguments with multiple child nodes:</p>
-<pre><code class="lang-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
-</code></pre>
-<pre><code class="lang-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;b2&quot;&gt;&lt;div class=&quot;c2&quot;&gt;&lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);
-</code></pre>
+<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;</code></pre>
+<pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;b2&quot;&gt;&lt;div class=&quot;c2&quot;&gt;&lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);</code></pre>
 <p>Result:</p>
-<pre><code class="lang-html">&lt;div class=&quot;a1&quot;&gt;
+<pre><code class="language-html">&lt;div class=&quot;a1&quot;&gt;
     &lt;div class=&quot;b1&quot;&gt;
         &lt;div class=&quot;c1&quot;&gt;
             &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
@@ -1262,8 +1124,7 @@ setInterval(function(){
             &lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
 </article></section></main><script src="https://unpkg.com/umbrellajs"></script><script>u('h2[id]').each(function(node){
   u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
 });
