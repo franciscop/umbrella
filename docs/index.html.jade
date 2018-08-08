@@ -37,8 +37,8 @@ block content
             });
 
             // Send form through ajax when submitted
-            u('form.login').ajax(function(err, res){
-              window.href = '/user/' + res.id;
+            u('form.login').handle('submit', e => {
+              console.log(u(e.target).serialize());
             });
     
     section.flex.two
