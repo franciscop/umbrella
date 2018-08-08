@@ -2153,10 +2153,13 @@ describe('.parent()', function() {
   it('can loop the li', function() {
     expect(u('li').parent().is('ol, ul')).to.equal(true);
   });
-  
-  it('can retrieve all paragraphs', function() {
-    expect(u('a').parent('p').is('p')).to.equal(true);
-    expect(u('a').parent('p')).not.to.equal(u('a').parent());
+
+  it('can retrieve the direct parent with a filter', function() {
+    expect(base.parent('#demo').is('div')).to.equal(true);
+  });
+
+  it('will filter out if none is matched', function() {
+    expect(base.parent('#fake').is('div')).to.equal(false);
   });
 });
 
