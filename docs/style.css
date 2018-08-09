@@ -25,7 +25,6 @@ body {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  margin: 0 30px;
 }
 
 .hero h1 {
@@ -38,6 +37,7 @@ body {
 .hero p {
   color: #fff;
   font-family: 'Dosis', Arial, Helvetica, sans-serif;
+  margin: 0 1.2em;
 }
 
 .hero .links a {
@@ -47,7 +47,7 @@ body {
 
 .hero .slogan {
   font-size: 1.4em;
-  margin: 0 0 5px;
+  margin: 0 1.2em 5px;
 }
 
 .hero .keepgoing {
@@ -96,7 +96,7 @@ main section,
 main section.flex {
   background: #fff;
   text-align: left;
-  width: 90%;
+  width: calc(100% - 1.2em);
   max-width: 960px;
   margin: 0 auto;
   padding: 80px 0 0;
@@ -172,7 +172,8 @@ main {
 }
 
 .install {
-  width: 440px;
+  width: 100%;
+  max-width: 440px;
   color: #000;
   text-align: center;
   border-radius: 0px;
@@ -232,9 +233,16 @@ aside a.top.visible {
   font-size: 1em;
 }
 
-.index pre {
-  margin: 0;
-  font-size: .9em;
+#index pre {
+  box-sizing: border-box;
+  margin: 0 -1.2em;
+  width: calc(100% + 2.4em);
+}
+
+@media (min-width: 600px) {
+  #index pre {
+    margin: 0;
+  }
 }
 
 h2, h3, h4 {
