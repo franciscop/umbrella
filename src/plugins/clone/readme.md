@@ -10,8 +10,9 @@ u('.elementToClone').clone()
 
 ### Extensions
   - The following extensions are enabled by default:
-    - **select** select input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
-    - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
+    - **events** clone the events of all of the nodes. To disable it globally, add `u.prototype.mirror.events = false;` to your code.
+    - **select** select input node values are copied to all cloned nodes. To disable globally, add `u.prototype.mirror.select = false;` to your code.
+    - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add `u.prototype.mirror.textarea = false;` to your code.
 
 
 ### Return
@@ -48,4 +49,3 @@ Result:
 
 ### Related
 [.append()](#append) add some html as a child at the end of each of the matched elements.
-
