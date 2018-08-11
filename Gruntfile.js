@@ -6,18 +6,29 @@ module.exports = function (grunt) {
       options: {
         banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'
       },
-      my_target: {
+      umbrella: {
         files: {
           'umbrella.min.js': 'umbrella.js'
+        }
+      },
+      web: {
+        files: {
+          'docs/umbrella.min.js': 'umbrella.js'
+        }
+      },
+      es6: {
+        options: {
+          footer: '\nexport default u;'
+        },
+        files: {
+          'umbrella.esm.js': 'umbrella.js'
         }
       }
     },
 
     semistandard: {
       app: {
-        src: [
-          './plugins/**/!(test).js'
-        ]
+        src: []
       }
     },
 
@@ -76,7 +87,7 @@ module.exports = function (grunt) {
       },
       test: {
         files: {
-          'test/test.js': ['src/test.js', 'src/plugins/**/test.js']
+          'docs/test.js': ['src/test.js', 'src/plugins/**/test.js']
         }
       }
     },

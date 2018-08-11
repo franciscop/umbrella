@@ -10,7 +10,7 @@ block content
       div.content
         h1 Umbrella JS
         p.slogan Tiny library for DOM manipulation, events and AJAX
-        pre.install https://unpkg.com/umbrellajs
+        pre.install https://cdn.jsdelivr.net/npm/umbrellajs
         a.button.icon-g(href="https://github.com/franciscop/umbrella" target="_blank") Github
         = ' '
         a.button.icon-download(href="https://raw.githubusercontent.com/franciscop/umbrella/master/umbrella.min.js" target="_blank" download="umbrella.min.js") Download
@@ -20,13 +20,13 @@ block content
       a.keepgoing(href="#go") ▼
   
   main#index
-    section.flex.two#go
+    section.flex.one.two-600#go
       div
         :markdown
           ## Intuitive and Documented
           It is **strongly influenced by jquery** with many similar methods so you'll feel at ease developing with Umbrella.
           
-          However there are also some improvements such as with `.ajax()`, `.append()`, etc. It's all detailed here:
+          However there are some extra features like `.handle()` and some methods like `.append()` are more flexible:
         a.button.icon-doc(href="documentation" target="_blank") Documentation
       div
         pre
@@ -37,15 +37,15 @@ block content
             });
 
             // Send form through ajax when submitted
-            u('form.login').ajax(function(err, res){
-              window.href = '/user/' + res.id;
+            u('form.login').handle('submit', e => {
+              console.log(u(e.target).serialize());
             });
     
-    section.flex.two
+    section.flex.one.two-600
       div
         :markdown
           ## Tiny and Clear
-          **3kb** when gzipped means it will load in a snap on mobile. The core is reusable so new features are also tiny.
+          **2.5kb** when gzipped means it will load in a snap on mobile. The core is reusable so new features are also tiny.
           
           You can see two features of Umbrella JS source code on the right, or check it all on github:
         a.button.icon-g(href="https://github.com/franciscop/umbrella" target="_blank") Source on Github
@@ -63,7 +63,7 @@ block content
               return this.filter(selector).length > 0;
             };
     
-    section.flex.two
+    section.flex.one.two-600
       div
         :markdown
           ## Tested and Performant
@@ -82,7 +82,7 @@ block content
               expect(ul.length).to.equal(1);
             });
     
-    section.flex.two
+    section.flex.one.two-600
       div
         :markdown
           ## MIT License

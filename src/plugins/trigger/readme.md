@@ -29,12 +29,9 @@ Umbrella instance
 An auto-save feature that submits the form through ajax every 10 seconds
 
 ```js
-// Make the form to submit through ajax
-u('form.edit').ajax();
-
 // Submit it every 10s
 setInterval(function(){
-  u('form.edit').trigger('submit');
+  u('button.save').trigger('click');
 }, 10000);
 ```
 

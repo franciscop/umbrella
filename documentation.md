@@ -69,23 +69,6 @@ u('body').append(list);
 ```
 
 
-It plays well with other libraries, including jquery. For example, with [pagex.js](http://github.com/franciscop/pagex):
-
-```js
-// When we are on the page "/login"
-page(/^login/, function(){
-
-  function done(err, res){
-    if (err) return alert("There was an error");
-    window.location.href = "/user/" + res.id;
-  };
-
-  // Find the form and handle it through ajax when it's submitted
-  u("form.login").ajax(done);
-});
-```
-
-
 
 ### Native methods
 
@@ -293,94 +276,6 @@ u("a.main").after(function(){
 [.append()](#append) Add some html as a child at the end of each of the matched elements
 
 [.prepend()](#prepend) Add some html as a child at the beginning of each of the matched elements.
-
-## .ajax()
-
-Make all of the matched forms to be submitted by ajax with the same action, method and values when the user submits the form.
-
-> Note: this method does NOT submit the form, it just handles it when it's submitted (from the user or with .trigger())
-
-```js
-.ajax(done, before);
-```
-
-
-### Parameters
-
-`done` [optional]: A function to be called when the request ends. The first argument is the error, if any. The second is the body, which is parsed to JSON if it's a JSON string or just the body as a string if it's not JSON. The third is the request object itself.
-
-```js
-var done = function(err, body, xhr){};
-```
-
-`before` [optional]: A function to be called before the request is sent. Useful to manipulate some data in real-time.
-
-```js
-var before = function(xhr){};
-```
-
-
-### Return
-
-**Undefined**. Please don't use the returned value for anything (it might be a promise in the future).
-
-
-
-### Examples
-
-Handle the newsletter through ajax
-
-```js
-u('.newsletter').ajax(function(err){
-  if (err) return alert("Error");
-  alert("Thank you for subscribing, awesome!");
-});
-```
-
-Actually send a form through ajax:
-
-```js
-u('form.edit').ajax(function(){ console.log('Sent!'); }).trigger('submit');
-```
-
-
-### Why not jquery?
-
-This was created because this pattern is quite common in jquery:
-
-```js
-$('form').on('submit', function(e){
-  e.preventDefault();
-  $.post($(this).attr('action'), $(this).serialize(), function(data){
-    alert("Done! Thanks, " + data.name);
-  }, 'json');
-});
-```
-
-After repeating that many times, I found out that it's better if we just make that the default. The same code on Umbrella JS:
-
-```js
-u('form').ajax(function(err, data){
-  if (!err) alert('Done! Thanks, ' + data.name);
-});
-```
-
-Of course you have freedom and you can use a similar method to jquery, but I think it's a bit pointless for this specific situation:
-
-```js
-u('form').on('submit', function(e){
-  e.preventDefault();
-  var options = { method: u(this).attr('method'), body: u(this).serialize() };
-  ajax(u(this).attr('action'), options, function(err, data){
-    if (!err) alert("Done! Thanks, " + data.name);
-  });
-});
-```
-
-
-### Related
-
-[ajax()](#ajaxfn): perform ajax requests
 
 ## .append()
 
@@ -750,8 +645,9 @@ u('.elementToClone').clone()
 
 ### Extensions
   - The following extensions are enabled by default:
-    - **select** select input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
-    - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add ```u.prototype.mirror.select = false;``` to your code.
+    - **events** clone the events of all of the nodes. To disable it globally, add `u.prototype.mirror.events = false;` to your code.
+    - **select** select input node values are copied to all cloned nodes. To disable globally, add `u.prototype.mirror.select = false;` to your code.
+    - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add `u.prototype.mirror.textarea = false;` to your code.
 
 
 ### Return
@@ -788,7 +684,6 @@ Result:
 
 ### Related
 [.append()](#append) add some html as a child at the end of each of the matched elements.
-
 
 ## .closest()
 
@@ -1096,49 +991,6 @@ var next = u("ul.demo li").first();
 ### Related
 
 [.last()](#last) retrieve the last matched element
-## ajax() fn
-
-Function (not method) that allows performing ajax requests. The implementation is somewhat similar to [nanoajax](https://github.com/yanatan16/nanoajax):
-
-```js
-var action = '/save';
-var options = { body: 'a=b' };
-var after = function(err, data){ console.log(data); };
-var before = function(xhr){};
-
-ajax(action, options, after, before);
-```
-
-
-### Parameters
-
-`action`: the place where to send the ajax request
-
-`options`: an object that sets the options to be passed. These are:
-
-- `method = 'GET'`: the way to send the request. It can be GET or POST
-- `body = ''`: a string on the `a=b&c=d` format or a simple object that will be converted
-- `headers = {}`: an object with `{ key: value }` headers to be manually set
-
-`after`: the callback to be called when the request has been sent and parsed. The first parameter is an error that can be null, and the second one the parsed data in JSON or the unparsed data as an string.
-
-`before`: a callback that can be called just before sending the request. It receives the XHR object as the first parameter.
-
-### Return
-
-Returns the already sent XHR object.
-
-
-### Tips
-
-You can modify the XHR object straight by using the *before* callback. It is called just before sending the request, after setting all its parameters:
-
-```js
-ajax('/save', {}, after, function(xhr){
-  xhr.responseType = 'json';
-});
-```
-
 ## .handle()
 
 This function is the same as [`on()`](#on), but it executes the `e.preventDefault()` so you don't need to do it. So these two are exactly the same:
@@ -1323,12 +1175,14 @@ Check whether any of the nodes matches the selector
 Check if the current form needs to be valdated
 
 ```js
-u('form.subscribe').ajax(false, function() {
-  
+u('form.subscribe').on('submit', function(e) {
+
   // Same as u('form.subscribe').hasClass('validate')
-  if (u('form.subscribe').is('.validate')) {
+  if (u(e.target).is('.validate')) {
     validate();
   }
+
+  // ...
 });
 ```
 
@@ -1339,6 +1193,7 @@ u('form.subscribe').ajax(false, function() {
 [.filter()](#filter) remove unwanted nodes
 
 [.not()](#not) remove all the nodes that match the criteria
+
 ## .last()
 
 Get the last element from a list of elements.
@@ -1583,14 +1438,14 @@ u('button.test').on('click', function(e) {
   alert("Test");
 });
 
-// This example is very similar to .ajax() implementation
+// Submit a form through Ajax
 u('form.test').on('submit', function(e){
 
   // Avoid submitting the form normally
   e.preventDefault();
 
   // Submit the form through ajax
-  ajax(u(this).attr('action'), u(this).serialize());
+  fetch(u(this).attr('action'), { body: u(this).serialize(), ... });
 });
 
 // Better 'onchange':
@@ -1897,7 +1752,33 @@ Converts a form into a string to be sent:
 
 > Note: multiple-select are not supported in Internet Explorer, [similarly to jQuery](https://github.com/jquery/jquery-mobile/issues/3947)
 
-> Note: file inputs are not supported. Instead, use [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData), e.g. - `new FormData(u('form').first())`
+### Example
+
+For this form:
+
+```html
+<form action="/contact" method="POST">
+  Email:
+  <input type="email" name="email" value="test@example.com" />
+  Message:
+  <textarea type="email" name="message">Hello world</textarea>
+
+  <button>Send</button>
+</form>
+```
+
+When the user clicks on the "Send" button, the following handler can be used to send the data through Ajax:
+
+```js
+// .handle() == .on() + preventDefault()
+u('form.contact').handle('submit', async e => {
+  const body = u(e.target).serialize();
+  console.log(body);  // email=test@example.com&message=Hello+world
+  const res = await fetch('/contact', { method: 'POST', body });
+  const data = await res.json();
+  console.log('Response data:', data);
+});
+```
 
 ## .siblings()
 
@@ -2126,12 +2007,9 @@ Umbrella instance
 An auto-save feature that submits the form through ajax every 10 seconds
 
 ```js
-// Make the form to submit through ajax
-u('form.edit').ajax();
-
 // Submit it every 10s
 setInterval(function(){
-  u('form.edit').trigger('submit');
+  u('button.save').trigger('click');
 }, 10000);
 ```
 

@@ -5,12 +5,6 @@ describe(".select(selector)", function() {
     expect(typeof base.select).to.equal('function');
   });
 
-  it("is fine-tuned for context (use css with that)", function() {
-    var withContext = u().select('a', u('.brand').first())[0];
-    var withCss = u().select.byCss('.brand a')[0];
-    expect(withContext).to.equal(withCss);
-  });
-
   it("can select by class", function(){
     expect(u().select('.base').length).to.equal(1);
     expect(u().select('.base')).to.not.equal(null);
@@ -22,8 +16,8 @@ describe(".select(selector)", function() {
   });
 
   it("can select by id", function(){
-    expect(u().select('#base')).to.not.equal(null);
-    expect(u().select('#base').nodeName).to.equal('DIV');
+    expect(u().select('#base')[0]).to.not.equal(null);
+    expect(u().select('#base')[0].nodeName).to.equal('DIV');
   });
 
   it("can select by complex selector", function() {

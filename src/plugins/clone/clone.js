@@ -9,7 +9,9 @@ u.prototype.clone = function () {
 
     this.getAll(node).each(function (src, i) {
       for (var key in this.mirror) {
-        this.mirror[key](src, dest.nodes[i]);
+        if (this.mirror[key]) {
+          this.mirror[key](src, dest.nodes[i]);
+        }
       }
     });
 

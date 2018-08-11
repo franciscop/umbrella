@@ -2,8 +2,8 @@ extends layout
 
 block content
   block style
-    link(rel="stylesheet" media="all" href="../test/vendor/mocha.css")
-    
+    link(rel="stylesheet" media="all" href="./vendor/mocha.css")
+
     style.
       #demo { display: none; }
       
@@ -27,10 +27,7 @@ block content
   main.test
     section
       h1 Tests for Umbrella JS
-      p.noserver
-      p Note: It's okay that performance tests fail depending on your browser/computer load. Just re-run them or 
-        a(href="https://circleci.com/gh/franciscop/umbrella/tree/master" target="_blank") check Circle CI
-      
+
       div#mocha
       div#messages
       div#fixtures
@@ -75,16 +72,16 @@ block content
         table.tbl
   
   
-  script(src="../test/vendor/mocha.js")
-  script(src="../test/vendor/chai.js")
-  script(src="../test/vendor/sinon.js")
-  script(src="../test/jquery.js")
-  script(src="../polyfill.js")
-  script(src="../umbrella.js")
+  script(src="./vendor/mocha.js")
+  script(src="./vendor/chai.js")
+  script(src="./vendor/sinon.js")
+  script(src="./vendor/jquery.js")
+  script(src="./vendor/polyfill.js")
+  script(src="./umbrella.min.js")
   script.
     mocha.setup('bdd');
     var base = u("#base");
-  script(src="../test/test.js")
+  script(src="./test.js")
   script.
     if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
     else { mocha.run(); }

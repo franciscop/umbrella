@@ -1,7 +1,7 @@
 // Umbrella JS  http://umbrellajs.com/
 // -----------
 // Small, lightweight jQuery alternative
-// @author Francisco Presencia Fandos http://francisco.io/
+// @author Francisco Presencia Fandos https://francisco.io/
 // @inspiration http://youmightnotneedjquery.com/
 
 // Initialize the library
@@ -93,19 +93,6 @@ u.prototype.adjacent = function (html, data, callback) {
 u.prototype.after = function (html, data) {
   return this.adjacent(html, data, function (node, fragment) {
     node.parentNode.insertBefore(fragment, node.nextSibling);
-  });
-};
-
-
-// Create a HTTP request for whenever the matched form submits
-u.prototype.ajax = function (done, before) {
-  return this.handle('submit', function (e) {
-    ajax(
-      u(this).attr('action'),
-      { body: u(this).serialize(), method: u(this).attr('method') },
-      done && done.bind(this),
-      before && before.bind(this)
-    );
   });
 };
 
@@ -202,7 +189,9 @@ u.prototype.clone = function () {
 
     this.getAll(node).each(function (src, i) {
       for (var key in this.mirror) {
-        this.mirror[key](src, dest.nodes[i]);
+        if (this.mirror[key]) {
+          this.mirror[key](src, dest.nodes[i]);
+        }
       }
     });
 
@@ -359,99 +348,14 @@ u.prototype.first = function () {
 };
 
 
-// Perform ajax calls
-/* eslint-disable no-unused-vars*/
-function ajax (action, opt, done, before) {
-  done = done || function () {};
-
-  // A bunch of options and defaults
-  opt = opt || {};
-  opt.body = opt.body || {};
-  opt.method = (opt.method || 'GET').toUpperCase();
-  opt.headers = opt.headers || {};
-
-  // Tell the back-end it's an AJAX request
-  opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
-
-  if (typeof window.FormData === 'undefined' || !(opt.body instanceof window.FormData)) {
-    opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
-  }
-
-  // If it's of type JSON, encode it as such
-  if (/json/.test(opt.headers['Content-Type'])) {
-    opt.body = JSON.stringify(opt.body);
-  }
-
-  if ((typeof opt.body === 'object') && !(opt.body instanceof window.FormData)) {
-    opt.body = u().param(opt.body);
-  }
-
-  // Create and send the actual request
-  var request = new window.XMLHttpRequest();
-
-  // An error is just an error
-  // This uses a little hack of passing an array to u() so it handles it as
-  // an array of nodes, hence we can use 'on'. However a single element wouldn't
-  // work since it a) doesn't have nodeName and b) it will be sliced, failing
-  u(request).on('error timeout abort', function () {
-    done(new Error(), null, request);
-  }).on('load', function () {
-    // Also an error if it doesn't start by 2 or 3...
-    // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
-    // We don't want to return yet though as there might be some content
-    var err = /^(4|5)/.test(request.status) ? new Error(request.status) : null;
-
-    // Attempt to parse the body into JSON
-    var body = parseJson(request.response) || request.response;
-
-    return done(err, body, request);
-  });
-
-  // Create a request of the specified type to the URL and ASYNC
-  request.open(opt.method, action);
-
-  request.withCredentials = true;
-
-  // Set the corresponding headers
-  for (var name in opt.headers) {
-    request.setRequestHeader(name, opt.headers[name]);
-  }
-
-  // Load the before callback before sending the data
-  if (before) before(request);
-
-  request.send(opt.body);
-
-  return request;
-}
-/* eslint-enable no-unused-vars*/
-
-
-// [INTERNAL USE ONLY]
-// Parse JSON without throwing an error
-/* eslint-disable no-unused-vars*/
-function parseJson (jsonString) {
-  try {
-    var o = JSON.parse(jsonString);
-    // Handle non-exception-throwing cases:
-    // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking
-    // so we must check for that, too.
-    if (o && typeof o === 'object') {
-      return o;
-    }
-  } catch (e) {}
-
-  return false;
-}
-/* eslint-enable no-unused-vars*/
-
-
 // [INTERNAL USE ONLY]
 // Generate a fragment of HTML. This irons out the inconsistences
 u.prototype.generate = function (html) {
   // Table elements need to be child of <table> for some f***ed up reason
-  if (/^\s*<t(h|r|d)/.test(html)) {
-    return u(document.createElement('table')).html(html).children().nodes;
+  if (/^\s*<tr[> ]/.test(html)) {
+    return u(document.createElement('table')).html(html).children().children().nodes;
+  } else if (/^\s*<t(h|d)[> ]/.test(html)) {
+    return u(document.createElement('table')).html(html).children().children().children().nodes;
   } else if (/^\s*</.test(html)) {
     return u(document.createElement('div')).html(html).children().nodes;
   } else {
@@ -677,48 +581,11 @@ u.prototype.select = function (parameter, context) {
   // Allow for spaces before or after
   parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
 
-  if (context) {
-    return this.select.byCss(parameter, context);
+  if (/^</.test(parameter)) {
+    return u().generate(parameter);
   }
 
-  for (var key in this.selectors) {
-    // Reusing it to save space
-    context = key.split('/');
-    if ((new RegExp(context[1], context[2])).test(parameter)) {
-      return this.selectors[key](parameter);
-    }
-  }
-
-  return this.select.byCss(parameter);
-};
-
-// Select some elements using a css Selector
-u.prototype.select.byCss = function (parameter, context) {
   return (context || document).querySelectorAll(parameter);
-};
-
-// Allow for adding/removing regexes and parsing functions
-// It stores a regex: function pair to process the parameter and context
-u.prototype.selectors = {};
-
-// Find some html nodes using an Id
-u.prototype.selectors[/^\.[\w\-]+$/] = function (param) {
-  return document.getElementsByClassName(param.substring(1));
-};
-
-// The tag nodes
-u.prototype.selectors[/^\w+$/] = function (param) {
-  return document.getElementsByTagName(param);
-};
-
-// Find some html nodes using an Id
-u.prototype.selectors[/^\#[\w\-]+$/] = function (param) {
-  return document.getElementById(param.substring(1));
-};
-
-// Create a new element for the DOM
-u.prototype.selectors[/^</] = function (param) {
-  return u().generate(param);
 };
 
 
@@ -892,8 +759,7 @@ u.prototype.wrap = function (selector) {
 
 // Export it for webpack
 if (typeof module === 'object' && module.exports) {
-  module.exports = {
-    u: u,
-    ajax: ajax
-  };
+  // Avoid breaking it for `import { u } from ...`. Add `import u from ...`
+  module.exports = u;
+  module.exports.u = u;
 }

@@ -69,23 +69,6 @@ u('body').append(list);
 ```
 
 
-It plays well with other libraries, including jquery. For example, with [pagex.js](http://github.com/franciscop/pagex):
-
-```js
-// When we are on the page "/login"
-page(/^login/, function(){
-
-  function done(err, res){
-    if (err) return alert("There was an error");
-    window.location.href = "/user/" + res.id;
-  };
-
-  // Find the form and handle it through ajax when it's submitted
-  u("form.login").ajax(done);
-});
-```
-
-
 
 ### Native methods
 
