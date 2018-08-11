@@ -15,14 +15,20 @@ module.exports = function (grunt) {
         files: {
           'docs/umbrella.min.js': 'umbrella.js'
         }
+      },
+      es6: {
+        options: {
+          footer: '\nexport default u;'
+        },
+        files: {
+          'umbrella.esm.js': 'umbrella.js'
+        }
       }
     },
 
     semistandard: {
       app: {
-        src: [
-          './plugins/**/!(test).js'
-        ]
+        src: []
       }
     },
 

@@ -1,6 +1,6 @@
 {
   "name": "umbrellajs",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "homepage": "https://umbrellajs.com/",
   "authors": [
     "Francisco Presencia <public@francisco.io>"
@@ -57,7 +57,8 @@
       "**/chai.js",
       "**/sinon.js",
       "**/mocha.js",
-      "**/*.min.js"
+      "**/*.min.js",
+      "umbrella.esm.js"
     ],
     "globals": [
       "u",

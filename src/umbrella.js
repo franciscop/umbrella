@@ -1,7 +1,7 @@
 // Umbrella JS  http://umbrellajs.com/
 // -----------
 // Small, lightweight jQuery alternative
-// @author Francisco Presencia Fandos http://francisco.io/
+// @author Francisco Presencia Fandos https://francisco.io/
 // @inspiration http://youmightnotneedjquery.com/
 
 // Initialize the library

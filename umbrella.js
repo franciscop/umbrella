@@ -1,7 +1,7 @@
 // Umbrella JS  http://umbrellajs.com/
 // -----------
 // Small, lightweight jQuery alternative
-// @author Francisco Presencia Fandos http://francisco.io/
+// @author Francisco Presencia Fandos https://francisco.io/
 // @inspiration http://youmightnotneedjquery.com/
 
 // Initialize the library
@@ -759,5 +759,7 @@ u.prototype.wrap = function (selector) {
 
 // Export it for webpack
 if (typeof module === 'object' && module.exports) {
-  module.exports = { u: u };
+  // Avoid breaking it for `import { u } from ...`. Add `import u from ...`
+  module.exports = u;
+  module.exports.u = u;
 }
