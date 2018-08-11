@@ -67,6 +67,15 @@ var u = require('path/to/umbrella').u;
 import { u } from 'path/to/umbrella';
 ```
 
+### ES Module support
+
+If you use an ES Module, `u` and `ajax` are exposed as ES Module exports.
+You can pull them in like so:
+
+```
+import { u, ajax } from 'path/to/umbrella.esm.js'
+```
+
 ### Download it
 
 If you like it or prefer to try it locally, just download `umbrella.min.js`:
