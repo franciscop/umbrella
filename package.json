@@ -34,8 +34,6 @@
     "url": "git+https://github.com/franciscop/umbrella.git"
   },
   "devDependencies": {
-    "body-parser": "^1.15.2",
-    "express": "^4.14.0",
     "grunt": "^1.0.3",
     "grunt-bytesize": "^0.2.0",
     "grunt-contrib-concat": "^1.0.1",

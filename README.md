@@ -41,10 +41,10 @@ Instead of installing it, you can just play with it in JSFiddle:
 
 ### Use a CDN
 
-unpkg.com is an awesome service that hosts many open source projects so you don't need to even download the code:
+jsdelivr.com is an awesome OSS service that hosts many open source projects so you don't need to even download the code:
 
 ```js
-<script src="https://unpkg.com/umbrellajs"></script>
+<script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>
 ```
 
 
@@ -61,7 +61,11 @@ npm install umbrellajs
 
 If you use a front-end module bundler like Webpack or Browserify, `u` is exposed as CommonJS exports. You can pull them in like so:
 
-```
+```js
+// ES Modules/Webpack/etc
+import u from 'umbrellajs';
+
+// Commonjs
 var u = require('umbrellajs');
 ```
 
@@ -85,13 +89,6 @@ Add it to your project:
 ```html
 <script src="umbrella.min.js"></script>
 ```
-
-
-## Up for grabs
-
-For beginners in Javascript or contributing to an Open Source project, there are few issues that are made on purpose so you can help out. Check them out:
-
-> [**Up For Grabs issues**](https://github.com/franciscop/umbrella/labels/up-for-grabs)
 
 
 
@@ -146,3 +143,7 @@ Created and maintained by [Francisco Presencia](https://github.com/franciscop) u
 - https://webmaster.kitchen/jquery-kutuphanesine-alternatif-umbrellajs-kimdir/
 - https://wmaraci.com/blog/umbrellajs-jquery-alternatifiniz-olmaya-aday-533
 - http://qiita.com/kt3k/items/0da4c0b36c402b96122b
+- https://whatpixel.com/umbrella-js-library/
+- https://gomakethings.com/umbrella-js/
+- https://medium.com/@rintoug/umbrella-js-is-your-alternative-to-jquery-c73fab99061
+- https://lean.codecomputerlove.com/keeping-your-code-dry-with-umbrellajs/
