@@ -71,7 +71,7 @@ u('input').on('change click blur paste', function(){
 
 ### Related
 
-[.handle()](#off) Same as `.on()`, but it prevents the default action
+[.handle()](#handle) Same as `.on()`, but it prevents the default action
 
 [.trigger()](#trigger) calls an event on all of the matched nodes
 
