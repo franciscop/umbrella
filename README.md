@@ -22,7 +22,7 @@ u("button").on('click', e => {
 u('form.login').handle('submit', async e => {
   const body = u(e.target).serialize();
   const user = await fetch('/login', { method: 'POST', body });
-  window.href = '/user/' + res.id;
+  window.href = '/user/' + user.id;
 });
 ```
 
