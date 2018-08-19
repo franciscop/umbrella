@@ -30,7 +30,7 @@ Another way is doing event delegation, for which the parameters are:
 
 `event1`, `event2`, `eventN`: same as before
 
-`selector`: a css selector that matches the nodes that will trigger it
+`selector`: a CSS selector that matches the nodes that will trigger it
 
 `callback`: same as before
 
@@ -43,7 +43,7 @@ Umbrella instance
 
 ### Examples
 
-An auto-save feature that submits the form through ajax every 10 seconds
+An auto-save feature that submits the form through AJAX every 10 seconds
 
 ```js
 // Show 'test' when the button test is clicked
@@ -57,7 +57,7 @@ u('form.test').on('submit', function(e){
   // Avoid submitting the form normally
   e.preventDefault();
 
-  // Submit the form through ajax
+  // Submit the form through AJAX
   fetch(u(this).attr('action'), { body: u(this).serialize(), ... });
 });
 

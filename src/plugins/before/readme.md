@@ -30,7 +30,7 @@ Add some html before each of the matched elements.
 
 `elements = [{}]` (optional): It can be any of the following:
   - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
-  - A css selector, so the function will be executed once per matched element.
+  - A CSS selector, so the function will be executed once per matched element.
   - A number, in which case the function will be executed that number of times
 
 

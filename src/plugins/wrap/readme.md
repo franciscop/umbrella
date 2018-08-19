@@ -39,7 +39,7 @@ Result:
 </a>
 ```
 
-Wrap an element in an html element and chain umbrella.js methods:
+Wrap an element in an html element and chain Umbrella methods:
 
 ```js
 u(".example").wrap('<a>').attr({class: "wrapper", href: "http://google.com"});

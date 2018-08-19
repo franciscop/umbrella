@@ -13,9 +13,9 @@ Check whether any of the nodes matches the selector
 ### Parameters
 
 `filter`: it can be two things:
-  - css selector to check
-  - instance of umbrella with the elements to check
-  - function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available.
+  - CSS selector to check
+  - Instance of Umbrella with the elements to check
+  - Function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of Umbrella so methods like `this.slice()` are available.
 
 
 
@@ -27,7 +27,7 @@ Check whether any of the nodes matches the selector
 
 ### Examples
 
-Check if the current form needs to be valdated
+Check if the current form needs to be validated
 
 ```js
 u('form.subscribe').on('submit', function(e) {

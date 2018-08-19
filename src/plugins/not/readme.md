@@ -12,9 +12,9 @@ Remove known nodes from nodes
 ### Parameters
 
 `not`: it can be two things (in order):
-  - css selector that each of the nodes must **not** match to stay
-  - instance of umbrella with the element to remove
-  - function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
+  - CSS selector that each of the nodes must **not** match to stay
+  - Instance of Umbrella with the element to remove
+  - Function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of Umbrella so methods like `this.slice()` are available
 
 ```js
 .not(function(node){

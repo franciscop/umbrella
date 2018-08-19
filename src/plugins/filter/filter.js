@@ -1,7 +1,7 @@
 // .filter(selector)
 // Delete all of the nodes that don't pass the selector
 u.prototype.filter = function (selector) {
-  // The default function if it's a css selector
+  // The default function if it's a CSS selector
   // Cannot change name to 'selector' since it'd mess with it inside this fn
   var callback = function (node) {
     // Make it compatible with some other browsers

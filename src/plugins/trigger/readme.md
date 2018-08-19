@@ -26,7 +26,7 @@ Umbrella instance
 
 ### Examples
 
-An auto-save feature that submits the form through ajax every 10 seconds
+An auto-save feature that submits the form through AJAX every 10 seconds
 
 ```js
 // Submit it every 10s

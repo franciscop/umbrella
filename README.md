@@ -2,7 +2,7 @@
 
 > [**Library Documentation**](http://umbrellajs.com/documentation) | [**Migrate from 2.0 to 3.0**](https://github.com/franciscop/umbrella/blob/master/migrate-2-to-3.md) | [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
 
-Covers your javascript needs for those rainy days. A <3kb performant jquery-like library born from the question: [You might not need jquery](http://youmightnotneedjquery.com/), then what do you need?
+Covers your javascript needs for those rainy days. A <3kb performant jQuery-like library born from the question: [You might not need jQuery](http://youmightnotneedjquery.com/), then what do you need?
 
 You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a lightweight, modern and performant javascript library. This does:
 
@@ -13,15 +13,16 @@ You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a li
 A couple of simple examples:
 
 ```js
-// Simple events like jquery
+// Simple events like jQuery
 u("button").on('click', e => {
   alert("Hello world");
 });
 
 // Handle form submissions
 u('form.login').handle('submit', async e => {
-  const body = u(e.target).serialize();
-  const user = await fetch('/login', { method: 'POST', body });
+  const user = await fetch('/login', {
+    method: 'POST', body: new FormData(e.target)
+  }).then(res => res.json());
   window.href = '/user/' + user.id;
 });
 ```

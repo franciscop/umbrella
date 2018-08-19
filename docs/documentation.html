@@ -48,7 +48,7 @@ u(&#39;h1&#39;).nodes[0].classList.add(&#39;vanilla&#39;);
 // Single element
 u(&#39;h1&#39;).first().classList.add(&#39;vanilla&#39;, &#39;test&#39;);
 
-// Multiple elements. Note that the order is different from jquery
+// Multiple elements. Note that the order is different from jQuery
 u(&#39;h2&#39;).each(function(el){
   el.classList.add(&#39;vanilla&#39;, &#39;test&#39;);
 });</code></pre>
@@ -127,7 +127,7 @@ alert(u(&#39;a&#39;).length);</code></pre>
 <p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
 <ul>
 <li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
-<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A CSS selector, so the function will be executed once per matched element.</li>
 <li>A number, in which case the function will be executed that number of times</li>
 </ul>
 <h3 id="return">Return</h3>
@@ -195,7 +195,7 @@ u(&quot;a.main&quot;).after(function(){
 <p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
 <ul>
 <li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
-<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A CSS selector, so the function will be executed once per matched element.</li>
 <li>A number, in which case the function will be executed that number of times</li>
 </ul>
 <h3 id="return">Return</h3>
@@ -276,7 +276,7 @@ u(&quot;a.main&quot;).append(function(){
 <p><em>SET</em></p>
 <p><code>u</code>: returns the same instance of Umbrella JS</p>
 <h3 id="important">Important</h3>
-<p>You must understand that <code>.attr()</code> will only retrieve the attributes, not the properties like <code>checked</code>. To understand it better, check <a href="http://api.jquery.com/prop/">jquery&#39;s attr() vs prop()</a>.</p>
+<p>You must understand that <code>.attr()</code> will only retrieve the attributes, not the properties like <code>checked</code>. To understand it better, check <a href="http://api.jquery.com/prop/">jQuery&#39;s attr() vs prop()</a>.</p>
 <p>Each property is different so you should consult each case. For example, if you wanted to get the property <code>checked</code> you could do:</p>
 <pre><code class="language-js">u(&#39;.terms-os-service&#39;).is(&#39;:checked&#39;);</code></pre>
 <h3 id="examples">Examples</h3>
@@ -316,7 +316,7 @@ u(&quot;a.main&quot;).append(function(){
 <p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
 <ul>
 <li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
-<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A CSS selector, so the function will be executed once per matched element.</li>
 <li>A number, in which case the function will be executed that number of times</li>
 </ul>
 <h3 id="return">Return</h3>
@@ -479,9 +479,9 @@ u(&#39;ul li&#39;).first().data(&#39;id&#39;, &#39;2&#39;); // &lt;li data-id=&#
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be:</p>
 <ul>
-<li>css selector that each of the nodes must match to stay</li>
-<li>instance of umbrella with the elements to keep (the intersection will be kept)</li>
-<li>function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available</li>
+<li>CSS selector that each of the nodes must match to stay</li>
+<li>Instance of Umbrella with the elements to keep (the intersection will be kept)</li>
+<li>Function that returns a boolean with true to keep the element. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of Umbrella so methods like <code>this.slice()</code> are available</li>
 </ul>
 <h3 id="returns">Returns</h3>
 <p>An instance of Umbrella with the nodes that passed the filter.</p>
@@ -614,14 +614,14 @@ should pass no parameter so it retrieves the html.</p>
 <h3 id="parameters">Parameters</h3>
 <p><code>filter</code>: it can be two things:</p>
 <ul>
-<li>css selector to check</li>
-<li>instance of umbrella with the elements to check</li>
-<li>function that returns a boolean to check for each of the nodes. If one of them returns true, then the method <code>is()</code> returns true. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available.</li>
+<li>CSS selector to check</li>
+<li>Instance of Umbrella with the elements to check</li>
+<li>Function that returns a boolean to check for each of the nodes. If one of them returns true, then the method <code>is()</code> returns true. It accepts two parameters, <code>node</code> and <code>index</code>, and the context of <code>this</code> is the instance of Umbrella so methods like <code>this.slice()</code> are available.</li>
 </ul>
 <h3 id="return">Return</h3>
 <p><em>boolean</em>: <em>true</em> if any of the nodes matches the selector or the function returns true, false otherwise.</p>
 <h3 id="examples">Examples</h3>
-<p>Check if the current form needs to be valdated</p>
+<p>Check if the current form needs to be validated</p>
 <pre><code class="language-js">u(&#39;form.subscribe&#39;).on(&#39;submit&#39;, function(e) {
 
   // Same as u(&#39;form.subscribe&#39;).hasClass(&#39;validate&#39;)
@@ -675,9 +675,9 @@ should pass no parameter so it retrieves the html.</p>
 <h3 id="parameters">Parameters</h3>
 <p><code>not</code>: it can be two things (in order):</p>
 <ul>
-<li>css selector that each of the nodes must <strong>not</strong> match to stay</li>
-<li>instance of umbrella with the element to remove</li>
-<li>function that returns <code>true</code> to remove the element. It accepts <strong>one parameter</strong>, and the context of <code>this</code> is the instance of umbrella so methods like <code>this.slice()</code> are available</li>
+<li>CSS selector that each of the nodes must <strong>not</strong> match to stay</li>
+<li>Instance of Umbrella with the element to remove</li>
+<li>Function that returns <code>true</code> to remove the element. It accepts <strong>one parameter</strong>, and the context of <code>this</code> is the instance of Umbrella so methods like <code>this.slice()</code> are available</li>
 </ul>
 <pre><code class="language-js">.not(function(node){
   // your code
@@ -751,12 +751,12 @@ u(&#39;.off-multiple-test&#39;).trigger(&#39;click&#39;); //No alert</code></pre
 </ul>
 <p>Another way is doing event delegation, for which the parameters are:</p>
 <p><code>event1</code>, <code>event2</code>, <code>eventN</code>: same as before</p>
-<p><code>selector</code>: a css selector that matches the nodes that will trigger it</p>
+<p><code>selector</code>: a CSS selector that matches the nodes that will trigger it</p>
 <p><code>callback</code>: same as before</p>
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
-<p>An auto-save feature that submits the form through ajax every 10 seconds</p>
+<p>An auto-save feature that submits the form through AJAX every 10 seconds</p>
 <pre><code class="language-js">// Show &#39;test&#39; when the button test is clicked
 u(&#39;button.test&#39;).on(&#39;click&#39;, function(e) {
   alert(&quot;Test&quot;);
@@ -768,7 +768,7 @@ u(&#39;form.test&#39;).on(&#39;submit&#39;, function(e){
   // Avoid submitting the form normally
   e.preventDefault();
 
-  // Submit the form through ajax
+  // Submit the form through AJAX
   fetch(u(this).attr(&#39;action&#39;), { body: u(this).serialize(), ... });
 });
 
@@ -827,7 +827,7 @@ u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
 <p><code>elements = [{}]</code> (optional): It can be any of the following:</p>
 <ul>
 <li>An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.</li>
-<li>A css selector, so the function will be executed once per matched element.</li>
+<li>A CSS selector, so the function will be executed once per matched element.</li>
 <li>A number, in which case the function will be executed that number of times</li>
 </ul>
 <h3 id="return">Return</h3>
@@ -928,6 +928,9 @@ u(&quot;a.main&quot;).prepend(function(){
   u(&#39;section.team&#39;).scroll();
 });</code></pre>
 <h2 id="-serialize-">.serialize()</h2>
+<blockquote>
+<p>Note: you probably want to use the native <code>FormData()</code> instead of <code>.serialize()</code>. <a href="https://github.com/franciscop/umbrella/issues/114">See relevant issue</a>.</p>
+</blockquote>
 <p>Converts a form into a string to be sent:</p>
 <pre><code class="language-js">.serialize()</code></pre>
 <blockquote>
@@ -946,10 +949,20 @@ u(&quot;a.main&quot;).prepend(function(){
 <p>When the user clicks on the &quot;Send&quot; button, the following handler can be used to send the data through Ajax:</p>
 <pre><code class="language-js">// .handle() == .on() + preventDefault()
 u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
+  // Body: email=test@example.com&amp;message=Hello+world
   const body = u(e.target).serialize();
-  console.log(body);  // email=test@example.com&amp;message=Hello+world
-  const res = await fetch(&#39;/contact&#39;, { method: &#39;POST&#39;, body });
-  const data = await res.json();
+  const data = await fetch(&#39;/contact&#39;, {
+    method: &#39;POST&#39;, body
+  }).then(res =&gt; res.json());
+  console.log(&#39;Response data:&#39;, data);
+});</code></pre>
+<p>If you were using the native FormData:</p>
+<pre><code class="language-js">// .handle() == .on() + preventDefault()
+u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
+  const body = new FormData(e.target);
+  const data = await fetch(&#39;/contact&#39;, {
+    method: &#39;POST&#39;, body
+  }).then(res =&gt; res.json());
   console.log(&#39;Response data:&#39;, data);
 });</code></pre>
 <h2 id="-siblings-">.siblings()</h2>
@@ -1048,7 +1061,7 @@ should pass no parameter so it retrieves the text from the first matched element
 <h3 id="return">Return</h3>
 <p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
-<p>An auto-save feature that submits the form through ajax every 10 seconds</p>
+<p>An auto-save feature that submits the form through AJAX every 10 seconds</p>
 <pre><code class="language-js">// Submit it every 10s
 setInterval(function(){
   u(&#39;button.save&#39;).trigger(&#39;click&#39;);
@@ -1073,7 +1086,7 @@ setInterval(function(){
 <pre><code class="language-html">&lt;a class=&quot;wrapper&quot;&gt;
   &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
 &lt;/a&gt;</code></pre>
-<p>Wrap an element in an html element and chain umbrella.js methods:</p>
+<p>Wrap an element in an html element and chain Umbrella methods:</p>
 <pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});</code></pre>
 <p>Result:</p>
 <pre><code class="language-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
@@ -1126,7 +1139,7 @@ setInterval(function(){
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-</article></section></main><script src="https://unpkg.com/umbrellajs"></script><script>u('h2[id]').each(function(node){
+</article></section></main><script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script><script>u('h2[id]').each(function(node){
   u(node).attr('id', u(node).attr('id').replace(/-/g, ''));
 });
 

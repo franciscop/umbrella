@@ -43,14 +43,14 @@ for more Information [see explanation on Stackoverflow](https://stackoverflow.co
 
 ### First steps
 
-UmbrellaJS can be used in parallel with jQuery, so you can start porting to UmbrellaJs step by step. simply include `<script src="https://unpkg.com/umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/umbrellajs` in your script, if you are writing a userscript.
+UmbrellaJS can be used in parallel with jQuery, so you can start porting to UmbrellaJs step by step. simply include `<script src="https://unpkg.com/Umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/Umbrellajs` in your script, if you are writing a userscript.
 
 Now start with changing a simple function or statement from jQuery to UmbrellaJS by replacing `$(...)` with `u(...)`, it so simple!
 
 
 ## Porting tips
 
-While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://umbrellajs.com/documentation) in a browser tab.
+While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://Umbrellajs.com/documentation) in a browser tab.
 
 
 #### Why does `.replaceWith()` not exist in UmbrellaJS?
@@ -90,7 +90,7 @@ function getStyle(oElm, css3Prop){
 
 ```js
 // usage examples
-// umbrella: use use one node
+// Umbrella: use use one node
 getStyle(u('.myClass').nodes[n], "border-radius");
 
 // use one native DOM node
@@ -127,7 +127,7 @@ u('.myclass').each(function (el) {
 
 **Note:** Search for occurences of `u(this)` while/after porting, in almost all cases it's not correct!
 
-UmbrellaJS provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://umbrellajs.com/documentation#each).
+UmbrellaJS provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://Umbrellajs.com/documentation#each).
 
 As a bonus you get the node count as second argument, so you don't have count it yourself in case you need it:
 
@@ -173,10 +173,10 @@ in jQuery `.first()/.last()/.eq()` returns a jQuery object, but UmbrellaJS retur
 // jQuery:
 $('.myclass').first().html();
 
-// umbrella: direct access to DOM property innerHTML
+// Umbrella: direct access to DOM property innerHTML
 u('.myclass').first().innerHTML;
 
-// umbrella: wrapping it in u(...) again
+// Umbrella: wrapping it in u(...) again
 u( u('.myclass').first() ).html();
 ```
 
@@ -186,10 +186,10 @@ u( u('.myclass').first() ).html();
 // jQuery:
 $('.myclass').last().before('<div>this is inserted before</div>');
 
-// umbrella: direct use of .insertAdjacentHTML() method
+// Umbrella: direct use of .insertAdjacentHTML() method
 u('.myclass').last().insertAdjacentHTML('beforebegin', '<div>this is inserted before</div>');
 
-// umbrella wrapping it in u(...) again
+// Umbrella wrapping it in u(...) again
 u( u('.myclass').last() ).before('<div>this is inserted before</div>');
 
 // wrong: do not mix it up with DOM method .before()!
@@ -257,22 +257,22 @@ You can apply most tips from there to single UmbrellaJS node directly:
 
 ```js
 // jQuery
-$(#hide).hide();
-$(.myclass).hide();
+$('#hide').hide();
+$('.myclass').hide();
 
-// umbrella: apply "You Might Not Need jQuery" tips to one umbrella nodes[n]
-$(#hide).nodes[0].style.display = 'none';
-$(.myclass).nodes[n].style.display = 'none';
+// Umbrella: apply "You Might Not Need jQuery" tips to one Umbrella nodes[n]
+$('#hide').nodes[0].style.display = 'none';
+$('.myclass').nodes[n].style.display = 'none';
 ```
 
 If you have to apply to all nodes returned from UmbrellaJS, you can use an `.each()` loop to apply to every node
 
 ```js
 // jQuery
-$(.myclass).empty();
+$('.myclass').empty();
 
-// umbrella: apply "You Might Not Need jQuery" tips to all umbrella nodes
-$(.myclass).each(el) {
-    el.innerHTML = '';
-}
+// Umbrella: apply "You Might Not Need jQuery" tips to all Umbrella nodes
+$('.myclass').each(function (el) {
+  el.innerHTML = '';
+});
 ```

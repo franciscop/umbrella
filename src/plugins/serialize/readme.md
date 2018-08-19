@@ -1,5 +1,7 @@
 ## .serialize()
 
+> Note: you probably want to use the native `FormData()` instead of `.serialize()`. [See relevant issue](https://github.com/franciscop/umbrella/issues/114).
+
 Converts a form into a string to be sent:
 
 ```js
@@ -28,10 +30,24 @@ When the user clicks on the "Send" button, the following handler can be used to 
 ```js
 // .handle() == .on() + preventDefault()
 u('form.contact').handle('submit', async e => {
+  // Body: email=test@example.com&message=Hello+world
   const body = u(e.target).serialize();
-  console.log(body);  // email=test@example.com&message=Hello+world
-  const res = await fetch('/contact', { method: 'POST', body });
-  const data = await res.json();
+  const data = await fetch('/contact', {
+    method: 'POST', body
+  }).then(res => res.json());
+  console.log('Response data:', data);
+});
+```
+
+If you were using the native FormData:
+
+```js
+// .handle() == .on() + preventDefault()
+u('form.contact').handle('submit', async e => {
+  const body = new FormData(e.target);
+  const data = await fetch('/contact', {
+    method: 'POST', body
+  }).then(res => res.json());
   console.log('Response data:', data);
 });
 ```

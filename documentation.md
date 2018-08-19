@@ -83,7 +83,7 @@ u('h1').nodes[0].classList.add('vanilla');
 // Single element
 u('h1').first().classList.add('vanilla', 'test');
 
-// Multiple elements. Note that the order is different from jquery
+// Multiple elements. Note that the order is different from jQuery
 u('h2').each(function(el){
   el.classList.add('vanilla', 'test');
 });
@@ -209,7 +209,7 @@ Add some html as a sibling after each of the matched elements.
 
 `elements = [{}]` (optional): It can be any of the following:
   - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
-  - A css selector, so the function will be executed once per matched element.
+  - A CSS selector, so the function will be executed once per matched element.
   - A number, in which case the function will be executed that number of times
 
 
@@ -309,7 +309,7 @@ Add some html as a child at the end of each of the matched elements
 
 `elements = [{}]` (optional): It can be any of the following:
   - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
-  - A css selector, so the function will be executed once per matched element.
+  - A CSS selector, so the function will be executed once per matched element.
   - A number, in which case the function will be executed that number of times
 
 
@@ -466,7 +466,7 @@ Handle attributes for the matched elements
 
 ### Important
 
-You must understand that `.attr()` will only retrieve the attributes, not the properties like `checked`. To understand it better, check [jquery's attr() vs prop()](http://api.jquery.com/prop/).
+You must understand that `.attr()` will only retrieve the attributes, not the properties like `checked`. To understand it better, check [jQuery's attr() vs prop()](http://api.jquery.com/prop/).
 
 Each property is different so you should consult each case. For example, if you wanted to get the property `checked` you could do:
 
@@ -494,6 +494,7 @@ u('img').attr({ src: 'demo.jpg' });
 ### Related
 
 [.data()](#data) handle data-* attributes for the matched elements
+
 ## .before()
 
 Add some html before each of the matched elements.
@@ -526,7 +527,7 @@ Add some html before each of the matched elements.
 
 `elements = [{}]` (optional): It can be any of the following:
   - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
-  - A css selector, so the function will be executed once per matched element.
+  - A CSS selector, so the function will be executed once per matched element.
   - A number, in which case the function will be executed that number of times
 
 
@@ -869,9 +870,9 @@ Remove all the nodes that doesn't match the criteria
 ### Parameters
 
 `filter`: it can be:
-  - css selector that each of the nodes must match to stay
-  - instance of umbrella with the elements to keep (the intersection will be kept)
-  - function that returns a boolean with true to keep the element. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
+  - CSS selector that each of the nodes must match to stay
+  - Instance of Umbrella with the elements to keep (the intersection will be kept)
+  - Function that returns a boolean with true to keep the element. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of Umbrella so methods like `this.slice()` are available
 
 
 ### Returns
@@ -911,6 +912,7 @@ u('input').filter(function(node, i){
 [.is()](#is) check whether one or more of the nodes is of one type
 
 [.not()](#not) remove all the nodes that match the criteria
+
 ## .find()
 
 Get all of the descendants of the nodes with an optional filter
@@ -1158,9 +1160,9 @@ Check whether any of the nodes matches the selector
 ### Parameters
 
 `filter`: it can be two things:
-  - css selector to check
-  - instance of umbrella with the elements to check
-  - function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available.
+  - CSS selector to check
+  - Instance of Umbrella with the elements to check
+  - Function that returns a boolean to check for each of the nodes. If one of them returns true, then the method `is()` returns true. It accepts two parameters, `node` and `index`, and the context of `this` is the instance of Umbrella so methods like `this.slice()` are available.
 
 
 
@@ -1172,7 +1174,7 @@ Check whether any of the nodes matches the selector
 
 ### Examples
 
-Check if the current form needs to be valdated
+Check if the current form needs to be validated
 
 ```js
 u('form.subscribe').on('submit', function(e) {
@@ -1289,9 +1291,9 @@ Remove known nodes from nodes
 ### Parameters
 
 `not`: it can be two things (in order):
-  - css selector that each of the nodes must **not** match to stay
-  - instance of umbrella with the element to remove
-  - function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of umbrella so methods like `this.slice()` are available
+  - CSS selector that each of the nodes must **not** match to stay
+  - Instance of Umbrella with the element to remove
+  - Function that returns `true` to remove the element. It accepts **one parameter**, and the context of `this` is the instance of Umbrella so methods like `this.slice()` are available
 
 ```js
 .not(function(node){
@@ -1417,7 +1419,7 @@ Another way is doing event delegation, for which the parameters are:
 
 `event1`, `event2`, `eventN`: same as before
 
-`selector`: a css selector that matches the nodes that will trigger it
+`selector`: a CSS selector that matches the nodes that will trigger it
 
 `callback`: same as before
 
@@ -1430,7 +1432,7 @@ Umbrella instance
 
 ### Examples
 
-An auto-save feature that submits the form through ajax every 10 seconds
+An auto-save feature that submits the form through AJAX every 10 seconds
 
 ```js
 // Show 'test' when the button test is clicked
@@ -1444,7 +1446,7 @@ u('form.test').on('submit', function(e){
   // Avoid submitting the form normally
   e.preventDefault();
 
-  // Submit the form through ajax
+  // Submit the form through AJAX
   fetch(u(this).attr('action'), { body: u(this).serialize(), ... });
 });
 
@@ -1536,7 +1538,7 @@ Add some html as a child at the beginning of each of the matched elements.
 
 `elements = [{}]` (optional): It can be any of the following:
   - An array of elements that will be passed to the callback. The callback is executed once per element, and all of them are added consecutively.
-  - A css selector, so the function will be executed once per matched element.
+  - A CSS selector, so the function will be executed once per matched element.
   - A number, in which case the function will be executed that number of times
 
 
@@ -1744,6 +1746,8 @@ u('a.team').on('click', function(e){
 
 ## .serialize()
 
+> Note: you probably want to use the native `FormData()` instead of `.serialize()`. [See relevant issue](https://github.com/franciscop/umbrella/issues/114).
+
 Converts a form into a string to be sent:
 
 ```js
@@ -1772,10 +1776,24 @@ When the user clicks on the "Send" button, the following handler can be used to 
 ```js
 // .handle() == .on() + preventDefault()
 u('form.contact').handle('submit', async e => {
+  // Body: email=test@example.com&message=Hello+world
   const body = u(e.target).serialize();
-  console.log(body);  // email=test@example.com&message=Hello+world
-  const res = await fetch('/contact', { method: 'POST', body });
-  const data = await res.json();
+  const data = await fetch('/contact', {
+    method: 'POST', body
+  }).then(res => res.json());
+  console.log('Response data:', data);
+});
+```
+
+If you were using the native FormData:
+
+```js
+// .handle() == .on() + preventDefault()
+u('form.contact').handle('submit', async e => {
+  const body = new FormData(e.target);
+  const data = await fetch('/contact', {
+    method: 'POST', body
+  }).then(res => res.json());
   console.log('Response data:', data);
 });
 ```
@@ -2004,7 +2022,7 @@ Umbrella instance
 
 ### Examples
 
-An auto-save feature that submits the form through ajax every 10 seconds
+An auto-save feature that submits the form through AJAX every 10 seconds
 
 ```js
 // Submit it every 10s
@@ -2063,7 +2081,7 @@ Result:
 </a>
 ```
 
-Wrap an element in an html element and chain umbrella.js methods:
+Wrap an element in an html element and chain Umbrella methods:
 
 ```js
 u(".example").wrap('<a>').attr({class: "wrapper", href: "http://google.com"});
