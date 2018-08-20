@@ -2,7 +2,7 @@
 
 > [**Library Documentation**](http://umbrellajs.com/documentation) | [**Migrate from 2.0 to 3.0**](https://github.com/franciscop/umbrella/blob/master/migrate-2-to-3.md) | [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
 
-Covers your javascript needs for those rainy days. A <3kb performant jQuery-like library born from the question: [You might not need jQuery](http://youmightnotneedjquery.com/), then what do you need?
+Covers your javascript needs for those rainy days. A <3kB performant jQuery-like library born from the question: [You might not need jQuery](http://youmightnotneedjquery.com/), then what do you need?
 
 You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a lightweight, modern and performant javascript library. This does:
 
