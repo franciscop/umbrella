@@ -1,12 +1,20 @@
 {
   "name": "umbrellajs",
   "version": "3.1.0",
+  "description": "Lightweight javascript library for DOM manipulation and events",
   "homepage": "https://umbrellajs.com/",
-  "authors": [
-    "Francisco Presencia <public@francisco.io>"
-  ],
-  "description": "Lightweight and intuitive javascript library",
-  "main": "umbrella.min.js",
+  "repository": "https://github.com/franciscop/umbrella.git",
+  "funding": "https://www.paypal.me/franciscopresencia/19",
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "license": "MIT",
+  "scripts": {
+    "build": "grunt build",
+    "test": "node --version && grunt test",
+    "installphantom": "npm run phantomlib && npm run phantominst && npm run phantommove",
+    "phantomlib": "sudo apt-get update && sudo apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev",
+    "phantominst": "cd ~ && export PHANTOM_JS=\"phantomjs-1.9.7-linux-x86_64\" && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 && sudo tar xvjf $PHANTOM_JS.tar.bz2",
+    "phantommove": "sudo mv $PHANTOM_JS /usr/local/share && sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin"
+  },
   "keywords": [
     "umbrella",
     "js",
@@ -16,23 +24,7 @@
     "jquery",
     "alternative"
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/franciscop/umbrella/issues"
-  },
-  "scripts": {
-    "build": "grunt build",
-    "start": "node app.js",
-    "test": "node --version && grunt test",
-    "installphantom": "npm run phantomlib && npm run phantominst && npm run phantommove",
-    "phantomlib": "sudo apt-get update && sudo apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev",
-    "phantominst": "cd ~ && export PHANTOM_JS=\"phantomjs-1.9.7-linux-x86_64\" && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 && sudo tar xvjf $PHANTOM_JS.tar.bz2",
-    "phantommove": "sudo mv $PHANTOM_JS /usr/local/share && sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/franciscop/umbrella.git"
-  },
+  "main": "umbrella.min.js",
   "devDependencies": {
     "grunt": "^1.0.3",
     "grunt-bytesize": "^0.2.0",
