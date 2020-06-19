@@ -30,6 +30,9 @@ u.prototype.on = function (events, cb, cb2) {
     // Store it so we can dereference it with `.off()` later on
     node._e = node._e || {};
     node._e[event] = node._e[event] || [];
-    node._e[event].push(callback);
+    node._e[event].push({
+      callback: callback,
+      orig_callback: cb
+    });
   });
 };

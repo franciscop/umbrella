@@ -1886,6 +1886,16 @@ describe('.off()', function() {
     u('.off-single-test').off('click');
     u('.off-single-test').trigger('click');
   });
+
+  it('does remove event listener matching passed-in function', function(done) {
+    var listener_to_be_kept = function() { done(); }
+    u('.off-single-test').on('click', listener);
+    u('.off-single-test').on('click', function(){
+      done();
+    });
+    u('.off-single-test').off('click', listener);
+    u('.off-single-test').trigger('click');
+  });
 });
 
 // Note: node._e['submit'] and other events will appear as [null] in PhantomJS

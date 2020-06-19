@@ -42,8 +42,8 @@ u.prototype.mirror.events = function (src, dest) {
   if (!src._e) return;
 
   for (var type in src._e) {
-    src._e[type].forEach(function (event) {
-      u(dest).on(type, event);
+    src._e[type].forEach(function (ref) {
+      u(dest).on(type, ref.callback);
     });
   }
 };
