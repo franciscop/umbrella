@@ -1,7 +1,10 @@
 // Attach a callback to the specified events
 u.prototype.on = function (events, cb, cb2) {
+  var sel = null;
+  var orig_callback = cb;
   if (typeof cb === 'string') {
-    var sel = cb;
+    sel = cb;
+    orig_callback = cb2;
     cb = function (e) {
       var args = arguments;
       u(e.currentTarget).find(sel).each(function (target) {
@@ -32,7 +35,8 @@ u.prototype.on = function (events, cb, cb2) {
     node._e[event] = node._e[event] || [];
     node._e[event].push({
       callback: callback,
-      orig_callback: cb
+      orig_callback: orig_callback,
+      selector: sel
     });
   });
 };
