@@ -59,4 +59,36 @@ describe('.off()', function() {
     u('.off-single-test').off('click');
     u('.off-single-test').trigger('click');
   });
+
+  it('does remove event listener matching passed-in function', function(done) {
+    var listener_to_be_kept = function() { done(); }
+    u('.off-single-test').on('click', listener);
+    u('.off-single-test').on('click', listener_to_be_kept);
+    u('.off-single-test').off('click', listener);
+    u('.off-single-test').trigger('click');
+  });
+
+  it('does remove event listener matching passed-in selector & function', function(done) {
+    var listener_to_be_kept = function() { done(); }
+    u('.temp').on('click', '.off-single-test', listener);
+    u('.temp').on('click', '.off-single-test', listener_to_be_kept);
+    u('.temp').off('click', '.off-single-test', listener);
+    u('.temp').find('.off-single-test').trigger('click');
+  });
+
+  it('does remove event listener only added via same form (listener only form)', function(done) {
+    var listener_to_be_kept = function() { done(); }
+    u('.temp').on('click', '.off-single-test', listener_to_be_kept);
+    u('.temp').on('click', listener_to_be_kept);
+    u('.temp').off('click', listener_to_be_kept);
+    u('.temp').find('.off-single-test').trigger('click');
+  });
+
+  it('does remove event listener only added via same form (selector & listener form)', function(done) {
+    var listener_to_be_kept = function() { done(); }
+    u('.temp').on('click', '.off-single-test', listener_to_be_kept);
+    u('.temp').on('click', listener_to_be_kept);
+    u('.temp').off('click', '.off-single-test', listener_to_be_kept);
+    u('.temp').trigger('click');
+  });
 });

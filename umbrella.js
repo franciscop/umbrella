@@ -222,8 +222,8 @@ u.prototype.mirror.events = function (src, dest) {
   if (!src._e) return;
 
   for (var type in src._e) {
-    src._e[type].forEach(function (event) {
-      u(dest).on(type, event);
+    src._e[type].forEach(function (ref) {
+      u(dest).on(type, ref.callback);
     });
   }
 };
@@ -439,10 +439,20 @@ u.prototype.not = function (filter) {
 
 
 // Removes the callback to the event listener for each node
-u.prototype.off = function (events) {
+u.prototype.off = function (events, cb, cb2) {
+  var cb_filter_off = (cb == null && cb2 == null);
+  var sel = null;
+  var cb_to_be_removed = cb;
+  if (typeof cb === 'string') {
+    sel = cb;
+    cb_to_be_removed = cb2;
+  }
+
   return this.eacharg(events, function (node, event) {
-    u(node._e ? node._e[event] : []).each(function (cb) {
-      node.removeEventListener(event, cb);
+    u(node._e ? node._e[event] : []).each(function (ref) {
+      if (cb_filter_off || (ref.orig_callback === cb_to_be_removed && ref.selector === sel)) {
+        node.removeEventListener(event, ref.callback);
+      }
     });
   });
 };
@@ -450,8 +460,11 @@ u.prototype.off = function (events) {
 
 // Attach a callback to the specified events
 u.prototype.on = function (events, cb, cb2) {
+  var sel = null;
+  var orig_callback = cb;
   if (typeof cb === 'string') {
-    var sel = cb;
+    sel = cb;
+    orig_callback = cb2;
     cb = function (e) {
       var args = arguments;
       u(e.currentTarget).find(sel).each(function (target) {
@@ -480,7 +493,11 @@ u.prototype.on = function (events, cb, cb2) {
     // Store it so we can dereference it with `.off()` later on
     node._e = node._e || {};
     node._e[event] = node._e[event] || [];
-    node._e[event].push(callback);
+    node._e[event].push({
+      callback: callback,
+      orig_callback: orig_callback,
+      selector: sel
+    });
   });
 };
 

@@ -7,6 +7,12 @@ Remove event handler from matched nodes
 .off('event1 event2 eventN')
 .off('event1,event2,eventN')
 .off(['event1', 'event2', 'eventN'])
+
+.off('event1', listener)
+// And the other event forms above...
+
+.off('event1', 'selector', listener)
+// And the other event forms above...
 ```
 
 
@@ -17,6 +23,20 @@ Remove event handler from matched nodes
 
 `listener`:
   Function reference to remove from the events
+
+For event delegation, the parameters are:
+
+`event`:
+  Any number of events (such as click, mouseover)
+
+`selector`: a CSS selector that matches the nodes that will trigger it
+
+`listener`: same as before
+
+
+### Return
+
+Umbrella instance
 
 
 
