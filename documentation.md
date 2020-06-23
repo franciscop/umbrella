@@ -1341,16 +1341,24 @@ Remove event handler from matched nodes
 .off('event1 event2 eventN')
 .off('event1,event2,eventN')
 .off(['event1', 'event2', 'eventN'])
+.off('event1', callback)
+.off('event1', 'selector', callback)
+
 ```
 
 
 ### Parameters
 
-`event`:
-  Any number of events (such as click, mouseover)
+`event1`, `event2`, `eventN`: the name(s) of the events to remove, such as `click`, `submit`, `change`, etc.
 
-`listener`:
-  Function reference to remove from the events
+`selector` (optional): a CSS selector that matches the nodes that will trigger it. Use this only if the event was delegated, see [`.on()`](#on) for more info.
+
+`callback` (optional): the specific function to be removed. If this is left empty, all the functions associated with the event will be removed.
+
+
+### Return
+
+Umbrella instance
 
 
 

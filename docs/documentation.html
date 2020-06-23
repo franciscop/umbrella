@@ -700,12 +700,16 @@ should pass no parameter so it retrieves the html.</p>
 <pre><code class="language-js">.off(&#39;event1&#39;)
 .off(&#39;event1 event2 eventN&#39;)
 .off(&#39;event1,event2,eventN&#39;)
-.off([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;])</code></pre>
+.off([&#39;event1&#39;, &#39;event2&#39;, &#39;eventN&#39;])
+.off(&#39;event1&#39;, callback)
+.off(&#39;event1&#39;, &#39;selector&#39;, callback)
+</code></pre>
 <h3 id="parameters">Parameters</h3>
-<p><code>event</code>:
-  Any number of events (such as click, mouseover)</p>
-<p><code>listener</code>:
-  Function reference to remove from the events</p>
+<p><code>event1</code>, <code>event2</code>, <code>eventN</code>: the name(s) of the events to remove, such as <code>click</code>, <code>submit</code>, <code>change</code>, etc.</p>
+<p><code>selector</code> (optional): a CSS selector that matches the nodes that will trigger it. Use this only if the event was delegated, see <a href="#on"><code>.on()</code></a> for more info.</p>
+<p><code>callback</code> (optional): the specific function to be removed. If this is left empty, all the functions associated with the event will be removed.</p>
+<h3 id="return">Return</h3>
+<p>Umbrella instance</p>
 <h3 id="examples">Examples</h3>
 <pre><code class="language-html">&lt;ul&gt;
   &lt;li class=&quot;off-single-test&quot;&gt;1&lt;/li&gt;
