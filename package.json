@@ -25,6 +25,12 @@
     "alternative"
   ],
   "main": "umbrella.min.js",
+  "files": [
+    "src",
+    "polyfill.js",
+    "umbrella.js",
+    "umbrella.esm.js"
+  ],
   "devDependencies": {
     "grunt": "^1.0.3",
     "grunt-bytesize": "^0.2.0",
