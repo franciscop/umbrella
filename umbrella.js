@@ -467,18 +467,27 @@ u.prototype.on = function (events, cb, cb2) {
     orig_callback = cb2;
     cb = function (e) {
       var args = arguments;
-      u(e.currentTarget).find(sel).each(function (target) {
-        if (target === e.target || target.contains(e.target)) {
-          try {
-            Object.defineProperty(e, 'currentTarget', {
-              get: function () {
-                return target;
-              }
-            });
-          } catch (err) {}
-          cb2.apply(target, args);
-        }
-      });
+      var targetFound = false;
+      u(e.currentTarget)
+        .find(sel)
+        .each(function (target) {
+          if (target === e.target || target.contains(e.target)) {
+            targetFound = true;
+            try {
+              Object.defineProperty(e, 'currentTarget', {
+                get: function () {
+                  return target;
+                }
+              });
+            } catch (err) { }
+            cb2.apply(target, args);
+          }
+        });
+      // due to e.currentEvent reassigning a second (or subsequent) handler may
+      // not be fired for a single event, so chekc and apply if needed.
+      if (!targetFound && e.currentTarget === e.target) {
+        cb2.apply(e.target, args);
+      }
     };
   }
 
