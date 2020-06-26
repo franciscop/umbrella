@@ -2074,13 +2074,14 @@ describe(".on(event, fn)", function () {
         done();
       }
     });
-    u('.cb-wrapper').on('change', '.cb', function () {
+    base.find('.cb-wrapper').on('change', '.cb', function () {
       checkboxWrapperChanged = true;
       if (checkboxChanged && checkboxWrapperChanged) {
         done();
       }
     });
     base.find('input').trigger('change');
+    base.find('.cb-wrapper').remove();
   });
 });
 
