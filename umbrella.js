@@ -656,6 +656,17 @@ u.prototype.size = function () {
 };
 
 
+// Implementation of .css() method
+u.prototype.css = function (property, value) {
+	if(value == undefined){
+		return window.getComputedStyle(this.first())[property];
+	}
+	this.each(function (el) {
+		el.style[property] = value;
+	})
+	return this;
+}
+
 // [INTERNAL USE ONLY]
 
 // Force it to be an array AND also it clones them
