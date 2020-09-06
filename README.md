@@ -1,6 +1,6 @@
-# Umbrella JS [![test badge](https://github.com/franciscop/umbrella/workflows/tests/badge.svg)](https://github.com/franciscop/umbrella/actions) [![stats](https://data.jsdelivr.com/v1/package/npm/umbrellajs/badge?style=rounded)](https://www.jsdelivr.com/package/npm/umbrellajs) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/Flet/semistandard) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/franciscop/umbrella/blob/master/LICENSE)
+# Umbrella JS [![test badge](https://github.com/franciscop/umbrella/workflows/tests/badge.svg)](https://github.com/franciscop/umbrella/actions) [![stats](https://data.jsdelivr.com/v1/package/npm/umbrellajs/badge?style=rounded)](https://www.jsdelivr.com/package/npm/umbrellajs) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/franciscop/umbrella/blob/master/LICENSE)
 
-> [**Library Documentation**](http://umbrellajs.com/documentation) | [**Migrate from 2.0 to 3.0**](https://github.com/franciscop/umbrella/blob/master/migrate-2-to-3.md) | [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
+> [**Library Documentation**](http://umbrellajs.com/documentation) | [**Migrating from jQuery guide**](https://github.com/franciscop/umbrella/blob/master/jquery.md)
 
 Covers your javascript needs for those rainy days. A <3kb performant jQuery-like library born from the question: [You might not need jQuery](http://youmightnotneedjquery.com/), then what do you need?
 
