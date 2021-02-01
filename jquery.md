@@ -18,7 +18,7 @@ If you like the easy and readable syntax, **but** don't like how fat and slow jQ
 
 ## Before porting to UmbrellaJS
 
-zepto.js and UmbreallyJS does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
+zepto.js and UmbrellaJS does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
 
 Before porting an existing script to a jQuery alternative I strongly recommend to check your jQuery code to be correct.
 
