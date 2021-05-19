@@ -60,5 +60,8 @@
       "u",
       "parseJson"
     ]
+  },
+  "dependencies": {
+    "phantom": "^6.3.0"
   }
 }
