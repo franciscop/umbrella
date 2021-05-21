@@ -45,7 +45,7 @@ for more Information [see explanation on Stackoverflow](https://stackoverflow.co
 
 UmbrellaJS can be used in parallel with jQuery, so you can start porting to UmbrellaJs step by step. simply include `<script src="https://unpkg.com/Umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/Umbrellajs` in your script, if you are writing a userscript.
 
-Now start with changing a simple function or statement from jQuery to UmbrellaJS by replacing `$(...)` with `u(...)`, it so simple!
+Now start with changing a simple function or statement from jQuery to UmbrellaJS by replacing `$(...)` with `u(...)`, it's so simple!
 
 
 ## Porting tips
