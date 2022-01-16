@@ -18,7 +18,7 @@ If you like the easy and readable syntax, **but** don't like how fat and slow jQ
 
 ## Before porting to UmbrellaJS
 
-zepto.js and UmbrellaJS does not support jQuery extensions! if your scripts make heavy use of extensions you should stop reading here.
+UmbrellaJS does not support jQuery extensions! If your scripts make heavy use of extensions it's probably better you stick to jQuery.
 
 Before porting an existing script to a jQuery alternative I strongly recommend to check your jQuery code to be correct.
 
@@ -30,13 +30,13 @@ Even `$('.subclass', $('.myclass'))` and `$('.myclass').find('.subclass')` are e
 
 Even if your script work, there are some pitfalls where jQuery works when you are using it in the wrong way.
 
-**example:** you need excatly one element by class
+**example:** you need exactly one element by class
 
-`$('#myID')` always returns one element, more exactly the first matching element. all other selectors return ALL elements. if you want to select ONE element of `$('.myclass')` you must use `$('.myclass').first()`, `$('.myclass').last()` or `$('.myclass').eq(n)`. You must not use of `$('.myclass')[0]`
+`$('#myID')` always returns one element, more exactly the first matching element. all other selectors return ALL elements. If you want to select ONE element of `$('.myclass')` you must use `$('.myclass').first()`, `$('.myclass').last()` or `$('.myclass').eq(n)`. You must not use of `$('.myclass')[0]`
 
-**Avoid the usage of `:not()` in selectors**
+**Avoid advanced non-standard CSS selectors**
 
-Instead of `$('.myclass:not(div, a)')` I strongly suggest to use `$('.myclass').not('div, a')` instead.  it's more readable, faster and works with all CSS standard selectors.
+Instead of `$('.myclass:not(div, a)')` I strongly suggest to use `$('.myclass').not('div, a')` instead.  It's more readable, faster and works with all CSS standard selectors.
 
 jQuery **extends the `:not()` selector** such that you can pass any selector to it, no matter how complex it may be. the `:not()` pseudo-class in CSS only accepts a _single simple selector_ as an argument to `:not()`.
 for more Information [see explanation on Stackoverflow](https://stackoverflow.com/questions/10711730/why-is-my-jquery-not-selector-not-working-in-css#answer-10711731)
@@ -45,19 +45,19 @@ for more Information [see explanation on Stackoverflow](https://stackoverflow.co
 
 UmbrellaJS can be used in parallel with jQuery, so you can start porting to UmbrellaJs step by step. simply include `<script src="https://unpkg.com/Umbrellajs"></script>` in your HMTL file or `// @require https://unpkg.com/Umbrellajs` in your script, if you are writing a userscript.
 
-Now start with changing a simple function or statement from jQuery to UmbrellaJS by replacing `$(...)` with `u(...)`, it's so simple!
+Then you can start changing your statements one by one from jQuery to UmbrellaJS by replacing `$(...)` with `u(...)`.
 
 
 ## Porting tips
 
-While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. nevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://Umbrellajs.com/documentation) in a browser tab.
+While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. Bevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://Umbrellajs.com/documentation) in a browser tab.
 
 
 #### Why does `.replaceWith()` not exist in UmbrellaJS?
 
 This should be very simple, use the UmbrellaJS `.replace()` method instead. It has nothing to do with the native javascript .replace() method for arrays though, so make sure not to mix them up.
 
-If you wants to stay with` .replaceWith` like in jQuery and does not care about an extra function call, adding this to your script may help:
+If you wants to stay with `.replaceWith` like in jQuery and does not care about an extra function call, adding this to your script may help:
 
 ```
 u.prototype.replaceWith = function(replace){
@@ -102,11 +102,9 @@ see: https://www.htmlgoodies.com/html5/css/referencing-css3-properties-using-jav
 
 
 
-#### `u(this)` works not like in jQuery
+#### `$(this)`should be replaced by `u(el)`
 
-UmbrellaJS follows the native Javascript array structure, so it won't change the scope of the javascript `this` property in `.each()` But it's easy to fix it.
-
-Your jQuery `.each()` loops might look like this now:
+UmbrellaJS follows the native Javascript callback structure for iterative methods. Your jQuery `.each()` loops might look like this now:
 
 ```js
 $('.myclass').each(function () {
@@ -115,6 +113,7 @@ $('.myclass').each(function () {
     ...
 });
 ```
+
 You should change them to look like this:
 
 ```js
@@ -155,11 +154,11 @@ u('.myClass').each(el => alert(el.innerHTML));
 ```
 
 
-#### using UmbrellaJS `.first()/.last()/.eq()` give strange results or errors
+#### using UmbrellaJS `.first()/.last()/.eq()` returns native DOM elements
 
-in jQuery `.first()/.last()/.eq()` returns a jQuery object, but UmbrellaJS returns a native DOM element. this has pro and con:
+In jQuery `.first()/.last()/.eq()` returns a jQuery object, but UmbrellaJS returns a native DOM element. this has pro and con:
 
-- pro: you can use faster native javascript DOM manipulation
+- pro: you can use native javascript DOM manipulation
 - con: you can't chain an other UmbrellaJS method like in jQuery
 - con: be careful to select the correct DOM property/method!
 
@@ -218,7 +217,7 @@ If you want to have an UmbrellaJS `.eq()` method and don't care about an extra f
 ```
 // get the nth of the nodes
 u.prototype.eq = function (index) {
-  return this.nodes[index||0] || false;
+  return this.nodes[index || 0] || false;
 }
 ```
 
