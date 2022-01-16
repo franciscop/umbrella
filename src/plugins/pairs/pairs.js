@@ -4,13 +4,23 @@
 // such as: .css('a'), .css('a', 'b'), .css({ a: 'b' })
 u.prototype.pairs = function (name, value, get, set) {
   // Convert it into a plain object if it is not
-  if (typeof value !== 'undefined') {
+  if (typeof value !== "undefined") {
     var nm = name;
     name = {};
     name[nm] = value;
   }
 
-  if (typeof name === 'object') {
+  if (typeof value === "function") {
+    // Set the value of each one, for each of the { prop: value } pairs
+    return this.each(function (node, i) {
+      var name = value(node, i);
+      for (var key in name) {
+        set(node, key, name[key]);
+      }
+    });
+  }
+
+  if (typeof name === "object") {
     // Set the value of each one, for each of the { prop: value } pairs
     return this.each(function (node) {
       for (var key in name) {
@@ -20,5 +30,5 @@ u.prototype.pairs = function (name, value, get, set) {
   }
 
   // Return the style of the first one
-  return this.length ? get(this.first(), name) : '';
+  return this.length ? get(this.first(), name) : "";
 };
