@@ -6,11 +6,11 @@ block content
 
     style.
       #demo { display: none; }
-      
+
       #mocha-stats {
         top: 70px;
       }
-      
+
       @media (max-width:60em) {
         #mocha-stats {
           position: static;
@@ -19,7 +19,7 @@ block content
           padding: 10px 20px;
         }
       }
-  
+
   main.test
     section
       h1 Tests for Umbrella JS
@@ -27,7 +27,7 @@ block content
       div#mocha
       div#messages
       div#fixtures
-      
+
       div#demo.demo
         div#base.base
           ul
@@ -40,10 +40,10 @@ block content
           form.login(method="POST" action="/test")
             input(name="name" value="John")
             input(name="email" required)
-            input 
+            input
             input(name="other" type="checkbox")
             input(type="submit" value="Send!")
-            
+
           form.clone
             input(type="text")
             input(type="checkbox")
@@ -54,20 +54,20 @@ block content
               option(value="c") C
             textarea
           div.destination
-            
-            
+
+
           p Lorem <em>ipsum</em>
-        
+
         table.performance
           tr
             th Test 1
             th Test 2
             th Test 3
             th Test 4
-        
+
         table.tbl
-  
-  
+
+
   script(src="./vendor/mocha.js")
   script(src="./vendor/chai.js")
   script(src="./vendor/sinon.js")

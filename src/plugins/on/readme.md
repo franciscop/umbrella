@@ -67,6 +67,34 @@ u('input').on('change click blur paste', function(){
 });
 ```
 
+If you are modifying a bit of the DOM dynamically and want to attach events to it, a good way of doing it is with event delegation. For example, let's say we have the `.render` class for rendering a bit of markdown to html, and we want to listen to any click to any link inside and intercept them. We could do `u('.render a')` every time, or just do it once with delegation:
+
+```js
+// Without event delegation, we are forced to add the event listeners every time
+// we re-render the block of code
+function renderHtml(plain) {
+  const content = sanitize(plainToHtml(plain));
+  u('.render').html(content);
+  u('.render a').on('click', function(node) {
+    alert('Clicked on ' + u(node).attr('href'));
+  });
+}
+
+// With event delegation, we can listen once for all clicks on links:
+u('.render').on('click', 'a', function(node) {
+  alert('Clicked on ' + u(node).attr('href'));
+});
+// The above will listen to clicks on links even if the html changes dynamically
+function renderHtml(plain) {
+  const content = sanitize(plainToHtml(plain));
+  u('.render').html(content);
+}
+```
+
+
+### Notes
+
+With event delegation, `e.currentTarget` might not work on all browsers as expected.
 
 
 ### Related
