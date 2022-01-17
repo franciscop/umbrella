@@ -1,6 +1,8 @@
 function overWriteCurrent (e, value) {
   Object.defineProperty(e, 'currentTarget', {
-    value: value,
+    get: function() {
+      return value;
+    },
     configurable: true
   });
 }
