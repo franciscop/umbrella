@@ -4,7 +4,9 @@ function overWriteCurrent (e, value) {
       value: value,
       configurable: true
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log('Caught?');
+  }
 }
 
 // Attach a callback to the specified events
