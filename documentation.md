@@ -170,7 +170,7 @@ u("form").addClass("toValidate", "ajaxify");
 Add a class to indicate order:
 
 ```js
-u("ul li").addClass((node, i) => `el-${i + 1}`);
+u("ul li").addClass(function(node, i){ return `el-${i + 1}`; });
 ```
 
 ```html
@@ -446,6 +446,7 @@ Handle attributes for the matched elements
 
 // SET
 .attr('name', 'value');
+.attr('name', function(node, i){ return 'value'; });
 .attr({ name1: 'value', name2: 'value2' });
 ```
 
@@ -501,6 +502,13 @@ Set the src of all of the images:
 
 ```js
 u('img').attr({ src: 'demo.jpg' });
+```
+
+Add some kind of lazy-load with `data-src`:
+
+```js
+// Copy any "data-src" value, or just "src" to the "src" of the image:
+u('img').attr('src', node => u(node).data('src') || u(node).attr('src'));
 ```
 
 

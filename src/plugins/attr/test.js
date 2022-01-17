@@ -38,7 +38,9 @@ describe(".attr(name, value)", function() {
   });
 
   it("can be called to iterate", function() {
-    base.find('ul li').attr('title', (node, i) => i + '. ' + node.textContent);
+    base.find('ul li').attr('title', function(node, i) {
+      return i + '. ' + node.textContent;
+    });
     var firstTitle = base.find('ul li:first-child').attr('title');
     expect(firstTitle).to.equal('0. Hello world');
     var secondTitle = base.find('ul li:nth-child(2)').attr('title');

@@ -42,7 +42,7 @@ u("form").addClass("toValidate", "ajaxify");
 Add a class to indicate order:
 
 ```js
-u("ul li").addClass((node, i) => `el-${i + 1}`);
+u("ul li").addClass(function(node, i){ return `el-${i + 1}`; });
 ```
 
 ```html

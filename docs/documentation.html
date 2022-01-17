@@ -94,7 +94,7 @@ alert(u(&#39;a&#39;).length);</code></pre>
 <p>Add the class <code>toValidate</code> and <code>ajaxify</code> to all the <code>&lt;form&gt;</code> present in the page:</p>
 <pre><code class="language-js">u(&quot;form&quot;).addClass(&quot;toValidate&quot;, &quot;ajaxify&quot;);</code></pre>
 <p>Add a class to indicate order:</p>
-<pre><code class="language-js">u(&quot;ul li&quot;).addClass((node, i) =&gt; `el-${i + 1}`);</code></pre>
+<pre><code class="language-js">u(&quot;ul li&quot;).addClass(function(node, i){ return `el-${i + 1}`; });</code></pre>
 <pre><code class="language-html">&lt;ul&gt;
   &lt;li class=&quot;el-1&quot;&gt;...&lt;/li&gt;
   &lt;li class=&quot;el-2&quot;&gt;...&lt;/li&gt;
@@ -270,6 +270,7 @@ u(&quot;a.main&quot;).append(function(){
 
 // SET
 .attr(&#39;name&#39;, &#39;value&#39;);
+.attr(&#39;name&#39;, function(node, i){ return &#39;value&#39;; });
 .attr({ name1: &#39;value&#39;, name2: &#39;value2&#39; });</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p><em>GET</em></p>
@@ -291,6 +292,9 @@ u(&quot;a.main&quot;).append(function(){
 <pre><code class="language-js">u(&#39;img.hero&#39;).attr(&#39;alt&#39;);</code></pre>
 <p>Set the src of all of the images:</p>
 <pre><code class="language-js">u(&#39;img&#39;).attr({ src: &#39;demo.jpg&#39; });</code></pre>
+<p>Add some kind of lazy-load with <code>data-src</code>:</p>
+<pre><code class="language-js">// Copy any &quot;data-src&quot; value, or just &quot;src&quot; to the &quot;src&quot; of the image:
+u(&#39;img&#39;).attr(&#39;src&#39;, node =&gt; u(node).data(&#39;src&#39;) || u(node).attr(&#39;src&#39;));</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#data">.data()</a> handle data-* attributes for the matched elements</p>
 <h2 id="-before-">.before()</h2>
