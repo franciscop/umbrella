@@ -791,6 +791,26 @@ u(&#39;form.test&#39;).on(&#39;submit&#39;, function(e){
 u(&#39;input&#39;).on(&#39;change click blur paste&#39;, function(){
   console.log(&quot;Maybe changed&quot;);
 });</code></pre>
+<p>If you are modifying a bit of the DOM dynamically and want to attach events to it, a good way of doing it is with event delegation. For example, let&#39;s say we have the <code>.render</code> class for rendering a bit of markdown to html, and we want to listen to any click to any link inside and intercept them. We could do <code>u(&#39;.render a&#39;)</code> every time, or just do it once with delegation:</p>
+<pre><code class="language-js">// Without event delegation, we are forced to add the event listeners every time
+// we re-render the block of code
+function renderHtml(plain) {
+  const content = sanitize(plainToHtml(plain));
+  u(&#39;.render&#39;).html(content);
+  u(&#39;.render a&#39;).on(&#39;click&#39;, function(node) {
+    alert(&#39;Clicked on &#39; + u(node).attr(&#39;href&#39;));
+  });
+}
+
+// With event delegation, we can listen once for all clicks on links:
+u(&#39;.render&#39;).on(&#39;click&#39;, &#39;a&#39;, function(node) {
+  alert(&#39;Clicked on &#39; + u(node).attr(&#39;href&#39;));
+});
+// The above will listen to clicks on links even if the html changes dynamically
+function renderHtml(plain) {
+  const content = sanitize(plainToHtml(plain));
+  u(&#39;.render&#39;).html(content);
+}</code></pre>
 <h3 id="related">Related</h3>
 <p><a href="#handle">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>

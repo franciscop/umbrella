@@ -464,38 +464,42 @@ u.prototype.off = function (events, cb, cb2) {
 
 // Attach a callback to the specified events
 u.prototype.on = function (events, cb, cb2) {
-  var sel = null;
+  var selector = null;
   var orig_callback = cb;
   if (typeof cb === 'string') {
-    sel = cb;
+    selector = cb;
     orig_callback = cb2;
     cb = function (e) {
-      var args = arguments;
-      var targetFound = false;
+      var args = arguments
       u(e.currentTarget)
-        .find(sel)
+        .find(selector)
         .each(function (target) {
-          if (target === e.target || target.contains(e.target)) {
-            targetFound = true;
-            try {
-              Object.defineProperty(e, 'currentTarget', {
-                get: function () {
-                  return target;
-                }
-              });
-            } catch (err) { }
-            cb2.apply(target, args);
-          }
+          // The event is triggered either in the correct node, or a child
+          // of the node that we are interested in
+          // Note: .contains() will also check itself (besides children)
+          if (!target.contains(e.target)) return;
+
+          // If e.g. a child of a link was clicked, but we are listening
+          // to the link, this will make the currentTarget the link itself,
+          // so it's the "delegated" element instead of the root target. It
+          // makes u('.render a').on('click') and u('.render').on('click', 'a')
+          // to have the same currentTarget
+          var curr = e.currentTarget;
+          Object.defineProperty(e, 'currentTarget', {
+            value: target,
+            configurable: true
+          });
+          cb2.apply(target, args);
+          // Need to undo it afterwards, in case this event is reused in another
+          // callback since otherwise u(e.currentTarget) above would break
+          Object.defineProperty(e, 'currentTarget', {
+            value: curr,
+            configurable: true
+          });
         });
-      // due to e.currentEvent reassigning a second (or subsequent) handler may
-      // not be fired for a single event, so chekc and apply if needed.
-      if (!targetFound && e.currentTarget === e.target) {
-        cb2.apply(e.target, args);
-      }
     };
   }
 
-  // Add the custom data as arguments to the callback
   var callback = function (e) {
     return cb.apply(this, [e].concat(e.detail || []));
   };
@@ -509,7 +513,7 @@ u.prototype.on = function (events, cb, cb2) {
     node._e[event].push({
       callback: callback,
       orig_callback: orig_callback,
-      selector: sel
+      selector: selector
     });
   });
 };

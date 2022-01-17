@@ -144,7 +144,7 @@ describe(".on(event, fn)", function () {
     var checkboxChanged = false;
     var checkboxWrapperChanged = false;
     base.append(
-      '<div class="cb-wrapper"><input type="checkbox" class="cb" ></input></div>'
+      '<div class="cb-wrapper"><input type="checkbox" class="cb" /></div>'
     );
     base.on('change', '.cb', function () {
       checkboxChanged = true;
@@ -158,7 +158,7 @@ describe(".on(event, fn)", function () {
         done();
       }
     });
-    base.find('input').trigger('change');
+    base.find('.cb').trigger('change');
     base.find('.cb-wrapper').remove();
   });
 });
