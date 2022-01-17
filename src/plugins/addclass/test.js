@@ -110,6 +110,5 @@ describe(".addClass()", function() {
         u(node).removeClass('test' + i);
       });
     });
-
   });
 });

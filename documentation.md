@@ -137,7 +137,7 @@ Add html class(es) to all of the matched elements.
 .addClass('name1', 'name2', 'nameN')
 .addClass(['name1', 'name2', 'nameN'])
 .addClass(['name1', 'name2'], ['name3'], ['nameN'])
-.addClass(function(){ return 'name1'; })
+.addClass(function(node, i){ return 'name1'; })
 .addClass(function(){ return 'name1'; }, function(){ return 'name2'; })
 ```
 
@@ -167,6 +167,19 @@ Add the class `toValidate` and `ajaxify` to all the `<form>` present in the page
 u("form").addClass("toValidate", "ajaxify");
 ```
 
+Add a class to indicate order:
+
+```js
+u("ul li").addClass(function(node, i){ return `el-${i + 1}`; });
+```
+
+```html
+<ul>
+  <li class="el-1">...</li>
+  <li class="el-2">...</li>
+  <li class="el-3">...</li>
+</ul>
+```
 
 
 ### Related
@@ -433,6 +446,7 @@ Handle attributes for the matched elements
 
 // SET
 .attr('name', 'value');
+.attr('name', function(node, i){ return 'value'; });
 .attr({ name1: 'value', name2: 'value2' });
 ```
 
@@ -488,6 +502,13 @@ Set the src of all of the images:
 
 ```js
 u('img').attr({ src: 'demo.jpg' });
+```
+
+Add some kind of lazy-load with `data-src`:
+
+```js
+// Copy any "data-src" value, or just "src" to the "src" of the image:
+u('img').attr('src', node => u(node).data('src') || u(node).attr('src'));
 ```
 
 

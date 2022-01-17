@@ -9,6 +9,10 @@ u.prototype.attr = function (name, value, data) {
   return this.pairs(name, value, function (node, name) {
     return node.getAttribute(data + name);
   }, function (node, name, value) {
-    node.setAttribute(data + name, value);
+    if (value) {
+      node.setAttribute(data + name, value);
+    } else {
+      node.removeAttribute(data + name);
+    }
   });
 };

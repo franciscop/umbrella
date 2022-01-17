@@ -157,7 +157,11 @@ u.prototype.attr = function (name, value, data) {
   return this.pairs(name, value, function (node, name) {
     return node.getAttribute(data + name);
   }, function (node, name, value) {
-    node.setAttribute(data + name, value);
+    if (value) {
+      node.setAttribute(data + name, value);
+    } else {
+      node.removeAttribute(data + name);
+    }
   });
 };
 
@@ -525,9 +529,13 @@ u.prototype.pairs = function (name, value, get, set) {
 
   if (typeof name === 'object') {
     // Set the value of each one, for each of the { prop: value } pairs
-    return this.each(function (node) {
+    return this.each(function (node, i) {
       for (var key in name) {
-        set(node, key, name[key]);
+        if (typeof name[key] === 'function') {
+          set(node, key, name[key](node, i));
+        } else {
+          set(node, key, name[key]);
+        }
       }
     });
   }
