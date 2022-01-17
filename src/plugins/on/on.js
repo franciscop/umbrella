@@ -6,7 +6,7 @@ u.prototype.on = function (events, cb, cb2) {
     selector = cb;
     orig_callback = cb2;
     cb = function (e) {
-      var args = arguments
+      var args = arguments;
       u(e.currentTarget)
         .find(selector)
         .each(function (target) {
