@@ -1,3 +1,12 @@
+function overWriteCurrent (e, value) {
+  try {
+    Object.defineProperty(e, 'currentTarget', {
+      value: value,
+      configurable: true
+    });
+  } catch (error) {}
+}
+
 // Attach a callback to the specified events
 u.prototype.on = function (events, cb, cb2) {
   var selector = null;
@@ -21,21 +30,11 @@ u.prototype.on = function (events, cb, cb2) {
           // makes u('.render a').on('click') and u('.render').on('click', 'a')
           // to have the same currentTarget (the 'a')
           var curr = e.currentTarget;
-          Object.defineProperty(e, 'currentTarget', {
-            get: function () {
-              return target;
-            },
-            configurable: true
-          });
+          overWriteCurrent(e, target);
           cb2.apply(target, args);
           // Need to undo it afterwards, in case this event is reused in another
           // callback since otherwise u(e.currentTarget) above would break
-          Object.defineProperty(e, 'currentTarget', {
-            get: function () {
-              return curr;
-            },
-            configurable: true
-          });
+          overWriteCurrent(e, curr);
         });
     };
   }
