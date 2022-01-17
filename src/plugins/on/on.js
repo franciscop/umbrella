@@ -22,7 +22,7 @@ u.prototype.on = function (events, cb, cb2) {
           // to have the same currentTarget (the 'a')
           var curr = e.currentTarget;
           Object.defineProperty(e, 'currentTarget', {
-            get: function() {
+            get: function () {
               return target;
             },
             configurable: true
@@ -31,7 +31,7 @@ u.prototype.on = function (events, cb, cb2) {
           // Need to undo it afterwards, in case this event is reused in another
           // callback since otherwise u(e.currentTarget) above would break
           Object.defineProperty(e, 'currentTarget', {
-            get: function() {
+            get: function () {
               return curr;
             },
             configurable: true
