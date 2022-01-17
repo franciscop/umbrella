@@ -1,16 +1,14 @@
-function overWriteCurrent (e, value) {
-  try {
-    Object.defineProperty(e, 'currentTarget', {
-      get: function () {
-        return value;
-      },
-      configurable: true
-    });
-  } catch (err) {}
-}
-
 // Attach a callback to the specified events
 u.prototype.on = function (events, cb, cb2) {
+  function overWriteCurrent (e, value) {
+    try {
+      Object.defineProperty(e, 'currentTarget', {
+        value: value,
+        configurable: true
+      });
+    } catch (err) {}
+  }
+
   var selector = null;
   var orig_callback = cb;
   if (typeof cb === 'string') {

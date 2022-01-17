@@ -36,7 +36,7 @@
     "grunt-bytesize": "^0.2.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-jade": "^1.0.0",
-    "grunt-contrib-uglify": "^3.4.0",
+    "grunt-contrib-uglify": "^5.0.1",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-markdown": "^0.7.0",
     "grunt-mocha-phantomjs": "^4.0.0",
