@@ -1510,6 +1510,10 @@ function renderHtml(plain) {
 ```
 
 
+### Notes
+
+With event delegation, `e.currentTarget` might not work on all browsers as expected.
+
 
 ### Related
 

@@ -811,6 +811,8 @@ function renderHtml(plain) {
   const content = sanitize(plainToHtml(plain));
   u(&#39;.render&#39;).html(content);
 }</code></pre>
+<h3 id="notes">Notes</h3>
+<p>With event delegation, <code>e.currentTarget</code> might not work on all browsers as expected.</p>
 <h3 id="related">Related</h3>
 <p><a href="#handle">.handle()</a> Same as <code>.on()</code>, but it prevents the default action</p>
 <p><a href="#trigger">.trigger()</a> calls an event on all of the matched nodes</p>
