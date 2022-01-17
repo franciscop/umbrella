@@ -22,14 +22,18 @@ u.prototype.on = function (events, cb, cb2) {
           // to have the same currentTarget (the 'a')
           var curr = e.currentTarget;
           Object.defineProperty(e, 'currentTarget', {
-            value: target,
+            get: function() {
+              return target;
+            },
             configurable: true
           });
           cb2.apply(target, args);
           // Need to undo it afterwards, in case this event is reused in another
           // callback since otherwise u(e.currentTarget) above would break
           Object.defineProperty(e, 'currentTarget', {
-            value: curr,
+            get: function() {
+              return curr;
+            },
             configurable: true
           });
         });
