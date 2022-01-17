@@ -1,12 +1,8 @@
 function overWriteCurrent (e, value) {
-  try {
-    Object.defineProperty(e, 'currentTarget', {
-      value: value,
-      configurable: true
-    });
-  } catch (error) {
-    console.log('Caught?');
-  }
+  Object.defineProperty(e, 'currentTarget', {
+    value: value,
+    configurable: true
+  });
 }
 
 // Attach a callback to the specified events
@@ -32,11 +28,15 @@ u.prototype.on = function (events, cb, cb2) {
           // makes u('.render a').on('click') and u('.render').on('click', 'a')
           // to have the same currentTarget (the 'a')
           var curr = e.currentTarget;
-          overWriteCurrent(e, target);
+          try {
+            overWriteCurrent(e, target);
+          } catch (err) { }
           cb2.apply(target, args);
           // Need to undo it afterwards, in case this event is reused in another
           // callback since otherwise u(e.currentTarget) above would break
-          overWriteCurrent(e, curr);
+          try {
+            overWriteCurrent(e, curr);
+          } catch (err) { }
         });
     };
   }
