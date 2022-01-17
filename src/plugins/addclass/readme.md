@@ -9,7 +9,7 @@ Add html class(es) to all of the matched elements.
 .addClass('name1', 'name2', 'nameN')
 .addClass(['name1', 'name2', 'nameN'])
 .addClass(['name1', 'name2'], ['name3'], ['nameN'])
-.addClass(function(){ return 'name1'; })
+.addClass(function(node, i){ return 'name1'; })
 .addClass(function(){ return 'name1'; }, function(){ return 'name2'; })
 ```
 
@@ -39,6 +39,19 @@ Add the class `toValidate` and `ajaxify` to all the `<form>` present in the page
 u("form").addClass("toValidate", "ajaxify");
 ```
 
+Add a class to indicate order:
+
+```js
+u("ul li").addClass((node, i) => `el-${i + 1}`);
+```
+
+```html
+<ul>
+  <li class="el-1">...</li>
+  <li class="el-2">...</li>
+  <li class="el-3">...</li>
+</ul>
+```
 
 
 ### Related
