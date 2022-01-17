@@ -11,11 +11,11 @@ module.exports = function (grunt) {
           'umbrella.min.js': 'umbrella.js'
         }
       },
-      // web: {
-      //   files: {
-      //     'docs/umbrella.min.js': 'umbrella.js'
-      //   }
-      // },
+      web: {
+        files: {
+          'docs/umbrella.min.js': 'umbrella.js'
+        }
+      },
       es6: {
         options: {
           footer: '\nexport default u;'
@@ -82,7 +82,6 @@ module.exports = function (grunt) {
         },
         files: {
           'umbrella.js': ['src/umbrella.js', 'src/plugins/**/*.js', 'src/export.js'],
-          'docs/umbrella.min.js': ['src/umbrella.js', 'src/plugins/**/*.js', 'src/export.js'],
           'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
         }
       },
