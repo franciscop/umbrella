@@ -138,6 +138,7 @@ Created and maintained by [Francisco Presencia](https://github.com/franciscop) u
 
 ## References
 
+- https://www.bennadel.com/blog/4184-replacing-jquery-110kb-with-umbrella-js-8kb.htm
 - http://www.tutsplanet.com/umbrella-js-alternative-jquery-288/
 - http://www.hongkiat.com/blog/umbrella-js/
 - http://www.catswhocode.com/blog/umbrella-js-a-tiny-yet-powerful-alternative-to-jquery
