@@ -25,7 +25,7 @@ Wrap an element in an html element:
 
 Original element:
 ```html
-<button class="example">Link1</button>
+<span class="example">Link1</span>
 ```
 
 ```js
@@ -35,7 +35,7 @@ u(".example").wrap('<a class="wrapper">');
 Result:
 ```html
 <a class="wrapper">
-  <button class="example">Link1</button>
+  <span class="example">Link1</span>
 </a>
 ```
 
@@ -48,16 +48,16 @@ u(".example").wrap('<a>').attr({class: "wrapper", href: "http://google.com"});
 Result:
 ```html
 <a href="http://google.com" class="wrapper">
-  <button class="example">Link1</button>
+  <span class="example">Link1</span>
 </a>
 ```
 
 Wrap several elements in an html element
 
 ```html
-<button class="example">Link1</button>
-<button class="example">Link2</button>
-<button class="example">Link3</button>
+<span class="example">Link1</span>
+<span class="example">Link2</span>
+<span class="example">Link3</span>
 
 ```
 
@@ -68,20 +68,20 @@ u(".example").wrap('<a>').attr({class: "wrapper", href: "http://google.com"});
 Result:
 ```html
 <a href="http://google.com" class="wrapper">
-  <button class="example">Link1</button>
+  <span class="example">Link1</span>
 </a>
 <a href="http://google.com" class="wrapper">
-  <button class="example">Link2</button>
+  <span class="example">Link2</span>
 </a>
 <a href="http://google.com" class="wrapper">
-  <button class="example">Link3</button>
+  <span class="example">Link3</span>
 </a>
 ```
 
 Nested selector arguments:
 
 ```html
-<button class="example">Link1</button>
+<span class="example">Link1</span>
 ```
 
 ```js
@@ -94,7 +94,7 @@ Result:
 	<div class="b1">
 		<div class="c1">
 			<a href="http://google.com" class="wrapper">
-			  <button class="example">Link1</button>
+			  <span class="example">Link1</span>
 			</a>
 		</div>
 	</div>
@@ -104,7 +104,7 @@ Result:
 Nested selector arguments with multiple child nodes:
 
 ```html
-<button class="example">Link1</button>
+<span class="example">Link1</span>
 ```
 
 ```js
@@ -117,7 +117,7 @@ Result:
 	<div class="b1">
 		<div class="c1">
 			<a href="http://google.com" class="wrapper">
-			  <button class="example">Link1</button>
+			  <span class="example">Link1</span>
 			</a>
 		</div>
 	</div>
