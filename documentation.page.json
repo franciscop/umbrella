@@ -1,4 +1,5 @@
 {
+  "name": "Umbrella JS",
   "title": "☔ Lightweight javascript library for DOM manipulation and events",
   "menu": {
     "Github": "https://github.com/franciscop/umbrella",
