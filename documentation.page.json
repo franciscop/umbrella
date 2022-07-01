@@ -1,7 +1,7 @@
 {
   "title": "☔ Lightweight javascript library for DOM manipulation and events",
   "menu": {
-    "Github": "https://github.com/franciscop/umbrella"
+    "Github": "https://github.com/franciscop/umbrella",
     "Tests": "https://umbrellajs.com/tests",
     "Documentation": "https://docs.umbrellajs.com/"
   },
