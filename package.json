@@ -25,6 +25,7 @@
     "alternative"
   ],
   "main": "umbrella.min.js",
+  "types": "umbrella.d.ts",
   "files": [
     "src",
     "polyfill.js",
