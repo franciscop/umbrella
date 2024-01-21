@@ -1,209 +1,184 @@
-declare module "umbrellajs" {
-  export interface Umbrella {
-    new (
-      parameter: this | string | Element | ArrayLike<Element | null> | null
-    ): this;
-    new (selector: string, context?: Element | Document | null): this;
-    new (): this;
+declare module 'umbrellajs' {
 
-    (
-      parameter: this | string | Element | ArrayLike<Element | null> | null
-    ): this;
-    (selector: string, context?: Element | Document | null): this;
-    (): this;
+  type Iterator<Node, Return = void> = (this: Umbrella<Node>, node: Node, index: number) => Return;
 
-    nodes: Array<Element>;
+  type AfterIterator<Node, Return = void, Arg> = (this: Umbrella<Node>, item: Arg, itemIndex: number, node: Node, index: number) => Return;
+
+  type Many<T> = T | T[] | ArrayLike<T>;
+
+  type Maybe<T> = T | null | undefined;
+
+  type EmptyObject = {
+    [key: string]: never;
+  };
+
+  type Selector<Node = Element> = string | Many<Node | string | null> | Umbrella<Node> | null;
+
+  type NodeFromSelector<Sel extends Selector, Node extends Element> = Sel extends Element ? Sel : Sel extends Element[] ? Sel[number] : Sel extends Umbrella<infer InferredNode> ? InferredNode : Node;
+
+  export interface Umbrella<Node = Element> {
+    <Node extends Element = Element>(): Umbrella<Node>;
+
+    <Node extends Element = Element>(parameter: Selector<Node>): Umbrella<Node>;
+
+    <Node extends Element = Element>(selector: Selector<Node>, context: Element): Umbrella<Node>;
+
+    nodes: Array<Node>;
+
     length: number;
 
-    addClass(
-      ...classes: Array<
-        string | string[] | ((node: Element, i: number) => string)
-      >
-    ): this;
 
-    after(item: this | string | Element | ArrayLike<Element>): this;
-    after(
-      callback: (
-        placeholderItem: {},
-        placeholderIndex: 0,
-        node: Element,
-        nodeIndex: number
-      ) => this | string | Element | ArrayLike<Element>
-    ): this;
-    after<T>(
-      callback: (
-        dataItem: T,
-        dataIndex: number,
-        node: Element,
-        nodeIndex: number
-      ) => this | string | Element | ArrayLike<Element>,
-      data: ArrayLike<T>
-    ): this;
-    after<T>(
-      callback: (
-        selectorMatchItem: Element,
-        selectorMatchIndex: number,
-        node: Element,
-        nodeIndex: number
-      ) => this | string | Element | ArrayLike<Element>,
-      selector: string
-    ): this;
-    after(
-      callback: (
-        repeatCounterValue: number,
-        repeatCounterIndex: number,
-        node: Element,
-        nodeIndex: number
-      ) => this | string | Element | ArrayLike<Element>,
-      repeat: number
-    ): this;
+    // Inserting methods
+    after(): this;
 
-    append: typeof u.after;
+    after(item: Selector): this;
 
-    /**
-     * Returns the innerHTML string of each node.
-     */
-    array(): string[];
-    /**
-     * Maps the given callback function for each node.
-     * If the callback function returns a falsy value, then it is excluded from the array.
-     * Else if the callback function returns a string, then it is used to create a new u() instance, and the matched node(s) are then concatenated to the array.
-     * Else if the callback function returns an array, then it is concatenated to the array.
-     * Otherwise, the callback function's return value is concatenated to the array.
-     * @param callback
-     */
-    array(callback: (node: Element, i: number) => string): Array<Element>;
-    /**
-     * Maps the given callback function for each node.
-     * If the callback function returns a falsy value, then it is excluded from the array.
-     * Else if the callback function returns a string, then it is used to create a new u() instance, and the matched node(s) are then concatenated to the array.
-     * Else if the callback function returns an array, then it is concatenated to the array.
-     * Otherwise, the callback function's return value is appended to the array.
-     * @param callback
-     */
-    array<T>(callback: (node: Element, i: number) => Array<T>): Array<T>;
-    /**
-     * Maps the given callback function for each node.
-     * If the callback function returns a falsy value, then it is excluded from the array.
-     * Else if the callback function returns a string, then it is used to create a new u() instance, and the matched node(s) are then concatenated to the array.
-     * Else if the callback function returns an array, then it is concatenated to the array.
-     * Otherwise, the callback function's return value is appended to the array.
-     * @param callback
-     */
-    array<T>(callback: (node: Element, i: number) => T): Array<any>;
+    after(callback: AfterIterator<Node, Selector, EmptyObject>): this;
 
-    attr(name: string): string | null;
-    attr(
-      name: string,
-      callback: (node: Element, i: number) => string | number | null | undefined
-    ): this;
-    attr(name: string, value: string | number | null | undefined): this;
-    attr(pairs: {
-      [key: string]:
-        | ((node: Element, i: number) => string | number | null | undefined)
-        | string
-        | null
-        | undefined;
-    }): this;
+    after(callback: AfterIterator<Node, Selector, number>, data: number): this;
 
-    before: typeof u.after;
+    after<Arg>(callback: AfterIterator<Node, Selector, Arg>, data: Arg[]): this;
 
-    children(): this;
-    children(selector: string): this;
-    children(u: this): this;
-    children(callback: (node: Element, index: number) => boolean): this;
+    append: this['after'];
 
-    clone(): this;
+    before: this['after'];
 
-    closest(filter?: any): this;
-
-    first(): Element | false;
-
-    data: typeof u.attr;
-
-    each(callback: (node: Element, i: number) => void): this;
-
-    empty(): this;
-
-    filter(selector: string): this;
-    filter(u: this): this;
-    filter(callback: (node: Element, index: number) => boolean): this;
-
-    find(selector?: string): this;
-
-    first(): Element | false;
-
-    handle: typeof u.on;
-
-    hasClass(...classNames: (string | string[] | (() => string))[]): boolean;
-
-    html(): string;
-    html(html: string): this;
-
-    is(filter: this): boolean;
-    is(selector: string): boolean;
-    is(
-      callback: (this: this, node: Element, index: number) => boolean
-    ): boolean;
-
-    last(): Element | false;
-
-    map(callback: (node: Element, index: number) => any): this;
-
-    not: typeof u.filter;
-
-    off(events: string | string[]): this;
-    off(events: string | string[], selector: string): this;
-    off(events: string | string[], callback: () => void): this;
-    off(
-      events: string | string[],
-      selector: string,
-      callback: () => void
-    ): this;
-
-    on(
-      events: string | string[],
-      callback: (this: this, e: Event, ...data: any[]) => void
-    ): this;
-    on(
-      events: string | string[],
-      selector: string,
-      callback: (this: this, e: Event, ...data: any[]) => void
-    ): this;
-
-    parent(): this;
-    parent(selector: string): this;
-    parent(u: this): this;
-    parent(callback: (node: Element, index: number) => boolean): this;
-
-    prepend: typeof u.after;
+    prepend: this['after'];
 
     remove(): this;
 
-    removeClass: typeof u.addClass;
+    replace: this['after'];
 
-    replace: typeof u.after;
+
+    // Iterating methods
+    array(): string[];
+
+    array<Return>(callback: Iterator<Node, Return>): Array<Return>;
+
+    each(callback: Iterator<Node>): this;
+
+    map(): this;
+
+    map<ResNode extends Element = Element, Sel extends Selector = Selector<ResNode>>(callback: Iterator<Node, Sel>): Umbrella<NodeFromSelector<Sel, ResNode>>;
+
+
+    // Filtering methods
+    filter(filter: Maybe<string>): this;
+
+    filter(predicate: Iterator<Node, Maybe<boolean>>): this;
+
+    filter(filter: Umbrella): this;
+
+    is(filter: Maybe<string>): boolean;
+
+    is(predicate: Iterator<Node, Maybe<boolean>>): boolean;
+
+    is(filter: Umbrella): boolean;
+
+    not: this['filter'];
+
+
+    // Finding methods
+    children<Node extends Element = Element>(): Umbrella<Node>;
+
+    children<Node extends Element = Element>(filter: Maybe<string>): Umbrella<Node>;
+
+    children<ResNode extends Element = Element>(predicate: Iterator<Node, Maybe<boolean>>): Umbrella<ResNode>;
+
+    children<Node extends Element>(filter: Umbrella<Node>): Umbrella<Node>;
+
+    closest: this['children'];
+
+    find(): Umbrella;
+
+    find<ResNode extends Element = Element, Sel extends Selector = Selector<ResNode>>(selector: Sel): Umbrella<NodeFromSelector<Sel, ResNode>>;
+
+    find(predicate: Iterator<Node, Maybe<boolean>>): Umbrella;
+
+    first(): Node | false;
+
+    last(): Node | false;
+
+    parent<Node extends Element = Element>(): Umbrella<Node>;
+
+    parent<ResNode extends Element = Element, Sel extends Selector = Selector<ResNode>>(selector: Sel): Umbrella<NodeFromSelector<Sel, ResNode>>;
+
+    parent<ResNode extends Element = Element>(predicate: Iterator<Node, Maybe<boolean>>): Umbrella<ResNode>;
+
+    siblings: this['children'];
+
+
+    // Class methods
+    addClass(...classes: Array<Many<string> | Iterator<Node, string>>): this;
+
+    hasClass(...classes: Array<Many<string> | Iterator<Node, string>>): boolean;
+
+    removeClass: this['addClass'];
+
+    toggleClass(classes: Many<string> | Iterator<Node, string>): this;
+
+    toggleClass(classes: Many<string> | Iterator<Node, string>, forceAdd: boolean): this;
+
+
+    // Attributes methods
+    attr(name: string): string | null;
+
+    attr(name: string, value: Maybe<string>): this;
+
+    attr(name: string, callback: Iterator<Node, Maybe<string>>): this;
+
+    attr(pairs: Record<string, Maybe<string> | Iterator<Node, Maybe<string>>>): this;
+
+    data: this['attr'];
+
+
+    // Event listeners methods
+    handle: this['on'];
+
+    off(events: Many<string>): this;
+
+    off(events: Many<string>, selector: string): this;
+
+    off(events: Many<string>, selector: string, callback: () => void): this;
+
+    on<Arg>(
+      events: Many<string>,
+      callback: (this: this, event: Event, ...data: Arg[]) => void,
+    ): this;
+
+    on<Arg>(
+      events: Many<string>,
+      selector: string,
+      callback: (this: this, event: Event, ...data: Arg[]) => void,
+    ): this;
+
+    trigger<Arg>(events: Many<string>, ...data: Arg[]): this;
+
+
+    // Content insert methods
+    html(): string;
+
+    html(value: string): this;
+
+    text(): string;
+
+    text(value: string): this;
+
+    // Other
+    clone(): this;
+
+    empty(): this;
 
     scroll(): this;
 
     serialize(): string;
 
-    siblings: typeof u.children;
-
     size(): DOMRect;
 
-    text(): string;
-    text(text: string): this;
-
-    toggleClass(classes: string | string[], forceAdd?: boolean): this;
-
-    trigger(events: string | string[], ...data: any[]): this;
-
-    wrap(
-      parameter: this | string | Element | ArrayLike<Element | null> | null
-    ): this;
+    wrap<ResNode extends Element = Element, Sel extends Selector = Selector<ResNode>>(selector: Sel): Umbrella<NodeFromSelector<Sel, ResNode>>;
   }
 
   const u: Umbrella;
   export default u;
+
 }
