@@ -54,7 +54,8 @@ declare module 'umbrellajs' {
      * @param {Element} context - The DOM Element within which to search for the selector. This defines the scope of the
      *   query.
      * @returns {Umbrella<NODE>} An instance of Umbrella so you can chain it to any of the other methods.
-     */ <NODE extends Element = Element>(selector: Selector<NODE>, context: Element): Umbrella<NODE>;
+     */
+      <NODE extends Element = Element>(selector: Selector<NODE>, context: Element): Umbrella<NODE>;
 
     /**
      * Find nodes from the HTML with a CSS selector.
@@ -73,7 +74,8 @@ declare module 'umbrellajs' {
      *   standard DOM `Element`, allowing for specific element types like `HTMLDivElement` or `SVGElement`.
      * @param {Selector<NODE>} parameter - The selector used to find elements {@linkcode Selector}.
      * @returns {Umbrella<NODE>} An instance of Umbrella so you can chain it to any of the other methods.
-     */ <NODE extends Element = Element>(parameter: Selector<NODE>): Umbrella<NODE>;
+     */
+      <NODE extends Element = Element>(parameter: Selector<NODE>): Umbrella<NODE>;
 
     /**
      * Create an empty Umbrella instance.
@@ -86,7 +88,8 @@ declare module 'umbrellajs' {
      * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates. `NODE` extends from the
      *   standard DOM `Element`, allowing for specific element types like `HTMLDivElement` or `SVGElement`.
      * @returns {Umbrella<NODE>} An instance of Umbrella so you can chain it to any of the other methods.
-     */ <NODE extends Element = Element>(): Umbrella<NODE>;
+     */
+      <NODE extends Element = Element>(): Umbrella<NODE>;
 
     /**
      * Array of DOM nodes managed by the Umbrella instance. Each element in the array is of the type specified by the
@@ -113,6 +116,31 @@ declare module 'umbrellajs' {
      * @type {number}
      */
     length: number;
+
+    /**
+     * Add html class(es) to all the matched elements.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#addClass)
+     *
+     * @example
+     *   u('div').addClass('name1');
+     *   u('div').addClass('name1 name2 nameN');
+     *   u('div').addClass('name1,name2,nameN');
+     *   u('div').addClass('name1', 'name2', 'nameN');
+     *   u('div').addClass(['name1', 'name2', 'nameN']);
+     *   u('div').addClass(['name1', 'name2'], ['name3'], ['nameN']);
+     *   u('div').addClass((node, index) => 'name1');
+     *   u('div').addClass(
+     *     () => 'name1',
+     *     () => 'name2',
+     *   );
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @param {...(Many<string> | IterateCallback<NODE, string>)[]} classes - Class names to add. This can be a single
+     *   class name, an array of class names, or a callback function that returns a class name for each element.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    addClass(...classes: Array<Many<string> | IterateCallback<NODE, string>>): Umbrella<NODE>;
 
     /**
      * Add some html as a sibling after each of the matched elements.
@@ -226,171 +254,6 @@ declare module 'umbrellajs' {
     append: Umbrella<NODE>['after'];
 
     /**
-     * Add some html before each of the matched elements.
-     *
-     * **The signature is the same as the {@linkcode after} method.**
-     *
-     * [Documentation](https://umbrellajs.com/documentation#before)
-     *
-     * @example
-     *   // Add a header to each of the articles
-     *   u('article').after('<header>Hello world</header>');
-     *
-     *   // Add three elements before the link. All of these methods are equivalent:
-     *   // Add them all like a single string
-     *   u('a.main').before('<a>One</a><a>Two</a><a>Three</a>');
-     *
-     *   // Add them in a chain
-     *   u('a.main').before('<a>One</a>').before('<a>Two</a>').before('<a>Three</a>');
-     *
-     *   // Add them with a function parameter
-     *   function cb(txt: string): string {
-     *     return '<a>' + txt + '</a>';
-     *   }
-     *   u('a.main').before(cb, ['One', 'Two', 'Three']);
-     *
-     *   // Same as the previous one but with ES6
-     *   u('a.main').before(txt => `<a>${txt}</a>`, ['One', 'Two', 'Three']);
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @type {this['after']}
-     */
-    before: Umbrella<NODE>['after'];
-
-    /**
-     * Add some html as a child at the beginning of each of the matched elements.
-     *
-     * **The signature is the same as the {@linkcode after} method.**
-     *
-     * [Documentation](https://umbrellajs.com/documentation#prepend)
-     *
-     * @example
-     *   // Add a header to each of the articles
-     *   u('article').prepend('<header>Hello world</header>');
-     *
-     *   // Add three elements at the beginning of the list. All of these methods are equivalent:
-     *   // Add them all like a single string
-     *   u('ul').prepend('<li>One</li><li>Two</li><li>Three</li>');
-     *
-     *   // Add them in a chain
-     *   u('ul').prepend('<li>Three</li>').append('<li>Two</li>').append('<li>One</li>');
-     *
-     *   // Add them with a function parameter
-     *   function cb(txt: string): string {
-     *     return '<li>' + txt + '</li>';
-     *   }
-     *   u('ul').prepend(cb, ['One', 'Two', 'Three']);
-     *
-     *   // Same as the previous one but with ES6
-     *   u('ul').prepend(txt => `<li>${txt}</li>`, ['One', 'Two', 'Three']);
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @type {this['after']}
-     */
-    prepend: Umbrella<NODE>['after'];
-
-    /**
-     * Removes the matched elements.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#remove)
-     *
-     * @example
-     *   u('ul.demo li').remove();
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    remove(): Umbrella<NODE>;
-
-    /**
-     * Replace the matched elements with the passed argument.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#replace)
-     *
-     * @example
-     *   // Replace all <div> elements with <span>
-     *   u('div').replace(
-     *     (arg, argIndex, node, index) => {
-     *       return `<span>Replacement for div ${index}: ${arg}</span>`;
-     *     },
-     *     ['Additional Data'],
-     *   );
-     *
-     * @template NODE - The current iteration DOM element.
-     * @template RES_NODE - Specifies the type of the resulting replaced elements.
-     * @template ARG - The type of additional argument(s) passed to the callback function.
-     * @param {InsertIterateCallback<NODE, Selector<RES_NODE>, ARG>} callback - A function that returns
-     *   {@linkcode Selector} for querying nodes to be inserted.
-     * @param {ARG[]} data - An array of arguments that will be passed to the callback function.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the new elements resulting from the replacements.
-     */
-    replace<RES_NODE extends Element = Element, ARG>(
-      callback: InsertIterateCallback<NODE, Selector<RES_NODE>, ARG>,
-      data: ARG[],
-    ): Umbrella<RES_NODE>;
-
-    /**
-     * Replace the matched elements with the passed argument.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#replace)
-     *
-     * @example
-     *   // Replace each <div> element with <span>, repeated 3 times
-     *   u('div').replace((repeat, argIndex, node, index) => {
-     *     return `<span>Replacement ${repeat} for div ${index}</span>`;
-     *   }, 3);
-     *
-     * @template NODE - The current iteration DOM element.
-     * @template RES_NODE - Specifies the type of the resulting replaced elements.
-     * @param {InsertIterateCallback<NODE, Selector<RES_NODE>, number>} callback - A function that returns
-     *   {@linkcode Selector} for querying nodes to be inserted.
-     * @param {number} repeat - The number of times to repeat the replacement for each element.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the new elements resulting from the repeated
-     *   replacements.
-     */
-    replace<RES_NODE extends Element = Element>(
-      callback: InsertIterateCallback<NODE, Selector<RES_NODE>, number>,
-      repeat: number,
-    ): Umbrella<RES_NODE>;
-
-    /**
-     * Replace the matched elements with the passed argument.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#replace)
-     *
-     * @example
-     *   // Replace each <div> element with <span>
-     *   u('div').replace((emptyObject, argIndex, element, index) => {
-     *     return `<span>New content for div ${index}</span>`;
-     *   });
-     *
-     * @template NODE - The current iteration DOM element.
-     * @template RES_NODE - Specifies the type of the resulting replaced elements.
-     * @param {InsertIterateCallback<NODE, Selector<RES_NODE>, EmptyObject>} callback - A function that returns
-     *   {@linkcode Selector} for querying nodes to be inserted.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the new elements resulting from the replacements.
-     */
-    replace<RES_NODE extends Element = Element>(
-      callback: InsertIterateCallback<NODE, Selector<RES_NODE>, EmptyObject>,
-    ): Umbrella<RES_NODE>;
-
-    /**
-     * Replace the matched elements with the passed argument.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#replace)
-     *
-     * @example
-     *   // Replace all <div> elements with a new <span>
-     *   u('div').replace('<span>New content</span>');
-     *
-     * @template RES_NODE - Specifies the type of the resulting replaced elements.
-     * @param {Selector<RES_NODE>} item - A selector {@linkcode Selector} for querying nodes to be inserted.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the elements that replace the original matched
-     *   elements.
-     */
-    replace<RES_NODE extends Element = Element>(item: Selector<RES_NODE>): Umbrella<RES_NODE>;
-
-    /**
      * Map the matched elements into an array by applying a callback function to each DOM element.
      *
      * [Documentation](https://umbrellajs.com/documentation#array)
@@ -465,543 +328,6 @@ declare module 'umbrellajs' {
      * @returns {string[]} - An array of strings extracted from the matched elements (node.innerHTML).
      */
     array(): string[];
-
-    /**
-     * Loop through all the nodes and execute a callback for each.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#each)
-     *
-     * @example
-     *   // Loop through all the links and add them a target="_blank":
-     *   u('a').each(node => {
-     *     u(node).attr({ target: '_blank' });
-     *   });
-     *
-     * @template NODE - The current iteration DOM element.
-     * @param {IterateCallback<NODE>} callback - A function to execute on each element in the set. The callback receives
-     *   the current element and its index as arguments.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    each(callback: IterateCallback<NODE>): Umbrella<NODE>;
-
-    /**
-     * Change the content of the current instance by looping each element.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#map)
-     *
-     * It returns a value that evaluates to false, a single element, a string, an array or an Umbrella instance
-     * {@linkcode Selector}. It will **remove duplicated nodes** from the result.
-     *
-     * **Note**: "Umbrella JS is made to manipulate HTML nodes, so it will consider the string "" and 0 as false and
-     * remove them. Return an HTML node or an HTML string to keep the elements."
-     *
-     * @example
-     *   const links = u<HTMLLIElement>('.special li')
-     *     // The node parameter will be inferred as a HTMLLIElement type.
-     *     .map(node => {
-     *       if (parseInt(node.innerHTML) > 10) {
-     *         return '<a>' + u(node).data('id') + '</a>';
-     *       }
-     *     })
-     *     .addClass('expensive');
-     *
-     * @template RES_NODE - The type of the resulting DOM elements after transformation.
-     * @template NODE - The current iteration DOM element.
-     * @param {IterateCallback<NODE, Selector<RES_NODE>>} callback - A function that is applied to each element in the
-     *   set. It receives each element as an argument and should return a selector {@linkcode Selector}.
-     * @returns {Umbrella<RES_NODE>} - A new Umbrella instance containing the elements obtained by the transformation.
-     */
-    map<RES_NODE extends Element = Element>(callback: IterateCallback<NODE, Selector<RES_NODE>>): Umbrella<RES_NODE>;
-
-    /**
-     * Just return the original instance of Umbrella.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#map)
-     *
-     * @template NODE - The current iteration DOM element.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    map(): Umbrella<NODE>;
-
-    /**
-     * Remove all the nodes that doesn't match the criteria.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#filter)
-     *
-     * @example
-     *   // Get all the paragraphs with a link:
-     *   const paragraphs = u('p').filter(node => {
-     *     return u(node).find('a').length > 0;
-     *   });
-     *
-     *   // Get only the inputs with an answer above 5 and show an error:
-     *   u('input')
-     *     .filter(node => {
-     *       if (parseInt(u(node).first().value) > 5) {
-     *         return true;
-     *       }
-     *     })
-     *     .addClass('error');
-     *
-     * @template NODE - The current iteration DOM element.
-     * @param {IterateCallback<NODE, Maybe<boolean>>} predicate - A function that tests each element in the set. It
-     *   should return `true` to keep the element, or `false` (or a falsy value) to remove it.
-     * @returns {this} - A new Umbrella instance containing the elements that passed the test.
-     */
-    filter(predicate: IterateCallback<NODE, Maybe<boolean>>): Umbrella<NODE>;
-
-    /**
-     * Remove all the nodes that doesn't match the criteria.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#filter)
-     *
-     * @example
-     *   u('div').filter(u('a'));
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @param {Umbrella} filter - Instance of Umbrella with the elements to keep (the intersection will be kept).
-     * @returns {this} - A new Umbrella instance containing the filtered set of elements.
-     */
-    filter(filter: Umbrella): Umbrella<NODE>;
-
-    /**
-     * Remove all the nodes that doesn't match the criteria.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#filter)
-     *
-     * @example
-     *   // Get only the active links
-     *   const activeLinks = u('a').filter('.active');
-     *
-     *   // Using null to get a copy Umbrella instance
-     *   const copy = u('div').filter(null);
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @param {Maybe<string>} filter - A CSS selector string used to filter the matched elements. `null` or `undefined`
-     *   replaces with * selector.
-     * @returns {this} - A new Umbrella instance containing the filtered set of elements.
-     */
-    filter(filter: Maybe<string>): Umbrella<NODE>;
-
-    /**
-     * Checks if any of the matched elements pass the test implemented by the provided predicate function.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#is)
-     *
-     * @example
-     *   u('form.subscribe').on('submit', event => {
-     *     if (u(event.target).is(node => u(node).hasClass('.validate'))) {
-     *       validate();
-     *     }
-     *   });
-     *
-     * @template NODE - The current iteration DOM element.
-     * @param {IterateCallback<NODE, Maybe<boolean>>} predicate - A function that tests each element in the set. The
-     *   function should return `true` for elements that pass the test, or `false` otherwise.
-     * @returns {boolean} - Returns `true` if the function returns `true`, `false` otherwise.
-     */
-    is(predicate: IterateCallback<NODE, Maybe<boolean>>): boolean;
-
-    /**
-     * Check whether any of the nodes matches the provided Umbrella instance.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#is)
-     *
-     * @example
-     *   u('div').is(u('a'));
-     *
-     * @param {Umbrella} filter - Instance of Umbrella with the elements to check.
-     * @returns {this} - Returns `true` if any of the nodes matches the provided Umbrella instance, `false` otherwise.
-     */
-    is(filter: Umbrella): boolean;
-
-    /**
-     * Check whether any of the nodes matches the selector.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#is)
-     *
-     * @example
-     *   // Check if the current form needs to be validated
-     *   u('form.subscribe').on('submit', function (e) {
-     *     // Same as u('form.subscribe').hasClass('validate')
-     *     if (u(e.target).is('.validate')) {
-     *       validate();
-     *     }
-     *   });
-     *
-     * @param {Maybe<string>} filter - A CSS selector string used to filter the matched elements. `null` or `undefined`
-     *   replaces with * selector.
-     * @returns {this} - A new Umbrella instance containing the filtered set of elements.
-     */
-    is(filter: Maybe<string>): boolean;
-
-    /**
-     * Remove known nodes from nodes.
-     *
-     * **The signature is the same as the {@linkcode filter} method.**
-     *
-     * [Documentation](https://umbrellajs.com/documentation#not)
-     *
-     * @example
-     *   // Get only the non-active links on paragraphs
-     *   const nonactiveLinks = u('.menu a').not('.active');
-     *
-     *   // Get all the active:
-     *   const activeLinks = u('.menu a').not(nonactiveLinks);
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @type {this['filter']}
-     */
-    not: Umbrella<NODE>['filter'];
-
-    /**
-     * Retrieves the children, filtered by a predicate function.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#children)
-     *
-     * @example
-     *   // Get all <li> with a 'child' class
-     *   u('ul').children<HTMLLIElement>(node => u(node).hasClass('child'));
-     *
-     * @template NODE - The current iteration DOM element.
-     * @template RES_NODE - Specifies the type of the resulting child elements.
-     * @param {IterateCallback<RES_NODE, Maybe<boolean>>} predicate - A function that tests each child element. Child
-     *   elements for which the predicate returns `true` are included in the resulting set.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the filtered child elements.
-     */
-    children<RES_NODE extends Element = Element>(
-      predicate: IterateCallback<RES_NODE, Maybe<boolean>>,
-    ): Umbrella<RES_NODE>;
-
-    /**
-     * Retrieves the children are contained in a given Umbrella instance.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#children)
-     *
-     * @example
-     *   // Get all <div> with a 'specific-class' class
-     *   u('div').children(u('.specific-class'));
-     *
-     * @template RES_NODE - Specifies the type of the child elements.
-     * @param {Umbrella} filter - An Umbrella instance whose elements are used to filter the children of the matched
-     *   elements.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the child elements that match those in the
-     *   provided Umbrella instance.
-     */
-    children<RES_NODE extends Element = Element>(filter: Umbrella<RES_NODE>): Umbrella<RES_NODE>;
-
-    /**
-     * Retrieves the children that match a given CSS selector.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#children)
-     *
-     * @example
-     *   // Get all spans for all <div>
-     *   u('div').children('span');
-     *
-     *   // Get all children for all <div>
-     *   u('div').children(null);
-     *
-     * @template RES_NODE - Specifies the type of the child elements.
-     * @param {Maybe<string>} filter - A CSS selector string used to filter the matched elements. `null` or `undefined`
-     *   replaces with * selector.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the child elements that match the provided
-     *   selector.
-     */
-    children<RES_NODE extends Element = Element>(filter: Maybe<string>): Umbrella<RES_NODE>;
-
-    /**
-     * Retrieves all child elements.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#children)
-     *
-     * @example
-     *   // Get all children for all <div>
-     *   u('div').children();
-     *
-     * @template RES_NODE - Specifies the type of the resulting child elements.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing all child elements of the matched elements.
-     */
-    children<RES_NODE extends Element = Element>(): Umbrella<RES_NODE>;
-
-    /**
-     * Find the first ancestor that matches the selector for each node
-     *
-     * **The signature is the same as the {@linkcode children} method.**
-     *
-     * [Documentation](https://umbrellajs.com/documentation#closest)
-     *
-     * @example
-     *   // Get the <ul> of every <li>
-     *   u('li').closest('ul');
-     *
-     * @type {this['children']}
-     */
-    closest: Umbrella<NODE>['children'];
-
-    /**
-     * Searches for elements that satisfy a condition defined by the provided predicate function.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#find)
-     *
-     * @example
-     *   // Get the required fields within a submitting form:
-     *   u('form').on('submit', function () {
-     *     const required = u(this).find(node => node.hasClass('required'));
-     *   });
-     *
-     * @template NODE - The current iteration DOM element.
-     * @template RES_NODE - Specifies the type of the resulting elements found.
-     * @param {IterateCallback<NODE, Maybe<boolean>>} predicate - A function that tests each element in the set.
-     *   Elements for which the function returns `true` are included in the resulting Umbrella instance.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the elements that match the predicate.
-     */
-    find<RES_NODE extends Element = Element>(predicate: IterateCallback<NODE, Maybe<boolean>>): Umbrella<RES_NODE>;
-
-    /**
-     * Searches for elements that match a given selector.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#find)
-     *
-     * @example
-     *   // Get all <span> elements within all <div> elements
-     *   u('div').find('span');
-     *
-     * @template RES_NODE - Specifies the type of the resulting elements found.
-     * @param {Selector<RES_NODE>} selector - A CSS selector string, an Element, an array of Elements, or an Umbrella
-     *   instance used to find matching elements.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing elements that match the provided selector.
-     */
-    find<RES_NODE extends Element = Element>(selector: Selector<RES_NODE>): Umbrella<RES_NODE>;
-
-    /**
-     * Retrieves all child elements.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#find)
-     *
-     * @example
-     *   // Get all child elements within all <div> elements
-     *   u('div').find();
-     *
-     * @template RES_NODE - Specifies the type of the resulting elements found.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing all child elements.
-     */
-    find<RES_NODE extends Element = Element>(): Umbrella<RES_NODE>;
-
-    /**
-     * Retrieve the first of the matched nodes. If there are no matched elements, it returns `false`.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#first)
-     *
-     * @example
-     *   // Get the first <div> element
-     *   u('div').first();
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @returns {NODE | false} - The first element in the matched set if it exists, or `false` if the set is empty.
-     */
-    first(): NODE | false;
-
-    /**
-     * Retrieve the last of the matched nodes. If there are no matched elements, it returns `false`.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#last)
-     *
-     * @example
-     *   // Get the last <div> element
-     *   u('div').last();
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @returns {NODE | false} - The last element in the matched set if it exists, or `false` if the set is empty.
-     */
-    last(): NODE | false;
-
-    /**
-     * Retrieve each parent of the matched nodes, filtered by a predicate function.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#parent)
-     *
-     * @example
-     *   // Retrieve parent elements of <span> that have a specific class
-     *   u('span').parent(parent => {
-     *     return u(parent).hasClass('specific-class');
-     *   });
-     *
-     * @template RES_NODE - Specifies the type of the resulting parent elements.
-     * @param {IterateCallback<RES_NODE, Maybe<boolean>>} predicate - A function that tests each parent element. Parent
-     *   elements for which the function returns `true` are included in the resulting set.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the parent elements that pass the predicate test.
-     */
-    parent<RES_NODE extends Element = Element>(
-      predicate: IterateCallback<RES_NODE, Maybe<boolean>>,
-    ): Umbrella<RES_NODE>;
-
-    /**
-     * Retrieve each parent of the matched nodes, filtered by a given selector {@linkcode Selector}.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#parent)
-     *
-     * @example
-     *   // Retrieve parent elements of <span> that match a specific CSS selector
-     *   u('span').parent('.specific-class');
-     *
-     * @template RES_NODE - Specifies the type of the resulting parent elements.
-     * @param {Selector<RES_NODE>} selector - A CSS selector string, an Element, an array of Elements, or an Umbrella
-     *   instance used to filter parent elements {@linkcode Selector}.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing parent elements that match the provided selector.
-     */
-    parent<RES_NODE extends Element = Element>(selector: Selector<RES_NODE>): Umbrella<RES_NODE>;
-
-    /**
-     * Retrieve all the parents in the page:
-     *
-     * [Documentation](https://umbrellajs.com/documentation#parent)
-     *
-     * @example
-     *   // Retrieve all the parents of <li> in the page:
-     *   u('li').parent();
-     *
-     * @template RES_NODE - Specifies the type of the resulting parent elements.
-     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the immediate parent elements of the matched
-     *   elements.
-     */
-    parent<RES_NODE extends Element = Element>(): Umbrella<RES_NODE>;
-
-    /**
-     * Get the siblings of all the nodes with an optional filter.
-     *
-     * **The signature is the same as the {@linkcode children} method.**
-     *
-     * [Documentation](https://umbrellajs.com/documentation#siblings)
-     *
-     * @example
-     *   // Get the all the siblings of the hovered <li>
-     *   u('li:hover').siblings('li:first-child');
-     *
-     *   // Get all the siblings
-     *   u('li').siblings();
-     *
-     * @type {this['children']}
-     */
-    siblings: Umbrella<NODE>['children'];
-
-    /**
-     * Add html class(es) to all the matched elements.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#addClass)
-     *
-     * @example
-     *   u('div').addClass('name1');
-     *   u('div').addClass('name1 name2 nameN');
-     *   u('div').addClass('name1,name2,nameN');
-     *   u('div').addClass('name1', 'name2', 'nameN');
-     *   u('div').addClass(['name1', 'name2', 'nameN']);
-     *   u('div').addClass(['name1', 'name2'], ['name3'], ['nameN']);
-     *   u('div').addClass((node, index) => 'name1');
-     *   u('div').addClass(
-     *     () => 'name1',
-     *     () => 'name2',
-     *   );
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @param {...(Many<string> | IterateCallback<NODE, string>)[]} classes - Class names to add. This can be a single
-     *   class name, an array of class names, or a callback function that returns a class name for each element.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    addClass(...classes: Array<Many<string> | IterateCallback<NODE, string>>): Umbrella<NODE>;
-
-    /**
-     * Find if any of the matched elements contains the class passed.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#hasclass)
-     *
-     * @example
-     *   u('div').hasClass('name1');
-     *   u('div').hasClass('name1 name2 nameN');
-     *   u('div').hasClass('name1,name2,nameN');
-     *   u('div').hasClass('name1', 'name2', 'nameN');
-     *   u('div').hasClass(['name1', 'name2', 'nameN']);
-     *   u('div').hasClass(['name1', 'name2'], ['name3'], ['nameN']);
-     *   u('div').hasClass((node, index) => 'name1');
-     *   u('div').hasClass(
-     *     () => 'name1',
-     *     () => 'name2',
-     *   );
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @param {...(Many<string> | IterateCallback<NODE, string>)[]} classes - One or more class names, or a callback
-     *   function returning a class name, to check for.
-     * @returns {boolean} - Returns `true` if any of the matched elements have at least one of the specified classes,
-     *   `false` otherwise.
-     */
-    hasClass(...classes: Array<Many<string> | IterateCallback<NODE, string>>): boolean;
-
-    /**
-     * Remove html class(es) to all the matched elements.
-     *
-     * **The signature is the same as the {@linkcode addClass} method.**
-     *
-     * [Documentation](https://umbrellajs.com/documentation#removeclass)
-     *
-     * @example
-     *   u('div').removeClass('name1');
-     *   u('div').removeClass('name1 name2 nameN');
-     *   u('div').removeClass('name1,name2,nameN');
-     *   u('div').removeClass('name1', 'name2', 'nameN');
-     *   u('div').removeClass(['name1', 'name2', 'nameN']);
-     *   u('div').removeClass(['name1', 'name2'], ['name3'], ['nameN']);
-     *   u('div').removeClass((node, index) => 'name1');
-     *   u('div').removeClass(
-     *     () => 'name1',
-     *     () => 'name2',
-     *   );
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @type {this['addClass']}
-     */
-    removeClass: Umbrella<NODE>['addClass'];
-
-    /**
-     * Toggles html class(es) to all the matched elements.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#toggleclass)
-     *
-     * @example
-     *   u('div').toggleClass('name1');
-     *   u('div').toggleClass('name1 name2 nameN');
-     *   u('div').toggleClass('name1,name2,nameN');
-     *   u('div').toggleClass(['name1', 'name2', 'nameN']);
-     *
-     * @template NODE - The current iteration DOM element.
-     * @param {Many<string> | IterateCallback<NODE, string>} classes - Class names to toggle. This can be a single class
-     *   name, an array of class names, or a callback function that returns a class name for each element.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    toggleClass(classes: Many<string> | IterateCallback<NODE, string>): Umbrella<NODE>;
-
-    /**
-     * Toggles html class(es) to all the matched elements.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#toggleclass)
-     *
-     * @example
-     *   // Force an .addClass() on the element <h2> from the page:
-     *   u('h2').toggleClass('main', true);
-     *
-     *   // Force removing a class from all matched elements
-     *   u('div').toggleClass('forced-class', false);
-     *
-     *   // Note however that this last example by itself doesn't make much sense as you could just use addClass()
-     *   // instead. It makes a lot more sense when the second parameter is checked dynamically:
-     *   u('h2').toggleClass('main', u('.accept').is(':checked'));
-     *
-     * @template NODE - The current iteration DOM element.
-     * @param {Many<string> | IterateCallback<NODE, string>} classes - Class names to toggle. This can be a single class
-     *   name, an array of class names, or a callback function that returns a class name for each element.
-     * @param {boolean} forceAdd - If `true`, adds the specified class(es); if `false`, removes them.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    toggleClass(classes: Many<string> | IterateCallback<NODE, string>, forceAdd: boolean): Umbrella<NODE>;
 
     /**
      * Sets attributes on each element in the matched set based on the provided key-value pairs. The value can either be
@@ -1085,6 +411,149 @@ declare module 'umbrellajs' {
     attr(name: string): string | null;
 
     /**
+     * Add some html before each of the matched elements.
+     *
+     * **The signature is the same as the {@linkcode after} method.**
+     *
+     * [Documentation](https://umbrellajs.com/documentation#before)
+     *
+     * @example
+     *   // Add a header to each of the articles
+     *   u('article').after('<header>Hello world</header>');
+     *
+     *   // Add three elements before the link. All of these methods are equivalent:
+     *   // Add them all like a single string
+     *   u('a.main').before('<a>One</a><a>Two</a><a>Three</a>');
+     *
+     *   // Add them in a chain
+     *   u('a.main').before('<a>One</a>').before('<a>Two</a>').before('<a>Three</a>');
+     *
+     *   // Add them with a function parameter
+     *   function cb(txt: string): string {
+     *     return '<a>' + txt + '</a>';
+     *   }
+     *   u('a.main').before(cb, ['One', 'Two', 'Three']);
+     *
+     *   // Same as the previous one but with ES6
+     *   u('a.main').before(txt => `<a>${txt}</a>`, ['One', 'Two', 'Three']);
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @type {this['after']}
+     */
+    before: Umbrella<NODE>['after'];
+
+    /**
+     * Retrieves the children, filtered by a predicate function.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#children)
+     *
+     * @example
+     *   // Get all <li> with a 'child' class
+     *   u('ul').children<HTMLLIElement>(node => u(node).hasClass('child'));
+     *
+     * @template NODE - The current iteration DOM element.
+     * @template RES_NODE - Specifies the type of the resulting child elements.
+     * @param {IterateCallback<RES_NODE, Maybe<boolean>>} predicate - A function that tests each child element. Child
+     *   elements for which the predicate returns `true` are included in the resulting set.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the filtered child elements.
+     */
+    children<RES_NODE extends Element = Element>(
+      predicate: IterateCallback<RES_NODE, Maybe<boolean>>,
+    ): Umbrella<RES_NODE>;
+
+    /**
+     * Retrieves the children are contained in a given Umbrella instance.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#children)
+     *
+     * @example
+     *   // Get all <div> with a 'specific-class' class
+     *   u('div').children(u('.specific-class'));
+     *
+     * @template RES_NODE - Specifies the type of the child elements.
+     * @param {Umbrella} filter - An Umbrella instance whose elements are used to filter the children of the matched
+     *   elements.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the child elements that match those in the
+     *   provided Umbrella instance.
+     */
+    children<RES_NODE extends Element = Element>(filter: Umbrella<RES_NODE>): Umbrella<RES_NODE>;
+
+    /**
+     * Retrieves the children that match a given CSS selector.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#children)
+     *
+     * @example
+     *   // Get all spans for all <div>
+     *   u('div').children('span');
+     *
+     *   // Get all children for all <div>
+     *   u('div').children(null);
+     *
+     * @template RES_NODE - Specifies the type of the child elements.
+     * @param {Maybe<string>} filter - A CSS selector string used to filter the matched elements. `null` or `undefined`
+     *   replaces with * selector.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the child elements that match the provided
+     *   selector.
+     */
+    children<RES_NODE extends Element = Element>(filter: Maybe<string>): Umbrella<RES_NODE>;
+
+    /**
+     * Retrieves all child elements.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#children)
+     *
+     * @example
+     *   // Get all children for all <div>
+     *   u('div').children();
+     *
+     * @template RES_NODE - Specifies the type of the resulting child elements.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing all child elements of the matched elements.
+     */
+    children<RES_NODE extends Element = Element>(): Umbrella<RES_NODE>;
+
+    /**
+     * Creates a deep copy of the matched set of elements and returns it as a new Umbrella instance. This method clones
+     * each element in the set, including its attributes, text content, and any child elements.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#clone)
+     *
+     * **Extensions**:
+     *
+     * - The following extensions are enabled by default:
+     *
+     *   - **events** clone the events of all the nodes. To disable it globally, add **u.prototype.mirror.events = false;**
+     *       to your code
+     *   - **select** select input node values are copied to all cloned nodes. To disable globally, add
+     *       **u.prototype.mirror.select = false;** to your code.
+     *   - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add
+     *       **u.prototype.mirror.textarea = false;** to your code.
+     *
+     * @example
+     *   // Clone all matched <div> elements
+     *   u('div').clone();
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @returns {this} - A new Umbrella instance containing the clones of the matched elements.
+     */
+    clone(): Umbrella<NODE>;
+
+    /**
+     * Find the first ancestor that matches the selector for each node
+     *
+     * **The signature is the same as the {@linkcode children} method.**
+     *
+     * [Documentation](https://umbrellajs.com/documentation#closest)
+     *
+     * @example
+     *   // Get the <ul> of every <li>
+     *   u('li').closest('ul');
+     *
+     * @type {this['children']}
+     */
+    closest: Umbrella<NODE>['children'];
+
+    /**
      * Gets or sets data attributes (prefixed with 'data-') on the matched set of elements. This method functions as an
      * alias for the 'attr' method, specifically for handling data attributes. It can be used to retrieve the value of a
      * data attribute when a single argument is provided, or to set data attributes when two arguments are provided.
@@ -1115,6 +584,161 @@ declare module 'umbrellajs' {
     data: Umbrella<NODE>['attr'];
 
     /**
+     * Loop through all the nodes and execute a callback for each.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#each)
+     *
+     * @example
+     *   // Loop through all the links and add them a target="_blank":
+     *   u('a').each(node => {
+     *     u(node).attr({ target: '_blank' });
+     *   });
+     *
+     * @template NODE - The current iteration DOM element.
+     * @param {IterateCallback<NODE>} callback - A function to execute on each element in the set. The callback receives
+     *   the current element and its index as arguments.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    each(callback: IterateCallback<NODE>): Umbrella<NODE>;
+
+    /**
+     * Removes all child nodes from each element in the matched set.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#empty)
+     *
+     * @example
+     *   // Removes all child nodes from all containers:
+     *   u('div.container').empty();
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    empty(): Umbrella<NODE>;
+
+    /**
+     * Remove all the nodes that doesn't match the criteria.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#filter)
+     *
+     * @example
+     *   // Get all the paragraphs with a link:
+     *   const paragraphs = u('p').filter(node => {
+     *     return u(node).find('a').length > 0;
+     *   });
+     *
+     *   // Get only the inputs with an answer above 5 and show an error:
+     *   u('input')
+     *     .filter(node => {
+     *       if (parseInt(u(node).first().value) > 5) {
+     *         return true;
+     *       }
+     *     })
+     *     .addClass('error');
+     *
+     * @template NODE - The current iteration DOM element.
+     * @param {IterateCallback<NODE, Maybe<boolean>>} predicate - A function that tests each element in the set. It
+     *   should return `true` to keep the element, or `false` (or a falsy value) to remove it.
+     * @returns {this} - A new Umbrella instance containing the elements that passed the test.
+     */
+    filter(predicate: IterateCallback<NODE, Maybe<boolean>>): Umbrella<NODE>;
+
+    /**
+     * Remove all the nodes that doesn't match the criteria.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#filter)
+     *
+     * @example
+     *   u('div').filter(u('a'));
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @param {Umbrella} filter - Instance of Umbrella with the elements to keep (the intersection will be kept).
+     * @returns {this} - A new Umbrella instance containing the filtered set of elements.
+     */
+    filter(filter: Umbrella): Umbrella<NODE>;
+
+    /**
+     * Remove all the nodes that doesn't match the criteria.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#filter)
+     *
+     * @example
+     *   // Get only the active links
+     *   const activeLinks = u('a').filter('.active');
+     *
+     *   // Using null to get a copy Umbrella instance
+     *   const copy = u('div').filter(null);
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @param {Maybe<string>} filter - A CSS selector string used to filter the matched elements. `null` or `undefined`
+     *   replaces with * selector.
+     * @returns {this} - A new Umbrella instance containing the filtered set of elements.
+     */
+    filter(filter: Maybe<string>): Umbrella<NODE>;
+
+    /**
+     * Searches for elements that satisfy a condition defined by the provided predicate function.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#find)
+     *
+     * @example
+     *   // Get the required fields within a submitting form:
+     *   u('form').on('submit', function () {
+     *     const required = u(this).find(node => node.hasClass('required'));
+     *   });
+     *
+     * @template NODE - The current iteration DOM element.
+     * @template RES_NODE - Specifies the type of the resulting elements found.
+     * @param {IterateCallback<NODE, Maybe<boolean>>} predicate - A function that tests each element in the set.
+     *   Elements for which the function returns `true` are included in the resulting Umbrella instance.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the elements that match the predicate.
+     */
+    find<RES_NODE extends Element = Element>(predicate: IterateCallback<NODE, Maybe<boolean>>): Umbrella<RES_NODE>;
+
+    /**
+     * Searches for elements that match a given selector.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#find)
+     *
+     * @example
+     *   // Get all <span> elements within all <div> elements
+     *   u('div').find('span');
+     *
+     * @template RES_NODE - Specifies the type of the resulting elements found.
+     * @param {Selector<RES_NODE>} selector - A CSS selector string, an Element, an array of Elements, or an Umbrella
+     *   instance used to find matching elements.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing elements that match the provided selector.
+     */
+    find<RES_NODE extends Element = Element>(selector: Selector<RES_NODE>): Umbrella<RES_NODE>;
+
+    /**
+     * Retrieves all child elements.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#find)
+     *
+     * @example
+     *   // Get all child elements within all <div> elements
+     *   u('div').find();
+     *
+     * @template RES_NODE - Specifies the type of the resulting elements found.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing all child elements.
+     */
+    find<RES_NODE extends Element = Element>(): Umbrella<RES_NODE>;
+
+    /**
+     * Retrieve the first of the matched nodes. If there are no matched elements, it returns `false`.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#first)
+     *
+     * @example
+     *   // Get the first <div> element
+     *   u('div').first();
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @returns {NODE | false} - The first element in the matched set if it exists, or `false` if the set is empty.
+     */
+    first(): NODE | false;
+
+    /**
      * This function is the same as {@linkcode on}, but it executes the **event.preventDefault()** so you don't need to
      * do it.
      *
@@ -1135,6 +759,187 @@ declare module 'umbrellajs' {
      * @type {this['on']}
      */
     handle: Umbrella<NODE>['on'];
+
+    /**
+     * Find if any of the matched elements contains the class passed.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#hasclass)
+     *
+     * @example
+     *   u('div').hasClass('name1');
+     *   u('div').hasClass('name1 name2 nameN');
+     *   u('div').hasClass('name1,name2,nameN');
+     *   u('div').hasClass('name1', 'name2', 'nameN');
+     *   u('div').hasClass(['name1', 'name2', 'nameN']);
+     *   u('div').hasClass(['name1', 'name2'], ['name3'], ['nameN']);
+     *   u('div').hasClass((node, index) => 'name1');
+     *   u('div').hasClass(
+     *     () => 'name1',
+     *     () => 'name2',
+     *   );
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @param {...(Many<string> | IterateCallback<NODE, string>)[]} classes - One or more class names, or a callback
+     *   function returning a class name, to check for.
+     * @returns {boolean} - Returns `true` if any of the matched elements have at least one of the specified classes,
+     *   `false` otherwise.
+     */
+    hasClass(...classes: Array<Many<string> | IterateCallback<NODE, string>>): boolean;
+
+    /**
+     * Sets the HTML content of each element in the matched set to the specified value. This method is used to replace
+     * the existing inner HTML of an element with new content.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#html)
+     *
+     * @example
+     *   // Set the main title:
+     *   u('h1').html('Hello world');
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @param {string} value - The HTML content to set for each matched element.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    html(value: string): Umbrella<NODE>;
+
+    /**
+     * Retrieves the HTML content of the first element in the matched set. This method is used to get the inner HTML of
+     * an element, including its child elements and text.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#html)
+     *
+     * @example
+     *   // Get the HTML content of the first matched <div> element
+     *   u('div').html();
+     *
+     * @returns {string} - The HTML content of the first element in the matched set. If there are no matched elements,
+     *   returns an empty string.
+     */
+    html(): string;
+
+    /**
+     * Checks if any of the matched elements pass the test implemented by the provided predicate function.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#is)
+     *
+     * @example
+     *   u('form.subscribe').on('submit', event => {
+     *     if (u(event.target).is(node => u(node).hasClass('.validate'))) {
+     *       validate();
+     *     }
+     *   });
+     *
+     * @template NODE - The current iteration DOM element.
+     * @param {IterateCallback<NODE, Maybe<boolean>>} predicate - A function that tests each element in the set. The
+     *   function should return `true` for elements that pass the test, or `false` otherwise.
+     * @returns {boolean} - Returns `true` if the function returns `true`, `false` otherwise.
+     */
+    is(predicate: IterateCallback<NODE, Maybe<boolean>>): boolean;
+
+    /**
+     * Check whether any of the nodes matches the provided Umbrella instance.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#is)
+     *
+     * @example
+     *   u('div').is(u('a'));
+     *
+     * @param {Umbrella} filter - Instance of Umbrella with the elements to check.
+     * @returns {this} - Returns `true` if any of the nodes matches the provided Umbrella instance, `false` otherwise.
+     */
+    is(filter: Umbrella): boolean;
+
+    /**
+     * Check whether any of the nodes matches the selector.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#is)
+     *
+     * @example
+     *   // Check if the current form needs to be validated
+     *   u('form.subscribe').on('submit', function (e) {
+     *     // Same as u('form.subscribe').hasClass('validate')
+     *     if (u(e.target).is('.validate')) {
+     *       validate();
+     *     }
+     *   });
+     *
+     * @param {Maybe<string>} filter - A CSS selector string used to filter the matched elements. `null` or `undefined`
+     *   replaces with * selector.
+     * @returns {this} - A new Umbrella instance containing the filtered set of elements.
+     */
+    is(filter: Maybe<string>): boolean;
+
+    /**
+     * Retrieve the last of the matched nodes. If there are no matched elements, it returns `false`.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#last)
+     *
+     * @example
+     *   // Get the last <div> element
+     *   u('div').last();
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @returns {NODE | false} - The last element in the matched set if it exists, or `false` if the set is empty.
+     */
+    last(): NODE | false;
+
+    /**
+     * Change the content of the current instance by looping each element.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#map)
+     *
+     * It returns a value that evaluates to false, a single element, a string, an array or an Umbrella instance
+     * {@linkcode Selector}. It will **remove duplicated nodes** from the result.
+     *
+     * **Note**: "Umbrella JS is made to manipulate HTML nodes, so it will consider the string "" and 0 as false and
+     * remove them. Return an HTML node or an HTML string to keep the elements."
+     *
+     * @example
+     *   const links = u<HTMLLIElement>('.special li')
+     *     // The node parameter will be inferred as a HTMLLIElement type.
+     *     .map(node => {
+     *       if (parseInt(node.innerHTML) > 10) {
+     *         return '<a>' + u(node).data('id') + '</a>';
+     *       }
+     *     })
+     *     .addClass('expensive');
+     *
+     * @template RES_NODE - The type of the resulting DOM elements after transformation.
+     * @template NODE - The current iteration DOM element.
+     * @param {IterateCallback<NODE, Selector<RES_NODE>>} callback - A function that is applied to each element in the
+     *   set. It receives each element as an argument and should return a selector {@linkcode Selector}.
+     * @returns {Umbrella<RES_NODE>} - A new Umbrella instance containing the elements obtained by the transformation.
+     */
+    map<RES_NODE extends Element = Element>(callback: IterateCallback<NODE, Selector<RES_NODE>>): Umbrella<RES_NODE>;
+
+    /**
+     * Just return the original instance of Umbrella.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#map)
+     *
+     * @template NODE - The current iteration DOM element.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    map(): Umbrella<NODE>;
+
+    /**
+     * Remove known nodes from nodes.
+     *
+     * **The signature is the same as the {@linkcode filter} method.**
+     *
+     * [Documentation](https://umbrellajs.com/documentation#not)
+     *
+     * @example
+     *   // Get only the non-active links on paragraphs
+     *   const nonactiveLinks = u('.menu a').not('.active');
+     *
+     *   // Get all the active:
+     *   const activeLinks = u('.menu a').not(nonactiveLinks);
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @type {this['filter']}
+     */
+    not: Umbrella<NODE>['filter'];
 
     /**
      * Removes an event handler function for one or more events from the selected elements that match the specified
@@ -1247,126 +1052,213 @@ declare module 'umbrellajs' {
     ): Umbrella<NODE>;
 
     /**
-     * Triggers the specified event types on each element in the matched set. This method can also pass additional
-     * arguments to the event handlers.
+     * Retrieve each parent of the matched nodes, filtered by a predicate function.
      *
-     * [Documentation](https://umbrellajs.com/documentation#trigger)
+     * [Documentation](https://umbrellajs.com/documentation#parent)
      *
      * @example
-     *   // Trigger a 'click' event on all matched <button> elements
-     *   u('button').trigger('click');
+     *   // Retrieve parent elements of <span> that have a specific class
+     *   u('span').parent(parent => {
+     *     return u(parent).hasClass('specific-class');
+     *   });
      *
-     *   // Trigger a custom event with additional data
-     *   u('div').trigger('customEvent', { detail: { key: 'value' } });
+     * @template RES_NODE - Specifies the type of the resulting parent elements.
+     * @param {IterateCallback<RES_NODE, Maybe<boolean>>} predicate - A function that tests each parent element. Parent
+     *   elements for which the function returns `true` are included in the resulting set.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the parent elements that pass the predicate test.
+     */
+    parent<RES_NODE extends Element = Element>(
+      predicate: IterateCallback<RES_NODE, Maybe<boolean>>,
+    ): Umbrella<RES_NODE>;
+
+    /**
+     * Retrieve each parent of the matched nodes, filtered by a given selector {@linkcode Selector}.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#parent)
+     *
+     * @example
+     *   // Retrieve parent elements of <span> that match a specific CSS selector
+     *   u('span').parent('.specific-class');
+     *
+     * @template RES_NODE - Specifies the type of the resulting parent elements.
+     * @param {Selector<RES_NODE>} selector - A CSS selector string, an Element, an array of Elements, or an Umbrella
+     *   instance used to filter parent elements {@linkcode Selector}.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing parent elements that match the provided selector.
+     */
+    parent<RES_NODE extends Element = Element>(selector: Selector<RES_NODE>): Umbrella<RES_NODE>;
+
+    /**
+     * Retrieve all the parents in the page:
+     *
+     * [Documentation](https://umbrellajs.com/documentation#parent)
+     *
+     * @example
+     *   // Retrieve all the parents of <li> in the page:
+     *   u('li').parent();
+     *
+     * @template RES_NODE - Specifies the type of the resulting parent elements.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the immediate parent elements of the matched
+     *   elements.
+     */
+    parent<RES_NODE extends Element = Element>(): Umbrella<RES_NODE>;
+
+    /**
+     * Add some html as a child at the beginning of each of the matched elements.
+     *
+     * **The signature is the same as the {@linkcode after} method.**
+     *
+     * [Documentation](https://umbrellajs.com/documentation#prepend)
+     *
+     * @example
+     *   // Add a header to each of the articles
+     *   u('article').prepend('<header>Hello world</header>');
+     *
+     *   // Add three elements at the beginning of the list. All of these methods are equivalent:
+     *   // Add them all like a single string
+     *   u('ul').prepend('<li>One</li><li>Two</li><li>Three</li>');
+     *
+     *   // Add them in a chain
+     *   u('ul').prepend('<li>Three</li>').append('<li>Two</li>').append('<li>One</li>');
+     *
+     *   // Add them with a function parameter
+     *   function cb(txt: string): string {
+     *     return '<li>' + txt + '</li>';
+     *   }
+     *   u('ul').prepend(cb, ['One', 'Two', 'Three']);
+     *
+     *   // Same as the previous one but with ES6
+     *   u('ul').prepend(txt => `<li>${txt}</li>`, ['One', 'Two', 'Three']);
      *
      * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @template ARG - Specifies the type of additional arguments that can be passed to the event handlers.
-     * @param {Many<string>} events - One or more event types to trigger.
-     * @param {...ARG[]} data - Additional arguments to pass along to the event handler functions.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     * @type {this['after']}
      */
-    trigger<ARG>(events: Many<string>, ...data: ARG[]): Umbrella<NODE>;
+    prepend: Umbrella<NODE>['after'];
 
     /**
-     * Sets the HTML content of each element in the matched set to the specified value. This method is used to replace
-     * the existing inner HTML of an element with new content.
+     * Removes the matched elements.
      *
-     * [Documentation](https://umbrellajs.com/documentation#html)
-     *
-     * @example
-     *   // Set the main title:
-     *   u('h1').html('Hello world');
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @param {string} value - The HTML content to set for each matched element.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    html(value: string): Umbrella<NODE>;
-
-    /**
-     * Retrieves the HTML content of the first element in the matched set. This method is used to get the inner HTML of
-     * an element, including its child elements and text.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#html)
+     * [Documentation](https://umbrellajs.com/documentation#remove)
      *
      * @example
-     *   // Get the HTML content of the first matched <div> element
-     *   u('div').html();
-     *
-     * @returns {string} - The HTML content of the first element in the matched set. If there are no matched elements,
-     *   returns an empty string.
-     */
-    html(): string;
-
-    /**
-     * Sets the text content of each element in the matched set to the specified value. This method replaces the
-     * existing text content of an element with the new provided text.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#text)
-     *
-     * @example
-     *   // Set the main title text
-     *   u('h1').text('Hello world');
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @param {string} value - The text content to set for each matched element.
-     * @returns {this} - Returns the instance of Umbrella for method chaining.
-     */
-    text(value: string): Umbrella<NODE>;
-
-    /**
-     * Retrieves the text content of the first element in the matched set.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#text)
-     *
-     * @example
-     *   // Get the text content of the first matched <div> element
-     *   u('div').text();
-     *
-     * @returns {string} - The text content of the first element in the matched set. If there are no matched elements,
-     *   returns an empty string.
-     */
-    text(): string;
-
-    /**
-     * Creates a deep copy of the matched set of elements and returns it as a new Umbrella instance. This method clones
-     * each element in the set, including its attributes, text content, and any child elements.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#clone)
-     *
-     * **Extensions**:
-     *
-     * - The following extensions are enabled by default:
-     *
-     *   - **events** clone the events of all the nodes. To disable it globally, add **u.prototype.mirror.events = false;**
-     *       to your code
-     *   - **select** select input node values are copied to all cloned nodes. To disable globally, add
-     *       **u.prototype.mirror.select = false;** to your code.
-     *   - **textarea** textarea input node values are copied to all cloned nodes. To disable globally, add
-     *       **u.prototype.mirror.textarea = false;** to your code.
-     *
-     * @example
-     *   // Clone all matched <div> elements
-     *   u('div').clone();
-     *
-     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
-     * @returns {this} - A new Umbrella instance containing the clones of the matched elements.
-     */
-    clone(): Umbrella<NODE>;
-
-    /**
-     * Removes all child nodes from each element in the matched set.
-     *
-     * [Documentation](https://umbrellajs.com/documentation#empty)
-     *
-     * @example
-     *   // Removes all child nodes from all containers:
-     *   u('div.container').empty();
+     *   u('ul.demo li').remove();
      *
      * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
      * @returns {this} - Returns the instance of Umbrella for method chaining.
      */
-    empty(): Umbrella<NODE>;
+    remove(): Umbrella<NODE>;
+
+    /**
+     * Remove html class(es) to all the matched elements.
+     *
+     * **The signature is the same as the {@linkcode addClass} method.**
+     *
+     * [Documentation](https://umbrellajs.com/documentation#removeclass)
+     *
+     * @example
+     *   u('div').removeClass('name1');
+     *   u('div').removeClass('name1 name2 nameN');
+     *   u('div').removeClass('name1,name2,nameN');
+     *   u('div').removeClass('name1', 'name2', 'nameN');
+     *   u('div').removeClass(['name1', 'name2', 'nameN']);
+     *   u('div').removeClass(['name1', 'name2'], ['name3'], ['nameN']);
+     *   u('div').removeClass((node, index) => 'name1');
+     *   u('div').removeClass(
+     *     () => 'name1',
+     *     () => 'name2',
+     *   );
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @type {this['addClass']}
+     */
+    removeClass: Umbrella<NODE>['addClass'];
+
+    /**
+     * Replace the matched elements with the passed argument.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#replace)
+     *
+     * @example
+     *   // Replace all <div> elements with <span>
+     *   u('div').replace(
+     *     (arg, argIndex, node, index) => {
+     *       return `<span>Replacement for div ${index}: ${arg}</span>`;
+     *     },
+     *     ['Additional Data'],
+     *   );
+     *
+     * @template NODE - The current iteration DOM element.
+     * @template RES_NODE - Specifies the type of the resulting replaced elements.
+     * @template ARG - The type of additional argument(s) passed to the callback function.
+     * @param {InsertIterateCallback<NODE, Selector<RES_NODE>, ARG>} callback - A function that returns
+     *   {@linkcode Selector} for querying nodes to be inserted.
+     * @param {ARG[]} data - An array of arguments that will be passed to the callback function.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the new elements resulting from the replacements.
+     */
+    replace<RES_NODE extends Element = Element, ARG>(
+      callback: InsertIterateCallback<NODE, Selector<RES_NODE>, ARG>,
+      data: ARG[],
+    ): Umbrella<RES_NODE>;
+
+    /**
+     * Replace the matched elements with the passed argument.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#replace)
+     *
+     * @example
+     *   // Replace each <div> element with <span>, repeated 3 times
+     *   u('div').replace((repeat, argIndex, node, index) => {
+     *     return `<span>Replacement ${repeat} for div ${index}</span>`;
+     *   }, 3);
+     *
+     * @template NODE - The current iteration DOM element.
+     * @template RES_NODE - Specifies the type of the resulting replaced elements.
+     * @param {InsertIterateCallback<NODE, Selector<RES_NODE>, number>} callback - A function that returns
+     *   {@linkcode Selector} for querying nodes to be inserted.
+     * @param {number} repeat - The number of times to repeat the replacement for each element.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the new elements resulting from the repeated
+     *   replacements.
+     */
+    replace<RES_NODE extends Element = Element>(
+      callback: InsertIterateCallback<NODE, Selector<RES_NODE>, number>,
+      repeat: number,
+    ): Umbrella<RES_NODE>;
+
+    /**
+     * Replace the matched elements with the passed argument.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#replace)
+     *
+     * @example
+     *   // Replace each <div> element with <span>
+     *   u('div').replace((emptyObject, argIndex, element, index) => {
+     *     return `<span>New content for div ${index}</span>`;
+     *   });
+     *
+     * @template NODE - The current iteration DOM element.
+     * @template RES_NODE - Specifies the type of the resulting replaced elements.
+     * @param {InsertIterateCallback<NODE, Selector<RES_NODE>, EmptyObject>} callback - A function that returns
+     *   {@linkcode Selector} for querying nodes to be inserted.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the new elements resulting from the replacements.
+     */
+    replace<RES_NODE extends Element = Element>(
+      callback: InsertIterateCallback<NODE, Selector<RES_NODE>, EmptyObject>,
+    ): Umbrella<RES_NODE>;
+
+    /**
+     * Replace the matched elements with the passed argument.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#replace)
+     *
+     * @example
+     *   // Replace all <div> elements with a new <span>
+     *   u('div').replace('<span>New content</span>');
+     *
+     * @template RES_NODE - Specifies the type of the resulting replaced elements.
+     * @param {Selector<RES_NODE>} item - A selector {@linkcode Selector} for querying nodes to be inserted.
+     * @returns {Umbrella<RES_NODE>} - An Umbrella instance containing the elements that replace the original matched
+     *   elements.
+     */
+    replace<RES_NODE extends Element = Element>(item: Selector<RES_NODE>): Umbrella<RES_NODE>;
 
     /**
      * Scroll to the first matched element, smoothly if supported.
@@ -1439,6 +1331,24 @@ declare module 'umbrellajs' {
     serialize(): string;
 
     /**
+     * Get the siblings of all the nodes with an optional filter.
+     *
+     * **The signature is the same as the {@linkcode children} method.**
+     *
+     * [Documentation](https://umbrellajs.com/documentation#siblings)
+     *
+     * @example
+     *   // Get the all the siblings of the hovered <li>
+     *   u('li:hover').siblings('li:first-child');
+     *
+     *   // Get all the siblings
+     *   u('li').siblings();
+     *
+     * @type {this['children']}
+     */
+    siblings: Umbrella<NODE>['children'];
+
+    /**
      * Get the [bounding client rect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) of
      * the first matched element. This has height, width, top, left, right and bottom properties
      *
@@ -1452,6 +1362,99 @@ declare module 'umbrellajs' {
      * @returns {DOMRect} - A DOMRect object containing the size and position of the first element.
      */
     size(): DOMRect;
+
+    /**
+     * Sets the text content of each element in the matched set to the specified value. This method replaces the
+     * existing text content of an element with the new provided text.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#text)
+     *
+     * @example
+     *   // Set the main title text
+     *   u('h1').text('Hello world');
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @param {string} value - The text content to set for each matched element.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    text(value: string): Umbrella<NODE>;
+
+    /**
+     * Retrieves the text content of the first element in the matched set.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#text)
+     *
+     * @example
+     *   // Get the text content of the first matched <div> element
+     *   u('div').text();
+     *
+     * @returns {string} - The text content of the first element in the matched set. If there are no matched elements,
+     *   returns an empty string.
+     */
+    text(): string;
+
+    /**
+     * Toggles html class(es) to all the matched elements.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#toggleclass)
+     *
+     * @example
+     *   // Force an .addClass() on the element <h2> from the page:
+     *   u('h2').toggleClass('main', true);
+     *
+     *   // Force removing a class from all matched elements
+     *   u('div').toggleClass('forced-class', false);
+     *
+     *   // Note however that this last example by itself doesn't make much sense as you could just use addClass()
+     *   // instead. It makes a lot more sense when the second parameter is checked dynamically:
+     *   u('h2').toggleClass('main', u('.accept').is(':checked'));
+     *
+     * @template NODE - The current iteration DOM element.
+     * @param {Many<string> | IterateCallback<NODE, string>} classes - Class names to toggle. This can be a single class
+     *   name, an array of class names, or a callback function that returns a class name for each element.
+     * @param {boolean} forceAdd - If `true`, adds the specified class(es); if `false`, removes them.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    toggleClass(classes: Many<string> | IterateCallback<NODE, string>, forceAdd: boolean): Umbrella<NODE>;
+
+    /**
+     * Toggles html class(es) to all the matched elements.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#toggleclass)
+     *
+     * @example
+     *   u('div').toggleClass('name1');
+     *   u('div').toggleClass('name1 name2 nameN');
+     *   u('div').toggleClass('name1,name2,nameN');
+     *   u('div').toggleClass(['name1', 'name2', 'nameN']);
+     *
+     * @template NODE - The current iteration DOM element.
+     * @param {Many<string> | IterateCallback<NODE, string>} classes - Class names to toggle. This can be a single class
+     *   name, an array of class names, or a callback function that returns a class name for each element.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    toggleClass(classes: Many<string> | IterateCallback<NODE, string>): Umbrella<NODE>;
+
+    /**
+     * Triggers the specified event types on each element in the matched set. This method can also pass additional
+     * arguments to the event handlers.
+     *
+     * [Documentation](https://umbrellajs.com/documentation#trigger)
+     *
+     * @example
+     *   // Trigger a 'click' event on all matched <button> elements
+     *   u('button').trigger('click');
+     *
+     *   // Trigger a custom event with additional data
+     *   u('div').trigger('customEvent', { detail: { key: 'value' } });
+     *
+     * @template NODE - Defines the type of DOM elements that the Umbrella instance manipulates.
+     * @template ARG - Specifies the type of additional arguments that can be passed to the event handlers.
+     * @param {Many<string>} events - One or more event types to trigger.
+     * @param {...ARG[]} data - Additional arguments to pass along to the event handler functions.
+     * @returns {this} - Returns the instance of Umbrella for method chaining.
+     */
+    trigger<ARG>(events: Many<string>, ...data: ARG[]): Umbrella<NODE>;
 
     /**
      * Wraps each element in the matched set with the HTML structure specified by a string selector. This method is used
