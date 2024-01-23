@@ -611,7 +611,12 @@ u.prototype.replace = function (html, data) {
 
 // Scroll to the first matched element
 u.prototype.scroll = function () {
-  this.first().scrollIntoView({ behavior: 'smooth' });
+  var first = this.first();
+
+  if (first) {
+    first.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return this;
 };
 
@@ -667,7 +672,9 @@ u.prototype.siblings = function (selector) {
 
 // Find the size of the first matched element
 u.prototype.size = function () {
-  return this.first().getBoundingClientRect();
+  var first = this.first();
+
+  return first ? first.getBoundingClientRect() : null;
 };
 
 

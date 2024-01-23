@@ -13,7 +13,7 @@ None
 
 ### Return
 
-Returns a simple object with the following properties referring to the first matched element:
+Returns a simple object with the following properties referring to the first matched element, or `null` if there is no one:
 
 - left
 - right
@@ -30,4 +30,7 @@ Returns a simple object with the following properties referring to the first mat
 ```js
 u('body').size();
 // {"left":0,"right":400,"top":0,"height":300,"bottom":300,"width":400}
+
+u().size()
+// null
 ```

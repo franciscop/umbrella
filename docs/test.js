@@ -2578,6 +2578,10 @@ describe('.size()', function() {
     var size = u('body').size();
     expect(Math.round(size.height)).to.equal(u('body').first().clientHeight);
   });
+
+  it('should return null for an empty Umbrella instance', function() {
+    expect(u().size()).to.equal(null);
+  });
 });
 
 describe(".slice()", function() {

@@ -1025,7 +1025,7 @@ u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
 <h3 id="parameters">Parameters</h3>
 <p>None</p>
 <h3 id="return">Return</h3>
-<p>Returns a simple object with the following properties referring to the first matched element:</p>
+<p>Returns a simple object with the following properties referring to the first matched element, or <code>null</code> if there is no one:</p>
 <ul>
 <li>left</li>
 <li>right</li>
@@ -1036,7 +1036,10 @@ u(&#39;form.contact&#39;).handle(&#39;submit&#39;, async e =&gt; {
 </ul>
 <h3 id="examples">Examples</h3>
 <pre><code class="language-js">u(&#39;body&#39;).size();
-// {&quot;left&quot;:0,&quot;right&quot;:400,&quot;top&quot;:0,&quot;height&quot;:300,&quot;bottom&quot;:300,&quot;width&quot;:400}</code></pre>
+// {&quot;left&quot;:0,&quot;right&quot;:400,&quot;top&quot;:0,&quot;height&quot;:300,&quot;bottom&quot;:300,&quot;width&quot;:400}
+
+u().size()
+// null</code></pre>
 <h2 id="-text-">.text()</h2>
 <p>Retrieve or set the text content of matched elements:</p>
 <pre><code class="language-js">// GET
@@ -1117,56 +1120,56 @@ setInterval(function(){
 <h3 id="examples">Examples</h3>
 <p>Wrap an element in an html element:</p>
 <p>Original element:</p>
-<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;</code></pre>
+<pre><code class="language-html">&lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;</code></pre>
 <pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;a class=&quot;wrapper&quot;&gt;&#39;);</code></pre>
 <p>Result:</p>
 <pre><code class="language-html">&lt;a class=&quot;wrapper&quot;&gt;
-  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+  &lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;
 &lt;/a&gt;</code></pre>
 <p>Wrap an element in an html element and chain Umbrella methods:</p>
 <pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});</code></pre>
 <p>Result:</p>
 <pre><code class="language-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
-  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+  &lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;
 &lt;/a&gt;</code></pre>
 <p>Wrap several elements in an html element</p>
-<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
-&lt;button class=&quot;example&quot;&gt;Link2&lt;/button&gt;
-&lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
+<pre><code class="language-html">&lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;
+&lt;span class=&quot;example&quot;&gt;Link2&lt;/span&gt;
+&lt;span class=&quot;example&quot;&gt;Link3&lt;/span&gt;
 </code></pre>
 <pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;a&gt;&#39;).attr({class: &quot;wrapper&quot;, href: &quot;http://google.com&quot;});</code></pre>
 <p>Result:</p>
 <pre><code class="language-html">&lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
-  &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+  &lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;
 &lt;/a&gt;
 &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
-  &lt;button class=&quot;example&quot;&gt;Link2&lt;/button&gt;
+  &lt;span class=&quot;example&quot;&gt;Link2&lt;/span&gt;
 &lt;/a&gt;
 &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
-  &lt;button class=&quot;example&quot;&gt;Link3&lt;/button&gt;
+  &lt;span class=&quot;example&quot;&gt;Link3&lt;/span&gt;
 &lt;/a&gt;</code></pre>
 <p>Nested selector arguments:</p>
-<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;</code></pre>
+<pre><code class="language-html">&lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;</code></pre>
 <pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);</code></pre>
 <p>Result:</p>
 <pre><code class="language-html">&lt;div class=&quot;a1&quot;&gt;
     &lt;div class=&quot;b1&quot;&gt;
         &lt;div class=&quot;c1&quot;&gt;
             &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
-              &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+              &lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;
             &lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 <p>Nested selector arguments with multiple child nodes:</p>
-<pre><code class="language-html">&lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;</code></pre>
+<pre><code class="language-html">&lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;</code></pre>
 <pre><code class="language-js">u(&quot;.example&quot;).wrap(&#39;&lt;div class=&quot;a1&quot;&gt;&lt;div class=&quot;b1&quot;&gt;&lt;div class=&quot;c1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;b2&quot;&gt;&lt;div class=&quot;c2&quot;&gt;&lt;div class=&quot;d1&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#39;);</code></pre>
 <p>Result:</p>
 <pre><code class="language-html">&lt;div class=&quot;a1&quot;&gt;
     &lt;div class=&quot;b1&quot;&gt;
         &lt;div class=&quot;c1&quot;&gt;
             &lt;a href=&quot;http://google.com&quot; class=&quot;wrapper&quot;&gt;
-              &lt;button class=&quot;example&quot;&gt;Link1&lt;/button&gt;
+              &lt;span class=&quot;example&quot;&gt;Link1&lt;/span&gt;
             &lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
