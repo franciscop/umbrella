@@ -190,7 +190,7 @@ declare module "umbrellajs" {
 
     siblings: typeof u.children;
 
-    size(): DOMRect;
+    size(): DOMRect | null;
 
     text(): string;
     text(text: string): this;
