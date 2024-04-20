@@ -30,7 +30,8 @@
     "src",
     "polyfill.js",
     "umbrella.js",
-    "umbrella.esm.js"
+    "umbrella.esm.js",
+    "umbrella.d.ts"
   ],
   "devDependencies": {
     "grunt": "^1.0.3",
