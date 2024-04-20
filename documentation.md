@@ -690,7 +690,7 @@ Clone a node and append to another.
 ```
 
 ```js
-var clone = u("testClone1").clone();
+var clone = u(".testClone1").clone();
 u(".cloneDestination").append(clone);
 
 ```
