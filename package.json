@@ -72,6 +72,6 @@
       "Tests": "https://umbrellajs.com/tests",
       "Documentation": "https://docs.umbrellajs.com/"
     },
-    "pages": ["documentation.md"]
+    "pages": ["src/"]
   }
 }
