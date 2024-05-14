@@ -62,5 +62,16 @@
       "u",
       "parseJson"
     ]
+  },
+  "documentation": {
+    "name": "Umbrella JS",
+    "title": "☔ Lightweight javascript library for DOM manipulation and events",
+    "homepage": "https://umbrellajs.com/",
+    "menu": {
+      "Github": "https://github.com/franciscop/umbrella",
+      "Tests": "https://umbrellajs.com/tests",
+      "Documentation": "https://docs.umbrellajs.com/"
+    },
+    "pages": ["documentation.md"]
   }
 }
