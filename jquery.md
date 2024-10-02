@@ -50,7 +50,7 @@ Then you can start changing your statements one by one from jQuery to UmbrellaJS
 
 ## Porting tips
 
-While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. Bevertheless it was easy and its always helpfull to have the excellent [UmbrellaJS documentation](https://Umbrellajs.com/documentation) in a browser tab.
+While porting [my](https://github.com/gnadelwartz) [enstlyer script](https://greasyfork.org/de/scripts/24244-enstyler-develop/code) from jQuery (more precise from zepto.js) to UmbrellaJS I discoverd some pitfalls I want to share with you. Nevertheless it was easy and it's always helpfull to have the excellent [UmbrellaJS documentation](https://Umbrellajs.com/documentation) in a browser tab.
 
 
 #### Why does `.replaceWith()` not exist in UmbrellaJS?
@@ -90,7 +90,7 @@ function getStyle(oElm, css3Prop){
 
 ```js
 // usage examples
-// Umbrella: use use one node
+// Umbrella: use one node
 getStyle(u('.myClass').nodes[n], "border-radius");
 
 // use one native DOM node
@@ -128,7 +128,7 @@ u('.myclass').each(function (el) {
 
 UmbrellaJS provides the actually processed node as first argument to the called function, [see the documentation for .each()](https://Umbrellajs.com/documentation#each).
 
-As a bonus you get the node count as second argument, so you don't have count it yourself in case you need it:
+As a bonus you get the node index as second argument, so you don't have count it yourself in case you need it:
 
 ```js
 u('.myclass').each(function (el, i) {
@@ -154,7 +154,7 @@ u('.myClass').each(el => alert(el.innerHTML));
 ```
 
 
-#### using UmbrellaJS `.first()/.last()/.eq()` returns native DOM elements
+#### Using UmbrellaJS `.first()/.last()/.eq()` returns native DOM elements
 
 In jQuery `.first()/.last()/.eq()` returns a jQuery object, but UmbrellaJS returns a native DOM element. this has pro and con:
 
