@@ -65,13 +65,6 @@ module.exports = function (grunt) {
       }
     },
 
-    mocha_phantomjs: {
-      all: './docs/tests.html',
-      options: {
-        'web-security': false
-      }
-    },
-
     concat: {
       main: {
         // No test files
@@ -100,16 +93,27 @@ module.exports = function (grunt) {
       }
     }
   });
-
   grunt.loadNpmTasks('grunt-semistandard');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jade');
-  grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.loadNpmTasks('grunt-bytesize');
 
+  grunt.registerTask('mocha_chrome', 'Run mocha tests in headless Chrome', function () {
+    var done = this.async();
+    var runner = require('mocha-headless-chrome').runner;
+    runner({ file: './docs/tests.html', args: ['no-sandbox', 'disable-smooth-scrolling'] }).then(function (result) {
+      var failures = result.result.failures;
+      if (failures > 0) grunt.warn(failures + ' test(s) failed');
+      done();
+    }).catch(function (err) {
+      grunt.warn(err);
+      done(false);
+    });
+  });
+
   grunt.registerTask('build', ['concat', 'uglify', 'jade']);
-  grunt.registerTask('test', ['semistandard', 'mocha_phantomjs']);
+  grunt.registerTask('test', ['semistandard', 'mocha_chrome']);
   grunt.registerTask('default', ['build', 'test', 'bytesize']);
 };

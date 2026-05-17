@@ -41,10 +41,9 @@
     "grunt-contrib-uglify": "^5.0.1",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-markdown": "^0.7.0",
-    "grunt-mocha-phantomjs": "^4.0.0",
     "grunt-semistandard": "^1.0.6",
     "marked": "^0.4.0",
-    "mocha-phantomjs": "^4.0.2"
+    "mocha-headless-chrome": "^5.0.0"
   },
   "semistandard": {
     "ignore": [
