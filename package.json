@@ -3,18 +3,10 @@
   "version": "3.3.3",
   "description": "Lightweight javascript library for DOM manipulation and events",
   "homepage": "https://umbrellajs.com/",
-  "repository": "https://github.com/franciscop/umbrella.git",
-  "funding": "https://www.paypal.me/franciscopresencia/19",
+  "repository": "github:franciscop/umbrella",
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "funding": "https://www.paypal.me/franciscopresencia/19",
   "license": "MIT",
-  "scripts": {
-    "build": "grunt build",
-    "test": "node --version && grunt test",
-    "installphantom": "npm run phantomlib && npm run phantominst && npm run phantommove",
-    "phantomlib": "sudo apt-get update && sudo apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev",
-    "phantominst": "cd ~ && export PHANTOM_JS=\"phantomjs-1.9.7-linux-x86_64\" && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 && sudo tar xvjf $PHANTOM_JS.tar.bz2",
-    "phantommove": "sudo mv $PHANTOM_JS /usr/local/share && sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin"
-  },
   "keywords": [
     "umbrella",
     "js",
@@ -24,6 +16,14 @@
     "jquery",
     "alternative"
   ],
+  "scripts": {
+    "build": "grunt build",
+    "test": "node --version && grunt test",
+    "installphantom": "npm run phantomlib && npm run phantominst && npm run phantommove",
+    "phantomlib": "sudo apt-get update && sudo apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev",
+    "phantominst": "cd ~ && export PHANTOM_JS=\"phantomjs-1.9.7-linux-x86_64\" && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 && sudo tar xvjf $PHANTOM_JS.tar.bz2",
+    "phantommove": "sudo mv $PHANTOM_JS /usr/local/share && sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin"
+  },
   "main": "umbrella.min.js",
   "types": "umbrella.d.ts",
   "files": [
@@ -33,6 +33,17 @@
     "umbrella.esm.js",
     "umbrella.d.ts"
   ],
+  "documentation.page": {
+    "name": "Umbrella JS",
+    "title": "☔ Lightweight javascript library for DOM manipulation and events",
+    "homepage": "https://umbrellajs.com/",
+    "menu": {
+      "Github": "https://github.com/franciscop/umbrella",
+      "Tests": "https://umbrellajs.com/tests",
+      "Documentation": "https://docs.umbrellajs.com/"
+    },
+    "pages": ["src/"]
+  },
   "devDependencies": {
     "grunt": "^1.0.3",
     "grunt-bytesize": "^0.2.0",
@@ -61,16 +72,5 @@
       "u",
       "parseJson"
     ]
-  },
-  "documentation": {
-    "name": "Umbrella JS",
-    "title": "☔ Lightweight javascript library for DOM manipulation and events",
-    "homepage": "https://umbrellajs.com/",
-    "menu": {
-      "Github": "https://github.com/franciscop/umbrella",
-      "Tests": "https://umbrellajs.com/tests",
-      "Documentation": "https://docs.umbrellajs.com/"
-    },
-    "pages": ["src/"]
   }
 }
