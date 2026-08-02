@@ -5,37 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tests · Umbrella JS</title>
   <meta name="description" content="The Umbrella JS test suite, running live in your browser">
-  <link rel="icon" href="https://cdn.jsdelivr.net/gh/franciscop/umbrella@master/docs/logo.svg" type="image/svg+xml">
+  <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/franciscop/umbrella@master/docs/logo.svg">
+  <!-- The site's own stylesheet and nav, so this page matches the rest of the
+       docs. Both are served by documentation.page from the same host. -->
+  <link rel="stylesheet" href="/style.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/franciscop/umbrella@master/docs/vendor/mocha.css">
   <style>
-    :root {
-      --text: #1a1a2e;
-      --line: #e3e3ee;
-    }
+    /* mocha.css restyles `body` and pins its stats box to the top of the
+       viewport, where the site nav lives. Undo both. */
     body {
       margin: 0;
-      padding: 0 16px 80px;
-      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 0;
+      font-family: var(--font-body), sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
       color: var(--text);
-      background: #fff;
+      background: var(--card);
     }
-    header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 0 16px;
-      border-bottom: 1px solid var(--line);
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
     }
-    h1 { margin: 0; font-size: 1.6rem; }
-    header a { color: #06c; }
-    main { max-width: 960px; margin: 0 auto; }
-    #mocha { margin-top: 24px; font-family: inherit; }
-    #mocha h2 { font-size: 1rem; }
-    #mocha-stats { top: 16px; }
+    .intro {
+      margin: 0 0 24px;
+      color: var(--text-soft);
+    }
+    #mocha {
+      margin: 0;
+      font-family: var(--font-body), sans-serif;
+      color: var(--text);
+    }
+    #mocha h1, #mocha h2 { font-size: 1rem; }
+    #mocha h1 a, #mocha .test h2 { color: var(--text); }
+    #mocha .suite a { color: var(--text); }
+    #mocha-stats {
+      top: calc(var(--nav-h, 52px) + 12px);
+      z-index: 1;
+      color: var(--text-soft);
+    }
+    #mocha-stats li { color: var(--text-soft); }
+    #mocha pre {
+      background: var(--code-bg);
+      border: 0;
+      box-shadow: none;
+      color: var(--text);
+    }
     /* The fixtures the suite runs against, never meant to be visible */
     #demo { display: none; }
     @media (max-width: 60em) {
@@ -44,12 +61,32 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Tests for Umbrella JS</h1>
-    <a href="/">← Umbrella JS</a>
-  </header>
+  <nav class="site">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <img src="https://cdn.jsdelivr.net/gh/franciscop/umbrella@master/docs/logo.svg" alt="">
+        <span>Umbrella JS</span>
+      </a>
+      <input id="site-nav" type="checkbox" class="nav-toggle">
+      <label for="site-nav" class="burger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </label>
+      <div class="site-links">
+        <a href="https://github.com/franciscop/umbrella">Github</a>
+        <a href="/tests" class="active">Tests</a>
+        <a href="/documentation">Documentation</a>
+      </div>
+    </div>
+  </nav>
 
   <main>
+    <h1>Tests for Umbrella JS</h1>
+    <p class="intro">The full suite, running in your browser against the published library.</p>
+
     <div id="mocha"></div>
     <div id="messages"></div>
     <div id="fixtures"></div>
