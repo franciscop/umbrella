@@ -10,7 +10,7 @@
     position: relative;
     display: grid;
     place-items: center;
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - var(--nav-h, 52px));
     margin: 0 calc(50% - 50vw);
     padding: 4rem 1rem 5rem;
     overflow: hidden;
@@ -94,31 +94,21 @@
   .home .u-hero .u-btn:hover {
     display: inline-block;
     padding: 0.6rem 1.3rem;
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    border: 0;
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
+    background: #fff;
+    color: #234;
     font-weight: 600;
     text-decoration: none;
     line-height: 1.3;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition: background 0.2s ease;
   }
   .home .u-hero .u-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #fff;
-  }
-  .home .u-hero .u-btn.u-solid,
-  .home .u-hero .u-btn.u-solid:hover {
-    background: #fff;
-    color: #234;
-    border-color: #fff;
-  }
-  .home .u-hero .u-btn.u-solid:hover {
     background: rgba(255, 255, 255, 0.85);
   }
 
-  .home .u-keepgoing,
-  .home .u-keepgoing:hover {
+  .home .u-hero a.u-keepgoing,
+  .home .u-hero a.u-keepgoing:hover {
     position: absolute;
     bottom: 1.2rem;
     color: #fff;
@@ -176,7 +166,7 @@
     <div class="u-actions">
       <a class="u-btn" href="https://github.com/franciscop/umbrella" target="_blank">Github</a>
       <a class="u-btn" href="https://raw.githubusercontent.com/franciscop/umbrella/master/umbrella.min.js" download="umbrella.min.js">Download</a>
-      <a class="u-btn u-solid" href="/documentation">Documentation</a>
+      <a class="u-btn" href="/documentation">Documentation</a>
     </div>
   </div>
   <a class="u-keepgoing" href="#go">&#9660;</a>

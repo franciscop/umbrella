@@ -39,7 +39,7 @@
     "homepage": "https://umbrellajs.com/",
     "menu": {
       "Github": "https://github.com/franciscop/umbrella",
-      "Tests": "https://umbrellajs.com/tests",
+      "Tests": "docs/tests.page.html",
       "Documentation": "/documentation"
     },
     "home": "docs/home.html",
