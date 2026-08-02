@@ -40,8 +40,9 @@
     "menu": {
       "Github": "https://github.com/franciscop/umbrella",
       "Tests": "https://umbrellajs.com/tests",
-      "Documentation": "https://docs.umbrellajs.com/"
+      "Documentation": "/documentation"
     },
+    "home": "docs/home.html",
     "pages": ["src/"]
   },
   "devDependencies": {

@@ -1,0 +1,266 @@
+<style>
+  @import url("https://fonts.googleapis.com/css?family=Dosis:400,600&display=swap");
+
+  /* The hero runs edge to edge, right under the nav */
+  main:has(> .home) {
+    padding-top: 0;
+  }
+
+  .home .u-hero {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: calc(100vh - 60px);
+    margin: 0 calc(50% - 50vw);
+    padding: 4rem 1rem 5rem;
+    overflow: hidden;
+    background: #234;
+    text-align: center;
+    isolation: isolate;
+  }
+  .home .u-cover {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateZ(0);
+  }
+  .home .u-city {
+    background: url("https://cdn.jsdelivr.net/gh/franciscop/umbrella@master/docs/img/city.svg") repeat top left;
+    background-size: cover;
+    background-position: center center;
+  }
+  .home .u-cloud {
+    background: url("https://cdn.jsdelivr.net/gh/franciscop/umbrella@master/docs/img/cloud.svg") repeat top left;
+    background-size: 480px 320px;
+    animation: u-cloud 30s linear infinite;
+    opacity: 0.7;
+  }
+  .home .u-rain {
+    background: url("https://cdn.jsdelivr.net/gh/franciscop/umbrella@master/docs/img/drop.svg") repeat top left;
+    background-size: 60px 60px;
+    animation: u-rain 0.5s linear infinite;
+    opacity: 0.4;
+  }
+  @keyframes u-cloud {
+    from { background-position: 0 0; }
+    to { background-position: -480px 0; }
+  }
+  @keyframes u-rain {
+    from { background-position: 0 0; }
+    to { background-position: -60px 60px; }
+  }
+  @keyframes u-bounce {
+    from { transform: translateY(0); }
+    70% { transform: translateY(-10px); }
+    to { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .home .u-cloud, .home .u-rain, .home .u-keepgoing { animation: none; }
+  }
+
+  .home .u-hero h1 {
+    margin: 0;
+    font-family: "Dosis", var(--font-body), sans-serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: #fff;
+  }
+  .home .u-slogan {
+    margin: 0.4rem 0 0;
+    font-family: "Dosis", var(--font-body), sans-serif;
+    font-size: 1.4rem;
+    color: #fff;
+  }
+  .home .u-install {
+    max-width: 440px;
+    margin: 1.6rem auto 1.2rem;
+    padding: 0.7rem 1rem;
+    background: #fff;
+    color: #234;
+    border-radius: 6px;
+    font-family: var(--font-mono), monospace;
+    font-size: 0.95rem;
+    overflow-x: auto;
+  }
+  .home .u-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+  /* Scoped under `.home` so they beat the baseline `.home a:not(.button)` link
+     styling, which would otherwise underline and recolor them */
+  .home .u-hero .u-btn,
+  .home .u-hero .u-btn:hover {
+    display: inline-block;
+    padding: 0.6rem 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.3;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .home .u-hero .u-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+  }
+  .home .u-hero .u-btn.u-solid,
+  .home .u-hero .u-btn.u-solid:hover {
+    background: #fff;
+    color: #234;
+    border-color: #fff;
+  }
+  .home .u-hero .u-btn.u-solid:hover {
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  .home .u-keepgoing,
+  .home .u-keepgoing:hover {
+    position: absolute;
+    bottom: 1.2rem;
+    color: #fff;
+    font-size: 1.8rem;
+    line-height: 1;
+    text-decoration: none;
+    border: 0;
+    opacity: 0.7;
+    animation: u-bounce 1s ease infinite;
+  }
+
+  .home .u-section {
+    display: grid;
+    gap: 1.5rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 4rem 1rem 0;
+    align-items: center;
+  }
+  .home .u-section:last-of-type { padding-bottom: 4rem; }
+  @media (min-width: 700px) {
+    .home .u-section { grid-template-columns: 1fr 1fr; }
+  }
+  .home .u-section > div { min-width: 0; }
+  .home .u-section h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.7rem;
+    line-height: 1.2;
+  }
+  .home .u-section p { margin: 0 0 1rem; }
+  .home .u-section ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--text-soft);
+  }
+  .home .u-section li { margin: 0.3rem 0; }
+  .home .u-love {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 1rem 0;
+    text-align: center;
+    color: var(--text-soft);
+  }
+  .home .u-love strong { display: block; margin-bottom: 0.3rem; }
+</style>
+
+<header class="u-hero">
+  <div class="u-cover u-city"></div>
+  <div class="u-cover u-cloud"></div>
+  <div class="u-cover u-rain"></div>
+  <div>
+    <h1>Umbrella JS</h1>
+    <p class="u-slogan">Tiny library for DOM manipulation and events</p>
+    <pre class="u-install">https://cdn.jsdelivr.net/npm/umbrellajs</pre>
+    <div class="u-actions">
+      <a class="u-btn" href="https://github.com/franciscop/umbrella" target="_blank">Github</a>
+      <a class="u-btn" href="https://raw.githubusercontent.com/franciscop/umbrella/master/umbrella.min.js" download="umbrella.min.js">Download</a>
+      <a class="u-btn u-solid" href="/documentation">Documentation</a>
+    </div>
+  </div>
+  <a class="u-keepgoing" href="#go">&#9660;</a>
+</header>
+
+<section class="u-section" id="go">
+  <div>
+    <h2>Intuitive and Documented</h2>
+    <p>It is <strong>strongly influenced by jQuery</strong> with many similar methods so you'll feel at ease developing with Umbrella.</p>
+    <p>However there are some extra features like <code>.handle()</code> and some methods like <code>.append()</code> are more flexible:</p>
+    <a class="button primary" href="/documentation">Documentation</a>
+  </div>
+  <div>
+<pre><code class="language-js">// Simple events like jQuery
+u("button").on('click', function () {
+  alert("Hello world");
+});
+
+// Send form through AJAX when submitted
+u('form.login').handle('submit', e =&gt; {
+  console.log(u(e.target).serialize());
+});</code></pre>
+  </div>
+</section>
+
+<section class="u-section">
+  <div>
+    <h2>Tiny and Clear</h2>
+    <p><strong>2.5kb</strong> when gzipped means it will load in a snap on mobile. The core is reusable so new features are also tiny.</p>
+    <p>You can see two features of Umbrella JS source code on the right, or check it all on Github:</p>
+    <a class="button" href="https://github.com/franciscop/umbrella" target="_blank">Source on Github</a>
+  </div>
+  <div>
+<pre><code class="language-js">// Find the nodes matched by a selector
+u.prototype.find = function (selector) {
+  return this.map(function (node) {
+    return u(selector || "*", node);
+  });
+};
+
+// Check if any node matches the selector
+u.prototype.is = function (selector) {
+  return this.filter(selector).length &gt; 0;
+};</code></pre>
+  </div>
+</section>
+
+<section class="u-section">
+  <div>
+    <h2>Tested and Performant</h2>
+    <p>The speed is similar to jQuery and there are many tests with edge cases.</p>
+    <p>They run on development, on deploy and live in different browsers so you know everything will work as expected.</p>
+  </div>
+  <div>
+<pre><code class="language-js">it("can select by class", function () {
+  expect(u('.demo').length).to.equal(1);
+});
+
+it("can select li inside ul", function () {
+  var ul = base.find('li').closest('ul');
+  expect(ul.length).to.equal(1);
+});</code></pre>
+  </div>
+</section>
+
+<section class="u-section">
+  <div>
+    <h2>MIT License</h2>
+    <p>If you love something set it free. This license allows you to use Umbrella JS in a broad variety of projects.</p>
+    <a class="button" href="https://github.com/franciscop/umbrella/blob/master/LICENSE" target="_blank">MIT License</a>
+  </div>
+  <div>
+    <h2>Special Thanks</h2>
+    <ul>
+      <li><a href="https://github.com/franciscop/umbrella/graphs/contributors">Contributors</a> for helping Umbrella to improve</li>
+      <li><a href="https://youmightnotneedjquery.com/">You Might Not Need jQuery</a> for its <em>awesomeness</em></li>
+      <li><a href="https://picnicss.com/">Picnic CSS</a> for making the website look alive</li>
+      <li><a href="https://www.browserstack.com/">Browser Stack</a> for cross-browser checks</li>
+      <li><a href="https://caniuse.com/">Can I use?</a> for compatibility checks</li>
+    </ul>
+  </div>
+</section>
+
+<div class="u-love">
+  <strong>With love,</strong>
+  <a href="https://francisco.io/" target="_blank">Francisco Presencia</a>
+</div>
