@@ -39,22 +39,19 @@
     "homepage": "https://umbrellajs.com/",
     "menu": {
       "Github": "https://github.com/franciscop/umbrella",
-      "Tests": "docs/tests.page.html",
+      "Tests": "docs/tests.html",
       "Documentation": "/documentation"
     },
     "home": "docs/home.html",
-    "pages": ["src/"]
+    "documentation": ["src/"]
   },
   "devDependencies": {
     "grunt": "^1.0.3",
     "grunt-bytesize": "^0.2.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-jade": "^1.0.0",
     "grunt-contrib-uglify": "^5.0.1",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-markdown": "^0.7.0",
     "grunt-semistandard": "^1.0.6",
-    "marked": "^0.4.0",
     "mocha-headless-chrome": "^5.0.0"
   },
   "semistandard": {
