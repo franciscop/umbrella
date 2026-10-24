@@ -22,7 +22,8 @@
     "installphantom": "npm run phantomlib && npm run phantominst && npm run phantommove",
     "phantomlib": "sudo apt-get update && sudo apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev",
     "phantominst": "cd ~ && export PHANTOM_JS=\"phantomjs-1.9.7-linux-x86_64\" && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 && sudo tar xvjf $PHANTOM_JS.tar.bz2",
-    "phantommove": "sudo mv $PHANTOM_JS /usr/local/share && sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin"
+    "phantommove": "sudo mv $PHANTOM_JS /usr/local/share && sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin",
+    "lint": "oxlint src"
   },
   "main": "umbrella.min.js",
   "types": "umbrella.d.ts",
@@ -43,7 +44,9 @@
       "Documentation": "/documentation"
     },
     "home": "docs/home.html",
-    "documentation": ["src/"]
+    "documentation": [
+      "src/"
+    ]
   },
   "devDependencies": {
     "grunt": "^1.0.3",
@@ -52,7 +55,8 @@
     "grunt-contrib-uglify": "^5.0.1",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-semistandard": "^1.0.6",
-    "mocha-headless-chrome": "^5.0.0"
+    "mocha-headless-chrome": "^5.0.0",
+    "oxlint": "^1.89.0"
   },
   "semistandard": {
     "ignore": [
