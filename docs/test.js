@@ -1427,8 +1427,6 @@ describe(".first()", function() {
     expect(base.find("li").first().nodeName).to.equal('LI');
   });
 });
-// Note: node._e['submit'] and other events will appear as [null] in PhantomJS
-// but they work as expected
 describe(".handle(event, fn)", function() {
 
   beforeEach(function(){
@@ -1932,8 +1930,6 @@ describe('.off()', function() {
   });
 });
 
-// Note: node._e['submit'] and other events will appear as [null] in PhantomJS
-// but they work as expected
 describe(".on(event, fn)", function () {
 
   beforeEach(function () {
@@ -1983,12 +1979,7 @@ describe(".on(event, fn)", function () {
     base.on('click', 'li', function (e) {
       expect(e.target.tagName).to.equal('A');
 
-      // This fails on circleci and local because phantomjs's webkit is too old
-      if (!mocha || !mocha.env) {
-        expect(e.currentTarget.tagName).to.equal('LI');
-      } else {
-        console.log("Test not run. currentTarget:", e.currentTarget.tagName);
-      }
+      expect(e.currentTarget.tagName).to.equal('LI');
       expect(this.tagName).to.equal('LI');
       done();
     });

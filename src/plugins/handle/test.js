@@ -1,5 +1,3 @@
-// Note: node._e['submit'] and other events will appear as [null] in PhantomJS
-// but they work as expected
 describe(".handle(event, fn)", function() {
 
   beforeEach(function(){
