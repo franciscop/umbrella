@@ -1,6 +1,6 @@
 {
   "name": "umbrellajs",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "description": "Lightweight javascript library for DOM manipulation and events",
   "homepage": "https://umbrellajs.com/",
   "repository": "github:franciscop/umbrella",
